@@ -9,3 +9,13 @@ PagePreviewLyric::~PagePreviewLyric()
 {
 
 }
+
+void PagePreviewLyric::initLayout()
+{
+
+}
+
+void PagePreviewLyric::connectAll()
+{
+
+}

@@ -9,3 +9,13 @@ PageLyricList::~PageLyricList()
 {
 
 }
+
+void PageLyricList::initLayout()
+{
+
+}
+
+void PageLyricList::connectAll()
+{
+
+}

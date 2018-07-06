@@ -10,6 +10,12 @@ class SubPageDownloadLyric : public QWidget
 public:
     SubPageDownloadLyric(QWidget *parent = 0);
     ~SubPageDownloadLyric();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // SUBPAGEDOWNLOADLYRIC_H

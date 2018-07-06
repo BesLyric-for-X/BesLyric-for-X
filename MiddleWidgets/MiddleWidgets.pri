@@ -1,5 +1,6 @@
 
 HEADERS+=\
+    $$PWD/MiddleWidget.h\
     $$PWD/PageMain.h\
     $$PWD/PagePreviewLyric.h\
     $$PWD/PageMatchNcmID.h\
@@ -11,6 +12,7 @@ HEADERS+=\
 
 
 SOURCES+=\
+    $$PWD/MiddleWidget.cpp\
     $$PWD/PageMain.cpp\
     $$PWD/PagePreviewLyric.cpp\
     $$PWD/PageMatchNcmID.cpp\

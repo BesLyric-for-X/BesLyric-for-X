@@ -9,3 +9,13 @@ MainWidget::~MainWidget()
 {
 
 }
+
+void MainWidget::initLayout()
+{
+
+}
+
+void MainWidget::connectAll()
+{
+
+}

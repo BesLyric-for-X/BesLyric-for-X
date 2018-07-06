@@ -10,6 +10,12 @@ class PageSetting : public QWidget
 public:
     PageSetting(QWidget *parent = 0);
     ~PageSetting();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // PAGESETTING_H

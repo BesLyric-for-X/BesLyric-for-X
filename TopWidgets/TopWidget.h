@@ -10,6 +10,12 @@ class TopWidget : public QWidget
 public:
     TopWidget(QWidget *parent = 0);
     ~TopWidget();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // TOPWIDGET_H

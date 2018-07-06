@@ -9,3 +9,13 @@ SubPageDownloadLyric::~SubPageDownloadLyric()
 {
 
 }
+
+void SubPageDownloadLyric::initLayout()
+{
+
+}
+
+void SubPageDownloadLyric::connectAll()
+{
+
+}

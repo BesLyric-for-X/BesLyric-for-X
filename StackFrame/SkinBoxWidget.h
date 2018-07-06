@@ -10,6 +10,12 @@ class SkinBoxWidget : public QWidget
 public:
     SkinBoxWidget(QWidget *parent = 0);
     ~SkinBoxWidget();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // SKINBOXWIDGET_H

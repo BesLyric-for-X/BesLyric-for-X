@@ -9,3 +9,13 @@ TopWidget::~TopWidget()
 {
 
 }
+
+void TopWidget::initLayout()
+{
+
+}
+
+void TopWidget::connectAll()
+{
+
+}

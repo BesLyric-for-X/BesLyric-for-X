@@ -9,3 +9,13 @@ PageSetting::~PageSetting()
 {
 
 }
+
+void PageSetting::initLayout()
+{
+
+}
+
+void PageSetting::connectAll()
+{
+
+}

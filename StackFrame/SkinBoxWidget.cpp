@@ -9,3 +9,13 @@ SkinBoxWidget::~SkinBoxWidget()
 {
 
 }
+
+void SkinBoxWidget::initLayout()
+{
+
+}
+
+void SkinBoxWidget::connectAll()
+{
+
+}

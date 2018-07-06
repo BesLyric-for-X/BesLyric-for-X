@@ -9,3 +9,13 @@ SubPageMaking::~SubPageMaking()
 {
 
 }
+
+void SubPageMaking::initLayout()
+{
+
+}
+
+void SubPageMaking::connectAll()
+{
+
+}

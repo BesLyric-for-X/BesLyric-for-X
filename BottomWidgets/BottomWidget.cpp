@@ -9,3 +9,13 @@ BottomWidget::~BottomWidget()
 {
 
 }
+
+void BottomWidget::initLayout()
+{
+
+}
+
+void BottomWidget::connectAll()
+{
+
+}

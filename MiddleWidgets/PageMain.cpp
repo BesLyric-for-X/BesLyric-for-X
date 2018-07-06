@@ -9,3 +9,13 @@ PageMain::~PageMain()
 {
 
 }
+
+void PageMain::initLayout()
+{
+
+}
+
+void PageMain::connectAll()
+{
+
+}

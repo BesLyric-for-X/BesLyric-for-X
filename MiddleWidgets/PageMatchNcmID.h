@@ -10,6 +10,12 @@ class PageMatchNcmID : public QWidget
 public:
     PageMatchNcmID(QWidget *parent = 0);
     ~PageMatchNcmID();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // PAGEMATCHNCMID_H

@@ -10,6 +10,12 @@ class PageLyricList : public QWidget
 public:
     PageLyricList(QWidget *parent = 0);
     ~PageLyricList();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // PAGELYRICLIST_H

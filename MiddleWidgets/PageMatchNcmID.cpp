@@ -9,3 +9,13 @@ PageMatchNcmID::~PageMatchNcmID()
 {
 
 }
+
+void PageMatchNcmID::initLayout()
+{
+
+}
+
+void PageMatchNcmID::connectAll()
+{
+
+}

@@ -10,6 +10,12 @@ class BottomWidget : public QWidget
 public:
     BottomWidget(QWidget *parent = 0);
     ~BottomWidget();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // BOTTOMWIDGET_H

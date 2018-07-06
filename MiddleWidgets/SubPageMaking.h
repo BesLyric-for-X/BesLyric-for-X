@@ -10,6 +10,12 @@ class SubPageMaking : public QWidget
 public:
     SubPageMaking(QWidget *parent = 0);
     ~SubPageMaking();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // SUBPAGEMAKING_H

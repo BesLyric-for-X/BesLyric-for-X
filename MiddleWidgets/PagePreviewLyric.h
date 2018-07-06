@@ -10,6 +10,12 @@ class PagePreviewLyric : public QWidget
 public:
     PagePreviewLyric(QWidget *parent = 0);
     ~PagePreviewLyric();
+
+    void initLayout();
+    void connectAll();
+
+private:
+
 };
 
 #endif // PAGEPREVIEWLYRIC_H
