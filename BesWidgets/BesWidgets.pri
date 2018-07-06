@@ -1,6 +1,8 @@
-SOURCES+=\
-    $$PWD/BesFramelessWidget.cpp
 
 HEADERS+=\
     $$PWD/BesFramelessWidget.h
+
+SOURCES+=\
+    $$PWD/BesFramelessWidget.cpp
+
 

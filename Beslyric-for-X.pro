@@ -26,10 +26,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH +=$$PWD BesWidgets
 include(BesWidgets/BesWidgets.pri)
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+INCLUDEPATH +=$$PWD StackFrame
+include(StackFrame/StackFrame.pri)
 
-HEADERS  += mainwindow.h \
-    global.h
+INCLUDEPATH +=$$PWD TopWidgets
+include(TopWidgets/TopWidgets.pri)
+
+INCLUDEPATH +=$$PWD MiddleWidgets
+include(MiddleWidgets/MiddleWidgets.pri)
+
+INCLUDEPATH +=$$PWD BottomWidgets
+include(BottomWidgets/BottomWidgets.pri)
+
+
+SOURCES += main.cpp \
+    StackFrame.cpp
+
+HEADERS  += \
+    global.h \
+    StackFrame.h
 
 DISTFILES +=
