@@ -67,7 +67,7 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 
     QRect mianWidgetRect = QRect(borderMain ,borderMain,
                                  this->width()- 2*borderMain, this->height()-2*borderMain);
-    QRect skinBoxRect = QRect(this->width()-500,80,400,320);
+    QRect skinBoxRect = QRect(this->width()-420,65,400,320);
 
     mainWidget->setGeometry(mianWidgetRect);
     skinBoxWidget->setGeometry(skinBoxRect);

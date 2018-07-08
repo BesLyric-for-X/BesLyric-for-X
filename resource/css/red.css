@@ -32,6 +32,11 @@ QLabel{
 
 QLabel#labelTitle{
 	color:#ffffff;
+	font-size:16px;
+}
+QLabel#labelSepHeader{
+	color:rgba(88, 88, 88, 88);
+	font-size:20px;
 }
 
 
@@ -55,6 +60,7 @@ QLabel#labelTitle{
 	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);
 }
 
+/* 标题栏上的按钮样式 */
 QPushButton#btnIcon
 {
 	border: 0px;border-radius:0px;
@@ -83,6 +89,95 @@ QPushButton#btnSkinBox:hover{
 	background-repeat:no-repeat;
 }
 
+QPushButton#btnSetting{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_setting_normal_white.png");
+	background-repeat:no-repeat;
+}
+
+QPushButton#btnSetting:hover{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_setting_press_white.png");
+	background-repeat:no-repeat;
+}	
+
+QPushButton#btnMini{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_mini_normal_white.png");
+	background-repeat:no-repeat;
+}
+
+QPushButton#btnMini:hover{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_mini_press_white.png");
+	background-repeat:no-repeat;
+}	
+
+QPushButton#btnMax{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_max_normal_white.png");
+	background-repeat:no-repeat;
+}
+
+QPushButton#btnMax:hover{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_max_press_white.png");
+	background-repeat:no-repeat;
+}	
+
+QPushButton#btnRestore{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_restore_normal_white.png");
+	background-repeat:no-repeat;
+}
+
+QPushButton#btnRestore:hover{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_restore_press_white.png");
+	background-repeat:no-repeat;
+}	
+
+QPushButton#btnClose{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_close_normal_white.png");
+	background-repeat:no-repeat;
+}
+
+QPushButton#btnClose:hover{
+	border: 0px;border-radius:0px;
+	background-color:rgba(0, 0, 0, 0);
+	padding: 0px;margin: 0px;
+	width: 22px; height:22px;
+	background-image:url(":/resource/image/btn_close_press_white.png");
+	background-repeat:no-repeat;
+}	
 
 /*3个播放按钮*/
 QPushButton#btnPreSong{
@@ -176,7 +271,7 @@ QPushButton#btnPlayAndPause:hover{
 }
 
 
-
+/* 页面左侧按钮 */
 QPushButton#btnMakingLyric, QPushButton#btnDownloadSong, QPushButton#btnDownloadLyric{
 	background-color:rgba(0, 0, 0, 0);
 	border:0px;

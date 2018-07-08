@@ -10,7 +10,7 @@ BesFramelessWidget::BesFramelessWidget(QWidget *parent)
     SetFrameBorder(8);
 
     this->dir = NONE;
-    this->setMinimumHeight(777);
+    this->setMinimumHeight(720);
     this->setMinimumWidth(1024);
     this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowSystemMenuHint );
     this->setMouseTracking(true);

@@ -22,7 +22,7 @@ void SkinBoxWidget::initLayout()
     frontLayer = new QWidget(this);
     mainLayer = new QWidget(this);
 
-    btnCheckMark = new QPushButton(frontLayer); //具体位置交由paintEvent绘制
+    //btnCheckMark = new QPushButton(frontLayer); //具体位置交由paintEvent绘制
 
     QWidget* themeContainer = new QWidget(mainLayer);
     QWidget* pureColorContainer = new QWidget(mainLayer);

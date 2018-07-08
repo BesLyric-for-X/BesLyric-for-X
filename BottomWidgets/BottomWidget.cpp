@@ -45,11 +45,11 @@ void BottomWidget::initLayout()
     sliderSound->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     btnSound = new BesButton(bottomWidgetContainer);
-    btnDesktopLyric = new BesButton(bottomWidgetContainer);
     btnPlayMode = new BesButton(bottomWidgetContainer);
+    btnDesktopLyric = new BesButton(bottomWidgetContainer);
     btnSound->setObjectName("btnSound");
-    btnDesktopLyric->setObjectName("btnDesktopLyric");
     btnPlayMode->setObjectName("btnPlayMode");
+    btnDesktopLyric->setObjectName("btnDesktopLyric");
 
     QHBoxLayout* hLayout = new QHBoxLayout(bottomWidgetContainer);
     hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
