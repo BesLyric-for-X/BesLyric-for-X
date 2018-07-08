@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/image/key_back.png</file>
+        <file>resource/image/key_left.png</file>
+        <file>resource/image/key_return.png</file>
+        <file>resource/image/key_right.png</file>
+        <file>resource/image/key_space.png</file>
+        <file>resource/image/key_up.png</file>
+        <file>resource/image/netease_cloudmusic_32px.ico</file>
+        <file>resource/image/netease_cloudmusic_48px.ico</file>
+        <file>resource/image/官方红.png</file>
+        <file>resource/image/可爱粉.png</file>
+        <file>resource/image/酷炫黑.png</file>
+        <file>resource/image/清新绿.png</file>
+        <file>resource/image/天际蓝.png</file>
+        <file>resource/image/土豪金.png</file>
+        <file>resource/css/red.css</file>
+        <file>resource/css/black.css</file>
+    </qresource>
+</RCC>

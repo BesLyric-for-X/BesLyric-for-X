@@ -38,6 +38,8 @@ include(MiddleWidgets/MiddleWidgets.pri)
 INCLUDEPATH +=$$PWD BottomWidgets
 include(BottomWidgets/BottomWidgets.pri)
 
+INCLUDEPATH +=$$PWD Entities
+include(Entities/Entities.pri)
 
 SOURCES += main.cpp \
     StackFrame.cpp
@@ -47,3 +49,6 @@ HEADERS  += \
     StackFrame.h
 
 DISTFILES +=
+
+RESOURCES += \
+    resource.qrc

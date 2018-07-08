@@ -20,9 +20,22 @@ public:
     void initLayout();
     void connectAll();
 
-private:
+   void setBorderMain(int border);
+
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+
+    virtual void resizeEvent(QResizeEvent *event);
+
+public slots:
+    void toggleSkinBox();                   //显示或隐藏皮肤盒
+
+public:
+    bool             isMainOnTop;            //标记当期主体控件是否在最顶层
     MainWidget*      mainWidget;             //程序的主体功能控件
     SkinBoxWidget*   skinBoxWidget;          //皮肤盒
+    int              borderMain;             //边框厚度
 };
 
 #endif // STACKFRAME_H

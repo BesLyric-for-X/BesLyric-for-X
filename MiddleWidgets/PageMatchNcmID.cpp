@@ -3,6 +3,9 @@
 PageMatchNcmID::PageMatchNcmID(QWidget *parent)
     : QWidget(parent)
 {
+    this->setMouseTracking(true);
+    initLayout();
+    connectAll();
 }
 
 PageMatchNcmID::~PageMatchNcmID()

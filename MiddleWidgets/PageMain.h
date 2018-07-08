@@ -5,6 +5,10 @@
 #include "SubPageMaking.h"
 #include "SubPageDownloadSong.h"
 #include "SubPageDownloadLyric.h"
+#include "BoxPageLyricList.h"
+#include "BoxPagePreviewLyric.h"
+#include <QStackedLayout>
+#include "BesButton.h"
 
 class PageMain : public QWidget
 {
@@ -17,7 +21,16 @@ public:
     void initLayout();
     void connectAll();
 
-private:
+public:
+    QWidget*                leftBoardMainPage;
+
+    BesButton*              btnMakingLyric;
+    BesButton*            btnDownloadSong;
+    BesButton*            btnDownloadLyric;
+    BoxPageLyricList*       boxPageLyricList;
+    BoxPagePreviewLyric*    boxPagePreviewLyric;
+
+    QStackedLayout*         subpageStackedLayout;
     SubPageMaking*          subPageMaking;
     SubPageDownloadSong*    subPageDownloadSong;
     SubPageDownloadLyric*   subPageDownloadLyric;

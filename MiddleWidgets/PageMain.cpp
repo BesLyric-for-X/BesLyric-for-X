@@ -1,8 +1,14 @@
 ﻿#include "PageMain.h"
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include "global.h"
 
 PageMain::PageMain(QWidget *parent)
     : QWidget(parent)
 {
+    this->setMouseTracking(true);
+    initLayout();
+    connectAll();
 }
 
 PageMain::~PageMain()
@@ -12,7 +18,59 @@ PageMain::~PageMain()
 
 void PageMain::initLayout()
 {
+    leftBoardMainPage = new QWidget(this);
+    leftBoardMainPage->setObjectName("leftBoardMainPage");
+    leftBoardMainPage->setMouseTracking(true);
 
+    btnMakingLyric = new BesButton(leftBoardMainPage);
+    btnDownloadSong = new BesButton(leftBoardMainPage);
+    btnDownloadLyric = new BesButton(leftBoardMainPage);
+
+    btnMakingLyric->setCheckable(true);     btnMakingLyric->setChecked(true);
+    btnDownloadSong->setCheckable(true);
+    btnDownloadLyric->setCheckable(true);
+
+    btnMakingLyric->setAutoExclusive(true);
+    btnDownloadSong->setAutoExclusive(true);
+    btnDownloadLyric->setAutoExclusive(true);
+
+    btnMakingLyric->setObjectName("btnMakingLyric");
+    btnDownloadSong->setObjectName("btnDownloadSong");
+    btnDownloadLyric->setObjectName("btnDownloadLyric");
+
+    btnMakingLyric->setText(tr("制作歌词"));
+    btnDownloadSong->setText(tr("下载歌曲"));
+    btnDownloadLyric->setText(tr("下载歌词"));
+
+    boxPageLyricList = new BoxPageLyricList(leftBoardMainPage);
+    boxPagePreviewLyric = new BoxPagePreviewLyric(leftBoardMainPage);
+
+    subPageMaking = new SubPageMaking(this);
+    subPageDownloadSong = new SubPageDownloadSong(this);
+    subPageDownloadLyric = new SubPageDownloadLyric(this);
+
+    QHBoxLayout* hLayoutMain = new QHBoxLayout(this);
+    hLayoutMain->setMargin(0);
+
+    QVBoxLayout* vLayoutButtons = new QVBoxLayout(leftBoardMainPage);                //左侧按钮垂直布局
+    vLayoutButtons->setMargin(0);
+    vLayoutButtons->setSpacing(0);
+    vLayoutButtons->addWidget(btnMakingLyric);
+    vLayoutButtons->addWidget(btnDownloadSong);
+    vLayoutButtons->addWidget(btnDownloadLyric);
+    vLayoutButtons->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
+    vLayoutButtons->addWidget(boxPageLyricList);
+    vLayoutButtons->addWidget(boxPagePreviewLyric);
+
+    subpageStackedLayout = new QStackedLayout();         //右侧页面层叠布局
+    subpageStackedLayout->setStackingMode(QStackedLayout::StackingMode::StackAll);
+    subpageStackedLayout->addWidget(subPageMaking);
+    subpageStackedLayout->addWidget(subPageDownloadSong);
+    subpageStackedLayout->addWidget(subPageDownloadLyric);
+    subpageStackedLayout->setCurrentIndex(0);
+
+    hLayoutMain->addWidget(leftBoardMainPage);
+    hLayoutMain->addLayout(subpageStackedLayout);
 }
 
 void PageMain::connectAll()

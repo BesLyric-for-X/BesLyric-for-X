@@ -14,7 +14,7 @@ public:
     void initLayout();
     void connectAll();
 
-private:
+public:
 
 };
 

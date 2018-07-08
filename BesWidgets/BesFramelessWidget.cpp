@@ -3,10 +3,12 @@
 #include "BesFramelessWidget.h"
 
 BesFramelessWidget::BesFramelessWidget(QWidget *parent)
-    : QWidget(parent)
+    : BesShadowWidget(parent)
 {
     isLeftPressDown = false;
-    this->border = 8;
+
+    SetFrameBorder(8);
+
     this->dir = NONE;
     this->setMinimumHeight(777);
     this->setMinimumWidth(1024);
@@ -14,8 +16,14 @@ BesFramelessWidget::BesFramelessWidget(QWidget *parent)
     this->setMouseTracking(true);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setStyleSheet("QDialog{background:url(:/bg_main.png)}");
+
 }
 
+void BesFramelessWidget::SetFrameBorder(int boder)
+{
+    this->border = boder;
+    BesShadowWidget::SetShadowBorder(boder);
+}
 
 void BesFramelessWidget::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -114,32 +122,6 @@ void BesFramelessWidget::mouseMoveEvent(QMouseEvent *event)
         }
     }
     QWidget::mouseMoveEvent(event);
-}
-
-
-void BesFramelessWidget::paintEvent(QPaintEvent *e)
-{
-    QPainter painter(this);
- // draw shadow margin
-
-    QPainterPath path;
-    path.setFillRule(Qt::WindingFill);
-    path.addRect(border, border, this->width()- 2*border, this->height()- 2*border);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.fillPath(path, QBrush(Qt::white));
-
-    QColor color(0, 0, 0, 0);
-    for(int i=0; i<border; i++)
-    {
-        QPainterPath path;
-        path.setFillRule(Qt::WindingFill);
-        path.addRect(border-i, border-i, this->width()-(border-i)*2, this->height()-(border-i)*2);
-        color.setAlpha(60 - qSqrt(i)*20);
-        painter.setPen(color);
-        painter.drawPath(path);
-    }
-
-    QWidget::paintEvent(e);
 }
 
 void BesFramelessWidget::region(const QPoint &cursorGlobalPoint)

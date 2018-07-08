@@ -17,7 +17,7 @@ public:
     void initLayout();
     void connectAll();
 
-private:
+public:
     TopWidget*      topWidget;
     MiddleWidget*   middleWidget;
     BottomWidget*   bottomWidget;

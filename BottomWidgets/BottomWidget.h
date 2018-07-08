@@ -2,6 +2,9 @@
 #define BOTTOMWIDGET_H
 
 #include <QWidget>
+#include <QLabel>
+#include <QSlider>
+#include "BesButton.h"
 
 class BottomWidget : public QWidget
 {
@@ -14,8 +17,20 @@ public:
     void initLayout();
     void connectAll();
 
-private:
+public:
+    BesButton*        btnPreSong;
+    BesButton*        btnPlayAndPause;
+    BesButton*        btnNextSong;
 
+    QLabel*             labelTimeCurrent;
+    QLabel*             labelTimeEnding;
+
+    QSlider*            sliderSong;
+    QSlider*            sliderSound;
+
+    BesButton*        btnSound;
+    BesButton*        btnDesktopLyric;
+    BesButton*        btnPlayMode;
 };
 
 #endif // BOTTOMWIDGET_H

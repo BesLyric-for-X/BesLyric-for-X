@@ -8,8 +8,9 @@ HEADERS+=\
     $$PWD/PageSetting.h\
     $$PWD/SubPageMaking.h\
     $$PWD/SubPageDownloadSong.h\
-    $$PWD/SubPageDownloadLyric.h
-
+    $$PWD/SubPageDownloadLyric.h\
+    $$PWD/BoxPageLyricList.h\
+    $$PWD/BoxPagePreviewLyric.h
 
 SOURCES+=\
     $$PWD/MiddleWidget.cpp\
@@ -20,5 +21,7 @@ SOURCES+=\
     $$PWD/PageSetting.cpp\
     $$PWD/SubPageMaking.cpp\
     $$PWD/SubPageDownloadSong.cpp\
-    $$PWD/SubPageDownloadLyric.cpp
+    $$PWD/SubPageDownloadLyric.cpp\
+    $$PWD/BoxPageLyricList.cpp\
+    $$PWD/BoxPagePreviewLyric.cpp
 

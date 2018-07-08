@@ -3,6 +3,9 @@
 PageSetting::PageSetting(QWidget *parent)
     : QWidget(parent)
 {
+    this->setMouseTracking(true);
+    initLayout();
+    connectAll();
 }
 
 PageSetting::~PageSetting()

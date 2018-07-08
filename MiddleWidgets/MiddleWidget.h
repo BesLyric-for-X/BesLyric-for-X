@@ -7,6 +7,7 @@
 #include "PageMatchNcmID.h"
 #include "PageLyricList.h"
 #include "PageSetting.h"
+#include <QStackedLayout>
 
 class MiddleWidget : public QWidget
 {
@@ -20,7 +21,8 @@ public:
     void initLayout();
     void connectAll();
 
-private:
+public:
+    QStackedLayout*     stackPageLayout;
     PageMain*           pageMain;
     PagePreviewLyric*   pagePreviewLyric;
     PageMatchNcmID*     pageMatchNcmID;
