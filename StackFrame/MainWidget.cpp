@@ -23,12 +23,12 @@ void MainWidget::initLayout()
     middleWidget->setObjectName("middleWidget");
     bottomWidget->setObjectName("bottomWidget");
 
-    topWidget->setMinimumHeight(60);
-    topWidget->setMaximumHeight(60);
+    topWidget->setMinimumHeight(65);
+    topWidget->setMaximumHeight(65);
     topWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
-    bottomWidget->setMinimumHeight(60);
-    bottomWidget->setMaximumHeight(60);
+    bottomWidget->setMinimumHeight(65);
+    bottomWidget->setMaximumHeight(65);
     bottomWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     QVBoxLayout* vLayout = new QVBoxLayout(this);

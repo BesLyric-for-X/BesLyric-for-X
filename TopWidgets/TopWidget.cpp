@@ -22,12 +22,11 @@ void TopWidget::initLayout()
 
     //icon = new QIcon(":/resource/image/netease_cloudmusic_48px.ico");
     btnIcon = new BesButton(topWidgetContainer);
-    //btnIcon->setIcon(*icon);
-    btnIcon->setIconSize(QSize(150,35));
+    btnIcon->setIconSize(QSize(150,30));
     btnIcon->setObjectName("btnIcon");
 
     labelTitle = new QLabel(topWidgetContainer);
-    labelTitle->setText("Beslyric        一款专门做网易云音乐滚动歌词的软件");
+    labelTitle->setText("一款专门做网易云音乐滚动歌词的软件");
     labelTitle->setObjectName("labelTitle");
 
     btnSkinBox = new BesButton(topWidgetContainer);
@@ -46,6 +45,7 @@ void TopWidget::initLayout()
 
     QHBoxLayout*    hLayout = new QHBoxLayout(topWidgetContainer);
     hLayout->addWidget(btnIcon);
+    hLayout->addSpacerItem(new QSpacerItem(60,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelTitle);
     hLayout->addWidget(labelTitle);
     hLayout->addSpacerItem(new QSpacerItem(20,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));

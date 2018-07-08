@@ -30,6 +30,7 @@ public:
     BoxPageLyricList*       boxPageLyricList;
     BoxPagePreviewLyric*    boxPagePreviewLyric;
 
+    QWidget*                subPageContainer;
     QStackedLayout*         subpageStackedLayout;
     SubPageMaking*          subPageMaking;
     SubPageDownloadSong*    subPageDownloadSong;

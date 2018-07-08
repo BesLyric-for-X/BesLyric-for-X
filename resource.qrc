@@ -16,5 +16,48 @@
         <file>resource/image/土豪金.png</file>
         <file>resource/css/red.css</file>
         <file>resource/css/black.css</file>
+        <file>resource/image/add_list_hover_black.png</file>
+        <file>resource/image/add_list_hover_white.png</file>
+        <file>resource/image/add_list_nomal_black.png</file>
+        <file>resource/image/add_list_normal.png</file>
+        <file>resource/image/box_indicator_black.png</file>
+        <file>resource/image/box_indicator_white.png</file>
+        <file>resource/image/btn_close_normal_white.png</file>
+        <file>resource/image/btn_close_press_white.png</file>
+        <file>resource/image/btn_collaps_hover_black.png</file>
+        <file>resource/image/btn_collaps_normal_black.png</file>
+        <file>resource/image/btn_customize_color.png</file>
+        <file>resource/image/btn_delete_hover_black.png</file>
+        <file>resource/image/btn_delete_hover_white.png</file>
+        <file>resource/image/btn_delete_normal_black.png</file>
+        <file>resource/image/btn_delete_normal_white.png</file>
+        <file>resource/image/btn_expand_hover_black.png</file>
+        <file>resource/image/btn_expand_hover_white.png</file>
+        <file>resource/image/btn_expand_normal_black.png</file>
+        <file>resource/image/btn_expand_normal_white.png</file>
+        <file>resource/image/btn_max_normal_white.png</file>
+        <file>resource/image/btn_max_press_white.png</file>
+        <file>resource/image/btn_mini_normal_white.png</file>
+        <file>resource/image/btn_mini_press_white.png</file>
+        <file>resource/image/btn_next_song.png</file>
+        <file>resource/image/btn_pause.png</file>
+        <file>resource/image/btn_pre_song.png</file>
+        <file>resource/image/btn_restore_normal_white.png</file>
+        <file>resource/image/btn_restore_press_white.png</file>
+        <file>resource/image/btn_setting_normal_white.png</file>
+        <file>resource/image/btn_setting_press_white.png</file>
+        <file>resource/image/btn_skin_normal_white.png</file>
+        <file>resource/image/btn_skin_press_white.png</file>
+        <file>resource/image/mark_playing.png</file>
+        <file>resource/image/mark_skin_select.png</file>
+        <file>resource/image/top_background_black.png</file>
+        <file>resource/image/bottom_background_black.png</file>
+        <file>resource/image/top_background_blue.png</file>
+        <file>resource/image/top_background_gold.png</file>
+        <file>resource/image/top_background_gold_left.png</file>
+        <file>resource/image/top_background_green.png</file>
+        <file>resource/image/top_background_pink.png</file>
+        <file>resource/image/logo.png</file>
+        <file>resource/image/btn_play.png</file>
     </qresource>
 </RCC>

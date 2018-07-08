@@ -13,7 +13,7 @@ public:
     static void SetStyle(QApplication& app, const QString &styleName)
     {
         //QFile file(QString(":/image/%1.css").arg(styleName));
-        QFile file(QString(":/resource/css/red.css").arg(styleName));
+        QFile file(QString(":/resource/css/black.css").arg(styleName));
         file.open(QFile::ReadOnly);
         QString qss = QLatin1String(file.readAll());
         app.setStyleSheet(qss);

@@ -52,9 +52,13 @@ void BottomWidget::initLayout()
     btnPlayMode->setObjectName("btnPlayMode");
 
     QHBoxLayout* hLayout = new QHBoxLayout(bottomWidgetContainer);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnPreSong);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnPlayAndPause);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnNextSong);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelTimeCurrent);
     hLayout->addWidget(sliderSong);
     hLayout->addWidget(labelTimeEnding);

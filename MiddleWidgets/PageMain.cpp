@@ -45,12 +45,17 @@ void PageMain::initLayout()
     boxPageLyricList = new BoxPageLyricList(leftBoardMainPage);
     boxPagePreviewLyric = new BoxPagePreviewLyric(leftBoardMainPage);
 
-    subPageMaking = new SubPageMaking(this);
-    subPageDownloadSong = new SubPageDownloadSong(this);
-    subPageDownloadLyric = new SubPageDownloadLyric(this);
+    subPageContainer = new QWidget(this);
+    subPageContainer->setObjectName("subPageContainer");
+    subPageContainer->setMouseTracking(true);
+
+    subPageMaking = new SubPageMaking(subPageContainer);
+    subPageDownloadSong = new SubPageDownloadSong(subPageContainer);
+    subPageDownloadLyric = new SubPageDownloadLyric(subPageContainer);
 
     QHBoxLayout* hLayoutMain = new QHBoxLayout(this);
     hLayoutMain->setMargin(0);
+    hLayoutMain->setSpacing(0);
 
     QVBoxLayout* vLayoutButtons = new QVBoxLayout(leftBoardMainPage);                //左侧按钮垂直布局
     vLayoutButtons->setMargin(0);
@@ -62,7 +67,8 @@ void PageMain::initLayout()
     vLayoutButtons->addWidget(boxPageLyricList);
     vLayoutButtons->addWidget(boxPagePreviewLyric);
 
-    subpageStackedLayout = new QStackedLayout();         //右侧页面层叠布局
+
+    subpageStackedLayout = new QStackedLayout(subPageContainer);         //右侧页面层叠布局
     subpageStackedLayout->setStackingMode(QStackedLayout::StackingMode::StackAll);
     subpageStackedLayout->addWidget(subPageMaking);
     subpageStackedLayout->addWidget(subPageDownloadSong);
@@ -70,7 +76,7 @@ void PageMain::initLayout()
     subpageStackedLayout->setCurrentIndex(0);
 
     hLayoutMain->addWidget(leftBoardMainPage);
-    hLayoutMain->addLayout(subpageStackedLayout);
+    hLayoutMain->addWidget(subPageContainer);
 }
 
 void PageMain::connectAll()
