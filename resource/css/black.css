@@ -6,7 +6,7 @@ QWidget{
 
 QWidget#topWidgetContainer
 {
-	background-image:url(":/resource/image/top_background_black.png");
+	border-image:url(":/resource/image/top_background_black.png");
 }
 
 QWidget#leftBoardMainPage

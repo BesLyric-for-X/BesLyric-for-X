@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    AppHelper::SetStyle(app, "red");
+    AppHelper::SetStyle(app, "ddd");
 
     //app.setStyleSheet("QWidget{border:2px solid #000000;}");
 

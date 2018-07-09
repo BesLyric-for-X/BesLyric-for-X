@@ -5,6 +5,8 @@
 #include <QApplication>
 #include <QColor>
 #include <QPalette>
+#include "SkinFactory/SkinFactory.h"
+#include <QSharedPointer>
 
 class AppHelper
 {
@@ -12,16 +14,15 @@ public:
     //设置皮肤样式
     static void SetStyle(QApplication& app, const QString &styleName)
     {
-        //QFile file(QString(":/image/%1.css").arg(styleName));
-        QFile file(QString(":/resource/css/black.css").arg(styleName));
+        QSharedPointer<ISkin> skin = SkinFacgtory::getSkin(styleName);
+        QString qss = skin->GetCssString();
+
+        QFile file(QString(":/resource/css/black.css"));
         file.open(QFile::ReadOnly);
-        QString qss = QLatin1String(file.readAll());
+        QString qssTest = QLatin1String(file.readAll());    //暂时保留测试用
+
         app.setStyleSheet(qss);
-        app.setPalette(QPalette(QColor("#fefefe")));
-        QColor color1 = QColor("#F0F0F0");
-        QColor color2 = QColor("#CC0033");
-        QColor color3 = QColor("#bb0033");
-        QColor color4 = QColor("#aa0033");
+        app.setPalette(QPalette(QColor("#0000fe")));        //似乎在这里不起作用（或者被前面设置覆盖了）
     }
 
 };
