@@ -64,14 +64,18 @@ public:
     void initLayout();
     void connectAll();
 
+protected:
+    virtual void paintEvent(QPaintEvent *);
+    virtual void resizeEvent(QResizeEvent *event);
+
 public:
     QWidget*        frontLayer;
     QWidget*        mainLayer;
 
-    QPushButton*    btnCheckMark;
+    BesButton*      btnCheckMark;
 
-    QPushButton*    btnTheme;
-    QPushButton*    btnPureColor;
+    BesButton*      btnTheme;
+    BesButton*      btnPureColor;
 
     ButtonTheme*    btnBlack;
     ButtonTheme*    btnRed;

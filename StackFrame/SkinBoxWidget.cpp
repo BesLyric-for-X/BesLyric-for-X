@@ -4,10 +4,14 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QSpacerItem>
+#include <QPixmap>
 
 SkinBoxWidget::SkinBoxWidget(QWidget *parent)
     : BesShadowWidget(parent)
 {
+    BesShadowWidget::SetMarginTop(6);
+    BesShadowWidget::SetBackgroundColor(QColor(0,0,0,0));
+
     initLayout();
     connectAll();
 }
@@ -21,14 +25,25 @@ void SkinBoxWidget::initLayout()
 {
     frontLayer = new QWidget(this);
     mainLayer = new QWidget(this);
+    frontLayer->setObjectName("skinBoxFrontLayer");
+    mainLayer->setObjectName("skinBoxMainLayer");
 
-    //btnCheckMark = new QPushButton(frontLayer); //具体位置交由paintEvent绘制
+    btnCheckMark = new BesButton(frontLayer); //具体位置交由paintEvent绘制
+    btnCheckMark->setObjectName("btnTheme");
 
     QWidget* themeContainer = new QWidget(mainLayer);
     QWidget* pureColorContainer = new QWidget(mainLayer);
 
-    btnTheme = new QPushButton(mainLayer);
-    btnPureColor = new QPushButton(mainLayer);
+    btnTheme = new BesButton(mainLayer);
+    btnPureColor = new BesButton(mainLayer);
+    btnTheme->setObjectName("btnTheme");
+    btnPureColor->setObjectName("btnPureColor");
+
+    btnTheme->setCheckable(true);               btnTheme->setChecked(true);
+    btnPureColor->setCheckable(true);
+    btnTheme->setAutoExclusive(true);
+    btnPureColor->setAutoExclusive(true);
+
     btnTheme->setText(tr("主题"));
     btnPureColor->setText(tr("纯色"));
 
@@ -46,11 +61,17 @@ void SkinBoxWidget::initLayout()
     btnGold = new ButtonTheme(themeContainer, new QImage(":/resource/image/土豪金.png"),tr("土豪金"));
 
     btnBlack->setMinimumSize(116,116);
+    btnBlack->setMaximumSize(116,116);
     btnRed->setMinimumSize(116,116);
+    btnRed->setMaximumSize(116,116);
     btnPink->setMinimumSize(116,116);
+    btnPink->setMaximumSize(116,116);
     btnBlue->setMinimumSize(116,116);
+    btnBlue->setMaximumSize(116,116);
     btnGreen->setMinimumSize(116,116);
+    btnGreen->setMaximumSize(116,116);
     btnGold->setMinimumSize(116,116);
+    btnGold->setMaximumSize(116,116);
     btnBlack->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnRed->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnPink->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -59,6 +80,8 @@ void SkinBoxWidget::initLayout()
     btnGold->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QGridLayout* themeGridLayout = new QGridLayout();
+    themeGridLayout->setContentsMargins(12,8,12,18);
+    themeGridLayout->setSpacing(6);
     themeGridLayout->addWidget(btnBlack,0,0);
     themeGridLayout->addWidget(btnRed,0,1);
     themeGridLayout->addWidget(btnPink,0,2);
@@ -159,17 +182,47 @@ void SkinBoxWidget::initLayout()
     skinStack->setCurrentIndex(0);
 
     QVBoxLayout* vMainLayout = new QVBoxLayout(mainLayer);
+    vMainLayout->setMargin(2);
+    vMainLayout->setSpacing(5);
     vMainLayout->addLayout(layoutButtons);
     vMainLayout->addLayout(skinStack);
-
-    QStackedLayout* mainStack = new QStackedLayout(this);
-    mainStack->setStackingMode(QStackedLayout::StackAll);
-    mainStack->addWidget(mainLayer);
-    mainStack->addWidget(frontLayer);
-    mainStack->setCurrentIndex(0);
 }
 
 void SkinBoxWidget::connectAll()
 {
+
+}
+
+void SkinBoxWidget::paintEvent(QPaintEvent *event)
+{
+    BesShadowWidget::paintEvent(event);
+
+    QPixmap indicator(":/resource/image/box_indicator_black.png");
+
+    QPainter p(this);
+
+    p.setPen(Qt::transparent);
+    p.setBrush(QColor("#2d2f33"));//刷透明区域
+
+    QRect mainLayerRect = QRect(8 ,8 + marginTop, this->width()- 16, this->height()-16 - marginTop);
+    p.drawRoundedRect(mainLayerRect,5,5);
+
+    QColor LineColor=QColor("#3a3c40");
+    p.setPen(QPen(LineColor,2));
+    p.drawLine(25,btnTheme->geometry().bottom()+ marginTop+border,
+               this->width()-25, btnTheme->geometry().bottom()+ marginTop+border);
+
+    p.drawPixmap(this->width()/2 - indicator.width()/2, 0 ,indicator);  //在中上位置绘制指标
+
+
+}
+
+void SkinBoxWidget::resizeEvent(QResizeEvent *event)
+{
+    BesShadowWidget::resizeEvent(event);
+
+    QRect mainLayerRect = QRect(8 ,8 + marginTop, this->width()- 16, this->height()-16 - marginTop);
+
+    mainLayer->setGeometry(mainLayerRect);
 
 }

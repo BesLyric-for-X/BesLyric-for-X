@@ -20,8 +20,10 @@ public:
     void initLayout();
     void connectAll();
 
-   void setBorderMain(int border);
+    void setBorderMain(int border);
 
+
+protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -29,6 +31,8 @@ public:
     virtual void resizeEvent(QResizeEvent *event);
 
 public slots:
+
+    void toggleMaxRestoreStatus();          //切换最大化和恢复2个状态
     void toggleSkinBox();                   //显示或隐藏皮肤盒
 
 public:

@@ -56,6 +56,12 @@ private:
            " background-color:"+subPageContainerColor+ ";"
         "}"
 
+//        "QWidget#skinBoxMainLayer"
+//        "{"
+//           " border-radius:5px;"
+//           " background-color:"+PopWindowBgColor+ ";"
+//        "}"
+
         ;
 
         return str;
@@ -85,10 +91,10 @@ private:
     {
         QString str =
 
-"               .QPushButton{"
+"               QPushButton{"
 "                   border-style: solid;"
 "                   border: 2px;"
-"                   color: #F0F0F0;"
+"                   color:"+defaultButtonColorNormal+";"
 "                   padding: 3px;"
 "                   min-height: 20px;"
 "                   max-height: 120px;"
@@ -96,13 +102,21 @@ private:
 "                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
 "               }"
 
-"               .QPushButton:hover{"
+"               QPushButton:hover{"
+"                   color: "+defaultButtonColorHover+";"
 "                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #bb0033, stop:1 #aa0033);"
 "               }"
 
-"               .QPushButton:pressed{"
+"               QPushButton:checked{"
+"                   color: "+defaultButtonColorHover+";"
+"                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #bb0033, stop:1 #aa0033);"
+"               }"
+
+"               QPushButton:pressed{"
+"                   color: "+defaultButtonColorHover+";"
 "                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
 "               }"
+
                /* 标题栏上的按钮样式 */
 "               QPushButton#btnIcon"
 "               {"
@@ -351,7 +365,17 @@ private:
 "                   height:40px;"
 "                   padding:0px;"
 "                   margin: 0px;"
-"                   color:"+btnTabLeftTextColor+";"
+"                   border-radius: 0px;"
+"                   border-left: 5px solid rgba(0, 0, 0, 0);"
+"                   border-style:solid;"
+"               }"
+"               QPushButton#btnMakingLyric:hover, QPushButton#btnDownloadSong:hover, QPushButton#btnDownloadLyric:hover{"
+"                   background-color:rgba(0, 0, 0, 0);"
+"                   border:0px;"
+"                   width: 180px;"
+"                   height:40px;"
+"                   padding:0px;"
+"                   margin: 0px;"
 "                   border-radius: 0px;"
 "                   border-left: 5px solid rgba(0, 0, 0, 0);"
 "                   border-style:solid;"
@@ -363,9 +387,44 @@ private:
 "                   height:40px;"
 "                   padding:0px;"
 "                   margin: 0px;"
-"                   color: "+btnTabLeftTextColor+";"
 "                   border-radius: 0px;"
 "                   border-left: 5px solid "+btnTabLeftBoderColor+";"
+"                   border-style:solid;"
+"               }"
+
+                /* 皮肤盒中的按钮 */
+"               QPushButton#btnTheme, QPushButton#btnPureColor{"
+"                   background-color:rgba(0, 0, 0, 0);"
+"                   border:0px;"
+                    "border-bottom:2px;"
+                    "border-color:rgba(0, 0, 0, 0);"
+"                   padding:0px;"
+"                   padding-bottom:2px;"
+"                   margin-top: 15px;"
+"                   margin-left: 15px;"
+"                   border-radius: 0px;"
+"                   border-style:solid;"
+"               }"
+"                   QPushButton#btnTheme:hover, QPushButton#btnPureColor:hover{"
+"                   border:0px;"
+                    "border-bottom:2px;"
+                    "border-color:rgba(0, 0, 0, 0);"
+"                   padding:0px;"
+"                   padding-bottom:2px;"
+"                   margin-top: 15px;"
+"                   margin-left: 15px;"
+"                   border-radius: 0px;"
+"                   border-style:solid;"
+"               }"
+"               QPushButton#btnTheme:checked, QPushButton#btnPureColor:checked{"
+"                   border:0px;"
+                    "border-bottom:2px;"
+                    "border-color:"+defaultButtonColorNormal+";"
+"                   padding:0px;"
+"                   padding-bottom:2px;"
+"                   margin-top: 15px;"
+"                   margin-left: 15px;"
+"                   border-radius: 0px;"
 "                   border-style:solid;"
 "               }"
               ;
@@ -441,10 +500,12 @@ private:
         topContainerBgImage        =":/resource/image/top_background_black.png";
         topContainerBgColor        ="";
         leftboardBgColor           ="#191b1f                                     ";
-        leftboardBorderColor       ="rgba(ff, ff, ff, 33)                        ";
+        leftboardBorderColor       ="#23262c";
         bottomContainerColor       ="#222222                                     ";
         bottomContainerBorderColor ="rgba(ff, ff, ff, ff)                        ";
         subPageContainerColor      ="#16181c                                     ";
+        PopWindowBgColor           ="#2d2f33                                     ";
+
         defautlLabelColor          ="#ffffff                                     ";
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
@@ -458,8 +519,10 @@ private:
         btnPlayModeImageHover      =":/resource/image/btn_close_press_white.png";
         btnLyricImage              =":/resource/image/btn_close_normal_white.png";
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
-        btnTabLeftTextColor        ="#f0f0f0";
         btnTabLeftBoderColor       ="#bb0033                                     ";
+
+        defaultButtonColorNormal    ="#b0b0b0";
+        defaultButtonColorHover     ="#f0f0f0";
     }
 
 protected:
@@ -472,6 +535,7 @@ protected:
     QString bottomContainerColor;       //#222222
     QString bottomContainerBorderColor; //rgba(ff, ff, ff, ff)
     QString subPageContainerColor;      //#16181c
+    QString PopWindowBgColor;           //#343638
 
     QString defautlLabelColor;          //#ffffff
     QString titleColor;                 //#ffffff
@@ -486,8 +550,10 @@ protected:
     QString btnPlayModeImageHover;      //:/resource/image/btn_close_press_white.png
     QString btnLyricImage;              //:/resource/image/btn_close_normal_white.png
     QString btnLyricImageHover;         //:/resource/image/btn_close_press_white.png
-    QString btnTabLeftTextColor;        //#f0f0f0
     QString btnTabLeftBoderColor;       //#bb0033
+
+    QString defaultButtonColorNormal;   //#b0b0b0
+    QString defaultButtonColorHover;    //#f0f0f0
 
 };
 

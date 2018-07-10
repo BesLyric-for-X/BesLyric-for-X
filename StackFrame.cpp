@@ -28,7 +28,14 @@ void StackFrame::initLayout()
 
 void StackFrame::connectAll()
 {
+    connect(mainWidget->topWidget, SIGNAL(OnDoubleClick()),this, SLOT(toggleMaxRestoreStatus()));
+    connect(mainWidget->topWidget->btnMax, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
+    connect(mainWidget->topWidget->btnRestore, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
+
     connect(mainWidget->topWidget->btnSkinBox, SIGNAL(clicked(bool)), this, SLOT(toggleSkinBox()));
+
+    connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
+     connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 void StackFrame::setBorderMain(int border)
@@ -67,12 +74,32 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 
     QRect mianWidgetRect = QRect(borderMain ,borderMain,
                                  this->width()- 2*borderMain, this->height()-2*borderMain);
-    QRect skinBoxRect = QRect(this->width()-420,65,400,320);
+    QRect skinBoxRect = QRect(this->width()-420,58,400,330);
 
     mainWidget->setGeometry(mianWidgetRect);
     skinBoxWidget->setGeometry(skinBoxRect);
 
+}
 
+//切换最大化和最小化
+void  StackFrame::toggleMaxRestoreStatus()
+{
+    if(isMaximized())
+    {
+        showNormal();
+
+        mainWidget->topWidget->btnMax->setVisible(true);
+        mainWidget->topWidget->btnRestore->setVisible(false);
+    }
+    else
+    {
+        showMaximized();
+
+        setGeometry(-borderMain, -borderMain, width()+2*borderMain, height()+ 2*borderMain);
+
+        mainWidget->topWidget->btnMax->setVisible(false);
+        mainWidget->topWidget->btnRestore->setVisible(true);
+    }
 }
 
 //显示或隐藏皮肤盒

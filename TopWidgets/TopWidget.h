@@ -18,9 +18,15 @@ public:
     void initLayout();
     void connectAll();
 
+virtual void mouseDoubleClickEvent(QMouseEvent* event){Q_UNUSED(event);emit(OnDoubleClick());}
+
+signals:
+    void OnDoubleClick();
+
+
 public:
     QIcon*              icon;
-    BesButton*        btnIcon;
+    BesButton*          btnIcon;
     QLabel*             labelTitle;
 
     BesButton*        btnSkinBox;
