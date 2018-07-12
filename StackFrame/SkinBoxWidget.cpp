@@ -53,12 +53,12 @@ void SkinBoxWidget::initLayout()
     layoutButtons->addSpacerItem(new QSpacerItem(20,25,
                               QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     //
-    btnBlack = new ButtonTheme(themeContainer, new QImage(":/resource/image/酷炫黑.png"),tr("酷炫黑"));
-    btnRed = new ButtonTheme(themeContainer, new QImage(":/resource/image/官方红.png"),tr("官方红"));
-    btnPink = new ButtonTheme(themeContainer, new QImage(":/resource/image/可爱粉.png"),tr("可爱粉"));
-    btnBlue = new ButtonTheme(themeContainer, new QImage(":/resource/image/天际蓝.png"),tr("天际蓝"));
-    btnGreen = new ButtonTheme(themeContainer, new QImage(":/resource/image/清新绿.png"),tr("清新绿"));
-    btnGold = new ButtonTheme(themeContainer, new QImage(":/resource/image/土豪金.png"),tr("土豪金"));
+    btnBlack = new ButtonTheme(themeContainer, new QImage(":/resource/image/酷炫黑.png"),"black",tr("酷炫黑"),QColor("#555555"));
+    btnRed = new ButtonTheme(themeContainer, new QImage(":/resource/image/官方红.png"),"red",tr("官方红"),QColor("#e83c3c"));
+    btnPink = new ButtonTheme(themeContainer, new QImage(":/resource/image/可爱粉.png"),"pink",tr("可爱粉"),QColor("#ff87b4"));
+    btnBlue = new ButtonTheme(themeContainer, new QImage(":/resource/image/天际蓝.png"),"blue",tr("天际蓝"),QColor("#66b7ff"));
+    btnGreen = new ButtonTheme(themeContainer, new QImage(":/resource/image/清新绿.png"),"green",tr("清新绿"),QColor("#5dc78a"));
+    btnGold = new ButtonTheme(themeContainer, new QImage(":/resource/image/土豪金.png"),"gold",tr("土豪金"),QColor("#faac62"));
 
     btnBlack->setMinimumSize(116,116);
     btnBlack->setMaximumSize(116,116);
@@ -79,6 +79,13 @@ void SkinBoxWidget::initLayout()
     btnGreen->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnGold->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+    btnBlack->setObjectName("btnBlack");
+    btnRed->setObjectName("btnRed");
+    btnPink->setObjectName("btnPink");
+    btnBlue->setObjectName("btnBlue");
+    btnGreen->setObjectName("btnGreen");
+    btnGold->setObjectName("btnGold");
+
     QGridLayout* themeGridLayout = new QGridLayout();
     themeGridLayout->setContentsMargins(12,8,12,18);
     themeGridLayout->setSpacing(6);
@@ -92,18 +99,31 @@ void SkinBoxWidget::initLayout()
     themeContainer->setLayout(themeGridLayout);                 //主题页面
 
     //12种预选纯色
-    btnPureColor1 = new QPushButton(pureColorContainer);
-    btnPureColor2 = new QPushButton(pureColorContainer);
-    btnPureColor3 = new QPushButton(pureColorContainer);
-    btnPureColor4 = new QPushButton(pureColorContainer);
-    btnPureColor5 = new QPushButton(pureColorContainer);
-    btnPureColor6 = new QPushButton(pureColorContainer);
-    btnPureColor7 = new QPushButton(pureColorContainer);
-    btnPureColor8 = new QPushButton(pureColorContainer);
-    btnPureColor9 = new QPushButton(pureColorContainer);
-    btnPureColor10 = new QPushButton(pureColorContainer);
-    btnPureColor11 = new QPushButton(pureColorContainer);
-    btnPureColor12 = new QPushButton(pureColorContainer);
+    btnPureColor1 = new ButtonPureColor(pureColorContainer ,"#ff5c8a");
+    btnPureColor2 = new ButtonPureColor(pureColorContainer ,"#ff7a9e");
+    btnPureColor3 = new ButtonPureColor(pureColorContainer ,"#fe76c8");
+    btnPureColor4 = new ButtonPureColor(pureColorContainer ,"#717ff9");
+    btnPureColor5 = new ButtonPureColor(pureColorContainer ,"#4791eb");
+    btnPureColor6 = new ButtonPureColor(pureColorContainer ,"#39afea");
+    btnPureColor7 = new ButtonPureColor(pureColorContainer ,"#2bb669");
+    btnPureColor8 = new ButtonPureColor(pureColorContainer ,"#6acc19");
+    btnPureColor9 = new ButtonPureColor(pureColorContainer ,"#e2ab12");
+    btnPureColor10 = new ButtonPureColor(pureColorContainer,"#ff8f57");
+    btnPureColor11 = new ButtonPureColor(pureColorContainer,"#fd726d");
+    btnPureColor12 = new ButtonPureColor(pureColorContainer,"#fd544e");
+
+    btnPureColor1 ->setObjectName("btnPureColor1");
+    btnPureColor2 ->setObjectName("btnPureColor2");
+    btnPureColor3 ->setObjectName("btnPureColor3");
+    btnPureColor4 ->setObjectName("btnPureColor4");
+    btnPureColor5 ->setObjectName("btnPureColor5");
+    btnPureColor6 ->setObjectName("btnPureColor6");
+    btnPureColor7 ->setObjectName("btnPureColor7");
+    btnPureColor8 ->setObjectName("btnPureColor8");
+    btnPureColor9 ->setObjectName("btnPureColor9");
+    btnPureColor10->setObjectName("btnPureColor10");
+    btnPureColor11->setObjectName("btnPureColor11");
+    btnPureColor12->setObjectName("btnPureColor12");
 
     btnPureColor1->setMinimumSize(55,55);
     btnPureColor2->setMinimumSize(55,55);
@@ -117,6 +137,7 @@ void SkinBoxWidget::initLayout()
     btnPureColor10->setMinimumSize(55,55);
     btnPureColor11->setMinimumSize(55,55);
     btnPureColor12->setMinimumSize(55,55);
+
     btnPureColor1->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnPureColor2->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnPureColor3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -151,7 +172,9 @@ void SkinBoxWidget::initLayout()
 
     labelCustomizeColor->setText(tr("自定义颜色"));
     btnCustomizeColor->setMinimumSize(55,55);
+    btnCustomizeColor->setMaximumSize(55,55);
     btnCustomizeColor->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    btnCustomizeColor->setObjectName("btnCustomizeColor");
 
     SliderColor->setOrientation(Qt::Horizontal);
     SliderBrightness->setOrientation(Qt::Horizontal);
@@ -160,22 +183,25 @@ void SkinBoxWidget::initLayout()
     SliderColor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     SliderBrightness->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     QVBoxLayout * vSliderLayout = new QVBoxLayout();
+    vSliderLayout->setSpacing(10);
     vSliderLayout->addWidget(SliderColor);
     vSliderLayout->addWidget(SliderBrightness);
 
     QHBoxLayout * hCustomizeColorLayout = new QHBoxLayout();
+    hCustomizeColorLayout->setSpacing(12);
     hCustomizeColorLayout->addWidget(btnCustomizeColor);
     hCustomizeColorLayout->addLayout(vSliderLayout);
 
     QVBoxLayout * vPureColorLayout = new QVBoxLayout();     //纯色页面整体布局
     vPureColorLayout->addLayout(pureColorGridLayout);
-    vPureColorLayout->addSpacerItem(new QSpacerItem(20,30, QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vPureColorLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed,QSizePolicy::Fixed));
     vPureColorLayout->addWidget(labelCustomizeColor);
     vPureColorLayout->addLayout(hCustomizeColorLayout);
+    vPureColorLayout->addSpacerItem(new QSpacerItem(20,8, QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     pureColorContainer->setLayout(vPureColorLayout);                 //纯色页面
 
-    QStackedLayout* skinStack = new QStackedLayout();
+    skinStack = new QStackedLayout();
     skinStack->setStackingMode(QStackedLayout::StackOne);
     skinStack->addWidget(themeContainer);
     skinStack->addWidget(pureColorContainer);
@@ -190,7 +216,8 @@ void SkinBoxWidget::initLayout()
 
 void SkinBoxWidget::connectAll()
 {
-
+    connect(btnTheme,&QPushButton::clicked,[=](){skinStack->setCurrentIndex(0);});
+    connect(btnPureColor,&QPushButton::clicked,[=](){skinStack->setCurrentIndex(1);});
 }
 
 void SkinBoxWidget::paintEvent(QPaintEvent *event)
@@ -213,7 +240,6 @@ void SkinBoxWidget::paintEvent(QPaintEvent *event)
                this->width()-25, btnTheme->geometry().bottom()+ marginTop+border);
 
     p.drawPixmap(this->width()/2 - indicator.width()/2, 0 ,indicator);  //在中上位置绘制指标
-
 
 }
 

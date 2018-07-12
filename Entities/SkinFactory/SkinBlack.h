@@ -17,7 +17,7 @@ protected:
         bottomContainerBorderColor ="rgba(ff, ff, ff, ff)                        ";
         subPageContainerColor      ="#16181c                                     ";
 
-        defautlLabelColor          ="#ffffff                                     ";
+        defautlLabelColor          ="#909090                                     ";
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
         playHoverColor             ="#222222                                     ";

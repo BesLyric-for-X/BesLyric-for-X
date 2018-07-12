@@ -96,7 +96,6 @@ private:
 "                   border: 2px;"
 "                   color:"+defaultButtonColorNormal+";"
 "                   padding: 3px;"
-"                   min-height: 20px;"
 "                   max-height: 120px;"
 "                   border-radius:5px;"
 "                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
@@ -427,6 +426,11 @@ private:
 "                   border-radius: 0px;"
 "                   border-style:solid;"
 "               }"
+                "QPushButton#btnCustomizeColor{"
+                "border-radius:0px;"
+                "margin:2px;"
+                "border-image:url(\":/resource/image/btn_customize_color.png\");"
+                 "}"
               ;
 
         return str;
@@ -506,7 +510,7 @@ private:
         subPageContainerColor      ="#16181c                                     ";
         PopWindowBgColor           ="#2d2f33                                     ";
 
-        defautlLabelColor          ="#ffffff                                     ";
+        defautlLabelColor          ="#909090                                     ";
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
         playHoverColor             ="#222222                                     ";
@@ -521,7 +525,7 @@ private:
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
-        defaultButtonColorNormal    ="#b0b0b0";
+        defaultButtonColorNormal    ="#909090";
         defaultButtonColorHover     ="#f0f0f0";
     }
 
@@ -537,7 +541,7 @@ protected:
     QString subPageContainerColor;      //#16181c
     QString PopWindowBgColor;           //#343638
 
-    QString defautlLabelColor;          //#ffffff
+    QString defautlLabelColor;          //#909090
     QString titleColor;                 //#ffffff
     QString playBgColor;                //#222222
     QString playHoverColor;             //#222222
@@ -552,7 +556,7 @@ protected:
     QString btnLyricImageHover;         //:/resource/image/btn_close_press_white.png
     QString btnTabLeftBoderColor;       //#bb0033
 
-    QString defaultButtonColorNormal;   //#b0b0b0
+    QString defaultButtonColorNormal;   //#909090
     QString defaultButtonColorHover;    //#f0f0f0
 
 };

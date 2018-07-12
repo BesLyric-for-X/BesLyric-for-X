@@ -1,9 +1,13 @@
 ﻿#include "StackFrame.h"
 #include <QVBoxLayout>
+#include "AppHelper.h"
 
-StackFrame::StackFrame(QWidget *parent)
+StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent)
 {
+    pApp = pApplication;
+    SetSkin("black");
+
     this->setMouseTracking(true);
 
     setBorderMain(8);
@@ -16,6 +20,10 @@ StackFrame::~StackFrame()
 
 }
 
+void StackFrame::SetSkin(QString skinName)
+{
+    AppHelper::SetStyle(pApp, skinName);
+}
 
 void StackFrame::initLayout()
 {
@@ -29,13 +37,17 @@ void StackFrame::initLayout()
 void StackFrame::connectAll()
 {
     connect(mainWidget->topWidget, SIGNAL(OnDoubleClick()),this, SLOT(toggleMaxRestoreStatus()));
+
     connect(mainWidget->topWidget->btnMax, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
     connect(mainWidget->topWidget->btnRestore, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
 
     connect(mainWidget->topWidget->btnSkinBox, SIGNAL(clicked(bool)), this, SLOT(toggleSkinBox()));
 
     connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
-     connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
+
+    connect(skinBoxWidget->btnBlack, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnRed, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
 }
 
 void StackFrame::setBorderMain(int border)

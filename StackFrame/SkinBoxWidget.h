@@ -9,11 +9,14 @@
 #include <QLabel>
 #include <QImage>
 #include <QPainter>
+#include <QStackedLayout>
 
-class ButtonTheme: public QPushButton
+class ButtonTheme: public BesButton
 {
+    Q_OBJECT
 public:
-    ButtonTheme(QWidget* parent, QImage* image, QString name):QPushButton(parent),m_image(image),m_name(name){}
+    ButtonTheme(QWidget* parent, QImage* image,QString skinName, QString title,QColor color)
+        :BesButton(parent),m_image(image),m_skinName(skinName),m_title(title),m_color(color),m_bHover(false){}
 
     virtual void paintEvent(QPaintEvent* event)
     {
@@ -24,6 +27,13 @@ public:
                            QPixmap::fromImage(m_image->scaled(this->width()- 2*2, this->height()- 2*2,
                                               Qt::IgnoreAspectRatio,Qt::SmoothTransformation)));
         QWidget::paintEvent(event);
+
+        if(m_bHover)
+        {
+            QRectF outerRect(0,0,this->width()-1,this->height()-1);
+            painter.setPen(m_color);
+            painter.drawRect(outerRect);
+        }
 
         QRectF rect;
         rect.setLeft(2);
@@ -40,17 +50,64 @@ public:
         painter.setFont(font);
         QTextOption option;
         option.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        painter.drawText(rect,m_name, option);
+        painter.drawText(rect,m_title, option);
     }
+
+    virtual void enterEvent(QEvent *e){m_bHover=true;BesButton::enterEvent(e);}//进入事件
+    virtual void leaveEvent(QEvent *e){m_bHover=false;BesButton::leaveEvent(e);}//离开事件
+
+    virtual void mousePressEvent(QMouseEvent* e){emit(onSkinClick(m_skinName));BesButton::mousePressEvent(e);}
+
+signals:
+    void onSkinClick(QString name);
 
 private:
     QImage*     m_image;
-    QString     m_name;
+    QString     m_skinName;
+    QString     m_title;
+    QColor      m_color;
+    bool        m_bHover;
 };
 
-class ButtonPureColor: public QPushButton
+class ButtonPureColor: public BesButton
 {
+    Q_OBJECT
+public:
+    ButtonPureColor(QWidget* parent,QString colorStr) :BesButton(parent),m_colorStr(colorStr),m_bHover(false){}
 
+
+    virtual void paintEvent(QPaintEvent* event)
+    {
+        QWidget::paintEvent(event);
+
+        QPainter painter(this);
+        QColor color(m_colorStr);
+
+        if(m_bHover)
+        {
+            QRectF outerRect(0,0,this->width()-1,this->height()-1);
+            painter.setPen(color);
+            painter.drawRect(outerRect);
+        }
+
+        QRectF rect;
+        rect.setLeft(2);
+        rect.setRight(this->width()-2);
+        rect.setTop(2);
+        rect.setBottom(this->height()- 2);
+        painter.fillRect(rect,color);
+    }
+
+    virtual void enterEvent(QEvent *e){m_bHover=true;BesButton::enterEvent(e);}//进入事件
+    virtual void leaveEvent(QEvent *e){m_bHover=false;BesButton::leaveEvent(e);}//离开事件
+
+    virtual void mousePressEvent(QMouseEvent* e){emit(onSkinClick(m_colorStr));BesButton::mousePressEvent(e);}
+
+signals:
+    void onSkinClick(QString name);
+private:
+    QString     m_colorStr;
+    bool        m_bHover;
 };
 
 class SkinBoxWidget : public BesShadowWidget
@@ -72,6 +129,8 @@ public:
     QWidget*        frontLayer;
     QWidget*        mainLayer;
 
+    QStackedLayout* skinStack;
+
     BesButton*      btnCheckMark;
 
     BesButton*      btnTheme;
@@ -84,18 +143,18 @@ public:
     ButtonTheme*    btnGreen;
     ButtonTheme*    btnGold;
 
-    QPushButton*    btnPureColor1;
-    QPushButton*    btnPureColor2;
-    QPushButton*    btnPureColor3;
-    QPushButton*    btnPureColor4;
-    QPushButton*    btnPureColor5;
-    QPushButton*    btnPureColor6;
-    QPushButton*    btnPureColor7;
-    QPushButton*    btnPureColor8;
-    QPushButton*    btnPureColor9;
-    QPushButton*    btnPureColor10;
-    QPushButton*    btnPureColor11;
-    QPushButton*    btnPureColor12;
+    ButtonPureColor*    btnPureColor1;
+    ButtonPureColor*    btnPureColor2;
+    ButtonPureColor*    btnPureColor3;
+    ButtonPureColor*    btnPureColor4;
+    ButtonPureColor*    btnPureColor5;
+    ButtonPureColor*    btnPureColor6;
+    ButtonPureColor*    btnPureColor7;
+    ButtonPureColor*    btnPureColor8;
+    ButtonPureColor*    btnPureColor9;
+    ButtonPureColor*    btnPureColor10;
+    ButtonPureColor*    btnPureColor11;
+    ButtonPureColor*    btnPureColor12;
 
     QLabel*         labelCustomizeColor;
     QPushButton*    btnCustomizeColor;
