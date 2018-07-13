@@ -431,6 +431,18 @@ private:
                 "margin:2px;"
                 "border-image:url(\":/resource/image/btn_customize_color.png\");"
                  "}"
+
+                "QPushButton#btnCheckMark{"
+                "background-color: "+subPageContainerColor+";"
+                "width: 30px;"
+                "height:30px;"
+                "margin:0px;"
+                "border-radius:17px;"
+                "padding:0px;"
+                "border-image:url(\":/resource/image/mark_skin_select.png\");"
+                 "}"
+
+
               ;
 
         return str;
@@ -487,11 +499,12 @@ private:
 "                    border-radius: 5px;"
 "                    border: 1px solid #cccccc;"
 "                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 #CC0033, stop:0.4 #fefefe);"
-"                }"
+        "                }"
 "                QSlider#sliderSound::handle:horizontal:hover {"
 "                    border: 1px solid #aaaaaa;"
 "                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.3 #CC0033, stop:0.45 #fefefe);"
 "                }"
+
                ;
 
         return str;

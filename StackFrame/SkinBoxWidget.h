@@ -83,6 +83,7 @@ public:
         QPainter painter(this);
         QColor color(m_colorStr);
 
+
         if(m_bHover)
         {
             QRectF outerRect(0,0,this->width()-1,this->height()-1);
@@ -121,9 +122,17 @@ public:
     void initLayout();
     void connectAll();
 
+    void swithToPage(int nIndex);
+    void MarkToPos(bool bFront, int x, int y);
+
 protected:
     virtual void paintEvent(QPaintEvent *);
     virtual void resizeEvent(QResizeEvent *event);
+
+private:
+    int  bLastSelectPage;
+    int  lastMarkPosX;
+    int  lastMarkPosY;
 
 public:
     QWidget*        frontLayer;
@@ -143,6 +152,22 @@ public:
     ButtonTheme*    btnGreen;
     ButtonTheme*    btnGold;
 
+    /*
+//6种主题的配色(↑ 上侧，↓ 下侧 ← 左侧 → 右侧 )
+red		↑	c62f2f		↓	e83c3c
+pink 	↑	fa7aa7		↓	ff87b4
+gold					↓	faac62
+green	↑	3bba7d		↓	5dc78a
+blue	↑	44aaf8		↓	66b7ff
+
+black	←	191b1f		→	16181c    ↓	222222
+
+//除了黑色外的其他5种主题的白色配色
+白左←：f5f5f7
+白下↓：f6f6f8
+
+     */
+
     ButtonPureColor*    btnPureColor1;
     ButtonPureColor*    btnPureColor2;
     ButtonPureColor*    btnPureColor3;
@@ -156,10 +181,41 @@ public:
     ButtonPureColor*    btnPureColor11;
     ButtonPureColor*    btnPureColor12;
 
+    /*
+        这里12个颜色，通过 ubuntu 下gimp工具取色得到值依次为：
+
+        12种颜色
+        #ff5c8a
+        #ff7a9e
+        #fe76c8
+        #717ff9
+        #4791eb
+        #39afea
+
+        #2bb669
+        #6acc19
+        #e2ab12
+        #ff8f57
+        #fd726d
+        #fd544e
+     */
+
     QLabel*         labelCustomizeColor;
-    QPushButton*    btnCustomizeColor;
-    QSlider*        SliderColor;
-    QSlider*        SliderBrightness;
+    BesButton*      btnCustomizeColor;
+    QSlider*        SliderHue;              //色调
+    QSlider*        SliderLightness;        //亮度
+
+    /*
+        颜色可以通过GRB表示，也可以通过 H（hue，色调）S（Saturation,饱和度）L（Lightness,亮度）表示
+        关于颜色的知识详细看这里：https://blog.csdn.net/bjbz_cxy/article/details/79701006
+
+        RGB 3个维度范围是 0~255
+        HSL 3个维度范围是 0~240(mspaint 中的范围)； qt 三个维度范围分别是：The value of s, l, and a must all be in the range 0-255; the value of h must be in the range 0-359.
+        通过 mspaint.exe 调色板调试发现，网易云这里的2个滑动条，可能使用2个维度 色调 和 亮度，另外的饱和度固定为240（饱和度越接近0，越是感受不到颜色的）
+
+        上面一个滑动条 是色调 可能是 0~240 （qt 这里 h 的范围为 0~359）
+        下面一个滑动条 是亮度 范围可能是 40~160 (qt 这里的 l 的范围是 42~170)
+    */
 };
 
 #endif // SKINBOXWIDGET_H

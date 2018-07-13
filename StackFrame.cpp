@@ -46,8 +46,22 @@ void StackFrame::connectAll()
     connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
     connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
 
+
     connect(skinBoxWidget->btnBlack, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
     connect(skinBoxWidget->btnRed, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+
+    connect(skinBoxWidget->btnPureColor1, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor2, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor3, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor4, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor5, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor6, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor7, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor8, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor9, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor10, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor11, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor12, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
 }
 
 void StackFrame::setBorderMain(int border)

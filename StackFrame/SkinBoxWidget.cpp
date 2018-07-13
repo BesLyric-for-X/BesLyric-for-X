@@ -7,7 +7,7 @@
 #include <QPixmap>
 
 SkinBoxWidget::SkinBoxWidget(QWidget *parent)
-    : BesShadowWidget(parent)
+    : BesShadowWidget(parent),bLastSelectPage(1)
 {
     BesShadowWidget::SetMarginTop(6);
     BesShadowWidget::SetBackgroundColor(QColor(0,0,0,0));
@@ -29,7 +29,7 @@ void SkinBoxWidget::initLayout()
     mainLayer->setObjectName("skinBoxMainLayer");
 
     btnCheckMark = new BesButton(frontLayer); //具体位置交由paintEvent绘制
-    btnCheckMark->setObjectName("btnTheme");
+    btnCheckMark->setObjectName("btnCheckMark");
 
     QWidget* themeContainer = new QWidget(mainLayer);
     QWidget* pureColorContainer = new QWidget(mainLayer);
@@ -166,9 +166,9 @@ void SkinBoxWidget::initLayout()
     pureColorGridLayout->addWidget(btnPureColor12,1,5);
 
     labelCustomizeColor = new QLabel(pureColorContainer);
-    btnCustomizeColor=  new QPushButton(pureColorContainer);
-    SliderColor=  new QSlider(pureColorContainer);
-    SliderBrightness=  new QSlider(pureColorContainer);
+    btnCustomizeColor=  new BesButton(pureColorContainer);
+    SliderHue=  new QSlider(pureColorContainer);
+    SliderLightness=  new QSlider(pureColorContainer);
 
     labelCustomizeColor->setText(tr("自定义颜色"));
     btnCustomizeColor->setMinimumSize(55,55);
@@ -176,16 +176,73 @@ void SkinBoxWidget::initLayout()
     btnCustomizeColor->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnCustomizeColor->setObjectName("btnCustomizeColor");
 
-    SliderColor->setOrientation(Qt::Horizontal);
-    SliderBrightness->setOrientation(Qt::Horizontal);
-    SliderColor->setMinimumHeight(25);
-    SliderBrightness->setMinimumHeight(25);
-    SliderColor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    SliderBrightness->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    SliderHue->setOrientation(Qt::Horizontal);
+    SliderLightness->setOrientation(Qt::Horizontal);
+
+    SliderHue->setObjectName("SliderHue");
+    SliderLightness->setObjectName("SliderLightness");
+
+    QColor lightLow;
+    QColor lightHeight;
+
+    lightHeight.setHsl(150,240,160);
+    lightLow.setHsl(150,240,40);
+
+    int r1,g1,b1;
+    int r2,g2,b2;
+    lightLow.getRgb(&r1,&g1,&b1);
+    lightHeight.getRgb(&r2,&g2,&b2);
+
+    QString colorStr = QString("qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb(%1,%2,%3), stop:1 rgb(%4,%5,%6))").arg(r1).arg(g1).arg(b1).arg(r2).arg(g2).arg(b2);
+    SliderLightness->setStyleSheet("QSlider#SliderLightness::groove:horizontal {"
+                                   "background:"+ colorStr+ " ; "
+                                   "height: 6px;"
+                                   "border-radius: 2px;"
+                                   "                }");
+
+    QString strStops;
+
+    int nSegCount = 8;
+
+    for(int i=0; i<= nSegCount; i++)
+    {
+        double PosistionFactor = 1.0 / nSegCount * i;
+        QColor colorFromHsl = QColor::fromHsl(PosistionFactor * 240,240,160);
+        QColor colorSetHsl;
+        colorSetHsl.setHsl(PosistionFactor * 359,255,170);
+
+        QColor rgbColor = colorFromHsl.toRgb();
+        rgbColor = colorSetHsl.toRgb();
+
+        int r,g,b;
+        rgbColor.getRgb(&r,&g,&b);
+
+        QString strStop;
+        strStop.sprintf("stop:%.3f rgb(%d,%d,%d)", PosistionFactor,r,g,b);
+
+        if(i != nSegCount)
+            strStop += ",";
+
+        strStops += strStop;
+    }
+
+
+    //色调滑动器
+    SliderHue->setStyleSheet(
+"                QSlider#SliderHue::groove:horizontal {"
+"                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, " + strStops + "); "
+"                   height: 6px;"
+"                   border-radius: 2px;"
+"                }");
+
+    SliderHue->setMinimumHeight(25);
+    SliderLightness->setMinimumHeight(25);
+    SliderHue->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    SliderLightness->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     QVBoxLayout * vSliderLayout = new QVBoxLayout();
     vSliderLayout->setSpacing(10);
-    vSliderLayout->addWidget(SliderColor);
-    vSliderLayout->addWidget(SliderBrightness);
+    vSliderLayout->addWidget(SliderHue);
+    vSliderLayout->addWidget(SliderLightness);
 
     QHBoxLayout * hCustomizeColorLayout = new QHBoxLayout();
     hCustomizeColorLayout->setSpacing(12);
@@ -218,12 +275,36 @@ void SkinBoxWidget::connectAll()
 {
     connect(btnTheme,&QPushButton::clicked,[=](){skinStack->setCurrentIndex(0);});
     connect(btnPureColor,&QPushButton::clicked,[=](){skinStack->setCurrentIndex(1);});
+
+    connect(btnTheme,&QPushButton::clicked,[=](){swithToPage(1);});
+    connect(btnPureColor,&QPushButton::clicked,[=](){swithToPage(2);});
+
+    connect(btnBlack,&QPushButton::clicked,[=](){   MarkToPos(true,110+ 121*0 ,155); bLastSelectPage = 1;});
+    connect(btnRed,&QPushButton::clicked,[=](){     MarkToPos(true,110+ 121*1 ,155); bLastSelectPage = 1;});
+    connect(btnPink,&QPushButton::clicked,[=](){    MarkToPos(true,110+ 121*2 ,155);bLastSelectPage = 1;});
+    connect(btnBlue,&QPushButton::clicked,[=](){    MarkToPos(true,110+ 121*0 ,155+122);bLastSelectPage = 1;});
+    connect(btnGreen,&QPushButton::clicked,[=](){   MarkToPos(true,110+ 121*1 ,155+122);bLastSelectPage = 1;});
+    connect(btnGold,&QPushButton::clicked,[=](){    MarkToPos(true,110+ 121*2 ,155+122);bLastSelectPage = 1;});
+
+    connect(btnPureColor1,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *0, 98); bLastSelectPage = 2;});
+    connect(btnPureColor2,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *1, 98); bLastSelectPage = 2;});
+    connect(btnPureColor3,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *2, 98);bLastSelectPage = 2;});
+    connect(btnPureColor4,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *3, 98);bLastSelectPage = 2;});
+    connect(btnPureColor5,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *4, 98);bLastSelectPage = 2;});
+    connect(btnPureColor6,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *5, 98);bLastSelectPage = 2;});
+    connect(btnPureColor7,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *0, 98+ 61); bLastSelectPage = 2;});
+    connect(btnPureColor8,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *1, 98+ 61); bLastSelectPage = 2;});
+    connect(btnPureColor9,&QPushButton::clicked,[=](){MarkToPos(true, 48 + 61 *2, 98+ 61);bLastSelectPage = 2;});
+    connect(btnPureColor10,&QPushButton::clicked,[=](){MarkToPos(true,48 + 61 *3, 98+ 61);bLastSelectPage = 2;});
+    connect(btnPureColor11,&QPushButton::clicked,[=](){MarkToPos(true,48 + 61 *4, 98+ 61);bLastSelectPage = 2;});
+    connect(btnPureColor12,&QPushButton::clicked,[=](){MarkToPos(true,48 + 61 *5, 98+ 61);bLastSelectPage = 2;});
+
+    connect(btnCustomizeColor,&QPushButton::clicked,[=](){MarkToPos(true,48 + 61 *0, 274);bLastSelectPage = 2;});
+
 }
 
 void SkinBoxWidget::paintEvent(QPaintEvent *event)
 {
-    BesShadowWidget::paintEvent(event);
-
     QPixmap indicator(":/resource/image/box_indicator_black.png");
 
     QPainter p(this);
@@ -241,6 +322,8 @@ void SkinBoxWidget::paintEvent(QPaintEvent *event)
 
     p.drawPixmap(this->width()/2 - indicator.width()/2, 0 ,indicator);  //在中上位置绘制指标
 
+    BesShadowWidget::paintEvent(event);
+
 }
 
 void SkinBoxWidget::resizeEvent(QResizeEvent *event)
@@ -251,4 +334,30 @@ void SkinBoxWidget::resizeEvent(QResizeEvent *event)
 
     mainLayer->setGeometry(mainLayerRect);
 
+}
+
+
+void SkinBoxWidget::swithToPage(int nIndex)
+{
+    if(bLastSelectPage != nIndex)
+        MarkToPos(false,0,0);
+    else
+        MarkToPos(true,lastMarkPosX,lastMarkPosY);
+}
+
+void SkinBoxWidget::MarkToPos(bool bFront, int x, int y)
+{
+    if(bFront)
+    {
+        frontLayer->setVisible(true);
+        frontLayer->setGeometry(x,y,33,33);
+        lastMarkPosX = x;
+        lastMarkPosY = y;
+        frontLayer->raise();
+    }
+    else
+    {
+        frontLayer->setVisible(false);
+        mainLayer->raise();
+    }
 }
