@@ -25,8 +25,8 @@ public:
     QWidget*                leftBoardMainPage;
 
     BesButton*              btnMakingLyric;
-    BesButton*            btnDownloadSong;
-    BesButton*            btnDownloadLyric;
+    BesButton*              btnDownloadSong;
+    BesButton*              btnDownloadLyric;
     BoxPageLyricList*       boxPageLyricList;
     BoxPagePreviewLyric*    boxPagePreviewLyric;
 

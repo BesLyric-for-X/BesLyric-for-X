@@ -12,11 +12,12 @@ protected:
         topContainerBgImage        =":/resource/image/top_background_black.png";
         topContainerBgColor        ="";
         leftboardBgColor           ="#191b1f                                     ";
-        leftboardBorderColor       ="rgba(ff, ff, ff, 33)                        ";
+        leftboardBorderColor       ="#23262c";
         bottomContainerColor       ="#222222                                     ";
         bottomContainerBorderColor ="rgba(ff, ff, ff, ff)                        ";
         subPageContainerColor      ="#16181c                                     ";
-        defautlLabelColor          ="#ffffff                                     ";
+
+        defautlLabelColor          ="#909090                                     ";
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
         playHoverColor             ="#222222                                     ";
@@ -29,8 +30,10 @@ protected:
         btnPlayModeImageHover      =":/resource/image/btn_close_press_white.png";
         btnLyricImage              =":/resource/image/btn_close_normal_white.png";
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
-        btnTabLeftTextColor        ="#f0f0f0";
         btnTabLeftBoderColor       ="#bb0033                                     ";
+
+        defaultButtonColorNormal    ="#909090";
+        defaultButtonColorHover     ="#f0f0f0";
     }
 
 };

@@ -12,7 +12,7 @@ class AppHelper
 {
 public:
     //设置皮肤样式
-    static void SetStyle(QApplication& app, const QString &styleName)
+    static void SetStyle(QApplication* app, const QString &styleName)
     {
         QSharedPointer<ISkin> skin = SkinFacgtory::getSkin(styleName);
         QString qss = skin->GetCssString();
@@ -21,8 +21,8 @@ public:
         file.open(QFile::ReadOnly);
         QString qssTest = QLatin1String(file.readAll());    //暂时保留测试用
 
-        app.setStyleSheet(qss);
-        app.setPalette(QPalette(QColor("#0000fe")));        //似乎在这里不起作用（或者被前面设置覆盖了）
+        app->setStyleSheet(qss);
+        app->setPalette(QPalette(QColor("#0000fe")));        //似乎在这里不起作用（或者被前面设置覆盖了）
     }
 
 };

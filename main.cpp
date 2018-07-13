@@ -5,13 +5,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    StackFrame MainFrameWidget(&app);
 
-    AppHelper::SetStyle(app, "black");
-
-    //app.setStyleSheet("QWidget{border:2px solid #000000;}");
-
-    StackFrame MainFrameWidget;
     MainFrameWidget.show();
-
     return app.exec();
 }

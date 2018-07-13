@@ -36,6 +36,8 @@ void TopWidget::initLayout()
     btnRestore = new BesButton(topWidgetContainer);
     btnClose = new BesButton(topWidgetContainer);
 
+    btnRestore->setVisible(false);
+
     btnSkinBox->setObjectName("btnSkinBox");
     btnSetting->setObjectName("btnSetting");
 
@@ -52,20 +54,18 @@ void TopWidget::initLayout()
     hLayout->addWidget(btnIcon);
     hLayout->addSpacerItem(new QSpacerItem(60,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelTitle);
-    hLayout->addWidget(labelTitle);
-    hLayout->addSpacerItem(new QSpacerItem(20,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(23,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout->addWidget(btnSkinBox);
-    hLayout->addSpacerItem(new QSpacerItem(20,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(23,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnSetting);
     hLayout->addSpacerItem(new QSpacerItem(16,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelSepHeader);
     hLayout->addSpacerItem(new QSpacerItem(15,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnMini);
-    hLayout->addSpacerItem(new QSpacerItem(10,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnMax);
     hLayout->addWidget(btnRestore);
-    hLayout->addSpacerItem(new QSpacerItem(10,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnClose);
+    hLayout->addSpacerItem(new QSpacerItem(10,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     QHBoxLayout*  hLayoutWrapper = new QHBoxLayout(this);
     hLayoutWrapper->setMargin(0);
@@ -75,5 +75,5 @@ void TopWidget::initLayout()
 
 void TopWidget::connectAll()
 {
-
 }
+

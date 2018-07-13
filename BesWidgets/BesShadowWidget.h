@@ -12,9 +12,15 @@ public:
     virtual~BesShadowWidget(){}
 
     void SetShadowBorder(int boder);
+
+    void SetMarginTop(int margin);
+
+    void SetBackgroundColor(QColor bgColor);
 protected:
     virtual void paintEvent(QPaintEvent *);
 
+    QColor bgColor;     //背景颜色
+    int marginTop;      //上边缘空出距离
     int border;
 };
 

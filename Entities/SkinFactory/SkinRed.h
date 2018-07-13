@@ -29,7 +29,6 @@ protected:
         btnPlayModeImageHover      =":/resource/image/btn_close_press_white.png";
         btnLyricImage              =":/resource/image/btn_close_normal_white.png";
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
-        btnTabLeftTextColor        ="#222222";
         btnTabLeftBoderColor       ="#bb0033                                     ";
     }
 

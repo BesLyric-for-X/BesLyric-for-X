@@ -12,7 +12,8 @@ BesFramelessWidget::BesFramelessWidget(QWidget *parent)
     this->dir = NONE;
     this->setMinimumHeight(720);
     this->setMinimumWidth(1024);
-    this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowSystemMenuHint );
+    this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowSystemMenuHint|Qt::MaximizeUsingFullscreenGeometryHint );
+
     this->setMouseTracking(true);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setStyleSheet("QDialog{background:url(:/bg_main.png)}");
