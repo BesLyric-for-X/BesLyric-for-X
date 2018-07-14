@@ -8,7 +8,7 @@ class SkinBlack : public ISkin
 protected:
     virtual void SetParameter()
     {
-        fontFamily                 ="Microsoft YaHei                             ";
+        //容器相关
         topContainerBgImage        =":/resource/image/top_background_black.png";
         topContainerBgColor        ="";
         leftboardBgColor           ="#191b1f                                     ";
@@ -17,8 +17,13 @@ protected:
         bottomContainerBorderColor ="rgba(ff, ff, ff, ff)                        ";
         subPageContainerColor      ="#16181c                                     ";
 
+        //label、button 相关
+        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
         titleColor                 ="#ffffff                                     ";
+        defaultButtonColorNormal    ="#909090";
+        defaultButtonColorHover     ="#f0f0f0";
+
         playBgColor                ="#222222                                     ";
         playHoverColor             ="#222222                                     ";
         playBorderColor            ="#666666                                     ";
@@ -32,8 +37,6 @@ protected:
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
-        defaultButtonColorNormal    ="#909090";
-        defaultButtonColorHover     ="#f0f0f0";
     }
 
 };

@@ -3,16 +3,17 @@
 #include "AppHelper.h"
 
 StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
-    : BesFramelessWidget(parent)
+    : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr)
 {
     pApp = pApplication;
-    SetSkin("black");
-
     this->setMouseTracking(true);
 
     setBorderMain(8);
     initLayout();
     connectAll();
+
+    SetSkin("black");
+
 }
 
 StackFrame::~StackFrame()
@@ -22,6 +23,9 @@ StackFrame::~StackFrame()
 
 void StackFrame::SetSkin(QString skinName)
 {
+    if(skinBoxWidget)
+        skinBoxWidget->setFinalSkinName(skinName);
+
     AppHelper::SetStyle(pApp, skinName);
 }
 
@@ -46,7 +50,8 @@ void StackFrame::connectAll()
     connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
     connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
 
-
+    //注意：onSkinClick 这里有2处会触发皮肤的变换，一处是在这里；另一处是这里改变 SkinBoxWidget 触发了纯颜色皮肤设置
+    // 这里后连接，所以前面纯颜色的设置不影响这里的效果 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
     connect(skinBoxWidget->btnBlack, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
     connect(skinBoxWidget->btnRed, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
 
@@ -62,6 +67,8 @@ void StackFrame::connectAll()
     connect(skinBoxWidget->btnPureColor10, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
     connect(skinBoxWidget->btnPureColor11, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
     connect(skinBoxWidget->btnPureColor12, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+
+    connect(skinBoxWidget, SIGNAL(signalSetCustomSkin(QString)),this,SLOT(SetSkin(QString)));
 }
 
 void StackFrame::setBorderMain(int border)

@@ -222,6 +222,7 @@ private:
 "                   background-image:url(\":/resource/image/btn_close_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
+
                /*3个播放按钮*/
 "               QPushButton#btnPreSong{"
 "                   width: 32px;"
@@ -307,6 +308,7 @@ private:
 "                   background-image:url(\":/resource/image/btn_pause.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
+
                /* 播放栏其他按钮 */
 "               QPushButton#btnSound{"
 "                   border: 0px;border-radius:0px;"
@@ -356,6 +358,7 @@ private:
 "                   background-image:url(\""+btnLyricImageHover+"\");"
 "                   background-repeat:no-repeat;"
 "               }"
+
                /* 页面左侧按钮 */
 "               QPushButton#btnMakingLyric, QPushButton#btnDownloadSong, QPushButton#btnDownloadLyric{"
 "                   background-color:rgba(0, 0, 0, 0);"
@@ -505,6 +508,25 @@ private:
 "                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.3 #CC0033, stop:0.45 #fefefe);"
 "                }"
 
+"                QSlider#SliderHue::groove:horizontal,QSlider#SliderLightness::groove:horizontal {"
+                "height: 6px;"
+                "border-radius: 2px;"
+                "}"
+"                QSlider#SliderHue::handle:horizontal,QSlider#SliderLightness::handle:horizontal {"
+"                    width: 20px;"
+"                    margin-top: -7px;"
+"                    margin-bottom: -7px;"
+"                    border-radius: 10px;"
+"                    border: 1px solid #aaaaaa;"
+"                    background: #fefefe;"
+        "                }"
+"                QSlider#SliderHue::handle:horizontal:hover,QSlider#SliderLightness::handle:horizontal:hover {"
+"                    background: #eeeeee;"
+"                }"
+
+
+
+
                ;
 
         return str;
@@ -513,7 +535,7 @@ private:
 
     void setDefaultParameter()
     {
-        fontFamily                 ="Microsoft YaHei                             ";
+        //容器相关
         topContainerBgImage        =":/resource/image/top_background_black.png";
         topContainerBgColor        ="";
         leftboardBgColor           ="#191b1f                                     ";
@@ -523,7 +545,12 @@ private:
         subPageContainerColor      ="#16181c                                     ";
         PopWindowBgColor           ="#2d2f33                                     ";
 
+        //label、button 相关
+        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
+        defaultButtonColorNormal    ="#909090";
+        defaultButtonColorHover     ="#f0f0f0";
+
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
         playHoverColor             ="#222222                                     ";
@@ -538,8 +565,6 @@ private:
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
-        defaultButtonColorNormal    ="#909090";
-        defaultButtonColorHover     ="#f0f0f0";
     }
 
 protected:

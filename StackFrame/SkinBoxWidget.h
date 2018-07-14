@@ -122,8 +122,20 @@ public:
     void initLayout();
     void connectAll();
 
+    void initSliderGrooveColor(); //初始化滑动器的槽的颜色
+    void signalToCustomSkin();    //发信号切换为自定义的颜色皮肤
+
     void swithToPage(int nIndex);
-    void MarkToPos(bool bFront, int x, int y);
+    void markToPos(bool bFront, int x, int y);
+
+    void setFinalSkinName(QString);                     //设置最终使用的皮肤名
+
+signals:
+    void signalSetCustomSkin(QString colorString);
+
+public slots:
+    void changeSliderValueBySkinName(QString);          //仅仅通过皮肤名，改变slider.皮肤名是 预定义的6种主题颜色，以及#xxxxxx 字符串
+    void initLightnessGrooveColorByHue(int hueValue);   //基于指定色调 hueValue， 设置亮度颜色
 
 protected:
     virtual void paintEvent(QPaintEvent *);
@@ -133,6 +145,8 @@ private:
     int  bLastSelectPage;
     int  lastMarkPosX;
     int  lastMarkPosY;
+
+    QString  finalSkinName;         //储存最后真正使用的皮肤，用于区别绘制skinBox背景
 
 public:
     QWidget*        frontLayer;
@@ -214,7 +228,7 @@ black	←	191b1f		→	16181c    ↓	222222
         通过 mspaint.exe 调色板调试发现，网易云这里的2个滑动条，可能使用2个维度 色调 和 亮度，另外的饱和度固定为240（饱和度越接近0，越是感受不到颜色的）
 
         上面一个滑动条 是色调 可能是 0~240 （qt 这里 h 的范围为 0~359）
-        下面一个滑动条 是亮度 范围可能是 40~160 (qt 这里的 l 的范围是 42~170)
+        下面一个滑动条 是亮度 范围可能是 40~160 (qt 这里的 l 的范围大概是 42~170)
     */
 };
 

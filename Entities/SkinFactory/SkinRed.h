@@ -8,7 +8,7 @@ class SkinRed : public ISkin
 protected:
     virtual void SetParameter()
     {
-        fontFamily                 ="Microsoft YaHei                             ";
+        //容器相关
         topContainerBgImage        ="";
         topContainerBgColor        ="#c62f2f";
         leftboardBgColor           ="#f5f5f7                                     ";
@@ -16,8 +16,14 @@ protected:
         bottomContainerColor       ="#f6f6f8                                     ";
         bottomContainerBorderColor ="rgba(33, 33, 33, 33)                        ";
         subPageContainerColor      ="#ffffff                                     ";
+
+        //label、button 相关
+        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#000000                                     ";
         titleColor                 ="#ffffff                                     ";
+        defaultButtonColorNormal    ="#5c5c5c";
+        defaultButtonColorHover     ="#000000";
+
         playBgColor                ="#e83c3c                                     ";
         playHoverColor             ="#c62f2f                                     ";
         playBorderColor            ="#666666                                     ";
