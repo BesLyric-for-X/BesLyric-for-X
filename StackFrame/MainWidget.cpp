@@ -5,11 +5,18 @@ MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
 {
     this->setMouseTracking(true);
+
+    initEntity();
     initLayout();
     connectAll();
 }
 
 MainWidget::~MainWidget()
+{
+
+}
+
+void MainWidget::initEntity()
 {
 
 }

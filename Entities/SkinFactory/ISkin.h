@@ -56,10 +56,13 @@ private:
            " background-color:"+subPageContainerColor+ ";"
         "}"
 
-//        "QWidget#skinBoxMainLayer"
+        "QWidget#widgetMainPreviewLyric, QWidget#widgetMainLyricList"
+        "{"
+            "border:1px solid "+leftboardBorderColor+";"
+        "}"
+//        "QWidget#widgetMainPreview"
 //        "{"
-//           " border-radius:5px;"
-//           " background-color:"+PopWindowBgColor+ ";"
+//            " background-color:#ffffff;"
 //        "}"
 
         ;
@@ -98,22 +101,20 @@ private:
 "                   padding: 3px;"
 "                   max-height: 120px;"
 "                   border-radius:5px;"
-"                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
+"                   background: #353943;"
 "               }"
 
 "               QPushButton:hover{"
 "                   color: "+defaultButtonColorHover+";"
-"                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #bb0033, stop:1 #aa0033);"
+"                   background: #464952;"
 "               }"
 
 "               QPushButton:checked{"
 "                   color: "+defaultButtonColorHover+";"
-"                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #bb0033, stop:1 #aa0033);"
 "               }"
 
 "               QPushButton:pressed{"
 "                   color: "+defaultButtonColorHover+";"
-"                   background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
 "               }"
 
                /* 标题栏上的按钮样式 */

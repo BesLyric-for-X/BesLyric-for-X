@@ -59,5 +59,13 @@
         <file>resource/image/top_background_pink.png</file>
         <file>resource/image/logo.png</file>
         <file>resource/image/btn_play.png</file>
+        <file>resource/image/extend.png</file>
+        <file>resource/image/AlbumCover1.jpg</file>
+        <file>resource/image/AlbumCover2.jpg</file>
+        <file>resource/image/netease_disk.png</file>
+        <file>resource/image/netease_tone_arm.png</file>
+        <file>resource/image/album_background_black_mask.png</file>
+        <file>resource/image/album_background_white_mask.png</file>
+        <file>resource/image/default_preview_background.png</file>
     </qresource>
 </RCC>

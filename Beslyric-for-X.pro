@@ -41,6 +41,7 @@ include(BottomWidgets/BottomWidgets.pri)
 INCLUDEPATH +=$$PWD Entities
 include(Entities/Entities.pri)
 
+
 SOURCES += main.cpp \
     StackFrame.cpp
 

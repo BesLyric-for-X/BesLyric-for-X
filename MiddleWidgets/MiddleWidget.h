@@ -2,12 +2,14 @@
 #define MIDDLEWIDGET_H
 
 #include <QWidget>
+#include <QStackedLayout>
+#include <QPropertyAnimation>
+
 #include "PageMain.h"
 #include "PagePreviewLyric.h"
 #include "PageMatchNcmID.h"
 #include "PageLyricList.h"
 #include "PageSetting.h"
-#include <QStackedLayout>
 
 class MiddleWidget : public QWidget
 {
@@ -20,15 +22,28 @@ public:
 
     void initLayout();
     void connectAll();
+    void initAnimation();
+
+    void AnimateFromRectToRect(QWidget* widget, QRect fromRect, QRect toRect);
+
+public slots:
+    void switchPage(int from, int to);
+    void geometryAnimationFinish();
+
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
 
 public:
-    QStackedLayout*     stackPageLayout;
-    PageMain*           pageMain;
-    PagePreviewLyric*   pagePreviewLyric;
-    PageMatchNcmID*     pageMatchNcmID;
-    PageLyricList*      pageLyricList;
-    PageSetting*        pageSetting;
+    PageMain*           pageMain;                       //page 0
+    PagePreviewLyric*   pagePreviewLyric;               //page 1
+    PageLyricList*      pageLyricList;                  //page 2
+    PageMatchNcmID*     pageMatchNcmID;                 //page 3
+    PageSetting*        pageSetting;                    //page 4
 
+    int currentPage;                                    //标记当前页面
+
+    QPropertyAnimation  animationPreviewExtend;
 };
 
 #endif // TOPWIDGET_H

@@ -44,6 +44,15 @@ void PageMain::initLayout()
 
     boxPageLyricList = new BoxPageLyricList(leftBoardMainPage);
     boxPagePreviewLyric = new BoxPagePreviewLyric(leftBoardMainPage);
+    boxPageLyricList->setObjectName("boxPageLyricList");
+    boxPagePreviewLyric->setObjectName("boxPagePreviewLyric");
+
+    boxPageLyricList->setMinimumSize(100,55+10);
+    boxPageLyricList->setMaximumSize(300,55+10);
+    boxPageLyricList->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    boxPagePreviewLyric->setMinimumSize(100,55+10);
+    boxPagePreviewLyric->setMaximumSize(300,55+10);
+    boxPagePreviewLyric->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     subPageContainer = new QWidget(this);
     subPageContainer->setObjectName("subPageContainer");
@@ -63,13 +72,14 @@ void PageMain::initLayout()
     vLayoutButtons->addWidget(btnMakingLyric);
     vLayoutButtons->addWidget(btnDownloadSong);
     vLayoutButtons->addWidget(btnDownloadLyric);
-    vLayoutButtons->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
+    vLayoutButtons->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding));
+
     vLayoutButtons->addWidget(boxPageLyricList);
     vLayoutButtons->addWidget(boxPagePreviewLyric);
 
 
     subpageStackedLayout = new QStackedLayout(subPageContainer);         //右侧页面层叠布局
-    subpageStackedLayout->setStackingMode(QStackedLayout::StackingMode::StackAll);
+    subpageStackedLayout->setStackingMode(QStackedLayout::StackingMode::StackOne);
     subpageStackedLayout->addWidget(subPageMaking);
     subpageStackedLayout->addWidget(subPageDownloadSong);
     subpageStackedLayout->addWidget(subPageDownloadLyric);

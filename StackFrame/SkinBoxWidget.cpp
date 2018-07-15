@@ -446,7 +446,6 @@ void SkinBoxWidget::paintEvent(QPaintEvent *event)
     p.drawPixmap(this->width()/2 - indicatorPixmap.width()/2, 0 ,indicatorPixmap);  //在中上位置绘制指标
 
     BesShadowWidget::paintEvent(event);
-
 }
 
 void SkinBoxWidget::resizeEvent(QResizeEvent *event)

@@ -14,6 +14,7 @@ public:
     MainWidget(QWidget *parent = 0);
     ~MainWidget();
 
+    void initEntity();      //初始化实体
     void initLayout();
     void connectAll();
 

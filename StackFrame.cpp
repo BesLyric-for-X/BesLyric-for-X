@@ -26,6 +26,8 @@ void StackFrame::SetSkin(QString skinName)
     if(skinBoxWidget)
         skinBoxWidget->setFinalSkinName(skinName);
 
+    mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
+
     AppHelper::SetStyle(pApp, skinName);
 }
 
@@ -111,7 +113,6 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 
     mainWidget->setGeometry(mianWidgetRect);
     skinBoxWidget->setGeometry(skinBoxRect);
-
 }
 
 //切换最大化和最小化

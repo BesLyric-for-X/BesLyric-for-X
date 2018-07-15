@@ -15,6 +15,7 @@ public:
     void connectAll();
 
 public:
+    QWidget* widgetMainLyricList;
 
 };
 
