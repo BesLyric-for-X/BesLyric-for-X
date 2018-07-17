@@ -46,10 +46,12 @@ public:
 
         switch(blurAlgorithom)
         {
-        case 1:break;
+        case 1:
             pair.mark = filter::Average;
-        case 2:break;
+            break;
+        case 2:
             pair.mark = filter::Linear;
+            break;
         default:
             pair.mark = filter::Gauss;
             break;
