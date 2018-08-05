@@ -39,9 +39,10 @@ extern "C"
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswresample/swresample.h>
-#include <SDL2/SDL.h>
+#include "SDL.h"
 #ifdef __cplusplus
-};
+}
+#include <unistd.h>
 #endif
 #endif
 
