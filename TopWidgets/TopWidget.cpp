@@ -6,7 +6,7 @@ TopWidget::TopWidget(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 TopWidget::~TopWidget()
@@ -73,7 +73,7 @@ void TopWidget::initLayout()
 
 }
 
-void TopWidget::connectAll()
+void TopWidget::initConnection()
 {
 }
 

@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include "AppHelper.h"
 
-StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
+StackFrame::StackFrame(MyApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr)
 {
     pApp = pApplication;
@@ -10,7 +10,7 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
 
     setBorderMain(8);
     initLayout();
-    connectAll();
+    initConnection();
 
     SetSkin("black");
 
@@ -26,6 +26,8 @@ void StackFrame::SetSkin(QString skinName)
     if(skinBoxWidget)
         skinBoxWidget->setFinalSkinName(skinName);
 
+    emit onFinalSkinNameChanged(skinName);
+
     mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
 
     AppHelper::SetStyle(pApp, skinName);
@@ -40,7 +42,7 @@ void StackFrame::initLayout()
     isMainOnTop = true;
 }
 
-void StackFrame::connectAll()
+void StackFrame::initConnection()
 {
     connect(mainWidget->topWidget, SIGNAL(OnDoubleClick()),this, SLOT(toggleMaxRestoreStatus()));
 
@@ -71,6 +73,9 @@ void StackFrame::connectAll()
     connect(skinBoxWidget->btnPureColor12, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
 
     connect(skinBoxWidget, SIGNAL(signalSetCustomSkin(QString)),this,SLOT(SetSkin(QString)));
+
+    connect(this,SIGNAL(onFinalSkinNameChanged(QString)),
+            this->mainWidget->middleWidget->pagePreviewLyric->lyricViewer, SLOT(skinNameChanged(QString)));
 }
 
 void StackFrame::setBorderMain(int border)

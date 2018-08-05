@@ -57,6 +57,7 @@ bool Phonograph::isPlaying()
 void Phonograph::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
 
     QRect outerRect(0,0,this->width()-1,this->height()-1);
     painter.fillRect(outerRect, QBrush(backgroundColor));                   //绘制背景颜色
@@ -86,11 +87,14 @@ void Phonograph::paintEvent(QPaintEvent* event)
     painter.save();
 
     painter.scale(0.66,0.66);
-    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,AlbumCover);
+
+    QPixmap pix = AlbumCover.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,pix);
 
     painter.restore();
 
-    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,disk);
+    pix = disk.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,pix);
 
     painter.restore();      //恢复之前状态
 
@@ -101,7 +105,8 @@ void Phonograph::paintEvent(QPaintEvent* event)
     painter.translate(ArmRotatePoint);     //设置在整个控件上旋转点
     painter.rotate(currentArmAngle);
 
-    painter.drawPixmap( - rotatePointOfArm.x(), - rotatePointOfArm.y(), toneArmWidth, toneArmHeight, toneArm);
+    pix = toneArm.scaled(toneArmWidth, toneArmHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    painter.drawPixmap( - rotatePointOfArm.x(), - rotatePointOfArm.y(), toneArmWidth, toneArmHeight, pix);
 
     painter.restore();      //恢复之前状态
 

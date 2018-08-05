@@ -6,7 +6,7 @@ BoxPagePreviewLyric::BoxPagePreviewLyric(QWidget *parent)
 {
     setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 BoxPagePreviewLyric::~BoxPagePreviewLyric()
@@ -27,7 +27,7 @@ void BoxPagePreviewLyric::initLayout()
 
 }
 
-void BoxPagePreviewLyric::connectAll()
+void BoxPagePreviewLyric::initConnection()
 {
 
 }
@@ -39,4 +39,16 @@ void BoxPagePreviewLyric::resizeEvent(QResizeEvent *event)
     QRect leftWidgetRect = QRect(5 ,5,this->height()-2*5, this->height()-2*5);
 
     extendButton->setGeometry(leftWidgetRect);
+}
+
+
+void BoxPagePreviewLyric::changePic(QPixmap pic)
+{
+    extendButton->SetPixmap(pic);
+}
+
+
+void BoxPagePreviewLyric::setToDefaultPic()
+{
+    extendButton->SetToDefaultPixmap();
 }

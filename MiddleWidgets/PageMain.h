@@ -19,7 +19,8 @@ public:
     ~PageMain();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
+
 
 public:
     QWidget*                leftBoardMainPage;

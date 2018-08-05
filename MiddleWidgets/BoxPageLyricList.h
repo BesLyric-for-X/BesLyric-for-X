@@ -12,7 +12,7 @@ public:
     ~BoxPageLyricList();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
 public:
     QWidget* widgetMainLyricList;

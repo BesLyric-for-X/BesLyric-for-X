@@ -12,7 +12,7 @@ public:
     ~PageLyricList();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
 public:
 

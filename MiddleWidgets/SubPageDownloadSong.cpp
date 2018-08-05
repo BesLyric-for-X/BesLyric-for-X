@@ -5,7 +5,7 @@ SubPageDownloadSong::SubPageDownloadSong(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 SubPageDownloadSong::~SubPageDownloadSong()
@@ -18,7 +18,7 @@ void SubPageDownloadSong::initLayout()
 
 }
 
-void SubPageDownloadSong::connectAll()
+void SubPageDownloadSong::initConnection()
 {
 
 }

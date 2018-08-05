@@ -5,7 +5,7 @@ SubPageDownloadLyric::SubPageDownloadLyric(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 SubPageDownloadLyric::~SubPageDownloadLyric()
@@ -18,7 +18,7 @@ void SubPageDownloadLyric::initLayout()
 
 }
 
-void SubPageDownloadLyric::connectAll()
+void SubPageDownloadLyric::initConnection()
 {
 
 }

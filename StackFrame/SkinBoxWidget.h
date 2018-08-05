@@ -120,7 +120,7 @@ public:
     ~SkinBoxWidget();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
     void initSliderGrooveColor(); //初始化滑动器的槽的颜色
     void signalToCustomSkin();    //发信号切换为自定义的颜色皮肤

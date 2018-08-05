@@ -16,7 +16,7 @@ public:
     ~TopWidget();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
 virtual void mouseDoubleClickEvent(QMouseEvent* event){Q_UNUSED(event);emit(OnDoubleClick());}
 

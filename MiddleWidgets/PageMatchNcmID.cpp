@@ -5,7 +5,7 @@ PageMatchNcmID::PageMatchNcmID(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 PageMatchNcmID::~PageMatchNcmID()
@@ -18,7 +18,7 @@ void PageMatchNcmID::initLayout()
 
 }
 
-void PageMatchNcmID::connectAll()
+void PageMatchNcmID::initConnection()
 {
 
 }

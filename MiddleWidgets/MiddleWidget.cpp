@@ -6,7 +6,7 @@ MiddleWidget::MiddleWidget(QWidget *parent)
     this->setMouseTracking(true);
     initLayout();
     initAnimation();
-    connectAll();
+    initConnection();
 }
 
 MiddleWidget::~MiddleWidget()
@@ -25,7 +25,7 @@ void MiddleWidget::initLayout()
     pageMain->raise();
 }
 
-void MiddleWidget::connectAll()
+void MiddleWidget::initConnection()
 {
     connect(pageMain->boxPagePreviewLyric->extendButton, &QPushButton::clicked, [=](){
         switchPage(0,1); });

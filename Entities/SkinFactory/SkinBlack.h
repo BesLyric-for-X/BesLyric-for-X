@@ -20,9 +20,14 @@ protected:
         //label、button 相关
         fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
+        DeepLabelColor             ="#ffffff";
         titleColor                 ="#ffffff                                     ";
-        defaultButtonColorNormal    ="#909090";
-        defaultButtonColorHover     ="#f0f0f0";
+        defaultButtonColorNormal    ="#e0e0e0";
+        defaultButtonColorHover     ="#ffffff";
+        defaultButtonBgColorNormal ="rgba(100, 100, 100, 100)";
+        defaultButtonBgColorHover ="rgba(100, 100, 100, 150)";
+        defaultButtonDisableColor  ="#454545";
+        defaultButtonDisableBgColor="#222222";
 
         playBgColor                ="#222222                                     ";
         playHoverColor             ="#222222                                     ";
@@ -37,6 +42,7 @@ protected:
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
+        btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_black.png";
     }
 
 };

@@ -15,14 +15,19 @@ protected:
         leftboardBorderColor       ="rgba(33, 33, 33, 33)                        ";
         bottomContainerColor       ="#f6f6f8                                     ";
         bottomContainerBorderColor ="rgba(33, 33, 33, 33)                        ";
-        subPageContainerColor      ="#ffffff                                     ";
+        subPageContainerColor      ="rgb(250, 250, 250)        ";
 
         //label、button 相关
         fontFamily                 ="Microsoft YaHei                             ";
-        defautlLabelColor          ="#000000                                     ";
+        defautlLabelColor          ="#111111                                     ";
+        DeepLabelColor             ="#000000";
         titleColor                 ="#ffffff                                     ";
-        defaultButtonColorNormal    ="#5c5c5c";
+        defaultButtonColorNormal    ="#202020";
         defaultButtonColorHover     ="#000000";
+        defaultButtonBgColorNormal ="rgba(255, 255, 255, 200)";
+        defaultButtonBgColorHover ="rgba(240, 240, 240, 200)";
+        defaultButtonDisableColor  ="#bbbbbb";
+        defaultButtonDisableBgColor="rgba(250, 250, 250, 220)";
 
         playBgColor                ="#e83c3c                                     ";
         playHoverColor             ="#c62f2f                                     ";
@@ -36,6 +41,12 @@ protected:
         btnLyricImage              =":/resource/image/btn_close_normal_white.png";
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
+
+        btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_white.png";
+
+        //QSlider
+        baseColor                 ="#CC0033";
+        baseColorLighter          ="#ff3344";
     }
 
 };

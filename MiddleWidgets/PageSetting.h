@@ -12,7 +12,7 @@ public:
     ~PageSetting();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
 public:
 

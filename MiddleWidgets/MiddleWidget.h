@@ -21,7 +21,7 @@ public:
 
 
     void initLayout();
-    void connectAll();
+    void initConnection();
     void initAnimation();
 
     void AnimateFromRectToRect(QWidget* widget, QRect fromRect, QRect toRect);

@@ -12,16 +12,18 @@ class ExtendButton: public BesButton
 public:
     ExtendButton(QWidget *parent = nullptr):BesButton(parent),m_bHover(false)
     {
-        image = QPixmap(":/resource/image/AlbumCover1.jpg");
         extendMark = QPixmap(":/resource/image/extend.png");
+        SetToDefaultPixmap();
     }
 
-    void SetPixmap(QPixmap img){image = img;}
+    void SetPixmap(QPixmap img){image = img;update();}
+    void SetToDefaultPixmap(){image = QPixmap(":/resource/image/AlbumCover1.jpg");update();}
 
 protected:
     virtual void paintEvent(QPaintEvent* event)
     {
         QPainter painter(this);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
 
         QRect outerRect(0,0,this->width()-1,this->height()-1);
         painter.drawPixmap(outerRect, image);
@@ -55,7 +57,12 @@ public:
     ~BoxPagePreviewLyric();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
+
+public slots:
+    void changePic(QPixmap pic);
+
+    void setToDefaultPic();
 
 protected:
 

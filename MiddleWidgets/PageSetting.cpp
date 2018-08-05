@@ -5,7 +5,7 @@ PageSetting::PageSetting(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 PageSetting::~PageSetting()
@@ -18,7 +18,7 @@ void PageSetting::initLayout()
 
 }
 
-void PageSetting::connectAll()
+void PageSetting::initConnection()
 {
 
 }

@@ -13,7 +13,7 @@ SkinBoxWidget::SkinBoxWidget(QWidget *parent)
     BesShadowWidget::SetBackgroundColor(QColor(0,0,0,0));
 
     initLayout();
-    connectAll();
+    initConnection();
     initSliderGrooveColor();
 }
 
@@ -221,7 +221,7 @@ void SkinBoxWidget::initLayout()
     vMainLayout->addLayout(skinStack);
 }
 
-void SkinBoxWidget::connectAll()
+void SkinBoxWidget::initConnection()
 {
     connect(btnTheme,&QPushButton::clicked,[=](){skinStack->setCurrentIndex(0);});
     connect(btnPureColor,&QPushButton::clicked,[=](){skinStack->setCurrentIndex(1);});

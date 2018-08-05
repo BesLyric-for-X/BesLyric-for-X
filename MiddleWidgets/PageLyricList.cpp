@@ -5,7 +5,7 @@ PageLyricList::PageLyricList(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 PageLyricList::~PageLyricList()
@@ -18,7 +18,7 @@ void PageLyricList::initLayout()
 
 }
 
-void PageLyricList::connectAll()
+void PageLyricList::initConnection()
 {
 
 }

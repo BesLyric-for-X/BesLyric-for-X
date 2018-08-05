@@ -12,7 +12,7 @@ public:
     ~PageMatchNcmID();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
 public:
 

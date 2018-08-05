@@ -17,6 +17,8 @@ public:
         cssContent += GetQLabelCss();
         cssContent += GetQPushButtonCss();
         cssContent += GetQSliderCss();
+        cssContent += GetQEditCss();
+        cssContent += GetQScrollBarCss();
 
         return cssContent;
     }
@@ -59,11 +61,20 @@ private:
         "QWidget#widgetMainPreviewLyric, QWidget#widgetMainLyricList"
         "{"
             "border:1px solid "+leftboardBorderColor+";"
+                "border-bottom:0px;"
         "}"
-//        "QWidget#widgetMainPreview"
-//        "{"
-//            " background-color:#ffffff;"
-//        "}"
+        "QWidget#scrollLyricPanel"
+        "{"
+             "margin-right:10px;"
+             "border-right: 1px solid rgba(100,100,100,25%);"
+        "}"
+        "QWidget#widgetLyricBoard"
+        "{"
+            "background-color:rgba(150,150,150,2%);"
+             "border: 1px solid rgba(150,150,150,15%);"
+        "}"
+
+
 
         ;
 
@@ -85,6 +96,34 @@ private:
             "color:rgba(88, 88, 88, 88);"
             "font-size:20px;"
         "}"
+
+                                "QLabel#labelLine2{"
+                                 "color:"+DeepLabelColor+";"
+                                    "font-size:18px;"
+                                "}"
+                                "QLabel#labelCurrenLineEmptyTip{"
+                                    "background:rgba(77, 77, 77, 10);"
+                                   " border:1px solid "+defautlLabelColor+";"
+                                "}"
+
+
+
+
+        "QLabel#labelPreviewTitle{"
+            "color:"+DeepLabelColor+";"
+            "font-size:24px;"
+        "}"
+
+                                "QLabel#labelPreviewSongTip, QLabel#labelPreviewLyricTip{"
+                                    "color:"+defautlLabelColor+";"
+                                "}"
+
+                                "QLabel#labelPreviewSongPath, QLabel#labelPreviewLyricPath{"
+                                    "color:"+DeepLabelColor+";"
+                                "}"
+
+
+
          ;
         return str;
     }
@@ -95,20 +134,17 @@ private:
         QString str =
 
 "               QPushButton{"
-"                   border-style: solid;"
-"                   border: 2px;"
+        "border:1px solid "+leftboardBorderColor+";"
+"                   border-radius:5px;"
 "                   color:"+defaultButtonColorNormal+";"
 "                   padding: 3px;"
 "                   max-height: 120px;"
-"                   border-radius:5px;"
-"                   background: #353943;"
+"                   background:"+defaultButtonBgColorNormal+";"
 "               }"
-
 "               QPushButton:hover{"
 "                   color: "+defaultButtonColorHover+";"
-"                   background: #464952;"
+"                   background:"+defaultButtonBgColorHover+";"
 "               }"
-
 "               QPushButton:checked{"
 "                   color: "+defaultButtonColorHover+";"
 "               }"
@@ -117,6 +153,10 @@ private:
 "                   color: "+defaultButtonColorHover+";"
 "               }"
 
+"               QPushButton:disabled{"
+"                   color:"+defaultButtonDisableColor+";"
+"                   background: "+defaultButtonDisableBgColor+";"
+"               }"
                /* 标题栏上的按钮样式 */
 "               QPushButton#btnIcon"
 "               {"
@@ -264,7 +304,7 @@ private:
 "                   background-color:"+playBgColor+";"
 "                   border-style:solid;"
 "                   border-color:"+playBorderColor+";"
-"                   background-image:url(\":/resource/image/btn_pause.png\");"
+"                   background-image:url(\":/resource/image/btn_play.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
 "               QPushButton#btnPreSong:hover{"
@@ -437,6 +477,9 @@ private:
                  "}"
 
                 "QPushButton#btnCheckMark{"
+"                border-style: solid;"
+"                border: 2px;"
+"                padding: 3px;"
                 "background-color: "+subPageContainerColor+";"
                 "width: 30px;"
                 "height:30px;"
@@ -446,6 +489,13 @@ private:
                 "border-image:url(\":/resource/image/mark_skin_select.png\");"
                  "}"
 
+                "QPushButton#btnPackupLyricBox{"
+                 "image:url(\""+btnPackbackToBoxImg +"\");"
+                "border:1px solid "+leftboardBorderColor+";"
+                "width: 42px;"
+                "height:32px;"
+                "padding:0px;"
+                "}"
 
               ;
 
@@ -467,7 +517,7 @@ private:
 "                QSlider#sliderSong::sub-page:horizontal {"
 "                    height: 6px;"
 "                    border-radius: 2px;"
-"                    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
+"                    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 "+baseColorLighter+", stop:1 "+baseColor+");"
 "                }"
                 /* 拖动块部分 */
 "                QSlider#sliderSong::handle:horizontal {"
@@ -476,11 +526,11 @@ private:
 "                    margin-bottom: -5px;"
 "                    border-radius: 7px;"
 "                    border: 1px solid #cccccc;"
-"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 #CC0033, stop:0.4 #fefefe);"
+"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 "+baseColor+", stop:0.4 #fefefe);"
 "                }"
 "                QSlider#sliderSong::handle:horizontal:hover {"
 "                    border: 1px solid #aaaaaa;"
-"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.3 #CC0033, stop:0.45 #fefefe);"
+"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.3 "+baseColor+", stop:0.45 #fefefe);"
 "                }"
                 /* 滑块器样式 */
                 /* groove 滑块器槽 */
@@ -493,7 +543,7 @@ private:
 "                QSlider#sliderSound::sub-page:horizontal {"
 "                    height: 4px;"
 "                    border-radius: 1px;"
-"                    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #ff3344, stop:1 #CC0033);"
+"                    background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 "+baseColorLighter+", stop:1 "+baseColor+");"
 "                }"
                 /* 拖动块部分 */
 "                QSlider#sliderSound::handle:horizontal {"
@@ -502,11 +552,11 @@ private:
 "                    margin-bottom: -3px;"
 "                    border-radius: 5px;"
 "                    border: 1px solid #cccccc;"
-"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 #CC0033, stop:0.4 #fefefe);"
+"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 "+baseColor+", stop:0.4 #fefefe);"
         "                }"
 "                QSlider#sliderSound::handle:horizontal:hover {"
 "                    border: 1px solid #aaaaaa;"
-"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.3 #CC0033, stop:0.45 #fefefe);"
+"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.3 "+baseColor+", stop:0.45 #fefefe);"
 "                }"
 
 "                QSlider#SliderHue::groove:horizontal,QSlider#SliderLightness::groove:horizontal {"
@@ -534,6 +584,83 @@ private:
     }
 
 
+    QString GetQEditCss()
+    {
+        QString str =
+        "QLineEdit{"
+               "color:"+DeepLabelColor+";"
+               " border: 1px solid rgba(40, 20, 20,50); "
+                "   background: rgba(222, 222, 222,35); "
+                "   selection-background-color: green;"
+        "}";
+
+        return str;
+    }
+
+
+    QString GetQScrollBarCss()
+    {
+
+        QString str =
+
+"QScrollBar:vertical"
+"{"
+"    width:10px;"
+"    background:rgba(0,0,0,0%);"
+"    margin:0px,0px,0px,0px;"
+"    padding-top:0px;"   // 留出0px给上面和下面的箭头
+"    padding-bottom:0px;"
+"}"
+"QScrollBar::handle:vertical"
+"{"
+"    width:10px;"
+"    background:rgba(100,100,100,25%);"
+"    border-radius:5px;"   // 滚动条两端变成椭圆
+"    min-height:20;"
+"}"
+"QScrollBar::handle:vertical:hover"
+"{"
+"    width:10px;"
+"    background:rgba(100,100,100,50%);"   // 鼠标放到滚动条上的时候，颜色变深
+"    border-radius:5px;"
+"    min-height:20;"
+"}"
+
+"QScrollBar::add-line:vertical "  // 这个应该是设置下箭头的，3.png就是箭头
+"{"
+"    height:11px;width:10px;"
+"    border-image:url(:/images/a/3.png);"
+"    subcontrol-position:bottom;"
+"}"
+
+"QScrollBar::sub-line:vertical"   // 设置上箭头
+"{"
+"    height:11px;width:10px;"
+"    border-image:url(:/images/a/1.png);"
+"    subcontrol-position:top;"
+"}"
+"QScrollBar::add-line:vertical:hover"   // 当鼠标放到下箭头上的时候
+"{"
+"    height:11px;width:10px;"
+"    border-image:url(:/images/a/4.png);"
+"    subcontrol-position:bottom;"
+"}"
+"QScrollBar::sub-line:vertical:hover"  // 当鼠标放到下箭头上的时候
+"{"
+"    height:11px;width:10px;"
+"    border-image:url(:/images/a/2.png);"
+"    subcontrol-position:top;"
+"}"
+"QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical"   // 当滚动条滚动的时候，上面的部分和下面的部分
+"{"
+"    background:rgba(0,0,0,0%);"
+"    border-radius:5px;"
+"}";
+
+    return str;
+    }
+
+
     void setDefaultParameter()
     {
         //容器相关
@@ -549,8 +676,13 @@ private:
         //label、button 相关
         fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
+        DeepLabelColor             ="#ffffff";
         defaultButtonColorNormal    ="#909090";
         defaultButtonColorHover     ="#f0f0f0";
+        defaultButtonBgColorNormal ="rgba(100, 100, 100, 100)";
+        defaultButtonBgColorHover ="rgba(100, 100, 100, 150)";
+        defaultButtonDisableColor  ="#454545";
+        defaultButtonDisableBgColor="#222222";
 
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
@@ -566,6 +698,11 @@ private:
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
+        btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_black.png";
+
+        //QSlider
+        baseColor                 ="#CC0033";
+        baseColorLighter          ="#ff3344";
     }
 
 protected:
@@ -580,7 +717,9 @@ protected:
     QString subPageContainerColor;      //#16181c
     QString PopWindowBgColor;           //#343638
 
+    //label、button 相关
     QString defautlLabelColor;          //#909090
+    QString DeepLabelColor;             //#ffffff
     QString titleColor;                 //#ffffff
     QString playBgColor;                //#222222
     QString playHoverColor;             //#222222
@@ -597,6 +736,17 @@ protected:
 
     QString defaultButtonColorNormal;   //#909090
     QString defaultButtonColorHover;    //#f0f0f0
+    QString defaultButtonBgColorNormal;
+    QString defaultButtonBgColorHover;
+    QString defaultButtonDisableColor;
+    QString defaultButtonDisableBgColor;
+
+    QString btnPackbackToBoxImg;        //":/resource/image/btn_pack_back_to_box_black.png"
+
+    //QSlider
+    QString baseColor;                  //#CC0033
+    QString baseColorLighter;           //#ff3344
+
 
 };
 

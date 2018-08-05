@@ -31,12 +31,20 @@ public:
     ~PagePreviewLyric();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
     void calcNewBackgroundImage(QPixmap pixmap);         //开线程计算并设置新的背景图片
 
     void setWheterToUseBlackMask(bool);                  //设置是否使用黑色mask图层
+
 public slots:
+    void playPhonagraph();
+    void stopPhonagraph();
+    void AlbumImageChanged(QPixmap newPixmap);
+
+    void setToDefaultAlbumImage();
+
+private slots:
     void setNewBackgroundPixmap(QPixmap newPixmap);
 
 protected:
@@ -56,6 +64,7 @@ public:
     QPixmap  blackMaskImage;            //黑色的过滤图片
 
     bool useBlackMask;                  //标记是否使用黑色的mask图层
+
 };
 
 #endif // PAGEPREVIEWLYRIC_H

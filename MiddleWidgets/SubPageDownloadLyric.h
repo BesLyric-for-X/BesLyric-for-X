@@ -12,7 +12,7 @@ public:
     ~SubPageDownloadLyric();
 
     void initLayout();
-    void connectAll();
+    void initConnection();
 
 public:
 

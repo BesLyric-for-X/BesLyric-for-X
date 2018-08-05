@@ -5,7 +5,7 @@ BoxPageLyricList::BoxPageLyricList(QWidget *parent)
     : QWidget(parent)
 {
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 BoxPageLyricList::~BoxPageLyricList()
@@ -23,7 +23,7 @@ void BoxPageLyricList::initLayout()
     layoutMain->addWidget(widgetMainLyricList);
 }
 
-void BoxPageLyricList::connectAll()
+void BoxPageLyricList::initConnection()
 {
 
 }

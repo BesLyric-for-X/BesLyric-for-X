@@ -1,3 +1,10 @@
+#Visual-Studio-IDE-Related
+.vs
+Win32
+debug
+release
+*.vcxproj*
+
 # C++ objects and libs
 *.slo
 *.lo

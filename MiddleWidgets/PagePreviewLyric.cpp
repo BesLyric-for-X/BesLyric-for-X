@@ -16,7 +16,7 @@ QWidget(parent)
     this->setMouseTracking(true);
 
     initLayout();
-    connectAll();
+    initConnection();
 
     //初始化图片
     useBlackMask = true;
@@ -40,20 +40,20 @@ void PagePreviewLyric::initLayout()
     QHBoxLayout* hLayout = new QHBoxLayout(widgetMainPreview);
     hLayout->setMargin(0);
     phonagraph = new Phonograph(widgetMainPreview);
-    phonagraph->setMinimumSize(500,600);
-    phonagraph->setMaximumSize(500,600);
+    phonagraph->setMinimumSize(480,650);
+    phonagraph->setMaximumSize(480,650);
     phonagraph->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     lyricViewer = new LyricViewer(widgetMainPreview);
-    lyricViewer->setMinimumSize(500,600);
-    lyricViewer->setMaximumSize(500,600);
+    lyricViewer->setMinimumSize(550,650);
+    lyricViewer->setMaximumSize(550,650);
     lyricViewer->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     QVBoxLayout * rightVlayout = new QVBoxLayout();
     rightVlayout->setMargin(20);
     btnPackupLyricBox = new BesButton(widgetMainPreview);
     btnPackupLyricBox->setObjectName("btnPackupLyricBox");
-    btnPackupLyricBox->setMaximumSize(60,60);
+    btnPackupLyricBox->setMaximumSize(40,30);
     btnPackupLyricBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     rightVlayout->addWidget(btnPackupLyricBox);
     rightVlayout->addSpacerItem(new QSpacerItem(50,50,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
@@ -71,7 +71,7 @@ void PagePreviewLyric::initLayout()
     layoutMain->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
 }
 
-void PagePreviewLyric::connectAll()
+void PagePreviewLyric::initConnection()
 {
 
 }
@@ -95,6 +95,38 @@ void PagePreviewLyric::setWheterToUseBlackMask(bool useBlack)
     }
 }
 
+void PagePreviewLyric::playPhonagraph()
+{
+    phonagraph->play();
+}
+
+void PagePreviewLyric::stopPhonagraph()
+{
+    phonagraph->stop();
+}
+
+void PagePreviewLyric::AlbumImageChanged(QPixmap newPixmap)
+{
+    phonagraph->setAlbumCover(QPixmap(newPixmap));
+    calcNewBackgroundImage(QPixmap(newPixmap));
+}
+
+void PagePreviewLyric::setToDefaultAlbumImage()
+{
+    AlbumImageChanged(QPixmap(":/resource/image/AlbumCover1.jpg"));
+
+//    //两张默认封面来回交替设置
+//    static bool flag = true;
+
+//    if(flag)
+//        AlbumImageChanged(QPixmap(":/resource/image/AlbumCover1.jpg"));
+//    else
+//        AlbumImageChanged(QPixmap(":/resource/image/AlbumCover2.jpg"));
+
+//    flag = !flag;
+}
+
+
 void PagePreviewLyric::setNewBackgroundPixmap(QPixmap newPixmap)
 {
     blurbackgroudImage = newPixmap;
@@ -104,26 +136,6 @@ void PagePreviewLyric::setNewBackgroundPixmap(QPixmap newPixmap)
 
 void PagePreviewLyric::mousePressEvent(QMouseEvent* event)
 {
-    static bool flag = true;
-     if(phonagraph->isPlaying())
-         phonagraph->stop();
-     else
-     {
-         if(flag)
-         {
-            phonagraph->setAlbumCover(QPixmap(":/resource/image/AlbumCover2.jpg"));
-            calcNewBackgroundImage(QPixmap(":/resource/image/AlbumCover2.jpg"));
-
-         }else
-         {
-             phonagraph->setAlbumCover(QPixmap(":/resource/image/AlbumCover1.jpg"));
-             calcNewBackgroundImage(QPixmap(":/resource/image/AlbumCover1.jpg"));
-         }
-         flag = !flag;
-
-         phonagraph->play();
-     }
-
      QWidget::mousePressEvent(event);
 }
 

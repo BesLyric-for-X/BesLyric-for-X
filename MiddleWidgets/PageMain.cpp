@@ -8,7 +8,7 @@ PageMain::PageMain(QWidget *parent)
 {
     this->setMouseTracking(true);
     initLayout();
-    connectAll();
+    initConnection();
 }
 
 PageMain::~PageMain()
@@ -89,7 +89,7 @@ void PageMain::initLayout()
     hLayoutMain->addWidget(subPageContainer);
 }
 
-void PageMain::connectAll()
+void PageMain::initConnection()
 {
 
 }

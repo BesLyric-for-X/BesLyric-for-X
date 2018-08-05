@@ -16,7 +16,17 @@ public:
 
     void initEntity();      //初始化实体
     void initLayout();
-    void connectAll();
+    void initConnection();
+
+    bool keyPress(QKeyEvent  *event);
+
+public slots:
+
+    //载入lrc歌词，并且播放当前歌曲来预览
+    void onLoadLrcLyricAndSwitchToPreview(QString lycLyricPath);
+
+    //从预览页面卸下歌词
+    void onUnloadLyricFromPreviewPage();
 
 public:
     TopWidget*      topWidget;

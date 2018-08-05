@@ -67,5 +67,7 @@
         <file>resource/image/album_background_black_mask.png</file>
         <file>resource/image/album_background_white_mask.png</file>
         <file>resource/image/default_preview_background.png</file>
+        <file>resource/image/btn_pack_back_to_box_black.png</file>
+        <file>resource/image/btn_pack_back_to_box_white.png</file>
     </qresource>
 </RCC>

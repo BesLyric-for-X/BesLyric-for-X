@@ -47,7 +47,8 @@ SOURCES += main.cpp \
 
 HEADERS  += \
     global.h \
-    StackFrame.h
+    StackFrame.h \
+    MyApplication.h
 
 DISTFILES +=
 
