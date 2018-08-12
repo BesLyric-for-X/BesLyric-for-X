@@ -54,12 +54,12 @@ void SkinBoxWidget::initLayout()
     layoutButtons->addSpacerItem(new QSpacerItem(20,25,
                               QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     //
-    btnBlack = new ButtonTheme(themeContainer, new QImage(":/resource/image/酷炫黑.png"),"black",tr("酷炫黑"),QColor("#555555"));
-    btnRed = new ButtonTheme(themeContainer, new QImage(":/resource/image/官方红.png"),"red",tr("官方红"),QColor("#e83c3c"));
-    btnPink = new ButtonTheme(themeContainer, new QImage(":/resource/image/可爱粉.png"),"pink",tr("可爱粉"),QColor("#ff87b4"));
-    btnBlue = new ButtonTheme(themeContainer, new QImage(":/resource/image/天际蓝.png"),"blue",tr("天际蓝"),QColor("#66b7ff"));
-    btnGreen = new ButtonTheme(themeContainer, new QImage(":/resource/image/清新绿.png"),"green",tr("清新绿"),QColor("#5dc78a"));
-    btnGold = new ButtonTheme(themeContainer, new QImage(":/resource/image/土豪金.png"),"gold",tr("土豪金"),QColor("#faac62"));
+    btnBlack = new ButtonTheme(themeContainer, new QImage(":/resource/image/black.png"),"black",tr("酷炫黑"),QColor("#555555"));
+    btnRed = new ButtonTheme(themeContainer, new QImage(":/resource/image/red.png"),"red",tr("官方红"),QColor("#e83c3c"));
+    btnPink = new ButtonTheme(themeContainer, new QImage(":/resource/image/pink.png"),"pink",tr("可爱粉"),QColor("#ff87b4"));
+    btnBlue = new ButtonTheme(themeContainer, new QImage(":/resource/image/blue.png"),"blue",tr("天际蓝"),QColor("#66b7ff"));
+    btnGreen = new ButtonTheme(themeContainer, new QImage(":/resource/image/green.png"),"green",tr("清新绿"),QColor("#5dc78a"));
+    btnGold = new ButtonTheme(themeContainer, new QImage(":/resource/image/gold.png"),"gold",tr("土豪金"),QColor("#faac62"));
 
     btnBlack->setMinimumSize(116,116);
     btnBlack->setMaximumSize(116,116);

@@ -8,12 +8,12 @@
         <file>resource/image/key_up.png</file>
         <file>resource/image/netease_cloudmusic_32px.ico</file>
         <file>resource/image/netease_cloudmusic_48px.ico</file>
-        <file>resource/image/官方红.png</file>
-        <file>resource/image/可爱粉.png</file>
-        <file>resource/image/酷炫黑.png</file>
-        <file>resource/image/清新绿.png</file>
-        <file>resource/image/天际蓝.png</file>
-        <file>resource/image/土豪金.png</file>
+        <file>resource/image/red.png</file>
+        <file>resource/image/pink.png</file>
+        <file>resource/image/black.png</file>
+        <file>resource/image/green.png</file>
+        <file>resource/image/blue.png</file>
+        <file>resource/image/gold.png</file>
         <file>resource/css/red.css</file>
         <file>resource/css/black.css</file>
         <file>resource/image/add_list_hover_black.png</file>
