@@ -11,20 +11,20 @@ SOURCES+=\
 win32{
 
 #根据开发者自己 ffmpeg 和 sdl 库路径，可对如下路径进行修改，不过建议 库安装在 C:/lib 下，
-#   具体使用步骤，可参看项目： https://github.com/BensonLaur/beslyic-lib
+#   具体使用步骤，可参看项目： https://github.com/BensonLaur/beslyric-lib
 
 #ffmpeg
 
-FFMPEG_INCLUDE  =   C:/lib/beslyic-lib/win32/ffmpeg_4_0_1/include
-FFMPEG_LIB      =   C:/lib/beslyic-lib/win32/ffmpeg_4_0_1/lib
+FFMPEG_INCLUDE  =   C:/lib/beslyric-lib/win32/ffmpeg_4_0_1/include
+FFMPEG_LIB      =   C:/lib/beslyric-lib/win32/ffmpeg_4_0_1/lib
 
 #sdl
 
-SDL_INCLUDE     =   C:/lib/beslyic-lib/SDL_2_0_3/include
-SDL_LIB         =   C:/lib/beslyic-lib/SDL_2_0_3/lib
+SDL_INCLUDE     =   C:/lib/beslyric-lib/SDL_2_0_3/include
+SDL_LIB         =   C:/lib/beslyric-lib/SDL_2_0_3/lib
 
 #other
-OTHER_INCLUDE   =   C:/lib/beslyic-lib/win32/include
+OTHER_INCLUDE   =   C:/lib/beslyric-lib/win32/include
 
 INCLUDEPATH +=  $$FFMPEG_INCLUDE \
                 $$SDL_INCLUDE \
@@ -46,15 +46,15 @@ LIBS += -L$$FFMPEG_LIB/ -lavcodec\
 
 unix{
 #根据开发者自己 ffmpeg 和 sdl 库路径，可对如下路径进行修改，不过建议 库安装在 /usr/local/ 下，
-#   具体使用步骤，可参看项目： https://github.com/BensonLaur/beslyic-lib
+#   具体使用步骤，可参看项目： https://github.com/BensonLaur/beslyric-lib
 
 # ffmpeg
 FFMPEG_INCLUDE  = /usr/local/include
 FFMPEG_LIB      = /usr/local/lib
 
 #sdl
-SDL_INCLUDE     = /usr/local/beslyic-lib/SDL_2_0_3/include
-SDL_LIB         = /usr/local/beslyic-lib/SDL_2_0_3/lib
+SDL_INCLUDE     = /usr/local/beslyric-lib/SDL_2_0_3/include
+SDL_LIB         = /usr/local/beslyric-lib/SDL_2_0_3/lib
 
 INCLUDEPATH +=  $$FFMPEG_INCLUDE \
                 $$SDL_INCLUDE \
