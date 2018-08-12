@@ -23,6 +23,13 @@ MacOs:
 
 ## 开发说明
 
-1、clone 本项目
+#### 开发环境
+
+IDE: QT Creator 5.7.1
+
+#### 开发准备
+
+1、本项目为项目主体，clone 本项目到本地使用 Qt Creator 开发
 
 2、本项目使用跨平台开源库 ffmpeg 解析播放音频文件，考虑到更新ffmpeg的灵活性 以及 跨平台要求的特性，Beslyric-for-X 中在使用 ffmpeg 时，不直接将其置于项目下，而是开发者在对应的平台上各自独立单独安装。具体开发说明置于 [beslyic-lib](https://github.com/BensonLaur/beslyic-lib) 项目中。
+
