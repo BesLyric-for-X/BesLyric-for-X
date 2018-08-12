@@ -67,6 +67,6 @@ LIBS += $$FFMPEG_LIB/libavcodec.so      \
         $$FFMPEG_LIB/libswresample.so   \
         $$FFMPEG_LIB/libswscale.so      \
         #$$FFMPEG_LIB/libpostproc.so    \
-        -L$$PSDL_LIB/ -lSDL2main        \   #can't be $$PSDL_LIB/ -lSDL2main, must be -L$$PSDL_LIB/ -lSDL2main
+        -L$$SDL_LIB/ -lSDL2main        \   #can't be $$PSDL_LIB/ -lSDL2main, must be -L$$PSDL_LIB/ -lSDL2main
         -L$$SDL_LIB/ -lSDL2
 }
