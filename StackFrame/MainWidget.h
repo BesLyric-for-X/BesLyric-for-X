@@ -28,6 +28,10 @@ public slots:
     //从预览页面卸下歌词
     void onUnloadLyricFromPreviewPage();
 
+    //音乐位置发生改变(本来不想不同模块的逻辑理想下放在各个模块内，通过消息连接起来感觉分离比较好
+    // 不过 cpu 占用过高可能是 消息太多导致)
+    void musicPositionChanged(int);
+
 public:
     TopWidget*      topWidget;
     MiddleWidget*   middleWidget;

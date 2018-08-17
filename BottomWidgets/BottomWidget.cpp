@@ -85,7 +85,7 @@ void BottomWidget::initEntity()
     posAdjust = 0;
 
     musicPlayer = new MusicPlayer(this);
-    musicPlayer->setNotifyInterval(50);
+    musicPlayer->setNotifyInterval(33);
 
     bInMakingMode = false;
 }
@@ -97,7 +97,6 @@ void BottomWidget::initConnection()
     connect(sliderSong,SIGNAL(sliderReleased()),this, SLOT(onSliderSongReleased()));
 
     connect(musicPlayer, SIGNAL(durationChanged(qint64)),this,SLOT(durationChanged(qint64)));
-    connect(musicPlayer, SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
     connect(musicPlayer,SIGNAL(volumeChanged(int)),this,SLOT(volumeChanged(int)));
 
     connect(btnPlayAndPause, &QPushButton::clicked,[=](){
@@ -221,10 +220,8 @@ void BottomWidget::durationChanged(qint64 duration)
 
 }
 
-void BottomWidget::positionChanged(qint64 position)
+void BottomWidget::positionChanged(int position)
 {
-    emit positionValueChanged(position);
-
     if(!AdjustingPos)
     {
         int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
@@ -238,8 +235,6 @@ void BottomWidget::positionChanged(qint64 position)
 
     QString timeLabel;
     timeLabel.sprintf("%.2d:%.2d.%.3d",m, s, ms);
-
-    emit positionTextChanged(timeLabel);
 
     labelTimeCurrent->setText(timeLabel);
 

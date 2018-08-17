@@ -49,50 +49,52 @@ void MainWidget::initLayout()
 
 void MainWidget::initConnection()
 {
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)), bottomWidget, SLOT(reloadMusic(QString)));
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                  middleWidget->pagePreviewLyric->lyricViewer, SLOT(setMusicPath(QString)));
+                                                 this, SLOT(onUnloadLyricFromPreviewPage()));
+
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                  this, SLOT(onUnloadLyricFromPreviewPage()));
+                                                 middleWidget->pagePreviewLyric, SLOT(setToDefaultAlbumImage()));
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                  middleWidget->pagePreviewLyric, SLOT(setToDefaultAlbumImage()));
+                                                 middleWidget->pagePreviewLyric->lyricViewer, SLOT(setMusicPath(QString)));
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                    middleWidget->pageMain->boxPagePreviewLyric, SLOT(setToDefaultPic()));
+                                                 middleWidget->pageMain->boxPagePreviewLyric, SLOT(setToDefaultPic()));
 
 
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onStartMaking()), bottomWidget, SLOT(playFromBegin()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onSeekBackward(quint64)), bottomWidget, SLOT(seekBackward(quint64)));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onPlayOrPauseMusic()), bottomWidget, SLOT(autoPlayOrPause()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onStopMusic()), bottomWidget, SLOT(stop()));
+    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
+                                                        bottomWidget, SLOT(reloadMusic(QString)));
+    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onStartMaking()),
+                                                        bottomWidget, SLOT(playFromBegin()));
+    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onSeekBackward(quint64)),
+                                                        bottomWidget, SLOT(seekBackward(quint64)));
+    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onPlayOrPauseMusic()),
+                                                        bottomWidget, SLOT(autoPlayOrPause()));
+    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onStopMusic()),
+                                                        bottomWidget, SLOT(stop()));
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(loadLrcLyricAndSwitchToPreview(QString))
-            ,this, SLOT(onLoadLrcLyricAndSwitchToPreview(QString)));
+                                                        ,this, SLOT(onLoadLrcLyricAndSwitchToPreview(QString)));
 
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onEnterMakingMode())
-            ,bottomWidget, SLOT(enterMakingMode()));
+                                                        ,bottomWidget, SLOT(enterMakingMode()));
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onExitMakingMode())
-                    ,bottomWidget, SLOT(exitMakingMode()));
+                                                        ,bottomWidget, SLOT(exitMakingMode()));
 
-
-    connect(bottomWidget, SIGNAL(positionTextChanged(QString)), middleWidget->pageMain->subPageMaking, SLOT(updatePosText(QString)));
-    connect(bottomWidget, SIGNAL(positionValueChanged(quint64)), middleWidget->pageMain->subPageMaking, SLOT(updatePos(quint64)));
-    connect(bottomWidget, SIGNAL(positionValueChanged(quint64)),
-            middleWidget->pagePreviewLyric->lyricViewer->scrollLyricPanel->lyricPanel, SLOT(higthLineLyricAtPos(quint64)));
+    connect(bottomWidget->musicPlayer, SIGNAL(positionChanged(int)),this, SLOT(musicPositionChanged(int)));
 
     connect(bottomWidget->musicPlayer, SIGNAL(titleFound(QString)),
-            middleWidget->pagePreviewLyric->lyricViewer, SLOT(setMusicTitle(QString)));
+                                            middleWidget->pagePreviewLyric->lyricViewer, SLOT(setMusicTitle(QString)));
     connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
-            middleWidget->pageMain->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
+                                            middleWidget->pageMain->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
     connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
-            middleWidget->pagePreviewLyric, SLOT(AlbumImageChanged(QPixmap)));
+                                            middleWidget->pagePreviewLyric, SLOT(AlbumImageChanged(QPixmap)));
     connect(bottomWidget->musicPlayer, SIGNAL(audioPlay()),
-             middleWidget->pagePreviewLyric, SLOT(playPhonagraph()));
+                                            middleWidget->pagePreviewLyric, SLOT(playPhonagraph()));
     connect(bottomWidget->musicPlayer, SIGNAL(audioPause()),
-             middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
+                                            middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
     connect(bottomWidget->musicPlayer, SIGNAL(audioFinish()),
-             middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
+                                            middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
 
     connect(bottomWidget->musicPlayer, SIGNAL(audioFinish()),
-            middleWidget->pageMain->subPageMaking, SLOT(finishMaking()));
+                                            middleWidget->pageMain->subPageMaking, SLOT(finishMaking()));
 
 }
 
@@ -158,3 +160,21 @@ void MainWidget::onUnloadLyricFromPreviewPage()
 {
      middleWidget->pagePreviewLyric->lyricViewer->setEmptyLyric();
 }
+
+//音乐位置发生改变
+void MainWidget::musicPositionChanged(int pos)
+{
+    //改变下方音乐条
+    bottomWidget->positionChanged(pos);
+
+    //改变制作歌词时的音乐时间
+    if(middleWidget->pageMain->subPageMaking->isMaking
+            && middleWidget->currentPage == 0)
+        middleWidget->pageMain->subPageMaking->updatePos(pos);
+
+    //改变预览歌词时的滚动状态
+    if( middleWidget->pagePreviewLyric->lyricViewer->isLyricValid()
+            && middleWidget->currentPage == 1)
+        middleWidget->pagePreviewLyric->lyricViewer->scrollLyricPanel->lyricPanel->higthLineLyricAtPos(pos);
+}
+

@@ -3,11 +3,56 @@
 #include <QHBoxLayout>
 #include "ImageFilter.h"
 
+//参考：https://blog.csdn.net/caoshangpa/article/details/62421334
+
+ThreadCalcBackgroundImage::~ThreadCalcBackgroundImage()
+{
+    // 请求终止
+    requestInterruption();
+    quit();
+    wait();
+}
 
 void ThreadCalcBackgroundImage::run()
 {
-    QPixmap newPixmap = ImageFilter::BlurImage(this->pixmapToDeal, 100, 80);
-    emit(ready(newPixmap));
+    // 是否请求终止
+    while (!isInterruptionRequested())
+    {
+        bool bPicFound = false;
+        QPixmap pixmapToDeal;
+
+        {
+            QMutexLocker locker(&m_mutex);
+            if(!vecPic.empty())
+            {
+                bPicFound = true;
+                pixmapToDeal = vecPic.back();
+                vecPic.clear();
+            }
+        }
+        // locker超出范围并释放互斥锁
+
+        if(bPicFound)
+        {
+            QPixmap newPixmap = ImageFilter::BlurImage(pixmapToDeal, 50, 80);
+
+            bPicFound = false;
+            {
+                QMutexLocker locker(&m_mutex);
+                if(vecPic.empty())      //在没有新图片需要计算时才发出图片,保证发出的总是最后一次计算
+                    emit(ready(newPixmap));
+            }
+            // locker超出范围并释放互斥锁
+        }
+        else
+            msleep(2000);
+    }
+}
+
+void ThreadCalcBackgroundImage::showPic(QPixmap pic)
+{
+    QMutexLocker locker(&m_mutex);
+    vecPic.push_back(pic);
 }
 
 PagePreviewLyric::PagePreviewLyric(QWidget *parent):
@@ -16,13 +61,9 @@ QWidget(parent)
     this->setMouseTracking(true);
 
     initLayout();
+    initEntity();
     initConnection();
-
-    //初始化图片
-    useBlackMask = true;
-    blurbackgroudImage = QPixmap(":/resource/image/default_preview_background.png");
-    whiteMaskImage = QPixmap(":/resource/image/album_background_white_mask.png");
-    blackMaskImage = QPixmap(":/resource/image/album_background_black_mask.png");
+    finishInit();
 }
 
 PagePreviewLyric::~PagePreviewLyric()
@@ -71,18 +112,31 @@ void PagePreviewLyric::initLayout()
     layoutMain->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
 }
 
+void PagePreviewLyric::initEntity()
+{
+    calPicThread = new ThreadCalcBackgroundImage(this);
+
+    //初始化图片
+    useBlackMask = true;
+    blurbackgroudImage = QPixmap(":/resource/image/default_preview_background.png");
+    whiteMaskImage = QPixmap(":/resource/image/album_background_white_mask.png");
+    blackMaskImage = QPixmap(":/resource/image/album_background_black_mask.png");
+
+}
+
 void PagePreviewLyric::initConnection()
 {
+    connect(calPicThread,SIGNAL(ready(QPixmap)),this,SLOT(setNewBackgroundPixmap(QPixmap)));
+}
 
+void PagePreviewLyric::finishInit()
+{
+    calPicThread->start(QThread::Priority::HighPriority);
 }
 
 void PagePreviewLyric::calcNewBackgroundImage(QPixmap pixmap)
 {
-    ThreadCalcBackgroundImage* thread = new ThreadCalcBackgroundImage(pixmap, this);
-
-    connect(thread,SIGNAL(ready(QPixmap)),this,SLOT(setNewBackgroundPixmap(QPixmap)));
-
-    thread->start();
+    calPicThread->showPic(pixmap);
 }
 
 //设置是否使用黑色mask图层

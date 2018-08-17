@@ -55,8 +55,7 @@ public slots:
     void finishMaking();    //结束制作
     void previewResult();   //点击了预览效果
 
-    void updatePosText(QString);
-    void updatePos(quint64);
+    void updatePos(int);
 
 
 private:
@@ -71,7 +70,7 @@ private:
     QString         pathOutputDir;
 
     LyricMaker      lyricMaker;
-    quint64         curAudioPos;        //当前歌曲播放到的位置
+    int             curAudioPos;        //当前歌曲播放到的位置
 
     bool            pathLoaded;         //标记路径是否被成功加载
     QString         pathResultLrcLyric; //生成的结果

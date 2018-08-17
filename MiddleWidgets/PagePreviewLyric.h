@@ -7,18 +7,25 @@
 #include "BesButton.h"
 #include "Phonograph.h"
 #include "LyricViewer.h"
+#include <QMutex>
+
 
 //计算背景的线程
 class ThreadCalcBackgroundImage:public QThread
 {
     Q_OBJECT
     public:
-        ThreadCalcBackgroundImage(QPixmap pixmap, QObject* parent):QThread(parent){pixmapToDeal = pixmap;}
+        ThreadCalcBackgroundImage(QObject* parent):QThread(parent){}
+        ~ThreadCalcBackgroundImage();
         virtual void run();
+
+        void showPic(QPixmap pic);
     signals:
         void ready(QPixmap pixmap);
+
 private:
-        QPixmap pixmapToDeal;
+        QMutex m_mutex;
+        QVector<QPixmap> vecPic;
 };
 
 //预览页面
@@ -31,7 +38,9 @@ public:
     ~PagePreviewLyric();
 
     void initLayout();
+    void initEntity();
     void initConnection();
+    void finishInit();
 
     void calcNewBackgroundImage(QPixmap pixmap);         //开线程计算并设置新的背景图片
 
@@ -65,6 +74,7 @@ public:
 
     bool useBlackMask;                  //标记是否使用黑色的mask图层
 
+    ThreadCalcBackgroundImage* calPicThread;  //计算图片的线程
 };
 
 #endif // PAGEPREVIEWLYRIC_H

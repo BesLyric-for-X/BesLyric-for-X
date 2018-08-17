@@ -561,16 +561,24 @@ void SubPageMaking::remaking()
     }
 }
 
-void SubPageMaking::updatePosText(QString timeStr)
+void SubPageMaking::updatePos(int pos)
 {
-    if(isMaking)
-        labelTimeTip->setText(timeStr);
-}
+	if (isMaking)
+	{
+		curAudioPos = pos;
 
-void SubPageMaking::updatePos(quint64 pos)
-{
-    if(isMaking)
-        curAudioPos = pos;
+		//计算时间字符串
+
+		int ms = pos % 1000;
+		pos = pos / 1000;
+		int s = pos % 60;
+		int m = pos / 60;
+
+		QString timeLabel;
+		timeLabel.sprintf("%.2d:%.2d.%.3d", m, s, ms);
+
+		labelTimeTip->setText(timeLabel);
+	}
 }
 
 //初始化制作歌词的过程

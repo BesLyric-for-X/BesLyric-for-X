@@ -4,6 +4,7 @@ Win32
 debug
 release
 *.vcxproj*
+*.sln
 
 # C++ objects and libs
 *.slo

@@ -23,11 +23,13 @@ Phonograph::Phonograph(QWidget* parent):QWidget(parent),
     connect(timerDisk,SIGNAL(timeout()),this,SLOT(updateAngleOfDisk()));
     connect(timerArm,SIGNAL(timeout()),this,SLOT(updateAngleOfArm()));
 
+    initPaintingData(true);
 }
 
 void Phonograph::setAlbumCover(QPixmap cover)
 {
     AlbumCover = cover;
+    initPaintingData(false);
 }
 
 void Phonograph::play()
@@ -66,13 +68,9 @@ void Phonograph::paintEvent(QPaintEvent* event)
 ////////////////////////////////////////////////////////////////////
 
     //绘制相关参数计算
-    int albumWidth = 400;
-    int albumHeight = 400;
     QPoint albumBase(this->width()/2-albumWidth/2, YoffsetOfDisk);                      //唱片左上角位置
     QPoint albumCenter(albumBase.x() + albumWidth/2, albumBase.y() + albumHeight/2);    //唱片中心点位置
 
-    int toneArmWidth = 200;
-    int toneArmHeight = 100;
     QPoint rotatePointOfArm(20,20);                 //唱臂图片上旋转的点
     QPoint ArmRotatePoint(this->width()/2, 0);      //唱臂在整个控件中旋转的点
 
@@ -88,13 +86,11 @@ void Phonograph::paintEvent(QPaintEvent* event)
 
     painter.scale(0.66,0.66);
 
-    QPixmap pix = AlbumCover.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,pix);
+    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,picAlumCover);
 
     painter.restore();
 
-    pix = disk.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,pix);
+    painter.drawPixmap(- albumWidth/2, - albumHeight/2,albumWidth, albumHeight,picDisk);
 
     painter.restore();      //恢复之前状态
 
@@ -105,13 +101,10 @@ void Phonograph::paintEvent(QPaintEvent* event)
     painter.translate(ArmRotatePoint);     //设置在整个控件上旋转点
     painter.rotate(currentArmAngle);
 
-    pix = toneArm.scaled(toneArmWidth, toneArmHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawPixmap( - rotatePointOfArm.x(), - rotatePointOfArm.y(), toneArmWidth, toneArmHeight, pix);
+    painter.drawPixmap( - rotatePointOfArm.x(), - rotatePointOfArm.y(), toneArmWidth, toneArmHeight, picToneArm);
 
     painter.restore();      //恢复之前状态
-
 }
-
 
 void Phonograph::updateAngleOfDisk()
 {
@@ -156,3 +149,19 @@ void Phonograph::updateAngleOfArm()
 
 }
 
+void Phonograph::initPaintingData(bool firstTime)
+{
+   if(firstTime)
+   {
+        albumWidth = 400;
+        albumHeight = 400;
+        toneArmWidth = 200;
+        toneArmHeight = 100;
+
+        picDisk = disk.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+        picToneArm = toneArm.scaled(toneArmWidth, toneArmHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+   }
+
+   picAlumCover = AlbumCover.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+}

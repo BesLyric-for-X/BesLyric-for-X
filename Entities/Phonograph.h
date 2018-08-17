@@ -28,6 +28,17 @@ private slots:
     void updateAngleOfDisk();
     void updateAngleOfArm();
 
+private:
+    void initPaintingData(bool firstTime);
+
+    int albumWidth;
+    int albumHeight;
+    int toneArmWidth;
+    int toneArmHeight;
+
+    QPixmap picAlumCover;
+    QPixmap picDisk;
+    QPixmap picToneArm;
 
 protected:
 

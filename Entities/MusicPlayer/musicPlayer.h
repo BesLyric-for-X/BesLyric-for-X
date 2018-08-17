@@ -86,7 +86,7 @@ typedef struct{
 	AVStream *vStream;
     PacketQueue audioq; //音频队列
 
-    double audio_clock;
+    double audio_clock; //储存毫秒时间
     uint8_t volume;
 
     PlayThread* playThread;
@@ -125,7 +125,6 @@ signals:
     void audioFinish();
     void volumeChanged(uint8_t);    //音量发生改变
     void durationChanged(qint64);   //总长发生改变（单位 微秒 10e-6）
-    void positionChanged(qint64);   //位置发生改变（单位 微秒 10e-6）
     void errorOccur(int errorCode, QString errorMessage);
 
     void albumFound(QString);       //发现信息
@@ -188,7 +187,7 @@ private:
     inline qint64 getDuration(){ if(m_MS.fct)return m_MS.fct->duration;return 0;}
 
     /*get current media time  millisecond*/
-    inline qint64 getCurrentTime(){return m_MS.audio_clock*1000;}
+    inline int getCurrentTime(){return static_cast<int>(m_MS.audio_clock);}
 
 
     mediaState m_MS;                    //保存音频相关的上下文状态
@@ -238,7 +237,7 @@ signals:
     void audioPause();              //暂停
     void audioFinish();             //播放完毕
     void durationChanged(qint64);   //总长发生改变（单位 毫秒）
-    void positionChanged(qint64);   //位置发生改变（单位 毫秒）
+    void positionChanged(int);   //位置发生改变（单位 毫秒）
     void volumeChanged(int);        //音量大小发生改变，范围 0-128
     void errorOccur(QString msg);   //发生错误
 

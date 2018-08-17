@@ -77,7 +77,7 @@ signals:
     void lineChanged(int lineNum);
 
 public slots:
-    void higthLineLyricAtPos(quint64 pos)
+    void higthLineLyricAtPos(int pos)
     {
         int nSel =lrcLyrics.size();
         for(int i = 0; i < lrcLyrics.size(); i++)

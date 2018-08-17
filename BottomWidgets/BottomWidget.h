@@ -20,10 +20,6 @@ public:
     void initEntity();
     void initConnection();
 
-signals:
-    void positionValueChanged(quint64);
-    void positionTextChanged(QString posStr);
-
 public slots:
     void reloadMusic(QString musicPath);
     void play();
@@ -39,15 +35,11 @@ public slots:
     void enterMakingMode();     //进入制作模式
     void exitMakingMode();      //退出制作模式
 
+    void positionChanged(int);
+
 private slots:
-
-
     void durationChanged(qint64);
-    void positionChanged(qint64);
     void volumeChanged(int);
-
-
-//    void on_soundSlider_valueChanged(int value);
 
     void onSliderSongMoved(int position);
     void onSliderSongPressed();

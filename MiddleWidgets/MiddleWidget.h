@@ -42,6 +42,7 @@ public:
     PageSetting*        pageSetting;                    //page 4
 
     int currentPage;                                    //标记当前页面
+                                                        // 0 是主页  1 是歌词预览页
 
     QPropertyAnimation  animationPreviewExtend;
 };
