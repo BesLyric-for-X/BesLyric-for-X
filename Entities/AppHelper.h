@@ -22,7 +22,7 @@ public:
         QString qssTest = QLatin1String(file.readAll());    //暂时保留测试用
 
         app->setStyleSheet(qss);
-        app->setPalette(QPalette(QColor("#00000000")));        //QScrollArea 中的Widget 背景会收这个影响
+        app->setPalette(QPalette(styleName == "black" ? QColor("#393b3f"):  QColor("#e5e5e7")));
     }
 
 };

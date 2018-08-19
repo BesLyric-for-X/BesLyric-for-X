@@ -74,8 +74,10 @@ private:
              "border: 1px solid rgba(150,150,150,15%);"
         "}"
 
-
-
+        "QScrollArea#ScrollLyricPanelScrollArea"
+        "{"
+            "background-color:rgba(0,0,0,0%);"
+        "}"
         ;
 
         return str;

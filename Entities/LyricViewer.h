@@ -160,11 +160,13 @@ public:
     {
         lyricPanel = new LyricPanel(this);
         int height = lyricPanel->getHeigth();
+        lyricPanel->setObjectName("lyricPanel");
         lyricPanel->setMinimumWidth(500);
         lyricPanel->setMinimumHeight(height);
         lyricPanel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
         scrollArea = new QScrollArea(this);
+        scrollArea->setObjectName("ScrollLyricPanelScrollArea");
         //scrollArea->setStyleSheet("QScrollArea{background-color:#00000000;}");
 
         scrollArea->setWidget(lyricPanel);

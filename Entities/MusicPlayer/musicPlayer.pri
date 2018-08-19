@@ -1,11 +1,14 @@
 
+
+#屏蔽 msvc 编译器对 rational.h 的 warning: C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+win32-msvc*:QMAKE_CXXFLAGS += /wd"4819"
+
 HEADERS+=\
     $$PWD/musicPlayer.h\
-   
-
 
 SOURCES+=\
     $$PWD/musicPlayer.cpp\
+
 
 
 win32{
@@ -38,7 +41,7 @@ LIBS += -L$$FFMPEG_LIB/ -lavcodec\
         -L$$FFMPEG_LIB/ -lpostproc \
         -L$$FFMPEG_LIB/ -lswresample \
         -L$$FFMPEG_LIB/ -lswscale \
-        -L$$FFMPEG_LIB/ -swresample \
+        -L$$FFMPEG_LIB/ -lswresample \
         -L$$SDL_LIB/ -lSDL2main  \
         -L$$SDL_LIB/ -lSDL2
 }
