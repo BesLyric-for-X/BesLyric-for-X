@@ -26,6 +26,7 @@ public:
         }
     }
 
+    virtual ~SkinPureColor(){}
 protected:
     virtual void SetParameter()
     {

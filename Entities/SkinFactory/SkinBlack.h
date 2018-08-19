@@ -5,6 +5,9 @@
 
 class SkinBlack : public ISkin
 {
+public:
+    virtual ~SkinBlack(){}
+
 protected:
     virtual void SetParameter()
     {

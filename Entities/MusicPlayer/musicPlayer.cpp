@@ -19,15 +19,6 @@ void _millisecondSleep(uint msecond)
 #endif
 }
 
-
-//Buffer:
-//|-----------|-------------|
-//chunk-------pos---len-----|
-static  Uint8  *audio_chunk;
-static  Uint32  audio_len;
-static  Uint8  *audio_pos;
-
-
 static bool logAudio = false;
 
 
@@ -156,7 +147,6 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
     AVPacket packet;                    //包
 
     int decodeLen=0;
-    int data_size = 0;
     int got_frame = 0;
     int audio_pkt_size=0;
     uint8_t* audio_pkt_data=NULL;
@@ -223,9 +213,6 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 
             audio_pkt_data += decodeLen;
             audio_pkt_size -= decodeLen;
-
-            if (got_frame)
-                data_size = av_samples_get_buffer_size(NULL, MS->acct->channels,pframe->nb_samples, MS->acct->sample_fmt, 0);
 
             if (pframe->channels > 0 && pframe->channel_layout == 0)
                 pframe->channel_layout = av_get_default_channel_layout(pframe->channels);
@@ -388,15 +375,17 @@ bool PlayThread::initDeviceAndFfmpegContext()
 
     // Find the first audio stream
     audioStream=-1;
-    for(i=0; i < pFormatCtx->nb_streams; i++)
+    for(unsigned int i=0; i < pFormatCtx->nb_streams; i++)
+    {
         if(pFormatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_AUDIO){
             m_MS.aStream = pFormatCtx->streams[i];
-            audioStream=i;
+            audioStream = i;
             break;
         }
+    }
 
 	videoStream = -1;
-	for (i = 0; i < pFormatCtx->nb_streams; i++)
+    for (unsigned int i = 0; i < pFormatCtx->nb_streams; i++)
 		if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
 			m_MS.vStream = pFormatCtx->streams[i];
 			videoStream = i;

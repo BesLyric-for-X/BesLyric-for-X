@@ -157,7 +157,7 @@ private:
 private:
 
     AVFormatContext	*pFormatCtx;
-    unsigned int	i, audioStream, videoStream;
+    int	audioStream, videoStream;
     AVCodecContext	*pCodecCtx;
     AVCodec			*pCodec;
     uint8_t			*out_buffer;
