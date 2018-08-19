@@ -23,6 +23,8 @@ public:
         return cssContent;
     }
 
+    virtual ~ISkin(){}
+
 protected:
     virtual void SetParameter() = 0;
 

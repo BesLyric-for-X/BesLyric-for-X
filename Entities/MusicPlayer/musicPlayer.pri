@@ -1,4 +1,6 @@
 
+QMAKE_CXXFLAGS += -Wno-deprecated-declarations
+
 HEADERS+=\
     $$PWD/musicPlayer.h\
    
