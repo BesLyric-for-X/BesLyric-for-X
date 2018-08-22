@@ -188,7 +188,9 @@ void SubPageMaking::initLayout()
     hLayout4_5->addSpacerItem(new QSpacerItem(300,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4_5->addWidget(btnLoadLastFiles);
     hLayout4->addLayout(hLayout4_5);
+
     vLayout->addLayout(hLayout4);
+    vLayout->addSpacerItem(new QSpacerItem(20,15,QSizePolicy::Minimum,QSizePolicy::Minimum));
 
     widgetCurrentMusicAndLyric = new QWidget(this);  //歌曲和歌词显示控件
 

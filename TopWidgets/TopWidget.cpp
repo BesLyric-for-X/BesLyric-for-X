@@ -26,7 +26,7 @@ void TopWidget::initLayout()
     btnIcon->setObjectName("btnIcon");
 
     labelTitle = new QLabel(topWidgetContainer);
-    labelTitle->setText("一款专门做网易云音乐滚动歌词的软件");
+    labelTitle->setText("一款专门制作网易云滚动歌词的软件");
     labelTitle->setObjectName("labelTitle");
 
     btnSkinBox = new BesButton(topWidgetContainer);
