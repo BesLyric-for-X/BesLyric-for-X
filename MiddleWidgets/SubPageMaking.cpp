@@ -4,7 +4,9 @@
 #include <QSpacerItem>
 #include <QPixmap>
 #include <QFileDialog>
-#include <QMessageBox>
+#include <BesMessageBox.h>
+#include <BesShadowDialog.h>
+#include <QDesktopServices>
 
 SubPageMaking::SubPageMaking(QWidget *parent)
     : QWidget(parent)
@@ -317,6 +319,7 @@ void SubPageMaking::initConnection()
     connect(btnToRemaking,SIGNAL(clicked(bool)),this,SLOT(remaking()));
 
     connect(btnPreviewResult,SIGNAL(clicked(bool)),this,SLOT(previewResult()));
+    connect(btnOpenResult,SIGNAL(clicked(bool)),this,SLOT(openResult()));
 }
 
 //推上一行
@@ -365,7 +368,7 @@ void SubPageMaking::finishMaking()
 
         if(lyricMaker.isResultLrcEmpty())
         {
-            QMessageBox::information(this, tr("提示"),tr("制作结果为空，请重新按提示制作"),QMessageBox::Ok);
+            BesMessageBox::information( tr("提示"),tr("制作结果为空，请重新按提示制作"));
         }
         else
         {
@@ -375,11 +378,11 @@ void SubPageMaking::finishMaking()
             if(lyricMaker.saveLyrc(outputFile))
             {
                 pathResultLrcLyric = outputFile;
-                QMessageBox::information(this, tr("提示"),tr("成功保存到：")+outputFile,QMessageBox::Ok);
+                BesMessageBox::information(tr("提示"),tr("成功保存到：")+outputFile);
             }
             else
             {
-                QMessageBox::information(this, tr("提示"),tr("成功失败，无法保存到：")+outputFile,QMessageBox::Ok);
+                BesMessageBox::information( tr("提示"),tr("成功失败，无法保存到：")+outputFile);
             }
         }
 
@@ -406,6 +409,14 @@ void SubPageMaking::previewResult()
     //载入lrc歌词，并且播放当前歌曲来预览
     emit loadLrcLyricAndSwitchToPreview(pathResultLrcLyric);
 
+}
+
+void SubPageMaking::openResult()
+{
+    QFileInfo fileInfo(pathResultLrcLyric);
+    QString dirPath = fileInfo.dir().absolutePath();
+    QDesktopServices::openUrl(QUrl("file:///"+dirPath, QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl("file:///"+pathResultLrcLyric, QUrl::TolerantMode));
 }
 
 //更新当前行内容的显示
@@ -477,32 +488,32 @@ void SubPageMaking::loadCurrentPath()
     //检测路径是否都选择完毕
     if(pathMusic.size() == 0)
     {
-        QMessageBox::information(this, tr("提示"),tr("请先选择音乐"),QMessageBox::Ok);
+        BesMessageBox::information( tr("提示"),tr("请先选择音乐"));
         return;
     }
 
     if(pathLyric.size() == 0)
     {
-        QMessageBox::information(this, tr("提示"),tr("请先选择歌词"),QMessageBox::Ok);
+        BesMessageBox::information( tr("提示"),tr("请先选择歌词"));
         return;
     }
 
     if(pathOutputDir.size() == 0)
     {
-        QMessageBox::information(this, tr("提示"),tr("请先选择输出目录"),QMessageBox::Ok);
+        BesMessageBox::information( tr("提示"),tr("请先选择输出目录"));
         return;
     }
 
     //载入歌词到歌词制作器
     if(!lyricMaker.loadRawLyric(pathLyric))
     {
-        QMessageBox::information(this, tr("提示"),tr("读取歌词失败"),QMessageBox::Ok);
+        BesMessageBox::information( tr("提示"),tr("读取歌词失败"));
         return;
     }
 
     if(lyricMaker.isRawLyricEmpty())
     {
-        QMessageBox::information(this, tr("提示"),tr("歌词数据为空，请重新载入歌词文件"),QMessageBox::Ok);
+        BesMessageBox::information( tr("提示"),tr("歌词数据为空，请重新载入歌词文件"));
         return;
     }
 

@@ -54,6 +54,7 @@ public slots:
     void remaking();
     void finishMaking();    //结束制作
     void previewResult();   //点击了预览效果
+    void openResult();      //打开生成文件
 
     void updatePos(int);
 

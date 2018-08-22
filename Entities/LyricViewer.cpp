@@ -2,7 +2,7 @@
 #include "global.h"
 #include <QFileInfo>
 #include <QRegExp>
-#include <QMessageBox>
+#include <BesMessageBox.h>
 #include <QSpacerItem>
 
 LyricViewer::LyricViewer(QWidget* parent):QWidget(parent)
@@ -111,7 +111,7 @@ void LyricViewer::setLrcLyricPath(QString path)
 
     //使用该路径初始化歌词预览面板
     if(!loadLyricFromFile(path))
-        QMessageBox::information(this, tr("提示"),tr("载入lrc歌词时发生错误：")+path,QMessageBox::Ok);
+        BesMessageBox::information(tr("提示"),tr("载入lrc歌词时发生错误：")+path);
 
     scrollLyricPanel->updateLyric(lrcLyrics, bIsLrcLyric);
 }

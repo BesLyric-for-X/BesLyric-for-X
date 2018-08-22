@@ -69,5 +69,8 @@
         <file>resource/image/default_preview_background.png</file>
         <file>resource/image/btn_pack_back_to_box_black.png</file>
         <file>resource/image/btn_pack_back_to_box_white.png</file>
+        <file>resource/image/icon_music_white.png</file>
+        <file>resource/image/icon_exclamation_white.png</file>
+        <file>resource/image/icon_question_white.png</file>
     </qresource>
 </RCC>

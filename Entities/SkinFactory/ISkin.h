@@ -80,6 +80,29 @@ private:
         "{"
             "background-color:rgba(0,0,0,0%);"
         "}"
+
+        "QWidget#widgetMessageBoxContainer"
+        "{"
+           "border: 1px solid #3b3a3d;"
+        "}"
+
+        "QWidget#widgetMessageTop"
+        "{"
+           " background-color:"+MessageBoxBgColor+ ";"
+           "border-bottom: 1px solid #3b3a3d;"
+        "}"
+
+        "QWidget#widgetMessageMiddle"
+        "{"
+           " background-color:"+MessageBoxBgColor+ ";"
+           "border-bottom: 1px solid #3b3a3d;"
+        "}"
+
+        "QWidget#widgetMessageBottom"
+        "{"
+           " background-color:"+MessageBoxBottomColor+ ";"
+        "}"
+
         ;
 
         return str;
@@ -101,33 +124,41 @@ private:
             "font-size:20px;"
         "}"
 
-                                "QLabel#labelLine2{"
-                                 "color:"+DeepLabelColor+";"
-                                    "font-size:18px;"
-                                "}"
-                                "QLabel#labelCurrenLineEmptyTip{"
-                                    "background:rgba(77, 77, 77, 10);"
-                                   " border:1px solid "+defautlLabelColor+";"
-                                "}"
-
-
-
+        "QLabel#labelLine2{"
+         "color:"+DeepLabelColor+";"
+            "font-size:18px;"
+        "}"
+        "QLabel#labelCurrenLineEmptyTip{"
+            "background:rgba(77, 77, 77, 10);"
+           " border:1px solid "+defautlLabelColor+";"
+        "}"
 
         "QLabel#labelPreviewTitle{"
             "color:"+DeepLabelColor+";"
             "font-size:24px;"
         "}"
 
-                                "QLabel#labelPreviewSongTip, QLabel#labelPreviewLyricTip{"
-                                    "color:"+defautlLabelColor+";"
-                                "}"
+        "QLabel#labelPreviewSongTip, QLabel#labelPreviewLyricTip{"
+            "color:"+defautlLabelColor+";"
+        "}"
 
-                                "QLabel#labelPreviewSongPath, QLabel#labelPreviewLyricPath{"
-                                    "color:"+DeepLabelColor+";"
-                                "}"
+        "QLabel#labelPreviewSongPath, QLabel#labelPreviewLyricPath{"
+            "color:"+DeepLabelColor+";"
+        "}"
 
 
+        "QLabel#labelMessageTitle{"
+            "color:"+DeepLabelColor+";"
+            "font-size:18px;"
+            "font-weight:bold;"
+            "margin:5px;"
+        "}"
 
+         "QLabel#labelMessageContent{"
+             "color:"+DeepLabelColor+";"
+             "font-size:17px;"
+             "margin:10px;"
+         "}"
          ;
         return str;
     }
@@ -251,7 +282,7 @@ private:
 "                   background-image:url(\":/resource/image/btn_restore_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
-"               QPushButton#btnClose{"
+"               QPushButton#btnClose, QPushButton#btnMessageClose{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
@@ -259,7 +290,7 @@ private:
 "                   background-image:url(\":/resource/image/btn_close_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
-"               QPushButton#btnClose:hover{"
+"               QPushButton#btnClose:hover, QPushButton#btnMessageClose:hover{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
@@ -501,6 +532,20 @@ private:
                 "padding:0px;"
                 "}"
 
+                /* 消息框蓝色按钮 */
+                "QPushButton#btnOK{"
+                "border:1px solid "+leftboardBorderColor+";"
+                "    border-radius:5px;"
+                "    color:"+defaultButtonColorNormal+";"
+                "    padding: 3px;"
+                "    max-height: 120px;"
+                "    background:"+blueButtonColorNormal+";"
+                "}"
+                "QPushButton#btnOK:hover{"
+                "    min-height: 30px;"
+                "    color: "+defaultButtonColorHover+";"
+                "    background:"+blueButtonColorHover+";"
+                "}"
               ;
 
         return str;
@@ -677,6 +722,9 @@ private:
         subPageContainerColor      ="#16181c                                     ";
         PopWindowBgColor           ="#2d2f33                                     ";
 
+        MessageBoxBgColor           ="#2d2f33";
+        MessageBoxBottomColor       ="#292b2f";
+
         //label、button 相关
         fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
@@ -687,6 +735,10 @@ private:
         defaultButtonBgColorHover ="rgba(100, 100, 100, 150)";
         defaultButtonDisableColor  ="#454545";
         defaultButtonDisableBgColor="#222222";
+
+        blueButtonColorNormal       ="#2e4e7e";
+        blueButtonColorHover        ="#3a6098";
+
 
         titleColor                 ="#ffffff                                     ";
         playBgColor                ="#222222                                     ";
@@ -720,6 +772,8 @@ protected:
     QString bottomContainerBorderColor; //rgba(ff, ff, ff, ff)
     QString subPageContainerColor;      //#16181c
     QString PopWindowBgColor;           //#343638
+    QString MessageBoxBgColor;          //#444648
+    QString MessageBoxBottomColor;      //#242628
 
     //label、button 相关
     QString defautlLabelColor;          //#909090
@@ -744,6 +798,9 @@ protected:
     QString defaultButtonBgColorHover;
     QString defaultButtonDisableColor;
     QString defaultButtonDisableBgColor;
+
+    QString blueButtonColorNormal;  //#2e4e7e
+    QString blueButtonColorHover;   //#3a6098
 
     QString btnPackbackToBoxImg;        //":/resource/image/btn_pack_back_to_box_black.png"
 

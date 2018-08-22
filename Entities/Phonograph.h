@@ -36,9 +36,16 @@ private:
     int toneArmWidth;
     int toneArmHeight;
 
+    int albumCoverWidth;
+    int albumCoverHeight;
+
     QPixmap picAlumCover;
     QPixmap picDisk;
     QPixmap picToneArm;
+
+
+    QRect outerRect;
+    QBrush brushBackground;         //背景画刷
 
 protected:
 
@@ -55,8 +62,6 @@ protected:
     QPixmap AlbumCover;             //专辑封面
     QPixmap disk;                   //唱片
     QPixmap toneArm;                //唱臂
-
-    QColor backgroundColor;         //背景颜色
 
 };
 
