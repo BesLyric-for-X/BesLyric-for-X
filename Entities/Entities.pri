@@ -11,7 +11,8 @@ HEADERS+=\
     $$PWD/filter.h \
     $$PWD/ImageFilter.h \
     $$PWD/LyricViewer.h \
-    $$PWD/LyricMaker.h
+    $$PWD/LyricMaker.h \
+    $$PWD/UnicodeReader.h
 
 
 SOURCES+=\

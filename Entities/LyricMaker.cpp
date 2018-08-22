@@ -1,28 +1,28 @@
 ﻿#include "LyricMaker.h"
 #include "global.h"
-#include <QFile>
 #include <QTextStream>
+#include <QStringList>
+#include <UnicodeReader.h>
 
 //载入原始的歌词数据
 bool LyricMaker::loadRawLyric(QString lyricPath)
 {
     rawLines.clear();
-    QFile file(lyricPath);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
+
+    QString content;
+    UnicodeReader unicodeReader;
+    if(!unicodeReader.ReadFromFile(lyricPath,content))
         return false;
-    }
 
-    while(!file.atEnd())
+    QRegExp sepRegExp = QRegExp("\n|\r");               //linux\mac\windows 换行符号
+    QStringList lineList = content.split(sepRegExp);
+
+    for(auto& line: lineList)
     {
-        QByteArray line = file.readLine();
-        QString strline = QString(line).trimmed();
-
-        if(strline.size() != 0)
-            rawLines.push_back(strline);   //收集非空行
+        line = line.trimmed();
+        if(!line.isEmpty())
+            rawLines.push_back(line.trimmed());
     }
-
-    file.close();
 
     return true;
 }
