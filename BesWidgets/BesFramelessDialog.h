@@ -4,18 +4,7 @@
 #include <QWidget>
 #include<QMouseEvent>
 #include "BesShadowDialog.h"
-
-enum Direction{
-    UP = 0,
-    DOWN=1,
-    LEFT,
-    RIGHT,
-    LEFTTOP,
-    LEFTBOTTOM,
-    RIGHTBOTTOM,
-    RIGHTTOP,
-    NONE
-};
+#include "BesFramelessWidget.h"
 
 //无边框可缩放控件（注意：使用本控件作为主窗体，
 //                      只有子窗体也设置 this->setMouseTracking(true); 才能在理想状态下工作）

@@ -19,6 +19,8 @@ public:
         cssContent += GetQSliderCss();
         cssContent += GetQEditCss();
         cssContent += GetQScrollBarCss();
+        cssContent += GetQTabWidgetCss();
+        cssContent += GetQTableWidgetCss();
 
         return cssContent;
     }
@@ -27,6 +29,7 @@ public:
 
 protected:
     virtual void SetParameter() = 0;
+
 
 
 private:
@@ -709,6 +712,76 @@ private:
     return str;
     }
 
+    QString GetQTabWidgetCss()
+    {
+        QString str = ""
+        "QTabWidget#tabWidget:pane {"
+        "    border-width: 0;"
+        "    background: #ffffff;"
+        "}"
+        ""
+        "QTabBar:tab {"
+        "    border-image: url(:/tab-normal.png);"
+        "    width: 90px;"
+        "    height: 35px;"
+        "    color: #999999;"
+        "    font: 12px \"Microsoft Yahei\";"
+        "}"
+        ""
+        "QTabBar:tab:selected {"
+        "    border-image: url(:/tab-selected.png);"
+        "    color: #333333;"
+        "}"
+        ""
+        "QTabBar:tab:hover {"
+        "    color: #333333;"
+        "}";
+
+        return str;
+    }
+
+    QString GetQTableWidgetCss()
+    {
+        QString str = ""
+        " QTableView"
+        " {"
+        "     background-color: rgba(255, 255, 255, 0); "
+        "     alternate-background-color:#e3edf9;"
+        "     font:14px \"微软雅黑\";"
+        "     color:#677483;"
+        "     gridline-color: #ccddf0;"
+        " }"
+        "  "
+        " QTableView::item"
+        " {	"
+        "     font:14px \"微软雅黑\";"
+        "     color:#677483;"
+        "     gridline-color: #ccddf0; "
+        " }"
+        "  "
+        " QTableView::item:selected"
+        " {	"
+        "     color:#677483;"
+        " }"
+        "  "
+        " QHeaderView::section {	"
+        "     color: black;"
+        "     font:bold 14px \"微软雅黑\";"
+        "     text-align:center;"
+        "     height:32px;"
+        "     background-color: #d1dff0;"
+        "     border:1px solid #8faac9;"
+        "     border-left:none;"
+        " }"
+        "  "
+         // border-left:none;防止中间表头的border重叠
+        " QHeaderView::section:first "
+        " {"
+        "     border-left:1px solid #8faac9;"
+        "}";
+
+        return str;
+    }
 
     void setDefaultParameter()
     {

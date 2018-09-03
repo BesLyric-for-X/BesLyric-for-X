@@ -7,19 +7,28 @@ HEADERS+=\
     $$PWD/SkinFactory/ISkin.h \
     $$PWD/SkinFactory/SkinFactory.h \
     $$PWD/SkinFactory/SkinPureColor.h \
+    $$PWD/LyricSearcherFactory/LyricSearcherFactory.h \
+    $$PWD/LyricSearcherFactory/SearcherNetEaseCloud.h \
+    $$PWD/LyricSearcherFactory/SearcherGecimi.h \
     $$PWD/Phonograph.h \
     $$PWD/filter.h \
     $$PWD/ImageFilter.h \
     $$PWD/LyricViewer.h \
     $$PWD/LyricMaker.h \
-    $$PWD/UnicodeReader.h
+    $$PWD/UnicodeReader.h\
+    $$PWD/LyricSearcherFactory/ISearcher.h \
+    $$PWD/LrcProcessor.h \
+    $$PWD/LyricSearcherFactory/ThreadSearchLyric.h
 
 
 SOURCES+=\
+    $$PWD/LyricSearcherFactory/SearcherNetEaseCloud.cpp \
+    $$PWD/LyricSearcherFactory/SearcherGecimi.cpp \
     $$PWD/AppHelper.cpp\
     $$PWD/Phonograph.cpp \
     $$PWD/LyricViewer.cpp \
-    $$PWD/LyricMaker.cpp
+    $$PWD/LyricMaker.cpp \
+    $$PWD/LrcProcessor.cpp
 
 
 INCLUDEPATH +=$$PWD MusicPlayer

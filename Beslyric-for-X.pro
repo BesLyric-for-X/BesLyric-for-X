@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -41,11 +41,17 @@ include(BottomWidgets/BottomWidgets.pri)
 INCLUDEPATH +=$$PWD Entities
 include(Entities/Entities.pri)
 
+INCLUDEPATH +=$$PWD Utility
+include(Utility/Utility.pri)
+
 
 SOURCES += main.cpp \
     StackFrame.cpp
 
 HEADERS  += \
+    Define/Define.h\
+    Define/Enum.h\
+    Define/Struct.h\
     global.h \
     StackFrame.h \
     MyApplication.h

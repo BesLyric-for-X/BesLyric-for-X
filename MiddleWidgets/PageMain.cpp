@@ -91,5 +91,11 @@ void PageMain::initLayout()
 
 void PageMain::initConnection()
 {
-
+    connect(btnMakingLyric,&QPushButton::toggled, [=](bool checked)
+    {if(checked)subpageStackedLayout->setCurrentIndex(0);});
+    connect(btnDownloadSong,&QPushButton::toggled, [=](bool checked)
+    {if(checked)subpageStackedLayout->setCurrentIndex(1);});
+    connect(btnDownloadLyric,&QPushButton::toggled, [=](bool checked)
+    {if(checked)subpageStackedLayout->setCurrentIndex(2);});
 }
+
