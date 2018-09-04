@@ -177,7 +177,7 @@ void SubPageDownloadLyric::OnLyricResultChanged(LyricSearchResult result)
     if(!result.bAppendToList)
     {
         nLyricCount = 0;
-        //m_lrcListAdapter->DeleteAllItem();
+        tableLyricSearch->deleteAllItems();
     }
 
     QString strResultTip;
@@ -189,11 +189,8 @@ void SubPageDownloadLyric::OnLyricResultChanged(LyricSearchResult result)
     labelLyricResultTip5->setText(QString().sprintf("，找到%d个歌词文件。",nLyricCount)+strResultTip);
     labelLyricResultTip5->setVisible(true);
 
-    for(auto iter = result.vecLyricInfoTotal.begin(); iter != result.vecLyricInfoTotal.end(); iter++)
-    {
-        //m_lrcListAdapter->AddItem( iter->strSong, iter->strArtist, iter->strLyricFrom,iter->strPlaneText, iter->strLabelText);
-        //m_lrcListAdapter->notifyDataSetChanged();
-    }
+    if(result.vecLyricInfoTotal.size()!=0)
+        tableLyricSearch->appendItems(result.vecLyricInfoTotal);
 
     if(result.bCurrentSearchDone) //搜索结束时才能恢复按钮
     {

@@ -10,6 +10,15 @@ BesTableModel::~BesTableModel()
 
 }
 
+void BesTableModel::deleteAllItems()
+{
+    m_data.clear();
+}
+
+void BesTableModel::appendItems(QVector<LyricInfo> infos)
+{
+    m_data.append(infos);
+}
 
 int BesTableModel::rowCount(const QModelIndex &parent) const
 {
@@ -18,21 +27,35 @@ int BesTableModel::rowCount(const QModelIndex &parent) const
 
 int BesTableModel::columnCount(const QModelIndex &parent) const
 {
-    return m_HorizontalHeader.count();
+    return 5;
 }
 
 QVariant BesTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
-    if (role == Qt::DisplayRole) {
-        int ncol = index.column();
-        int nrow =  index.row();
-        QStringList values = m_data.at(nrow);
-        if (values.size() > ncol)
-            return values.at(ncol);
-        else
-        return QVariant();
+
+    if (role == Qt::DisplayRole)
+    {
+        int nCol = index.column();
+        int nRow =  index.row();
+        LyricInfo info = m_data.at(nRow);
+        switch(nCol)
+        {
+        case 0:
+            return QString().number(nRow+1);
+        case 1:
+            return info.strSong;
+        case 2:
+            return info.strArtist;
+        case 3:
+            return info.strLyricFrom;
+        case 4:
+            return "";
+        default:
+            return QVariant();
+        }
+
     }
     else if(role==Qt::TextAlignmentRole)
     {
@@ -65,12 +88,14 @@ void BesTableModel::setHorizontalHeader(const QStringList &headers)
 QVariant BesTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
-        return m_HorizontalHeader.at(section);
+        if(m_HorizontalHeader.size()!=0)
+            return m_HorizontalHeader.at(section);
     }
     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
-void BesTableModel::setData(const QVector<QStringList> &data)
+void BesTableModel::setData(const QVector<LyricInfo> &data)
 {
     m_data = data;
 }
+

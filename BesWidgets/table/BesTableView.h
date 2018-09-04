@@ -1,10 +1,12 @@
 ﻿#ifndef TABLEVIEW_H
 #define TABLEVIEW_H
 
-#include <QTableView>
+#include "Define/Define.h"
 #include "BesTableModel.h"
 #include "BesTableView.h"
 #include "BesButtonDelegate.h"
+#include <QTableView>
+#include <QVector>
 
 class BesTableView : public QTableView
 {
@@ -14,6 +16,11 @@ public:
     ~BesTableView();
 
     BesTableModel* tableModel() {return m_model;}
+
+public:
+    void deleteAllItems();
+    void appendItems(QVector<LyricInfo> infos);
+
 
 signals:
 

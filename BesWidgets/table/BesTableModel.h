@@ -2,6 +2,8 @@
 #define TABLEMODEL_H
 
 #include <QAbstractTableModel>
+#include <QVector>
+#include "Define/Define.h"
 
 class BesTableModel : public QAbstractTableModel
 {
@@ -14,9 +16,12 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void setHorizontalHeader(const QStringList& headers);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    void setData(const QVector<QStringList>& data);
-    QVector<QStringList>& DataVector() {return m_data;}
+    void setData(const QVector<LyricInfo>& data);
+    QVector<LyricInfo>& DataVector() {return m_data;}
     ~BesTableModel(void);
+
+    void deleteAllItems();
+    void appendItems(QVector<LyricInfo> infos);
 
 signals:
 
@@ -25,7 +30,7 @@ public slots:
 
 private:
     QStringList m_HorizontalHeader;
-    QVector<QStringList> m_data;
+    QVector<LyricInfo> m_data;
 };
 
 #endif // TABLEMODEL_H

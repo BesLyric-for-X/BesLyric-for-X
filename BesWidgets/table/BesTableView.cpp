@@ -16,32 +16,32 @@ BesTableView::~BesTableView()
     delete m_model;
 }
 
+void BesTableView::deleteAllItems()
+{
+    m_model->deleteAllItems();
+    emit m_model->layoutChanged();
+    this->update();
+}
+
+void BesTableView::appendItems(QVector<LyricInfo> infos)
+{
+    m_model->appendItems(infos);
+    emit m_model->layoutChanged();
+    this->update();
+}
 
 void BesTableView::iniData()
 {
-
     m_model = new BesTableModel();
     this->setModel(m_model);
-
 
     QStringList headers;
     headers << "" << tr("音乐标题")<< tr("歌手")<< tr("来源")<< tr("操作");
     m_model->setHorizontalHeader(headers);
-
-    QVector<QStringList> data;
-    data.append(QStringList() << "01" << "You Dont't Know Me"<< "Ofenbach/Brodie Barcaly"<< "You Dont't Know Me"<< "");
-    data.append(QStringList() << "02" << "Top Of The World"<< "Carpenters"<< "Yesteray"<< "");
-    data.append(QStringList() << "03" << "You Dont't Know Me"<< "Ofenbach/Brodie Barcaly"<< "You Dont't Know Me"<< "");
-    data.append(QStringList() << "04" << "Top Of The World"<< "Carpenters"<< "Yesteray"<< "");
-    data.append(QStringList() << "05" << "You Dont't Know Me"<< "Ofenbach/Brodie Barcaly"<< "You Dont't Know Me"<< "");
-    m_model->setData(data);
-
     m_buttonDelegate = new BesButtonDelegate(this);
     this->setItemDelegateForColumn(4, m_buttonDelegate);
-    emit m_model->layoutChanged();
 
     connect(m_buttonDelegate, SIGNAL(rowClicked(int)),this,SLOT(selectRow(int)));
-
 
     BaseInit();
 }
