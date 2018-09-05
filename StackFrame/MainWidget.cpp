@@ -101,7 +101,8 @@ void MainWidget::initConnection()
 
 bool MainWidget::keyPress(QKeyEvent  *event)
 {
-    if(middleWidget->pageMain->subPageMaking->isMaking) //制作过程中才相应以下按键
+    if( middleWidget->currentPage == 0 &&                    //在制作页面，且在制作歌词过程
+            middleWidget->pageMain->subPageMaking->isMaking) //才响应以下按键
     {
         if(event->key() == Qt::Key_Up)  //推上一行
         {

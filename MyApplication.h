@@ -24,7 +24,8 @@ public:
 
              if(notifyWidget)
              {
-                 return notifyWidget->keyPress(keyEvent);
+                 if(notifyWidget->keyPress(keyEvent))  //先交由指定窗口处理
+                     return true;
              }
          }
 
