@@ -19,16 +19,16 @@ public:
 
 public:
     void deleteAllItems();
-    void appendItems(QVector<LyricInfo> infos);
-
+    void appendItems(const QVector<LyricInfo>& infos);
 
 signals:
+    void sig_showRawLyric(LyricInfo);
 
 public slots:
 
 protected:
     void iniData();
-
+    virtual void resizeEvent(QResizeEvent *event);
 private:
     void BaseInit(); //基础的初始化
 

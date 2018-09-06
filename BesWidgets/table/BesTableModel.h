@@ -21,7 +21,7 @@ public:
     ~BesTableModel(void);
 
     void deleteAllItems();
-    void appendItems(QVector<LyricInfo> infos);
+    void appendItems(const QVector<LyricInfo>& infos);
 
 signals:
 

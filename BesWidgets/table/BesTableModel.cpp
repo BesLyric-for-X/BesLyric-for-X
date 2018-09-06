@@ -15,7 +15,7 @@ void BesTableModel::deleteAllItems()
     m_data.clear();
 }
 
-void BesTableModel::appendItems(QVector<LyricInfo> infos)
+void BesTableModel::appendItems(const QVector<LyricInfo>& infos)
 {
     m_data.append(infos);
 }

@@ -23,7 +23,7 @@ void BesTableView::deleteAllItems()
     this->update();
 }
 
-void BesTableView::appendItems(QVector<LyricInfo> infos)
+void BesTableView::appendItems(const QVector<LyricInfo>& infos)
 {
     m_model->appendItems(infos);
     emit m_model->layoutChanged();
@@ -61,16 +61,13 @@ void BesTableView::BaseInit()
 
 }
 
-//void BesTableView::resizeEvent(QResizeEvent *event)
-//{
-//    QTableView::resizeEvent(event);
-////    double widthLeft = this->width() - 50 - 80 - 5;
-////    QModelIndex modelIndex;
-////    int nColumn = m_model->columnCount(modelIndex);
-////    double sigleWidth = widthLeft / (nColumn -2);
-////    this->setColumnWidth(2,sigleWidth);
-////    this->setColumnWidth(3,sigleWidth);
-////    this->setColumnWidth(4,sigleWidth);
-////    this->setColumnWidth(5,sigleWidth);
-//}
+//自动调整大小
+void BesTableView::resizeEvent(QResizeEvent *event)
+{
+    QTableView::resizeEvent(event);
+    double widthLeft = this->width() - 50 - 200 - 15;
+    this->setColumnWidth(1,widthLeft * 2/5);
+    this->setColumnWidth(2,widthLeft * 2/5);
+    this->setColumnWidth(3,widthLeft * 1/5);
+}
 
