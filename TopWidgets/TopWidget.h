@@ -18,7 +18,7 @@ public:
     void initLayout();
     void initConnection();
 
-virtual void mouseDoubleClickEvent(QMouseEvent* event){Q_UNUSED(event);emit(OnDoubleClick());}
+    virtual void mouseDoubleClickEvent(QMouseEvent* event){Q_UNUSED(event);emit(OnDoubleClick());}
 
 signals:
     void OnDoubleClick();

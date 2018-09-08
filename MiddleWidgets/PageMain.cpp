@@ -97,5 +97,17 @@ void PageMain::initConnection()
     {if(checked)subpageStackedLayout->setCurrentIndex(1);});
     connect(btnDownloadLyric,&QPushButton::toggled, [=](bool checked)
     {if(checked)subpageStackedLayout->setCurrentIndex(2);});
+
+    connect(subPageDownloadLyric,SIGNAL(sig_autoSelectRawLyric(const QString&)),this,
+            SLOT(OnAutoSelectRawLyric(const QString&)));
+}
+
+void PageMain::OnAutoSelectRawLyric(const QString& RawlyricPath)
+{
+    //自动切换页面
+    subpageStackedLayout->setCurrentIndex(0);
+
+    //自动填入新的歌词路径
+    subPageMaking->selectLyricPath(RawlyricPath);
 }
 

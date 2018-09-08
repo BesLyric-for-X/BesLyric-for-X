@@ -18,6 +18,7 @@ public:
         cssContent += GetQPushButtonCss();
         cssContent += GetQSliderCss();
         cssContent += GetQEditCss();
+        cssContent += GetQMenuCss();
         cssContent += GetQScrollBarCss();
         cssContent += GetQTabWidgetCss();
         cssContent += GetQTableWidgetCss();
@@ -29,8 +30,6 @@ public:
 
 protected:
     virtual void SetParameter() = 0;
-
-
 
 private:
 
@@ -116,6 +115,7 @@ private:
         QString str =
         "QLabel{"
            " color:"+defautlLabelColor+";"
+           "font-size:16px;"
         "}"
 
         "QLabel#labelTitle{"
@@ -162,6 +162,17 @@ private:
              "font-size:17px;"
              "margin:10px;"
          "}"
+
+         "QLabel#labelTitleSearchLyric{"
+             "color:"+DeepLabelColor+";"
+             "font-size:23px;"
+             "margin:10px;"
+         "}"
+
+         "QLabel#labelLyricResultTip2, QLabel#labelLyricResultTip4{"
+             "color:#427cae;"
+             "font-size:17px;"
+         "}"
          ;
         return str;
     }
@@ -172,6 +183,7 @@ private:
         QString str =
 
 "               QPushButton{"
+        "font-size:16px;"
         "border:1px solid "+leftboardBorderColor+";"
 "                   border-radius:5px;"
 "                   color:"+defaultButtonColorNormal+";"
@@ -462,7 +474,7 @@ private:
 "                   border-style:solid;"
 "               }"
 "               QPushButton#btnMakingLyric:checked, QPushButton#btnDownloadSong:checked, QPushButton#btnDownloadLyric:checked{"
-"                   background-color:rgba(255, 255, 255, 22);"
+"                   background-color:"+itemSelectBackground+";"
 "                   border:0px;"
 "                   width: 180px;"
 "                   height:40px;"
@@ -642,13 +654,34 @@ private:
         "QLineEdit{"
                "color:"+DeepLabelColor+";"
                " border: 1px solid rgba(40, 20, 20,50); "
-                "   background: rgba(222, 222, 222,35); "
+                "   background: "+editBackground+"; "
                 "   selection-background-color: green;"
-        "}";
+        "}"
+
+        "QTextEdit{"
+               "color:"+DeepLabelColor+";"
+               " border: 1px solid rgba(40, 20, 20,50); "
+                "   background:"+editBackground+"; "
+                "   selection-background-color: green;"
+        "}"
+
+        ;
 
         return str;
     }
 
+    QString GetQMenuCss()
+    {
+        QString str =
+                "QMenu::separator {"
+//                "height: 2px;"
+//                "background: lightblue;"
+//                "margin-left: 10px;"
+//                "margin-right: 5px;"
+            "}";
+
+        return str;
+    }
 
     QString GetQScrollBarCss()
     {
@@ -715,26 +748,25 @@ private:
     QString GetQTabWidgetCss()
     {
         QString str = ""
-        "QTabWidget#tabWidget:pane {"
-        "    border-width: 0;"
-        "    background: #ffffff;"
+        "QTabWidget:pane {"
+        "   border-top: 1px solid "+leftboardBorderColor+";"
         "}"
-        ""
+        "QTabWidget::tab-bar {"
+        "   left: 72px;"
+        "}"
         "QTabBar:tab {"
-        "    border-image: url(:/tab-normal.png);"
-        "    width: 90px;"
-        "    height: 35px;"
-        "    color: #999999;"
-        "    font: 12px \"Microsoft Yahei\";"
+        "   margin-right:30px;"
+        "   font:18px;"
+        "   height: 40px;"
+        "   border-bottom:5px solid;"
+        "   color:"+ DeepLabelColor+";"
+        "   border-bottom-color: rgba(0, 0, 0, 0);"
+        "   min-width: 80px;"
         "}"
-        ""
+
         "QTabBar:tab:selected {"
-        "    border-image: url(:/tab-selected.png);"
-        "    color: #333333;"
-        "}"
-        ""
-        "QTabBar:tab:hover {"
-        "    color: #333333;"
+        "   color:"+ btnTabLeftBoderColor+";"
+        "   border-bottom-color: "+btnTabLeftBoderColor+";"
         "}";
 
         return str;
@@ -746,40 +778,53 @@ private:
         " QTableView"
         " {"
         "     background-color: rgba(255, 255, 255, 0); "
-        "     alternate-background-color:#e3edf9;"
-        "     font:14px \"微软雅黑\";"
-        "     color:#677483;"
-        "     gridline-color: #ccddf0;"
+        //"     alternate-background-color:#e3edf9;"
+        "     font:14px;"
+        "     color:"+DeepLabelColor+";"
+        "     selection-background-color:"+itemSelectBackground+";"
+        "     gridline-color: #00000000;"
+        "     border:1px solid "+leftboardBorderColor+";"
         " }"
-        "  "
         " QTableView::item"
         " {	"
-        "     font:14px \"微软雅黑\";"
-        "     color:#677483;"
-        "     gridline-color: #ccddf0; "
+        "     font:14px;"
+        "     color:"+DeepLabelColor+";"
+        "     gridline-color: #00000000; "
+        "     text-align:middle;"
         " }"
         "  "
         " QTableView::item:selected"
         " {	"
-        "     color:#677483;"
+        "     color:"+DeepLabelColor+";"
+        "     background:"+itemSelectBackground+";"    //比较奇怪的是，selection-background-color 已经设置了背景了
+                                                       //这里设置选中字体颜色color 偏偏得再加上background 才生效
         " }"
-        "  "
+        " QTableView"
+        "{"
+        "     border-top:none;"
+        "}"
+        " QHeaderView{"
+        "     border:none;"
+        " margin:0px; padding:0px;"
+        "     background-color: #00000000;"
+        "} "
         " QHeaderView::section {	"
-        "     color: black;"
-        "     font:bold 14px \"微软雅黑\";"
+        "     color:"+defautlLabelColor+";"
+        "     font:bold 14px;"
         "     text-align:center;"
         "     height:32px;"
-        "     background-color: #d1dff0;"
-        "     border:1px solid #8faac9;"
+        "     background-color: #00000000;"
+        "     border:1px solid "+leftboardBorderColor+";"
         "     border-left:none;"
+        "     border-top:none;"
         " }"
         "  "
-         // border-left:none;防止中间表头的border重叠
         " QHeaderView::section:first "
         " {"
-        "     border-left:1px solid #8faac9;"
-        "}";
+        //"     border-left:1px solid #8faac9;"
+        " }"
 
+                ;
         return str;
     }
 
@@ -832,6 +877,10 @@ private:
         //QSlider
         baseColor                 ="#CC0033";
         baseColorLighter          ="#ff3344";
+
+        //其他
+        itemSelectBackground       ="rgba(175, 175, 175, 55)";
+        editBackground             =" rgba(222, 222, 222,35)";
     }
 
 protected:
@@ -881,7 +930,9 @@ protected:
     QString baseColor;                  //#CC0033
     QString baseColorLighter;           //#ff3344
 
-
+    //其他
+    QString itemSelectBackground;
+    QString editBackground;
 };
 
 #endif // ISKIN_H

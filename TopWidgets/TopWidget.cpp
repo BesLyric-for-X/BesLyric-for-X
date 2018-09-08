@@ -24,6 +24,7 @@ void TopWidget::initLayout()
     btnIcon = new BesButton(topWidgetContainer);
     btnIcon->setIconSize(QSize(150,30));
     btnIcon->setObjectName("btnIcon");
+    btnIcon->setFocusPolicy(Qt::NoFocus);
 
     labelTitle = new QLabel(topWidgetContainer);
     labelTitle->setText("一款专门制作网易云滚动歌词的软件");
@@ -35,6 +36,13 @@ void TopWidget::initLayout()
     btnMax = new BesButton(topWidgetContainer);
     btnRestore = new BesButton(topWidgetContainer);
     btnClose = new BesButton(topWidgetContainer);
+
+    btnSkinBox->setFocusPolicy(Qt::NoFocus);
+    btnSetting->setFocusPolicy(Qt::NoFocus);
+    btnMini->setFocusPolicy(Qt::NoFocus);
+    btnMax->setFocusPolicy(Qt::NoFocus);
+    btnRestore->setFocusPolicy(Qt::NoFocus);
+    btnClose->setFocusPolicy(Qt::NoFocus);
 
     btnRestore->setVisible(false);
 

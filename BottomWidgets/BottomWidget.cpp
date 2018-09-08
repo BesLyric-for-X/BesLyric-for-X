@@ -29,6 +29,9 @@ void BottomWidget::initLayout()
     btnPreSong->setObjectName("btnPreSong");
     btnPlayAndPause->setObjectName("btnPlayAndPause");
     btnNextSong->setObjectName("btnNextSong");
+    btnPreSong->setFocusPolicy(Qt::NoFocus);
+    btnPlayAndPause->setFocusPolicy(Qt::NoFocus);
+    btnNextSong->setFocusPolicy(Qt::NoFocus);
 
     labelTimeCurrent = new QLabel(bottomWidgetContainer);
     labelTimeEnding = new QLabel(bottomWidgetContainer);
@@ -53,6 +56,9 @@ void BottomWidget::initLayout()
     btnSound->setObjectName("btnSound");
     btnPlayMode->setObjectName("btnPlayMode");
     btnDesktopLyric->setObjectName("btnDesktopLyric");
+    btnSound->setFocusPolicy(Qt::NoFocus);
+    btnPlayMode->setFocusPolicy(Qt::NoFocus);
+    btnDesktopLyric->setFocusPolicy(Qt::NoFocus);
 
     QHBoxLayout* hLayout = new QHBoxLayout(bottomWidgetContainer);
     hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));

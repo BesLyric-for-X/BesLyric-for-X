@@ -22,18 +22,18 @@ public:
     void appendItems(const QVector<LyricInfo>& infos);
 
 signals:
-    void sig_showRawLyric(LyricInfo);
+    void sig_showRawLyric(const LyricInfo&);
+    void sig_showLrcLyric(const LyricInfo&);
 
 public slots:
 
 protected:
     void iniData();
     virtual void resizeEvent(QResizeEvent *event);
+
 private:
     void BaseInit(); //基础的初始化
 
-
-//    virtual void resizeEvent(QResizeEvent *event);
 private:
     BesTableModel *m_model;
     BesButtonDelegate *m_buttonDelegate;

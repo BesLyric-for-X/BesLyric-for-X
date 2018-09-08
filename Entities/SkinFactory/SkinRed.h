@@ -50,6 +50,9 @@ protected:
         //QSlider
         baseColor                 ="#CC0033";
         baseColorLighter          ="#ff3344";
+
+        //其他
+        editBackground            = "white";
     }
 
 };

@@ -14,11 +14,10 @@ public:
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
 
 signals:
-    void rowClicked(int row);
-public slots:
+    void sig_rowClicked(int row);
+    void sig_showLyric(int row, bool rawLyric);
 
-private:
-    void showMsg(QString str);
+public slots:
 
 
 private:

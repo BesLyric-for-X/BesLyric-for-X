@@ -41,7 +41,11 @@ void BesTableView::iniData()
     m_buttonDelegate = new BesButtonDelegate(this);
     this->setItemDelegateForColumn(4, m_buttonDelegate);
 
-    connect(m_buttonDelegate, SIGNAL(rowClicked(int)),this,SLOT(selectRow(int)));
+    connect(m_buttonDelegate, SIGNAL(sig_rowClicked(int)),this,SLOT(selectRow(int)));
+    connect(m_buttonDelegate,&BesButtonDelegate::sig_showLyric, [=](int row, bool rawLyric){
+        if(rawLyric)emit(sig_showRawLyric(m_model->DataVector().at(row)));
+        else emit (sig_showLrcLyric(m_model->DataVector().at(row)));
+    });
 
     BaseInit();
 }
@@ -49,23 +53,24 @@ void BesTableView::iniData()
  //基础的初始化
 void BesTableView::BaseInit()
 {
+    this->setFocusPolicy(Qt::NoFocus);
     this->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     this->setColumnWidth(0,50);
-    this->setColumnWidth(4,200);
-    this->verticalHeader()->setVisible(false);
+    this->setColumnWidth(4,240);
+    this->verticalHeader()->setVisible(true);
     this->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setSectionResizeMode(4,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setMinimumSectionSize(50);
     this->horizontalHeader()->setHighlightSections(false);
     this->setGridStyle(Qt::PenStyle::NoPen);
-
+    this->setShowGrid(false);
 }
 
 //自动调整大小
 void BesTableView::resizeEvent(QResizeEvent *event)
 {
     QTableView::resizeEvent(event);
-    double widthLeft = this->width() - 50 - 200 - 15;
+    double widthLeft = this->width() - 50 - 240 - 15;
     this->setColumnWidth(1,widthLeft * 2/5);
     this->setColumnWidth(2,widthLeft * 2/5);
     this->setColumnWidth(3,widthLeft * 1/5);

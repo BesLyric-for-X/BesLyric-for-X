@@ -58,6 +58,9 @@ public slots:
 
     void updatePos(int);
 
+public:
+    void selectLyricPath(const QString& lyricPath);
+
 
 private:
     void initMakingProcess(); //初始化制作歌词的过程

@@ -22,11 +22,13 @@ void BesTableModel::appendItems(const QVector<LyricInfo>& infos)
 
 int BesTableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_data.size();
 }
 
 int BesTableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return 5;
 }
 
@@ -60,9 +62,9 @@ QVariant BesTableModel::data(const QModelIndex &index, int role) const
     else if(role==Qt::TextAlignmentRole)
     {
         if(index.column() == 0)
-            return Qt::AlignRight;
+            return Qt::AlignCenter;
         else
-            return Qt::AlignLeft;
+            return Qt::AlignVCenter;
     }
 
     return QVariant();

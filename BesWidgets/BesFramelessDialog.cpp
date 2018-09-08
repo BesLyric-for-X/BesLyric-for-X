@@ -49,8 +49,6 @@ void BesFramelessDialog::mousePressEvent(QMouseEvent *event)
         }
         break;
     case Qt::RightButton:
-        this->close();
-        break;
     default:
         BesShadowDialog::mousePressEvent(event);
     }

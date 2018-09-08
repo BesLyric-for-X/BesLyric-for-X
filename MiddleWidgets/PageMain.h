@@ -21,6 +21,8 @@ public:
     void initLayout();
     void initConnection();
 
+public slots:
+    void OnAutoSelectRawLyric(const QString& RawlyricPath);
 
 public:
     QWidget*                leftBoardMainPage;

@@ -55,6 +55,9 @@ void SubPageMaking::initLayout()
     editSelectMusic = new QLineEdit(this);
     editSelectLyric = new QLineEdit(this);
     editSelectOutputDir = new QLineEdit(this);
+    editSelectMusic->setFocusPolicy(Qt::NoFocus);
+    editSelectLyric->setFocusPolicy(Qt::NoFocus);
+    editSelectOutputDir->setFocusPolicy(Qt::NoFocus);
     editSelectMusic->setMinimumHeight(28);
     editSelectLyric->setMinimumHeight(28);
     editSelectOutputDir->setMinimumHeight(28);
@@ -466,11 +469,7 @@ void SubPageMaking::selectLyricPath()
 
     QString fileName = QFileDialog::getOpenFileName(this, tr("打开原歌词文件"), "/home",
                                                       tr("文本 (*.txt);;其他 (*.*)"));
-    if(fileName.size() !=0)
-    {
-        editSelectLyric->setText(fileName);
-        pathLyric = fileName;
-    }
+    selectLyricPath(fileName);
 }
 
 void SubPageMaking::selectOutputDir()
@@ -591,7 +590,16 @@ void SubPageMaking::updatePos(int pos)
 		timeLabel.sprintf("%.2d:%.2d.%.3d", m, s, ms);
 
 		labelTimeTip->setText(timeLabel);
-	}
+    }
+}
+
+void SubPageMaking::selectLyricPath(const QString &lyricPath)
+{
+    if(lyricPath.size() !=0)
+    {
+        editSelectLyric->setText(lyricPath);
+        pathLyric = lyricPath;
+    }
 }
 
 //初始化制作歌词的过程

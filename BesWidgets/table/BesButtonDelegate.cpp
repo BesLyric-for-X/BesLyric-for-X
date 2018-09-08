@@ -15,12 +15,11 @@ BesButtonDelegate::BesButtonDelegate(QObject *parent) :
   m_pBtnLyricRaw(new BesButton()),
   m_pBtnLyricLrc(new BesButton()),
   m_nSpacing(5),
-  m_nWidth(85),
+  m_nWidth(115),
   m_nHeight(28)
 {
     m_list << QStringLiteral("查看原歌词") << QStringLiteral("查看LRC歌词");
 }
-
 
 void BesButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
@@ -73,6 +72,7 @@ void BesButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
 bool BesButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
+    Q_UNUSED(model);
     if (index.column() != FILE_OPERATE_COLUMN)
             return false;
 
@@ -115,6 +115,7 @@ bool BesButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
             // 鼠标按下
             case QEvent::MouseButtonPress:
             {
+                emit sig_rowClicked(index.row());
                 m_nType = 1;
                 break;
             }
@@ -122,13 +123,9 @@ bool BesButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
             case QEvent::MouseButtonRelease:
             {
                 if (i == 0)
-                {
-                    emit showMsg(QString("i=0 ;row:%1 line:%2").arg(index.row()).arg(index.column()));
-                }
+                    emit sig_showLyric(index.row(), true);
                 else
-                {
-                    emit showMsg(QString("i=1 ;row:%1 line:%2").arg(index.row()).arg(index.column()));
-                }
+                    emit sig_showLyric(index.row(), false);
                 break;
             }
             default:
@@ -137,11 +134,4 @@ bool BesButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, co
         }
 
         return bRepaint;
-}
-
-void BesButtonDelegate::showMsg(QString str)
-{
-    QMessageBox msg;
-    msg.setText(str);
-    msg.exec();
 }

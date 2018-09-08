@@ -23,8 +23,9 @@ public:
         besMessageBox->labelMessageContent->setText(text);
         besMessageBox->exec();
 
+        QMessageBox::StandardButton result = besMessageBox->btnResult;
         delete besMessageBox;
-        return besMessageBox->btnResult;
+        return result;
     }
 
     static int information(const QString &title,const QString& text)
@@ -37,8 +38,9 @@ public:
         besMessageBox->btnCancel->setVisible(false);
         besMessageBox->exec();
 
+        QMessageBox::StandardButton result = besMessageBox->btnResult;
         delete besMessageBox;
-        return besMessageBox->btnResult;
+        return result;
     }
 
 
@@ -156,8 +158,5 @@ private:
 
     static BesMessageBox* besMessageBox;
 };
-
-
-
 
 #endif // BESMESSAGEBOX_H

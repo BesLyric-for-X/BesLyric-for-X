@@ -69,6 +69,9 @@ protected:
         //QSlider
         baseColor                 =colorString;
         baseColorLighter          =colorLighter;
+
+        //其他
+        editBackground            = "white";
     }
 
 
