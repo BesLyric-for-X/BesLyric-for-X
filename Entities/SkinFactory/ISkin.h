@@ -46,7 +46,7 @@ private:
            " border-image:url(\""+topContainerBgImage+"\");"
             "background-color:"+topContainerBgColor+";"
         "}"
-        "QWidget#leftBoardMainPage"
+        "QWidget#leftBoardMainPage, QWidget#lyriclistLeftPanel"
         "{"
             "background-color:"+ leftboardBgColor+";"
             "border-right: 1px solid "+ leftboardBorderColor +";"
@@ -57,7 +57,7 @@ private:
             "border-top: 1px solid "+bottomContainerBorderColor +";"
         "}"
 
-        "QWidget#subPageContainer"
+        "QWidget#subPageContainer, QWidget#pageSettingContainer, QWidget#pageLyricListContainer"
         "{"
            " background-color:"+subPageContainerColor+ ";"
         "}"
@@ -104,6 +104,21 @@ private:
         "{"
            " background-color:"+MessageBoxBottomColor+ ";"
         "}"
+
+        "QWidget#settingTopPanel{"
+           "border-bottom: 1px solid rgba(150,150,150,15%);"
+        "}"
+        "QWidget#settingLeftPanel{"
+           "border-right: 1px solid rgba(150,150,150,15%);"
+         "}"
+
+//        "QWidget#lyriclistLeftPanel{"
+//           " background-color:#ff0000;"
+//        "}"
+//        "QWidget#lyriclistRightPanel{"
+//           " background-color:#00ff00;"
+//         "}"
+
 
         ;
 
@@ -163,7 +178,7 @@ private:
              "margin:10px;"
          "}"
 
-         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong{"
+         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, QLabel#settingTitle{"
              "color:"+DeepLabelColor+";"
              "font-size:23px;"
              "margin:10px;"
@@ -539,7 +554,7 @@ private:
                 "border-image:url(\":/resource/image/mark_skin_select.png\");"
                  "}"
 
-                "QPushButton#btnPackupLyricBox{"
+                "QPushButton#btnPackupLyricBox, QPushButton#btnPackupSetting{"
                  "image:url(\""+btnPackbackToBoxImg +"\");"
                 "border:1px solid "+leftboardBorderColor+";"
                 "width: 42px;"

@@ -2,6 +2,8 @@
 #define PAGESETTING_H
 
 #include <QWidget>
+#include <QLabel>
+#include "BesButton.h"
 
 class PageSetting : public QWidget
 {
@@ -15,6 +17,13 @@ public:
     void initConnection();
 
 public:
+    QWidget* pageSettingContainer;
+    QWidget * settingTopPanel;
+    QWidget * settingLeftPanel;
+    QWidget * settingRightPanel;
+
+    QLabel*   settingTitle;            //设置标题
+    BesButton*  btnPackupSetting;      //将设置收起按钮
 
 };
 

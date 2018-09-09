@@ -6,6 +6,7 @@
 #include <BesButton.h>
 #include <QPixmap>
 #include <QPainter>
+#include <QLabel>
 
 class ExtendButton: public BesButton
 {

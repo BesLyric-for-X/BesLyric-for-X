@@ -2,6 +2,8 @@
 #define PAGELYRICLIST_H
 
 #include <QWidget>
+#include <QListWidget>
+#include <QListWidgetItem>
 
 class PageLyricList : public QWidget
 {
@@ -15,7 +17,11 @@ public:
     void initConnection();
 
 public:
+    QWidget* pageLyricListContainer;
+    QWidget * lyriclistLeftPanel;
+    QWidget * lyriclistRightPanel;
 
+    QListWidget *LyricListCreated;
 };
 
 #endif // PAGELYRICLIST_H

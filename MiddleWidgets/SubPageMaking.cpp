@@ -38,6 +38,7 @@ void SubPageMaking::initEntity()
 void SubPageMaking::initLayout()
 {
     QVBoxLayout* vLayout = new QVBoxLayout(this);
+    vLayout->setMargin(30);
 
     labelSelectMusic = new QLabel(this);
     labelSelectLyric= new QLabel(this);
@@ -105,7 +106,7 @@ void SubPageMaking::initLayout()
     labelTipSpace= new QLabel(this);
     labelTipBack= new QLabel(this);
     labelTipReturn= new QLabel(this);
-    labelTip->setText(tr("提示："));
+    labelTip->setText(tr("制作提示："));
     labelTipUp->setText(tr("推上一行"));
     labelTipEmpty->setText(tr("空出一行"));
     labelTipBack->setText(tr("回退5秒"));

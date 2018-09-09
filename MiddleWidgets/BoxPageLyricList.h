@@ -2,6 +2,8 @@
 #define BOXPAGELYRICLIST_H
 
 #include <QWidget>
+#include <QLabel>
+#include "BoxPagePreviewLyric.h"
 
 class BoxPageLyricList : public QWidget
 {
@@ -14,9 +16,24 @@ public:
     void initLayout();
     void initConnection();
 
+public slots:
+    void changePic(QPixmap pic);
+
+    void setToDefaultPic();
+
+protected:
+
+    void mouseMoveEvent(QMouseEvent *event)
+    {
+        QWidget::mouseMoveEvent(event);
+    }
+
+    virtual void resizeEvent(QResizeEvent *event);
+
 public:
     QWidget* widgetMainLyricList;
-
+    ExtendButton* extendButton;
+    QLabel* labelLyricListBoxTip;
 };
 
 #endif // BOXPAGELYRICLIST_H

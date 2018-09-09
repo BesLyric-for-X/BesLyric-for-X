@@ -24,7 +24,7 @@ public:
     void initConnection();
     void initAnimation();
 
-    void AnimateFromRectToRect(QWidget* widget, QRect fromRect, QRect toRect);
+    void AnimateFromRectToRect(QPropertyAnimation& animation, QWidget* widget, QRect fromRect, QRect toRect);
 
 public slots:
     void switchPage(int from, int to);
@@ -45,6 +45,10 @@ public:
                                                         // 0 是主页  1 是歌词预览页
 
     QPropertyAnimation  animationPreviewExtend;
+    QPropertyAnimation  animationLrcListExtend;
+    QPropertyAnimation  animationSettingExtend;
+
+    int nRuningAnimationCount;
 };
 
 #endif // TOPWIDGET_H

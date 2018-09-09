@@ -49,6 +49,21 @@ void MainWidget::initLayout()
 
 void MainWidget::initConnection()
 {
+    connect(topWidget->btnSetting, &QPushButton::clicked, [=](){
+        if(middleWidget->currentPage == 1)
+            middleWidget->switchPage(1,0);
+        if(middleWidget->currentPage == 2)
+            middleWidget->switchPage(2,0);
+
+        if(middleWidget->currentPage != 4)
+            middleWidget->switchPage(0,4);
+    });
+
+
+    connect(middleWidget->pageSetting->btnPackupSetting, &QPushButton::clicked, [=](){
+            middleWidget->switchPage(4,0);});
+
+
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
                                                  this, SLOT(onUnloadLyricFromPreviewPage()));
 

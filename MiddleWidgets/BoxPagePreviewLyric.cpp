@@ -39,6 +39,7 @@ void BoxPagePreviewLyric::resizeEvent(QResizeEvent *event)
     QRect leftWidgetRect = QRect(5 ,5,this->height()-2*5, this->height()-2*5);
 
     extendButton->setGeometry(leftWidgetRect);
+
 }
 
 
