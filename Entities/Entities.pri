@@ -18,7 +18,8 @@ HEADERS+=\
     $$PWD/UnicodeReader.h\
     $$PWD/LyricSearcherFactory/ISearcher.h \
     $$PWD/LrcProcessor.h \
-    $$PWD/LyricSearcherFactory/ThreadSearchLyric.h
+    $$PWD/LyricSearcherFactory/ThreadSearchLyric.h\
+    $$PWD/LyricSearcherFactory/ThreadSearchNcmMusic.h
 
 
 SOURCES+=\

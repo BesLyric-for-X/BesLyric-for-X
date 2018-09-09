@@ -7,6 +7,7 @@ PageMain::PageMain(QWidget *parent)
     : QWidget(parent)
 {
     this->setMouseTracking(true);
+    initEntity();
     initLayout();
     initConnection();
 }
@@ -14,6 +15,11 @@ PageMain::PageMain(QWidget *parent)
 PageMain::~PageMain()
 {
 
+}
+
+void PageMain::initEntity()
+{
+    qRegisterMetaType<LyricSearchResult>("LyricSearchResult");
 }
 
 void PageMain::initLayout()

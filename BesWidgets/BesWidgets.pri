@@ -6,9 +6,12 @@ HEADERS+=\
     $$PWD/BesMessageBox.h \
     $$PWD/BesShadowDialog.h \
     $$PWD/BesFramelessDialog.h\
-    $$PWD/table/BesTableView.h\
-    $$PWD/table/BesTableModel.h\
-    $$PWD/table/BesButtonDelegate.h\
+    $$PWD/table/BesLrcButtonDelegate.h \
+    $$PWD/table/BesLrcTableModel.h \
+    $$PWD/table/BesLrcTableView.h\
+    $$PWD/table/BesNcmSongButtonDelegate.h \
+    $$PWD/table/BesNcmSongTableModel.h \
+    $$PWD/table/BesNcmSongTableView.h\
 
 SOURCES+=\
     $$PWD/BesFramelessWidget.cpp \
@@ -16,8 +19,11 @@ SOURCES+=\
     $$PWD/BesMessageBox.cpp \
     $$PWD/BesShadowDialog.cpp \
     $$PWD/BesFramelessDialog.cpp\
-    $$PWD/table/BesTableView.cpp\
-    $$PWD/table/BesTableModel.cpp\
-    $$PWD/table/BesButtonDelegate.cpp\
+    $$PWD/table/BesLrcButtonDelegate.cpp \
+    $$PWD/table/BesLrcTableView.cpp \
+    $$PWD/table/BesLrcTableModel.cpp\
+    $$PWD/table/BesNcmSongButtonDelegate.cpp \
+    $$PWD/table/BesNcmSongTableView.cpp \
+    $$PWD/table/BesNcmSongTableModel.cpp\
 
 

@@ -1,21 +1,21 @@
-﻿#ifndef TABLEVIEW_H
-#define TABLEVIEW_H
+﻿#ifndef BESLRCTABLEVIEW_H
+#define BESLRCTABLEVIEW_H
 
 #include "Define/Define.h"
-#include "BesTableModel.h"
-#include "BesTableView.h"
-#include "BesButtonDelegate.h"
+#include "BesLrcTableModel.h"
+#include "BesLrcTableView.h"
+#include "BesLrcButtonDelegate.h"
 #include <QTableView>
 #include <QVector>
 
-class BesTableView : public QTableView
+class BesLrcTableView : public QTableView
 {
     Q_OBJECT
 public:
-    explicit BesTableView(QWidget *parent = 0);
-    ~BesTableView();
+    explicit BesLrcTableView(QWidget *parent = 0);
+    ~BesLrcTableView();
 
-    BesTableModel* tableModel() {return m_model;}
+    BesLrcTableModel* tableModel() {return m_model;}
 
 public:
     void deleteAllItems();
@@ -35,9 +35,9 @@ private:
     void BaseInit(); //基础的初始化
 
 private:
-    BesTableModel *m_model;
-    BesButtonDelegate *m_buttonDelegate;
+    BesLrcTableModel *m_model;
+    BesLrcButtonDelegate *m_buttonDelegate;
 
 };
 
-#endif // TABLEVIEW_H
+#endif // BESLRCTABLEVIEW_H

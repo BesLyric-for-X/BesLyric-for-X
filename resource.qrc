@@ -72,5 +72,9 @@
         <file>resource/image/icon_music_white.png</file>
         <file>resource/image/icon_exclamation_white.png</file>
         <file>resource/image/icon_question_white.png</file>
+        <file>resource/image/btn_download_hover.png</file>
+        <file>resource/image/btn_download_normal.png</file>
+        <file>resource/image/download_done.png</file>
+        <file>resource/image/download_done_invalid.png</file>
     </qresource>
 </RCC>

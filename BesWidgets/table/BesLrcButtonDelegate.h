@@ -1,15 +1,15 @@
-﻿#ifndef BUTTONDELEGATE_H
-#define BUTTONDELEGATE_H
+﻿#ifndef BESLRCBUTTONDELEGATE_H
+#define BESLRCBUTTONDELEGATE_H
 
 #include <QStyledItemDelegate>
 #include <QPushButton>
 #include <BesButton.h>
 
-class BesButtonDelegate : public QStyledItemDelegate
+class BesLrcButtonDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit BesButtonDelegate(QObject *parent = 0);
+    explicit BesLrcButtonDelegate(QObject *parent = 0);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index);
 
@@ -32,4 +32,4 @@ private:
 
 };
 
-#endif // BUTTONDELEGATE_H
+#endif // BESLRCBUTTONDELEGATE_H

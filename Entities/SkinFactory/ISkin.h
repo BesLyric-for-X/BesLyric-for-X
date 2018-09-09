@@ -163,13 +163,13 @@ private:
              "margin:10px;"
          "}"
 
-         "QLabel#labelTitleSearchLyric{"
+         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong{"
              "color:"+DeepLabelColor+";"
              "font-size:23px;"
              "margin:10px;"
          "}"
 
-         "QLabel#labelLyricResultTip2, QLabel#labelLyricResultTip4{"
+         "QLabel#labelLyricResultTip2, QLabel#labelLyricResultTip4,QLabel#labelNcmSongResultTip2, QLabel#labelNcmSongResultTip4{"
              "color:#427cae;"
              "font-size:17px;"
          "}"
@@ -561,6 +561,47 @@ private:
                 "    color: "+defaultButtonColorHover+";"
                 "    background:"+blueButtonColorHover+";"
                 "}"
+
+                //搜索歌曲列表按钮
+                "QPushButton#m_pBtnPreviewSong{"
+                      "border: none; "
+                      "background-color: transparent; "
+                      "image:url(:/resource/image/btn_download_normal);"
+                "}"
+                 "QPushButton#m_pBtnPreviewSong:hover{"
+                      "image:url(:/resource/image/btn_download_hover);"
+                  "} "
+                 "QPushButton#m_pBtnPreviewSong:pressed {"
+                      "image:url(:/resource/image/btn_download_hover);"
+                 "}"
+
+
+                "QPushButton#m_pBtnListenSong{"
+                      "border: none; "
+                      "background-color: transparent; "
+                      "image:url(:/resource/image/btn_download_normal);"
+                "}"
+                 "QPushButton#m_pBtnListenSong:hover{"
+                      "image:url(:/resource/image/btn_download_hover);"
+                  "} "
+                 "QPushButton#m_pBtnListenSong:pressed {"
+                      "image:url(:/resource/image/btn_download_hover);"
+                 "}"
+
+
+                "QPushButton#m_pBtnDownloadSong{"
+                      "border: none; "
+                      "background-color: transparent; "
+                      "image:url(:/resource/image/btn_download_normal);"
+                "}"
+                 "QPushButton#m_pBtnDownloadSong:hover{"
+                      "image:url(:/resource/image/btn_download_hover);"
+                  "} "
+                 "QPushButton#m_pBtnDownloadSong:pressed {"
+                      "image:url(:/resource/image/btn_download_hover);"
+                 "}"
+
+
               ;
 
         return str;

@@ -1,4 +1,4 @@
-﻿#include "BesButtonDelegate.h"
+﻿#include "BesLrcButtonDelegate.h"
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -8,9 +8,9 @@
 #include <QDesktopWidget>
 #include <QToolTip>
 
-#define FILE_OPERATE_COLUMN 4
+#define LRC_LIST_OPERATE_COLUMN 4
 
-BesButtonDelegate::BesButtonDelegate(QObject *parent) :
+BesLrcButtonDelegate::BesLrcButtonDelegate(QObject *parent) :
     QStyledItemDelegate(parent),
   m_pBtnLyricRaw(new BesButton()),
   m_pBtnLyricLrc(new BesButton()),
@@ -21,7 +21,7 @@ BesButtonDelegate::BesButtonDelegate(QObject *parent) :
     m_list << QStringLiteral("查看原歌词") << QStringLiteral("查看LRC歌词");
 }
 
-void BesButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void BesLrcButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem viewOption(option);
         initStyleOption(&viewOption, index);
@@ -30,18 +30,18 @@ void BesButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 
         QStyledItemDelegate::paint(painter, viewOption, index);
 
-        if (index.column() == FILE_OPERATE_COLUMN)
+        if (index.column() == LRC_LIST_OPERATE_COLUMN)
         {
             // 计算按钮显示区域
             int nCount = m_list.count();
-            int nHalf = (option.rect.width() - m_nWidth * nCount - m_nSpacing * (nCount - 1)) / 2;
+            int nleft = (option.rect.width() - m_nWidth * nCount - m_nSpacing * (nCount - 1)) / 2;
             int nTop = (option.rect.height() - m_nHeight) / 2;
 
             for (int i = 0; i < nCount; ++i)
             {
                 // 绘制按钮
                 QStyleOptionButton button;
-                button.rect = QRect(option.rect.left() + nHalf + m_nWidth * i + m_nSpacing * i,
+                button.rect = QRect(option.rect.left() + nleft + m_nWidth * i + m_nSpacing * i,
                                     option.rect.top() + nTop,  m_nWidth, m_nHeight);
                 button.text = m_list.at(i);
                 button.state |= QStyle::State_Enabled;
@@ -70,10 +70,10 @@ void BesButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         }
 }
 
-bool BesButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+bool BesLrcButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     Q_UNUSED(model);
-    if (index.column() != FILE_OPERATE_COLUMN)
+    if (index.column() != LRC_LIST_OPERATE_COLUMN)
             return false;
 
         m_nType = -1;

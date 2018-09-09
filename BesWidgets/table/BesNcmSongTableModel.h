@@ -1,27 +1,27 @@
-﻿#ifndef TABLEMODEL_H
-#define TABLEMODEL_H
+﻿#ifndef BES_NCM_SONG_TABLE_MODEL_H
+#define BES_NCM_SONG_TABLE_MODEL_H
 
 #include <QAbstractTableModel>
 #include <QVector>
 #include "Define/Define.h"
 
-class BesTableModel : public QAbstractTableModel
+class BesNcmSongTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit BesTableModel(QObject *parent = 0);
+    explicit BesNcmSongTableModel(QObject *parent = 0);
+    ~BesNcmSongTableModel(void);
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void setHorizontalHeader(const QStringList& headers);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    void setData(const QVector<LyricInfo>& data);
-    QVector<LyricInfo>& DataVector() {return m_data;}
-    ~BesTableModel(void);
+    void setData(const QVector<SONGINFO>& data);
+    QVector<SONGINFO>& DataVector() {return m_data;}
 
     void deleteAllItems();
-    void appendItems(const QVector<LyricInfo>& infos);
+    void appendItems(const QVector<SONGINFO>& infos);
 
 signals:
 
@@ -30,7 +30,7 @@ public slots:
 
 private:
     QStringList m_HorizontalHeader;
-    QVector<LyricInfo> m_data;
+    QVector<SONGINFO> m_data;
 };
 
-#endif // TABLEMODEL_H
+#endif // BES_NCM_SONG_TABLE_MODEL_H

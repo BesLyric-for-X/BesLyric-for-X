@@ -1,51 +1,20 @@
 ﻿#include "NetAccess.h"
+#include <QUrl>
+#include <QTimer>
 
-
-bool NetworkAccess::DownloadFile(const QString strUrl, const QString strSaveAs)
+bool NetworkAccess::DownloadFile(const QString strUrl, const QString strSaveAs, QVariant data)
 {
+    DownloadInfo info;
+    info.strUrl = strUrl;
+    info.strSaveFilePath = strSaveAs;
+    info.data = data;
+
+    if (downloadQueue.isEmpty())
+        QTimer::singleShot(0, this, SLOT(startNextDownload()));
+
+    downloadQueue.enqueue(info);
 
     return true;
-}
-
-bool NetworkAccess::DownloadString(const QString strUrl, QString &strSaveBuffer)
-{
-    //        QUrl url(strUrl);
-    //        QFileInfo fileInfo = url.path();
-    //        file =new QFile(fileInfo.fileName());
-    //        file->open(QIODevice::WriteOnly);//只读方式打开文件
-
-    //        /******************设置http的header***********************/
-    //        // request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data");
-    //        // request.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
-    //        // request.setRawHeader("Content-Disposition","form-data;name='doc';filename='a.txt'");
-    //        //request.setHeader(QNetworkRequest::ContentLengthHeader,post_data.length());
-
-    //        request.setUrl(QUrl("https://images2017.cnblogs.com/blog/683006/201710/683006-20171026142646008-1509778425.png"));
-
-    pStrBuffer = &strSaveBuffer;
-    bDownloadResult = false;
-
-
-    QNetworkAccessManager*  manager = new QNetworkAccessManager(this);
-
-    QNetworkRequest request;
-    request.setUrl(QUrl(strUrl));
-
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyFinished(QNetworkReply *)));
-
-    reply = manager->get(request);
-
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT( onDownloadProgress(qint64 ,qint64 )));//download文件时进度
-    connect(reply, SIGNAL(readyRead()),this, SLOT(onReadyRead()));
-
-
-
-    //downloadDone.wait(&mutex);
-    bDownloadFinish = false;
-    while(!bDownloadFinish)
-        _sleep(1);
-
-    return bDownloadResult;
 }
 
 bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &strSaveBuffer, QUrlQuery query)
@@ -148,3 +117,127 @@ void NetworkAccess::onReadyRead(){
     //file->write(reply->readAll());
     qDebug()<<"downloading...... \n";
 }
+
+void NetworkAccess::startNextDownload()
+{
+    if (downloadQueue.isEmpty()) {
+        qDebug()<<("queue download finish\n");
+        emit finished();
+        return;
+    }
+
+    DownloadInfo downloadInfo = downloadQueue.head();
+
+    output.setFileName(downloadInfo.strSaveFilePath);
+    if (!output.open(QIODevice::WriteOnly)) {
+        qDebug() << "Problem opening save file "<< downloadInfo.strSaveFilePath
+                 << " for download "<< downloadInfo.strUrl;
+
+        DownloadInfo info = downloadQueue.dequeue();
+        emit(sig_fileOpenErrorWhenSave(info.data));
+
+        startNextDownload();
+        return;                 // skip this download
+    }
+
+    QNetworkRequest request(QUrl(downloadInfo.strUrl));
+    currentDownload = manager.get(request);
+    connect(currentDownload, SIGNAL(downloadProgress(qint64,qint64)),
+            SLOT(downloadProgress(qint64,qint64)));
+    connect(currentDownload, SIGNAL(finished()),
+            SLOT(downloadFinished()));
+    connect(currentDownload, SIGNAL(readyRead()),
+            SLOT(downloadReadyRead()));
+
+    // prepare the output
+    qDebug()<< "Downloading ... "<< downloadInfo.strUrl;
+    downloadTime.start();
+}
+
+void NetworkAccess::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    //progressBar.setStatus(bytesReceived, bytesTotal);
+
+    // calculate the download speed
+    double speed = bytesReceived * 1000.0 / downloadTime.elapsed();
+    QString unit;
+    if (speed < 1024) {
+        unit = "bytes/sec";
+    } else if (speed < 1024*1024) {
+        speed /= 1024;
+        unit = "kB/s";
+    } else {
+        speed /= 1024*1024;
+        unit = "MB/s";
+    }
+
+    QString strSpeed = QString::fromLatin1("%1 %2").arg(speed, 3, 'f', 1).arg(unit);
+    qDebug()<< strSpeed;
+
+    int percent;
+    if(bytesReceived == 0|| bytesTotal == 0)
+        percent = 0;
+    else
+        percent =bytesReceived * 100 /bytesTotal;
+
+    emit sig_progressChanged(strSpeed, percent ,downloadQueue.head().data);
+}
+
+void NetworkAccess::downloadFinished()
+{
+    //progressBar.clear();
+    output.close();
+
+    bool bDeleteFile = false;
+    QString fileToDelete;
+
+    if (currentDownload->error()) {
+        // download failed
+        fprintf(stderr, "Failed: %s\n", qPrintable(currentDownload->errorString()));
+
+        DownloadInfo info = downloadQueue.dequeue();
+        bDeleteFile = true;
+        fileToDelete = info.strSaveFilePath;
+        emit sig_netErrorWhenDownload(info.data);
+    } else {
+
+        int statusCode = currentDownload->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+        QString strUrl = currentDownload->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
+
+        if(statusCode== 302)
+        {
+            qDebug()<<"redirect to Location: " + strUrl;
+
+            if(strUrl == "http://music.163.com/404")
+            {
+                DownloadInfo info = downloadQueue.dequeue();
+                bDeleteFile = true;
+                fileToDelete = info.strSaveFilePath;
+                emit sig_finishDownload(info.data,DOWNLOAD_FINISH_STATUS::NETEASE_MUSIC_NOT_FOUND );
+            }
+            else
+                downloadQueue.head().strUrl = strUrl;
+        }
+        else
+        {
+            qDebug()<<("Succeeded  code->")<< statusCode;
+            DownloadInfo info = downloadQueue.dequeue();
+            emit sig_finishDownload(info.data, DOWNLOAD_FINISH_STATUS::NORMAL);
+        }
+
+        //++downloadedCount;
+    }
+
+    if(bDeleteFile)
+        QFile::remove(fileToDelete);
+
+    currentDownload->deleteLater();
+    startNextDownload();
+}
+
+void NetworkAccess::downloadReadyRead()
+{
+    output.write(currentDownload->readAll());
+}
+

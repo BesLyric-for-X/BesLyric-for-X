@@ -64,7 +64,7 @@ bool SearcherNetEaseCloud::GetSongListWithNameAndArtist(QString strSong, QString
     QString strRes;
     if(!NetworkAccess::SyncDownloadStringPost( "https://music.163.com/api/search/get/web",strRes,queryData))
     {
-        strLastResult = tr("网络连接失败，无法获取歌词索引数据");
+        strLastResult = tr("网络连接失败，无法获取索引数据");
         return false;
     }
 	
@@ -97,13 +97,14 @@ bool SearcherNetEaseCloud::GetSongListFromJson(QString strJsonRes, QVector< SONG
                   "songCount" : 3,
                   "songs" : [
                      {
-                        "album" : {...},
+                        "album" : {... ,"name": "改变自己",...},
                         "alias" : [],
                         "artists" : [{... ,"name" : "王力宏", ...},{...}]
                         ...
                         "id" : 25642952,
                         "mvid" : 5293365,
                         "name" : "我们的歌",
+                        "duration": 247760,
                         ...
                      }
                      ,
@@ -134,10 +135,18 @@ bool SearcherNetEaseCloud::GetSongListFromJson(QString strJsonRes, QVector< SONG
                 strArtists += artistName;
             }
 
+            int nTime = songObject.value("duration").toInt();
+            QString strAlbum;
+            QJsonObject AlbumObj = songObject.value("album").toObject();
+            if(!AlbumObj.isEmpty())
+                strAlbum = AlbumObj.value("name").toString();
+
             SONGINFO songInfo;
             songInfo.nID = nID;
             songInfo.strArtists = strArtists;
             songInfo.strSong = strSong;
+            songInfo.nTime = nTime;
+            songInfo.strAlbum = strAlbum;
             vecSongList.push_back(songInfo);  //将从一首歌收集的信息储存
         }
     }

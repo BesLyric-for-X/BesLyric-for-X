@@ -101,7 +101,6 @@ protected:
            QMutexLocker locker(&mutex);
            m_bIsSearching = false; //退出搜索状态
         }
-
     }
 
     QMutex mutex;

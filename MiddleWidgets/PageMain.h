@@ -18,6 +18,7 @@ public:
     PageMain(QWidget *parent = 0);
     ~PageMain();
 
+    void initEntity();
     void initLayout();
     void initConnection();
 

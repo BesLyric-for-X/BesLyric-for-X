@@ -9,8 +9,8 @@
 #include <QTabWidget>
 #include <QListWidget>
 #include <QTextEdit>
-#include <LyricSearcherFactory/threadsearchlyric.h>
-#include "table/BesTableView.h"
+#include "LyricSearcherFactory/threadsearchlyric.h"
+#include "table/BesLrcTableView.h"
 
 class SubPageDownloadLyric : public QWidget
 {
@@ -20,7 +20,6 @@ public:
     SubPageDownloadLyric(QWidget *parent = 0);
     ~SubPageDownloadLyric();
 
-    void initEntity();
     void initLayout();
     void initConnection();
 
@@ -63,7 +62,7 @@ public:
     QLabel* labelLyricResultTip5;
 
 
-    BesTableView* tableLyricSearch;
+    BesLrcTableView* tableLyricSearch;
     QWidget* widgetRawLyricBoard;
     QWidget* widgetLrcLyricBoard;
 

@@ -15,18 +15,13 @@ SubPageDownloadLyric::SubPageDownloadLyric(QWidget *parent)
     : QWidget(parent)
 {
     this->setMouseTracking(true);
-    initEntity();
+
     initLayout();
     initConnection();
 }
 
 SubPageDownloadLyric::~SubPageDownloadLyric()
 {
-}
-
-void SubPageDownloadLyric::initEntity()
-{
-    qRegisterMetaType<LyricSearchResult>("LyricSearchResult");
 }
 
 void SubPageDownloadLyric::initLayout()
@@ -123,7 +118,7 @@ void SubPageDownloadLyric::initLayout()
     hLayout3->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
 
     //搜索结果
-    tableLyricSearch = new BesTableView(this);
+    tableLyricSearch = new BesLrcTableView(this);
     tableLyricSearch->setObjectName("tableLyricSearch");
 
     //原歌词面板

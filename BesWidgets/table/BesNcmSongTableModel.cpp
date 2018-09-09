@@ -1,38 +1,37 @@
-﻿#include "BesTableModel.h"
+﻿#include "BesNcmSongTableModel.h"
 
-BesTableModel::BesTableModel(QObject *parent) :
+BesNcmSongTableModel::BesNcmSongTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
 }
 
-BesTableModel::~BesTableModel()
+BesNcmSongTableModel::~BesNcmSongTableModel()
 {
-
 }
 
-void BesTableModel::deleteAllItems()
+void BesNcmSongTableModel::deleteAllItems()
 {
     m_data.clear();
 }
 
-void BesTableModel::appendItems(const QVector<LyricInfo>& infos)
+void BesNcmSongTableModel::appendItems(const QVector<SONGINFO>& infos)
 {
     m_data.append(infos);
 }
 
-int BesTableModel::rowCount(const QModelIndex &parent) const
+int BesNcmSongTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_data.size();
 }
 
-int BesTableModel::columnCount(const QModelIndex &parent) const
+int BesNcmSongTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 5;
+    return 6;
 }
 
-QVariant BesTableModel::data(const QModelIndex &index, int role) const
+QVariant BesNcmSongTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -41,19 +40,25 @@ QVariant BesTableModel::data(const QModelIndex &index, int role) const
     {
         int nCol = index.column();
         int nRow =  index.row();
-        LyricInfo info = m_data.at(nRow);
+        SONGINFO info = m_data.at(nRow);
+
+        int nMinutes = info.nTime/1000/60;
+        int nSecond = info.nTime/1000%60;
+
         switch(nCol)
         {
         case 0:
-            return QString().number(nRow+1);
+            return QString().sprintf("%02d",(nRow+1));
         case 1:
-            return info.strSong;
+            return info.nPercentage;
         case 2:
-            return info.strArtist;
+            return info.strSong;
         case 3:
-            return info.strLyricFrom;
+            return info.strArtists;
         case 4:
-            return "";
+            return info.strAlbum;
+        case 5:
+            return QString().sprintf("%02d:%02d",nMinutes, nSecond);
         default:
             return QVariant();
         }
@@ -70,7 +75,7 @@ QVariant BesTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-Qt::ItemFlags BesTableModel::flags(const QModelIndex &index) const
+Qt::ItemFlags BesNcmSongTableModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -81,13 +86,13 @@ Qt::ItemFlags BesTableModel::flags(const QModelIndex &index) const
     return flag;
 }
 
-void BesTableModel::setHorizontalHeader(const QStringList &headers)
+void BesNcmSongTableModel::setHorizontalHeader(const QStringList &headers)
 {
     m_HorizontalHeader =  headers;
 }
 
 
-QVariant BesTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant BesNcmSongTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         if(m_HorizontalHeader.size()!=0)
@@ -96,7 +101,7 @@ QVariant BesTableModel::headerData(int section, Qt::Orientation orientation, int
     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
-void BesTableModel::setData(const QVector<LyricInfo> &data)
+void BesNcmSongTableModel::setData(const QVector<SONGINFO> &data)
 {
     m_data = data;
 }
