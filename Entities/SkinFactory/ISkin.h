@@ -22,6 +22,7 @@ public:
         cssContent += GetQScrollBarCss();
         cssContent += GetQTabWidgetCss();
         cssContent += GetQTableWidgetCss();
+        cssContent += GetQListWidgetCss();
 
         return cssContent;
     }
@@ -617,6 +618,34 @@ private:
                  "}"
 
 
+                //歌词列表按钮
+
+
+                "QPushButton#btnAddItem, QPushButton#btnToggleList{"
+                "border: none; "
+                "background-color: transparent; "
+                     "width:24px; height:24px;"
+                "}"
+
+                "QPushButton#btnAddItem{"
+                      "image:url(:/resource/image/add_list_normal_white);"
+                "}"
+                "QPushButton#btnAddItem:hover{"
+                      "image:url(:/resource/image/add_list_hover_white);"
+                "}"
+
+                "QPushButton#btnToggleList{"
+                      "image:url(:/resource/image/btn_expand_normal_white);"
+                "}"
+                "QPushButton#btnToggleList:hover{"
+                      "image:url(:/resource/image/btn_expand_hover_white);"
+                "}"
+                "QPushButton#btnToggleList:checked{"
+                      "image:url(:/resource/image/btn_collaps_normal_white);"
+                "}"
+                "QPushButton#btnToggleList:checked:hover{"
+                      "image:url(:/resource/image/btn_collaps_hover_white);"
+                "}"
               ;
 
         return str;
@@ -883,6 +912,34 @@ private:
                 ;
         return str;
     }
+
+    QString GetQListWidgetCss()
+    {
+        QString str = ""
+         "QListWidget{"
+              "color:" + defautlLabelColor + ";"
+              "background: transparent;border:0px solid gray;"
+         "}"
+         "QListWidget::Item{"
+             "border-left: 5px solid transparent;"
+             "font:14px;"
+             "height:35px;"
+             "padding-left:10;"
+             "background:transparent;"
+         "}"
+         "QListWidget::Item:hover{"
+            " color:" + DeepLabelColor + ";"
+         "}"
+         "QListWidget::Item:selected,QListWidget::Item:selected:active{"
+            " background-color:"+itemSelectBackground+";"
+            " border-left: 5px solid "+btnTabLeftBoderColor+";"
+            " color:" + DeepLabelColor + ";"
+          "}"
+                ;
+        return str;
+    }
+
+
 
     void setDefaultParameter()
     {

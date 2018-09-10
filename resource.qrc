@@ -19,7 +19,6 @@
         <file>resource/image/add_list_hover_black.png</file>
         <file>resource/image/add_list_hover_white.png</file>
         <file>resource/image/add_list_nomal_black.png</file>
-        <file>resource/image/add_list_normal.png</file>
         <file>resource/image/box_indicator_black.png</file>
         <file>resource/image/box_indicator_white.png</file>
         <file>resource/image/btn_close_normal_white.png</file>
@@ -76,5 +75,8 @@
         <file>resource/image/btn_download_normal.png</file>
         <file>resource/image/download_done.png</file>
         <file>resource/image/download_done_invalid.png</file>
+        <file>resource/image/add_list_normal_white.png</file>
+        <file>resource/image/btn_collaps_hover_white.png</file>
+        <file>resource/image/btn_collaps_normal_white.png</file>
     </qresource>
 </RCC>

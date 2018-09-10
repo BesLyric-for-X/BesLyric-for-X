@@ -46,38 +46,87 @@ void PageLyricList::initLayout()
 
     QVBoxLayout* vListLayout = new QVBoxLayout(lyriclistLeftPanel);
 
-    //创建的歌单
-    LyricListCreated = new QListWidget(lyriclistLeftPanel);
-    LyricListCreated->setStyleSheet("QListWidget{color:rgb(173,175,178); background:rgb(25,27,31);border:0px solid gray;}"
-                                        "QListWidget::Item{height:30px;border:0px solid gray;padding-left:15;}"
-                                        "QListWidget::Item:hover{color:rgb(255,255,255);background:transparent;border:0px solid gray;}"
-                                        "QListWidget::Item:selected{border-image:url(images/listwidget_h.png); color:rgb(255,255,255);border:0px solid gray;}"
-                                        "QListWidget::Item:selected:active{background:#00FFFFFF;color:#FFFFFF;border-width:0;}");
+    //制作历史歌词单
+    lyricListHistory = new QListWidget(lyriclistLeftPanel);
+    lyricListHistory->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
+    lyricListHistory->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    lyricListHistory->setMinimumHeight(35);
+    lyricListHistory->setMaximumHeight(35);
+    lyricListHistory->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    lyricListHistory->setFocusPolicy(Qt::NoFocus);
 
-    //去掉滚动条
-    LyricListCreated->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    LyricListCreated->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    LyricListCreated->show();
+    QListWidgetItem *add_item_0 = new QListWidgetItem(lyricListHistory);
+    add_item_0->setIcon(QIcon(":/resource/image/btn_skin_normal_white.png"));
+    add_item_0->setText("制作历史");
+
+    //创建的歌单
+
+    //表头
+    headerListCreated = new BesListHeader("创建的歌词单",true,true,lyriclistLeftPanel);
+    headerListCreated->setMaximumHeight(36);
+    headerListCreated->setMinimumHeight(36);
+    headerListCreated->setMinimumWidth(50);
+    headerListCreated->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+    //列表
+    lyricListCreated = new QListWidget(lyriclistLeftPanel);
+    lyricListCreated->setMinimumHeight(30);
+    lyricListCreated->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+    lyricListCreated->setFocusPolicy(Qt::NoFocus);
 
     //创建列表测试
-    QListWidgetItem *add_item_10 = new QListWidgetItem(LyricListCreated);
-    add_item_10->setIcon(QIcon(":/resource/image/btn_skin_normal_white.png"));
+    QListWidgetItem *add_item_10 = new QListWidgetItem(lyricListCreated);
+    add_item_10->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
     add_item_10->setText("我喜欢的音乐");
-    QListWidgetItem *add_item_11 = new QListWidgetItem(LyricListCreated);
+    QListWidgetItem *add_item_11 = new QListWidgetItem(lyricListCreated);
     add_item_11->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
     add_item_11->setText("我的音乐");
 
-    QListWidgetItem *add_item_12 = new QListWidgetItem(LyricListCreated);
-    add_item_12->setIcon(QIcon(":/resource/image/btn_setting_normal_white.png"));
-    add_item_12->setText("我创建的歌单1");
+//    QListWidgetItem *add_item_12 = new QListWidgetItem(lyricListCreated);
+//    add_item_12->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+//    add_item_12->setText("我创建的歌单1");
 
-    QListWidgetItem *add_item_13 = new QListWidgetItem(LyricListCreated);
-    add_item_13->setIcon(QIcon(":/resource/image/btn_setting_normal_white.png"));
-    add_item_13->setText("我创建的歌单2");
+//    QListWidgetItem *add_item_13 = new QListWidgetItem(lyricListCreated);
+//    add_item_13->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+//    add_item_13->setText("我创建的歌单2");
 
-    QListWidgetItem *add_item_14 = new QListWidgetItem(LyricListCreated);
-    add_item_14->setIcon(QIcon(":/resource/image/btn_setting_normal_white.png"));
-    add_item_14->setText("我创建的歌单3");
+//    QListWidgetItem *add_item_14 = new QListWidgetItem(lyricListCreated);
+//    add_item_14->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+//    add_item_14->setText("我创建的歌单3");
+
+
+    //表头
+    headerListTest = new BesListHeader("收藏的歌词单",false ,true,lyriclistLeftPanel);
+    headerListTest->setMaximumHeight(36);
+    headerListTest->setMinimumHeight(36);
+    headerListTest->setMinimumWidth(50);
+    headerListTest->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+    //列表
+    lyricListTest = new QListWidget(lyriclistLeftPanel);
+    lyricListTest->setFocusPolicy(Qt::NoFocus);
+    lyricListTest->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
+    lyricListTest->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    //创建列表测试
+    QListWidgetItem *add_item_20 = new QListWidgetItem(lyricListTest);
+    add_item_20->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
+    add_item_20->setText("我收藏喜欢的音乐");
+    QListWidgetItem *add_item_21 = new QListWidgetItem(lyricListTest);
+    add_item_21->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
+    add_item_21->setText("我收藏的音乐");
+
+    QListWidgetItem *add_item_22 = new QListWidgetItem(lyricListTest);
+    add_item_22->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
+    add_item_22->setText("我收藏的歌单1");
+
+    QListWidgetItem *add_item_23 = new QListWidgetItem(lyricListTest);
+    add_item_23->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
+    add_item_23->setText("我收藏的歌单2");
+
+    QListWidgetItem *add_item_24 = new QListWidgetItem(lyricListTest);
+    add_item_24->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
+    add_item_24->setText("我收藏的歌单3");
 
 //    LyricListCreated->insertItem(-1,add_item_10);
 //    LyricListCreated->insertItem(-1,add_item_11);
@@ -85,39 +134,20 @@ void PageLyricList::initLayout()
 //    LyricListCreated->insertItem(-1,add_item_13);
 //    LyricListCreated->insertItem(-1,add_item_14);
 
-    vListLayout->addWidget(LyricListCreated);
-
-
-
-//    //收藏的歌单
-//    my_Collect_Music_List = new QListWidget(ui->widget_list);
-//    connect(my_Collect_Music_List,&QListWidget::itemClicked,this,&MainWindow::slot_my_my_Collect_Music_List_itemClicked);
-//    my_Collect_Music_List->setStyleSheet("QListWidget{color:rgb(173,175,178); background:rgb(25,27,31);border:0px solid gray;}"
-//                                         "QListWidget::Item{height:30px;border:0px solid gray;padding-left:15;}"
-//                                         "QListWidget::Item:hover{color:rgb(255,255,255);background:transparent;border:0px solid gray;}"
-//                                         "QListWidget::Item:selected{border-image:url(images/listwidget_h.png); color:rgb(255,255,255);border:0px solid gray;}"
-//                                         "QListWidget::Item:selected:active{background:#00FFFFFF;color:#FFFFFF;border-width:0;}");
-//    //去掉滚动条
-//    my_Collect_Music_List->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    my_Collect_Music_List->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    my_Collect_Music_List->hide();
-
-//    //收藏歌单测试
-//    QListWidgetItem *add_item_15 = new QListWidgetItem(my_Collect_Music_List);
-//    add_item_15->setIcon(QIcon("./images/musiclist.png"));
-//    add_item_15->setText("我收藏的歌单1");
-
-//    QListWidgetItem *add_item_16 = new QListWidgetItem(my_Collect_Music_List);
-//    add_item_16->setIcon(QIcon("./images/musiclist.png"));
-//    add_item_16->setText("我收藏的歌单2");
-
-//    QListWidgetItem *add_item_17 = new QListWidgetItem(my_Collect_Music_List);
-//    add_item_17->setIcon(QIcon("./images/musiclist.png"));
-//    add_item_17->setText("我收藏的歌单3");
+    vListLayout->setMargin(0);
+    vListLayout->addSpacerItem(new QSpacerItem(20,10,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    vListLayout->addWidget(lyricListHistory);
+    vListLayout->addWidget(headerListCreated);
+    vListLayout->addWidget(lyricListCreated);
+    vListLayout->addWidget(headerListTest);
+    vListLayout->addWidget(lyricListTest);
+    vListLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
 }
 
 void PageLyricList::initConnection()
 {
+    connect(headerListCreated, &BesListHeader::sig_toggle_list,[=](bool show){lyricListCreated->setVisible(show);});
+    connect(headerListTest, &BesListHeader::sig_toggle_list,[=](bool show){lyricListTest->setVisible(show);});
     //connect(LyricListCreated,&QListWidget::itemClicked,this,&MainWindow::slot_my_Create_Music_List_itemClicked);
 
 }

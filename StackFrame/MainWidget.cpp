@@ -49,6 +49,16 @@ void MainWidget::initLayout()
 
 void MainWidget::initConnection()
 {
+    //页面切换响应
+    connect(topWidget->btnIcon, &QPushButton::clicked, [=](){
+        if(middleWidget->currentPage == 1)
+            middleWidget->switchPage(1,0);
+        if(middleWidget->currentPage == 2)
+            middleWidget->switchPage(2,0);
+        if(middleWidget->currentPage == 4)
+            middleWidget->switchPage(4,0);
+    });
+
     connect(topWidget->btnSetting, &QPushButton::clicked, [=](){
         if(middleWidget->currentPage == 1)
             middleWidget->switchPage(1,0);
@@ -59,11 +69,10 @@ void MainWidget::initConnection()
             middleWidget->switchPage(0,4);
     });
 
-
     connect(middleWidget->pageSetting->btnPackupSetting, &QPushButton::clicked, [=](){
             middleWidget->switchPage(4,0);});
 
-
+    //制作歌词页面信号响应
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
                                                  this, SLOT(onUnloadLyricFromPreviewPage()));
 
@@ -93,6 +102,7 @@ void MainWidget::initConnection()
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onExitMakingMode())
                                                         ,bottomWidget, SLOT(exitMakingMode()));
 
+    //底部播放器信号响应
     connect(bottomWidget->musicPlayer, SIGNAL(positionChanged(int)),this, SLOT(musicPositionChanged(int)));
 
     connect(bottomWidget->musicPlayer, SIGNAL(titleFound(QString)),

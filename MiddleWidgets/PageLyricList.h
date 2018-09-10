@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include "list/BesListHeader.h"
 
 class PageLyricList : public QWidget
 {
@@ -21,7 +22,11 @@ public:
     QWidget * lyriclistLeftPanel;
     QWidget * lyriclistRightPanel;
 
-    QListWidget *LyricListCreated;
+    QListWidget *lyricListHistory;
+    BesListHeader* headerListCreated;
+    QListWidget *lyricListCreated;
+    BesListHeader* headerListTest;
+    QListWidget *lyricListTest;
 };
 
 #endif // PAGELYRICLIST_H
