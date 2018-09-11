@@ -47,6 +47,9 @@ protected:
 
         btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_white.png";
 
+        //QList
+        listItemNormalColor        ="#444444";
+
         //QSlider
         baseColor                 ="#CC0033";
         baseColorLighter          ="#ff3344";

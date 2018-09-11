@@ -8,7 +8,7 @@
 PageSetting::PageSetting(QWidget *parent)
     : QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initConnection();
 }
@@ -23,6 +23,7 @@ void PageSetting::initLayout()
     QGridLayout* mainLayout = new QGridLayout(this);
     pageSettingContainer = new QWidget(this);
     pageSettingContainer->setObjectName("pageSettingContainer");
+    pageSettingContainer->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
     mainLayout->addWidget(pageSettingContainer);
@@ -34,6 +35,7 @@ void PageSetting::initLayout()
     settingTopPanel->setMaximumHeight(65);
     settingTopPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     settingTopPanel->setObjectName("settingTopPanel");
+    settingTopPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     settingTitle = new QLabel(settingTopPanel);
     btnPackupSetting = new BesButton(settingTopPanel);
     settingTitle->setObjectName("settingTitle");
@@ -49,6 +51,8 @@ void PageSetting::initLayout()
 
     settingLeftPanel = new QWidget(pageSettingContainer);
     settingRightPanel = new QWidget(pageSettingContainer);
+    settingLeftPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
+    settingRightPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     settingLeftPanel->setObjectName("settingLeftPanel");
     settingRightPanel->setObjectName("settingRightPanel");
     settingLeftPanel->setMinimumWidth(270);

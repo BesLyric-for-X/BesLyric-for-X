@@ -4,7 +4,7 @@
 BoxPagePreviewLyric::BoxPagePreviewLyric(QWidget *parent)
     : QWidget(parent)
 {
-    setMouseTracking(true);
+    setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initConnection();
 }
@@ -18,6 +18,7 @@ void BoxPagePreviewLyric::initLayout()
 {
     widgetMainPreviewLyric = new QWidget(this);
     widgetMainPreviewLyric->setObjectName("widgetMainPreviewLyric");
+    widgetMainPreviewLyric->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     extendButton = new ExtendButton(widgetMainPreviewLyric);
 

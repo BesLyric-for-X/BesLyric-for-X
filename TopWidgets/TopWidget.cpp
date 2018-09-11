@@ -4,7 +4,7 @@
 TopWidget::TopWidget(QWidget *parent)
     : QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initConnection();
 }
@@ -18,7 +18,7 @@ void TopWidget::initLayout()
 {
     QWidget* topWidgetContainer = new QWidget(this);
     topWidgetContainer->setObjectName("topWidgetContainer");
-    topWidgetContainer->setMouseTracking(true);
+    topWidgetContainer->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     //icon = new QIcon(":/resource/image/netease_cloudmusic_48px.ico");
     btnIcon = new BesButton(topWidgetContainer);

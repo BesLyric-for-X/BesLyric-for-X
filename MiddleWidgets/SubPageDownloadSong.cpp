@@ -6,7 +6,7 @@
 SubPageDownloadSong::SubPageDownloadSong(QWidget *parent)
     : QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initConnection();
 }

@@ -6,6 +6,7 @@
 BesListHeader::BesListHeader(QWidget *parent):
     QWidget(parent),labelListTitle(nullptr), showAddButton(false),showToggleButton(true)
 {
+    //this->setMouseTracking(true);
     initAll();
 }
 
@@ -26,7 +27,7 @@ void BesListHeader::setHeader(QString title, bool bShowAddButton, bool bShowTogg
 
 void BesListHeader::initAll()
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initEntity();
     initLayout();
     initConnection();

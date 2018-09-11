@@ -2,9 +2,10 @@
 #define PAGELYRICLIST_H
 
 #include <QWidget>
-#include <QListWidget>
 #include <QListWidgetItem>
+#include <QScrollArea>
 #include "list/BesListHeader.h"
+#include "list/BesList.h"
 
 class PageLyricList : public QWidget
 {
@@ -22,11 +23,13 @@ public:
     QWidget * lyriclistLeftPanel;
     QWidget * lyriclistRightPanel;
 
-    QListWidget *lyricListHistory;
+    BesList *lyricListHistory;
     BesListHeader* headerListCreated;
-    QListWidget *lyricListCreated;
+    BesList *lyricListCreated;
     BesListHeader* headerListTest;
-    QListWidget *lyricListTest;
+    BesList *lyricListTest;
+
+    QScrollArea* scrollAreaLeft;
 };
 
 #endif // PAGELYRICLIST_H

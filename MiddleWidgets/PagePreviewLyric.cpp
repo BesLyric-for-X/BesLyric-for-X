@@ -58,7 +58,7 @@ void ThreadCalcBackgroundImage::showPic(QPixmap pic)
 PagePreviewLyric::PagePreviewLyric(QWidget *parent):
 QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     initLayout();
     initEntity();
@@ -75,7 +75,7 @@ void PagePreviewLyric::initLayout()
 {
     widgetMainPreview = new QWidget(this);
     widgetMainPreview->setObjectName("widgetMainPreview");
-    widgetMainPreview->setMouseTracking(true);
+    widgetMainPreview->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
 
     QHBoxLayout* hLayout = new QHBoxLayout(widgetMainPreview);

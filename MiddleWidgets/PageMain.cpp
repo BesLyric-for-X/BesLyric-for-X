@@ -6,7 +6,7 @@
 PageMain::PageMain(QWidget *parent)
     : QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initEntity();
     initLayout();
     initConnection();
@@ -26,7 +26,7 @@ void PageMain::initLayout()
 {
     leftBoardMainPage = new QWidget(this);
     leftBoardMainPage->setObjectName("leftBoardMainPage");
-    leftBoardMainPage->setMouseTracking(true);
+    leftBoardMainPage->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     btnMakingLyric = new BesButton(leftBoardMainPage);
     btnDownloadSong = new BesButton(leftBoardMainPage);
@@ -62,7 +62,7 @@ void PageMain::initLayout()
 
     subPageContainer = new QWidget(this);
     subPageContainer->setObjectName("subPageContainer");
-    subPageContainer->setMouseTracking(true);
+    subPageContainer->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     subPageMaking = new SubPageMaking(subPageContainer);
     subPageDownloadSong = new SubPageDownloadSong(subPageContainer);

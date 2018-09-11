@@ -12,7 +12,8 @@ HEADERS+=\
     $$PWD/table/BesNcmSongButtonDelegate.h \
     $$PWD/table/BesNcmSongTableModel.h \
     $$PWD/table/BesNcmSongTableView.h\
-    $$PWD/list/BesListHeader.h
+    $$PWD/list/BesListHeader.h\
+    $$PWD/list/BesList.h
 
 SOURCES+=\
     $$PWD/BesFramelessWidget.cpp \
@@ -26,6 +27,7 @@ SOURCES+=\
     $$PWD/table/BesNcmSongButtonDelegate.cpp \
     $$PWD/table/BesNcmSongTableView.cpp \
     $$PWD/table/BesNcmSongTableModel.cpp\
-    $$PWD/list/BesListHeader.cpp
+    $$PWD/list/BesListHeader.cpp\
+    $$PWD/list/BesList.cpp
 
 

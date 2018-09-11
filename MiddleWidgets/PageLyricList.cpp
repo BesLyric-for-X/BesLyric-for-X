@@ -4,11 +4,12 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QSpacerItem>
+#include <QDebug>
 
 PageLyricList::PageLyricList(QWidget *parent)
     : QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initConnection();
 }
@@ -22,6 +23,7 @@ void PageLyricList::initLayout()
 {
     QGridLayout* mainLayout = new QGridLayout(this);
     pageLyricListContainer = new QWidget(this);
+    pageLyricListContainer->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     pageLyricListContainer->setObjectName("pageLyricListContainer");
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
@@ -29,31 +31,27 @@ void PageLyricList::initLayout()
 
     lyriclistLeftPanel = new QWidget(pageLyricListContainer);
     lyriclistRightPanel = new QWidget(pageLyricListContainer);
+    lyriclistLeftPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
+    lyriclistRightPanel->setMouseTracking(true);
     lyriclistLeftPanel->setObjectName("lyriclistLeftPanel");
     lyriclistRightPanel->setObjectName("lyriclistRightPanel");
-    lyriclistLeftPanel->setMinimumWidth(250);
-    lyriclistRightPanel->setMinimumWidth(250);
-    lyriclistLeftPanel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+    lyriclistLeftPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     lyriclistRightPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-    QHBoxLayout* hMainLayout = new QHBoxLayout(pageLyricListContainer);
-    hMainLayout->addWidget(lyriclistLeftPanel);
-    hMainLayout->addWidget(lyriclistRightPanel);
-    hMainLayout->setMargin(0);
-    hMainLayout->setSpacing(0);
 
     //左侧列表
 
     QVBoxLayout* vListLayout = new QVBoxLayout(lyriclistLeftPanel);
 
     //制作历史歌词单
-    lyricListHistory = new QListWidget(lyriclistLeftPanel);
-    lyricListHistory->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
-    lyricListHistory->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    lyricListHistory->setMinimumHeight(35);
-    lyricListHistory->setMaximumHeight(35);
-    lyricListHistory->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    lyricListHistory = new BesList(lyriclistLeftPanel);
+//    lyricListHistory->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
+//    lyricListHistory->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    lyricListHistory->setMaximumHeight(36*1);
+    lyricListHistory->setMinimumHeight(36*1);
+    lyricListHistory->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     lyricListHistory->setFocusPolicy(Qt::NoFocus);
+    lyricListHistory->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     QListWidgetItem *add_item_0 = new QListWidgetItem(lyricListHistory);
     add_item_0->setIcon(QIcon(":/resource/image/btn_skin_normal_white.png"));
@@ -69,10 +67,15 @@ void PageLyricList::initLayout()
     headerListCreated->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     //列表
-    lyricListCreated = new QListWidget(lyriclistLeftPanel);
-    lyricListCreated->setMinimumHeight(30);
-    lyricListCreated->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Minimum);
+    lyricListCreated = new BesList(lyriclistLeftPanel);
+    lyricListCreated->setMaximumHeight(36*9);
+    lyricListCreated->setMinimumHeight(36*9);
+//    lyricListCreated->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
+//    lyricListCreated->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    lyricListCreated->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
     lyricListCreated->setFocusPolicy(Qt::NoFocus);
+    lyricListCreated->setDragDropMode(QListView::DragDropMode::InternalMove);
+    lyricListCreated->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     //创建列表测试
     QListWidgetItem *add_item_10 = new QListWidgetItem(lyricListCreated);
@@ -82,17 +85,33 @@ void PageLyricList::initLayout()
     add_item_11->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
     add_item_11->setText("我的音乐");
 
-//    QListWidgetItem *add_item_12 = new QListWidgetItem(lyricListCreated);
-//    add_item_12->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
-//    add_item_12->setText("我创建的歌单1");
+    QListWidgetItem *add_item_12 = new QListWidgetItem(lyricListCreated);
+    add_item_12->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_12->setText("我创建的歌单1");
 
-//    QListWidgetItem *add_item_13 = new QListWidgetItem(lyricListCreated);
-//    add_item_13->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
-//    add_item_13->setText("我创建的歌单2");
+    QListWidgetItem *add_item_13 = new QListWidgetItem(lyricListCreated);
+    add_item_13->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_13->setText("我创建的歌单2");
 
-//    QListWidgetItem *add_item_14 = new QListWidgetItem(lyricListCreated);
-//    add_item_14->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
-//    add_item_14->setText("我创建的歌单3");
+    QListWidgetItem *add_item_14 = new QListWidgetItem(lyricListCreated);
+    add_item_14->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_14->setText("我创建的歌单3");
+
+    QListWidgetItem *add_item_15 = new QListWidgetItem(lyricListCreated);
+    add_item_15->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_15->setText("我创建的歌单2");
+
+    QListWidgetItem *add_item_16 = new QListWidgetItem(lyricListCreated);
+    add_item_16->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_16->setText("我创建的歌单3");
+
+    QListWidgetItem *add_item_17 = new QListWidgetItem(lyricListCreated);
+    add_item_17->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_17->setText("我创建的歌单2");
+
+    QListWidgetItem *add_item_18 = new QListWidgetItem(lyricListCreated);
+    add_item_18->setIcon(QIcon(":/resource/image/btn_skin_press_white.png"));
+    add_item_18->setText("我创建的歌单3");
 
 
     //表头
@@ -103,10 +122,16 @@ void PageLyricList::initLayout()
     headerListTest->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     //列表
-    lyricListTest = new QListWidget(lyriclistLeftPanel);
+    lyricListTest = new BesList(lyriclistLeftPanel);
+    lyricListTest->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
+//    lyricListTest->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
+//    lyricListTest->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     lyricListTest->setFocusPolicy(Qt::NoFocus);
-    lyricListTest->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
-    lyricListTest->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    lyricListTest->setDragDropMode(QListView::DragDropMode::InternalMove);
+
+    lyricListTest->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+    lyricListTest->setMaximumHeight(36*5);
+    lyricListTest->setMinimumHeight(36*5);
 
     //创建列表测试
     QListWidgetItem *add_item_20 = new QListWidgetItem(lyricListTest);
@@ -128,11 +153,6 @@ void PageLyricList::initLayout()
     add_item_24->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
     add_item_24->setText("我收藏的歌单3");
 
-//    LyricListCreated->insertItem(-1,add_item_10);
-//    LyricListCreated->insertItem(-1,add_item_11);
-//    LyricListCreated->insertItem(-1,add_item_12);
-//    LyricListCreated->insertItem(-1,add_item_13);
-//    LyricListCreated->insertItem(-1,add_item_14);
 
     vListLayout->setMargin(0);
     vListLayout->addSpacerItem(new QSpacerItem(20,10,QSizePolicy::Fixed, QSizePolicy::Fixed));
@@ -142,6 +162,23 @@ void PageLyricList::initLayout()
     vListLayout->addWidget(headerListTest);
     vListLayout->addWidget(lyricListTest);
     vListLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
+
+
+    scrollAreaLeft = new QScrollArea(pageLyricListContainer);
+    scrollAreaLeft->setMinimumWidth(250);
+    scrollAreaLeft->setMaximumWidth(250);
+    scrollAreaLeft->setWidgetResizable(true);
+    scrollAreaLeft->setWidget(lyriclistLeftPanel);
+    scrollAreaLeft->setObjectName("scrollAreaLeftList");
+    scrollAreaLeft->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
+    scrollAreaLeft->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollAreaLeft->setFrameShape(QFrame::NoFrame);
+
+    QHBoxLayout* hMainLayout = new QHBoxLayout(pageLyricListContainer);
+    hMainLayout->addWidget(scrollAreaLeft);
+    hMainLayout->addWidget(lyriclistRightPanel);
+    hMainLayout->setMargin(0);
+    hMainLayout->setSpacing(0);
 }
 
 void PageLyricList::initConnection()

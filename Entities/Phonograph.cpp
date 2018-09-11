@@ -12,7 +12,7 @@ Phonograph::Phonograph(QWidget* parent):QWidget(parent),
     disk(":/resource/image/netease_disk.png"),
     toneArm(":/resource/image/netease_tone_arm.png")
 {
-    setMouseTracking(true);
+    setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     timerDisk = new QTimer(this);              //唱片转动定时器
     timerArm = new QTimer(this);               //唱臂转动定时器
 

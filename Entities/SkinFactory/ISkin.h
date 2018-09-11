@@ -14,6 +14,7 @@ public:
         QString cssContent;
 
         cssContent += GetQWidgetCss();
+        cssContent += GetQScrollArea();
         cssContent += GetQLabelCss();
         cssContent += GetQPushButtonCss();
         cssContent += GetQSliderCss();
@@ -47,7 +48,7 @@ private:
            " border-image:url(\""+topContainerBgImage+"\");"
             "background-color:"+topContainerBgColor+";"
         "}"
-        "QWidget#leftBoardMainPage, QWidget#lyriclistLeftPanel"
+        "QWidget#leftBoardMainPage"
         "{"
             "background-color:"+ leftboardBgColor+";"
             "border-right: 1px solid "+ leftboardBorderColor +";"
@@ -79,11 +80,6 @@ private:
              "border: 1px solid rgba(150,150,150,15%);"
         "}"
 
-        "QScrollArea#ScrollLyricPanelScrollArea"
-        "{"
-            "background-color:rgba(0,0,0,0%);"
-        "}"
-
         "QWidget#widgetMessageBoxContainer"
         "{"
            "border: 1px solid #3b3a3d;"
@@ -109,13 +105,15 @@ private:
         "QWidget#settingTopPanel{"
            "border-bottom: 1px solid rgba(150,150,150,15%);"
         "}"
-        "QWidget#settingLeftPanel{"
-           "border-right: 1px solid rgba(150,150,150,15%);"
+
+        "QWidget#lyriclistLeftPanel{"
+             "background-color:"+ leftboardBgColor+";"
          "}"
 
-//        "QWidget#lyriclistLeftPanel{"
+        "QWidget#lyriclistLeftPanel{"
+//           "border: 1px solid #ff0000;"
 //           " background-color:#ff0000;"
-//        "}"
+        "}"
 //        "QWidget#lyriclistRightPanel{"
 //           " background-color:#00ff00;"
 //         "}"
@@ -125,6 +123,25 @@ private:
 
         return str;
    }
+
+    QString GetQScrollArea()
+    {
+          QString str =
+
+          "QScrollArea#ScrollLyricPanelScrollArea, QScrollArea#scrollAreaLeftList"
+          "{"
+              "background-color:rgba(0,0,0,0%);"
+          "}"
+
+          "QScrollArea#scrollAreaLeftList"
+          "{"
+              "background-color:"+ leftboardBgColor+";"
+              "border-right: 1px solid "+ leftboardBorderColor +";"
+          "}"
+
+          ;
+          return str;
+    }
 
     QString GetQLabelCss()
     {
@@ -770,64 +787,64 @@ private:
 
     QString GetQScrollBarCss()
     {
-
         QString str =
 
-"QScrollBar:vertical"
-"{"
-"    width:10px;"
-"    background:rgba(0,0,0,0%);"
-"    margin:0px,0px,0px,0px;"
-"    padding-top:0px;"   // 留出0px给上面和下面的箭头
-"    padding-bottom:0px;"
-"}"
-"QScrollBar::handle:vertical"
-"{"
-"    width:10px;"
-"    background:rgba(100,100,100,25%);"
-"    border-radius:5px;"   // 滚动条两端变成椭圆
-"    min-height:20;"
-"}"
-"QScrollBar::handle:vertical:hover"
-"{"
-"    width:10px;"
-"    background:rgba(100,100,100,50%);"   // 鼠标放到滚动条上的时候，颜色变深
-"    border-radius:5px;"
-"    min-height:20;"
-"}"
+        "QScrollBar:vertical"
+        "{"
+        "    width:10px;"
+        "    background:rgba(0,0,0,0%);"
+        "    margin:0px,0px,0px,0px;"
+        "    padding-top:0px;"   // 留出0px给上面和下面的箭头
+        "    padding-bottom:0px;"
+        "}"
+        "QScrollBar::handle:vertical"
+        "{"
+        "    width:10px;"
+        "    background:rgba(100,100,100,25%);"
+        "    border-radius:5px;"   // 滚动条两端变成椭圆
+        "    min-height:20;"
+        "}"
+        "QScrollBar::handle:vertical:hover"
+        "{"
+        "    width:10px;"
+        "    background:rgba(100,100,100,50%);"   // 鼠标放到滚动条上的时候，颜色变深
+        "    border-radius:5px;"
+        "    min-height:20;"
+        "}"
 
-"QScrollBar::add-line:vertical "  // 这个应该是设置下箭头的，3.png就是箭头
-"{"
-"    height:11px;width:10px;"
-"    border-image:url(:/images/a/3.png);"
-"    subcontrol-position:bottom;"
-"}"
+        "QScrollBar::add-line:vertical "  // 这个应该是设置下箭头的，3.png就是箭头
+        "{"
+        "    height:11px;width:10px;"
+        "    border-image:url(:/images/a/3.png);"
+        "    subcontrol-position:bottom;"
+        "}"
 
-"QScrollBar::sub-line:vertical"   // 设置上箭头
-"{"
-"    height:11px;width:10px;"
-"    border-image:url(:/images/a/1.png);"
-"    subcontrol-position:top;"
-"}"
-"QScrollBar::add-line:vertical:hover"   // 当鼠标放到下箭头上的时候
-"{"
-"    height:11px;width:10px;"
-"    border-image:url(:/images/a/4.png);"
-"    subcontrol-position:bottom;"
-"}"
-"QScrollBar::sub-line:vertical:hover"  // 当鼠标放到下箭头上的时候
-"{"
-"    height:11px;width:10px;"
-"    border-image:url(:/images/a/2.png);"
-"    subcontrol-position:top;"
-"}"
-"QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical"   // 当滚动条滚动的时候，上面的部分和下面的部分
-"{"
-"    background:rgba(0,0,0,0%);"
-"    border-radius:5px;"
-"}";
+        "QScrollBar::sub-line:vertical"   // 设置上箭头
+        "{"
+        "    height:11px;width:10px;"
+        "    border-image:url(:/images/a/1.png);"
+        "    subcontrol-position:top;"
+        "}"
+        "QScrollBar::add-line:vertical:hover"   // 当鼠标放到下箭头上的时候
+        "{"
+        "    height:11px;width:10px;"
+        "    border-image:url(:/images/a/4.png);"
+        "    subcontrol-position:bottom;"
+        "}"
+        "QScrollBar::sub-line:vertical:hover"  // 当鼠标放到下箭头上的时候
+        "{"
+        "    height:11px;width:10px;"
+        "    border-image:url(:/images/a/2.png);"
+        "    subcontrol-position:top;"
+                        "background: green;"
+        "}"
+        "QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical"   // 当滚动条滚动的时候，上面的部分和下面的部分
+        "{"
+        "    background:rgba(0,0,0,0%);"
+        "    border-radius:5px;"
+        "}";
 
-    return str;
+        return str;
     }
 
     QString GetQTabWidgetCss()
@@ -917,7 +934,7 @@ private:
     {
         QString str = ""
          "QListWidget{"
-              "color:" + defautlLabelColor + ";"
+              "color:" + listItemNormalColor + ";"
               "background: transparent;border:0px solid gray;"
          "}"
          "QListWidget::Item{"
@@ -936,6 +953,9 @@ private:
             " color:" + DeepLabelColor + ";"
           "}"
                 ;
+
+
+
         return str;
     }
 
@@ -985,7 +1005,10 @@ private:
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
-        btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_black.png";
+        btnPackbackToBoxImg         =":/resource/image/btn_pack_back_to_box_black.png";
+
+        //QList
+        listItemNormalColor        ="#c0c0c0";
 
         //QSlider
         baseColor                 ="#CC0033";
@@ -1038,6 +1061,9 @@ protected:
     QString blueButtonColorHover;   //#3a6098
 
     QString btnPackbackToBoxImg;        //":/resource/image/btn_pack_back_to_box_black.png"
+
+    //QList
+    QString listItemNormalColor;     //#c0c0c0
 
     //QSlider
     QString baseColor;                  //#CC0033

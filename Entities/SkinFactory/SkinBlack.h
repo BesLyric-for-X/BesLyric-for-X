@@ -46,6 +46,9 @@ protected:
         btnTabLeftBoderColor       ="#bb0033                                     ";
 
         btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_black.png";
+
+        //QList
+        listItemNormalColor        ="#c0c0c0";
     }
 
 };

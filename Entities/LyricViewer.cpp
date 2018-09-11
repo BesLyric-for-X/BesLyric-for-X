@@ -8,7 +8,7 @@
 
 LyricViewer::LyricViewer(QWidget* parent):QWidget(parent)
 {
-    setMouseTracking(true);
+    setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     initEntity();
     initLayout();

@@ -6,7 +6,7 @@
 BottomWidget::BottomWidget(QWidget *parent)
     :QWidget(parent)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initEntity();
     initConnection();
@@ -21,7 +21,7 @@ void BottomWidget::initLayout()
 {
     QWidget* bottomWidgetContainer = new QWidget(this);
     bottomWidgetContainer->setObjectName("bottomWidgetContainer");
-    bottomWidgetContainer->setMouseTracking(true);
+    bottomWidgetContainer->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     btnPreSong = new BesButton(bottomWidgetContainer);
     btnPlayAndPause = new BesButton(bottomWidgetContainer);

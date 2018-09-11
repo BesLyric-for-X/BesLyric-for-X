@@ -4,6 +4,7 @@
 BoxPageLyricList::BoxPageLyricList(QWidget *parent)
     : QWidget(parent)
 {
+    this->setMouseTracking(true);
     initLayout();
     initConnection();
 }
@@ -17,6 +18,7 @@ void BoxPageLyricList::initLayout()
 {
     widgetMainLyricList = new QWidget(this);
     widgetMainLyricList->setObjectName("widgetMainLyricList");
+    widgetMainLyricList->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     extendButton = new ExtendButton(widgetMainLyricList);
     extendButton->SetPixmap(QPixmap(":/resource/image/netease_cloudmusic_48px.ico"));

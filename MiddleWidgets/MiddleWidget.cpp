@@ -3,7 +3,7 @@
 MiddleWidget::MiddleWidget(QWidget *parent)
     : QWidget(parent),currentPage(0)
 {
-    this->setMouseTracking(true);
+    this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
     initAnimation();
     initConnection();
