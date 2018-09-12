@@ -2,7 +2,7 @@
 #include <QVBoxLayout>
 #include "AppHelper.h"
 
-StackFrame::StackFrame(MyApplication *pApplication,QWidget *parent)
+StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr)
 {
     pApp = pApplication;
@@ -21,21 +21,11 @@ StackFrame::~StackFrame()
 
 }
 
-void StackFrame::SetSkin(QString skinName)
-{
-    if(skinBoxWidget)
-        skinBoxWidget->setFinalSkinName(skinName);
-
-    emit onFinalSkinNameChanged(skinName);
-
-    mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
-
-    AppHelper::SetStyle(pApp, skinName);
-}
-
 void StackFrame::initLayout()
 {
     mainWidget = new MainWidget(this);
+
+    transparentLayer = new BesTransparentLayer(this);       //透明层，用于放置在浮动框和主窗口之间
     skinBoxWidget = new SkinBoxWidget(this);
 
     mainWidget->raise();
@@ -54,6 +44,9 @@ void StackFrame::initConnection()
     connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
     connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
 
+    connect(transparentLayer,SIGNAL(sig_layerPressed()),this,SLOT(bringMainToTop()));
+    
+    
     //注意：onSkinClick 这里有2处会触发皮肤的变换，一处是在这里；另一处是这里改变 SkinBoxWidget 触发了纯颜色皮肤设置
     // 这里后连接，所以前面纯颜色的设置不影响这里的效果 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
     connect(skinBoxWidget->btnBlack, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
@@ -105,20 +98,37 @@ void StackFrame::mousePressEvent(QMouseEvent *event)
         BesFramelessWidget::mousePressEvent(event);
     else
         QWidget::mousePressEvent(event);
-
 }
 
 void StackFrame::resizeEvent(QResizeEvent *event)
 {
     BesFramelessWidget::resizeEvent(event);
 
-    QRect mianWidgetRect = QRect(borderMain ,borderMain,
+    QRect mainWidgetRect = QRect(borderMain ,borderMain,
                                  this->width()- 2*borderMain, this->height()-2*borderMain);
     QRect skinBoxRect = QRect(this->width()-420,58,400,330);
 
-    mainWidget->setGeometry(mianWidgetRect);
+    QRect transWidgetRect(mainWidgetRect);
+    transWidgetRect.setTop(transWidgetRect.top()+65);  //上侧标题控件不要阻挡
+
+    mainWidget->setGeometry(mainWidgetRect);
+    transparentLayer->setGeometry(transWidgetRect);
     skinBoxWidget->setGeometry(skinBoxRect);
 }
+
+
+void StackFrame::SetSkin(QString skinName)
+{
+    if(skinBoxWidget)
+        skinBoxWidget->setFinalSkinName(skinName);
+
+    emit onFinalSkinNameChanged(skinName);
+
+    mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
+
+    AppHelper::SetStyle(pApp, skinName);
+}
+
 
 //切换最大化和最小化
 void  StackFrame::toggleMaxRestoreStatus()
@@ -146,6 +156,7 @@ void StackFrame::toggleSkinBox()
 {
     if(isMainOnTop)
     {
+        transparentLayer->raise();
         skinBoxWidget->raise();
         isMainOnTop = false;
     }
@@ -155,3 +166,39 @@ void StackFrame::toggleSkinBox()
         isMainOnTop = true;
     }
 }
+
+bool StackFrame::mousePressFilter(QMouseEvent *event)
+{
+    QPoint currentPoint = event->pos();
+
+	static bool  ignoreNextPress = false;
+
+	if (ignoreNextPress)
+	{
+		ignoreNextPress = false;
+		return false;
+	}
+
+    if(skinBoxWidget->geometry().contains(currentPoint))
+    {
+        ignoreNextPress = true;  //不知为何，落在目标浮动窗的鼠标事件结束后，会再收到一个坐标不同的
+        return false; //落在任意浮动窗内，不处理
+    }
+
+    return bringMainToTop();
+}
+
+//将主程序控件提到最前（隐藏所有浮动框）(生效则返回true)
+bool StackFrame::bringMainToTop()
+{
+    if(!isMainOnTop)
+    {
+        mainWidget->raise();
+        isMainOnTop = true;
+
+        return true;
+    }
+
+    return false;
+}
+

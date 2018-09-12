@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     StackFrame MainFrameWidget(&app);
 
     app.SetMakingLyricNotifyWidget(MainFrameWidget.mainWidget);
+    app.SetStackFrame(&MainFrameWidget);
 
     MainFrameWidget.show();
 

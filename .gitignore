@@ -5,6 +5,7 @@ debug
 release
 *.vcxproj*
 *.sln
+*.VC.db
 
 # C++ objects and libs
 *.slo

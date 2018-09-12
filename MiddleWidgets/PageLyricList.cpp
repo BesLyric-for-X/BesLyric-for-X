@@ -187,4 +187,13 @@ void PageLyricList::initConnection()
     connect(headerListTest, &BesListHeader::sig_toggle_list,[=](bool show){lyricListTest->setVisible(show);});
     //connect(LyricListCreated,&QListWidget::itemClicked,this,&MainWindow::slot_my_Create_Music_List_itemClicked);
 
+    QAbstractItemModel* model = lyricListCreated->model();
+    connect(model,SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+            this,SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)));
 }
+
+void PageLyricList::rowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, PageLyricList::QPrivateSignal)
+{
+    //(start,end)->row
+}
+

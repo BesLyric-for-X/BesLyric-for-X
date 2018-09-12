@@ -18,6 +18,9 @@ public:
     void initLayout();
     void initConnection();
 
+public slots:
+    void rowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
+
 public:
     QWidget* pageLyricListContainer;
     QWidget * lyriclistLeftPanel;

@@ -13,7 +13,8 @@ HEADERS+=\
     $$PWD/table/BesNcmSongTableModel.h \
     $$PWD/table/BesNcmSongTableView.h\
     $$PWD/list/BesListHeader.h\
-    $$PWD/list/BesList.h
+    $$PWD/list/BesList.h\
+    $$PWD/BesTransparentLayer.h
 
 SOURCES+=\
     $$PWD/BesFramelessWidget.cpp \
@@ -28,6 +29,7 @@ SOURCES+=\
     $$PWD/table/BesNcmSongTableView.cpp \
     $$PWD/table/BesNcmSongTableModel.cpp\
     $$PWD/list/BesListHeader.cpp\
-    $$PWD/list/BesList.cpp
+    $$PWD/list/BesList.cpp\
+    $$PWD/BesTransparentLayer.cpp
 
 
