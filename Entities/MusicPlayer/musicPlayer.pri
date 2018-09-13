@@ -28,7 +28,7 @@ SDL_INCLUDE     =   C:/lib/beslyric-lib/SDL_2_0_3/include
 SDL_LIB         =   C:/lib/beslyric-lib/SDL_2_0_3/lib
 
 #other
-OTHER_INCLUDE   =   C:/lib/beslyric-lib/win32/include
+#OTHER_INCLUDE   =   C:/lib/beslyric-lib/win32/include
 
 INCLUDEPATH +=  $$FFMPEG_INCLUDE \
                 $$SDL_INCLUDE \

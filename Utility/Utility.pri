@@ -1,4 +1,5 @@
 
+QT       += network
 
 HEADERS+=\
     $$PWD/NetAccess.h
@@ -7,6 +8,9 @@ HEADERS+=\
 SOURCES+=\
     $$PWD/NetAccess.cpp
 
-CONFIG(debug, debug|release):LIBS += Qt5Networkd.lib
-CONFIG(release, debug|release):LIBS += Qt5Network.lib
+#win32-g++*:
+#win32-msvc*:
+
+CONFIG(debug, debug|release):LIBS += -lQt5Networkd
+CONFIG(release, debug|release):LIBS += -lQt5Network
 
