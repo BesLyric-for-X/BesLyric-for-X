@@ -18,8 +18,14 @@ public:
     void initLayout();
     void initConnection();
 
+
+
+
 public slots:
     void rowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
+
+    void addNewListItem();
+
 
 public:
     QWidget* pageLyricListContainer;
@@ -33,6 +39,8 @@ public:
     BesList *lyricListTest;
 
     QScrollArea* scrollAreaLeft;
+
+    QList<QString> strList;
 };
 
 #endif // PAGELYRICLIST_H

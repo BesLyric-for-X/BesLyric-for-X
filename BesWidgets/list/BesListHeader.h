@@ -22,7 +22,8 @@ private:
     void updateVisibleStatus();
 
 signals:
-    void sig_toggle_list(bool show);
+    void sig_toggleList(bool show);
+    void sig_addButtonClicked();
 
 protected:
     virtual void enterEvent(QEvent *event);

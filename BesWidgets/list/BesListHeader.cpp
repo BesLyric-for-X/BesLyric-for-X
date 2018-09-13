@@ -66,9 +66,12 @@ void BesListHeader::initLayout()
 void BesListHeader::initConnection()
 {
     connect(btnToggleList, &QPushButton::toggled, [=](bool checked){
-        emit sig_toggle_list(checked);}
+        emit sig_toggleList(checked);}
     );
 
+    connect(btnAddItem, &QPushButton::clicked, [=](){
+        emit sig_addButtonClicked();}
+    );
 }
 
 void BesListHeader::updateVisibleStatus()

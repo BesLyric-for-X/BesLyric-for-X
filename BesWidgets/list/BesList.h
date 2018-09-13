@@ -3,6 +3,7 @@
 
 #include <QListWidget>
 #include <QLabel>
+#include <QList>
 #include "BesButton.h"
 
 class BesList :public QListWidget
@@ -10,6 +11,13 @@ class BesList :public QListWidget
     Q_OBJECT
 public:
     BesList(QWidget *parent = Q_NULLPTR);
+
+    void addItem(QString item);
+    void deleteItem(int index);
+    void removeAll();
+    void moveRow(int from,int to);
+
+private:
 
 
 public:
@@ -19,6 +27,10 @@ public:
 
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
+
+
+private:
+    QList<QString> strList;
 };
 
 #endif // BES_LIST_H
