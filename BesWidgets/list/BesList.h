@@ -13,9 +13,11 @@ public:
     BesList(QWidget *parent = Q_NULLPTR);
 
     void addItem(QString item);
-    void deleteItem(int index);
+    void deleteCurrentItem();
     void removeAll();
     void moveRow(int from,int to);
+
+    int getCurrentIndex();
 
 private:
 

@@ -19,12 +19,22 @@ void BesList::addItem(QString item)
 
     this->setMaximumHeight(35*strList.size());
     this->setMinimumHeight(35*strList.size());
-
 }
 
-void BesList::deleteItem(int index)
+void BesList::deleteCurrentItem()
 {
+    int index = this->currentRow();
+    if(index == -1)
+        return;
+
     strList.removeAt(index);
+
+    QListWidgetItem* item = this->takeItem(index);
+    if(item)
+        delete item;
+
+    this->setMaximumHeight(35*strList.size());
+    this->setMinimumHeight(35*strList.size());
 }
 
 void BesList::removeAll()
@@ -37,6 +47,11 @@ void BesList::moveRow(int from, int to)
     QString item = strList.at(from);
     strList.removeAt(from);
     strList.insert(to,item);
+}
+
+int BesList::getCurrentIndex()
+{
+    return this->currentRow();
 }
 
 

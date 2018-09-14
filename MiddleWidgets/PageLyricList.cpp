@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QSpacerItem>
 #include <QDebug>
+#include "BesMessageBox.h"
 
 PageLyricList::PageLyricList(QWidget *parent)
     : QWidget(parent)
@@ -79,18 +80,6 @@ void PageLyricList::initLayout()
     lyricListCreated->addItem("我创建的歌单2");
     lyricListCreated->addItem("我创建的歌单3");
     lyricListCreated->addItem("我创建的歌单4");
-    lyricListCreated->addItem("我创建的歌单1");
-    lyricListCreated->addItem("我创建的歌单2");
-    lyricListCreated->addItem("我创建的歌单3");
-    lyricListCreated->addItem("我创建的歌单4");
-    lyricListCreated->addItem("我创建的歌单1");
-    lyricListCreated->addItem("我创建的歌单2");
-    lyricListCreated->addItem("我创建的歌单3");
-    lyricListCreated->addItem("我创建的歌单4");
-    lyricListCreated->addItem("我创建的歌单1");
-    lyricListCreated->addItem("我创建的歌单2");
-    lyricListCreated->addItem("我创建的歌单3");
-    lyricListCreated->addItem("我创建的歌单4");
 
 
     vListLayout->setMargin(0);
@@ -124,7 +113,10 @@ void PageLyricList::initConnection()
 {
     connect(headerListCreated, &BesListHeader::sig_toggleList,[=](bool show){lyricListCreated->setVisible(show);});
 
-    connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(addNewListItem()));
+    connect(headerListCreated, &BesListHeader::sig_toggleList,[=](bool show){addNewListItem();});
+
+    //connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(addNewListItem()));
+    connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(deleteCurrentItem()));
 
     //connect(headerListTest, &BesListHeader::sig_toggle_list,[=](bool show){lyricListTest->setVisible(show);});
     //connect(LyricListCreated,&QListWidget::itemClicked,this,&MainWindow::slot_my_Create_Music_List_itemClicked);
@@ -142,9 +134,18 @@ void PageLyricList::rowsMoved(const QModelIndex &parent, int start, int end, con
 
 void PageLyricList::addNewListItem()
 {
-    QString title = "new item";
-
-
-
+    lyricListCreated->addItem("我创建的歌单");
 }
+
+
+void PageLyricList::deleteCurrentItem()
+{
+    int curRow = lyricListCreated->currentRow();
+
+    if(QMessageBox::StandardButton::Ok==BesMessageBox::question(tr("提示"), tr("是否确认删除 %1").arg(curRow)))
+    {
+        lyricListCreated->deleteCurrentItem();
+    }
+}
+
 
