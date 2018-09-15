@@ -36,6 +36,7 @@ public:
     BesList *lyricListHistory;
     BesListHeader* headerListCreated;
     BesList *lyricListCreated;
+
     BesListHeader* headerListTest;
     BesList *lyricListTest;
 

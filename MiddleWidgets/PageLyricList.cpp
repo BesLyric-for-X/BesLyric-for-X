@@ -112,14 +112,14 @@ void PageLyricList::initLayout()
 void PageLyricList::initConnection()
 {
     connect(headerListCreated, &BesListHeader::sig_toggleList,[=](bool show){lyricListCreated->setVisible(show);});
+    connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(addNewListItem()));
 
-    connect(headerListCreated, &BesListHeader::sig_toggleList,[=](bool show){addNewListItem();});
-
-    //connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(addNewListItem()));
-    connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(deleteCurrentItem()));
-
-    //connect(headerListTest, &BesListHeader::sig_toggle_list,[=](bool show){lyricListTest->setVisible(show);});
-    //connect(LyricListCreated,&QListWidget::itemClicked,this,&MainWindow::slot_my_Create_Music_List_itemClicked);
+    //列表互斥选中项
+    connect(lyricListCreated,&QListWidget::itemClicked,this,[=](){
+        if(lyricListHistory->getCurrentIndex() != -1)lyricListHistory->setCurrentRow(-1);
+    });connect(lyricListHistory,&QListWidget::itemClicked,this,[=](){
+        if(lyricListCreated->getCurrentIndex() != -1)lyricListCreated->setCurrentRow(-1);
+    });
 
     QAbstractItemModel* model = lyricListCreated->model();
     connect(model,SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
