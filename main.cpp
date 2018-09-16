@@ -8,6 +8,8 @@
 #include "LyricSearcherFactory/LyricSearcherFactory.h"
 #include <QDebug>
 
+#include <LyricListManager.h>
+
 void test()
 {
 //    QSharedPointer<ISearcher> searcher = CLyricSearcherFactory::CreateSearcher(SEARCH_FROM::SF_NETEASE);
@@ -21,6 +23,8 @@ void test()
 //    {
 //        qDebug()<< "success" <<searcher->GetLastResult();
 //    }
+
+    //LyricListData data = LyricListManager::GetInstance().getLyricListData();
 
 }
 //------------------- test ----------------------
