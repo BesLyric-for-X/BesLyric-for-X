@@ -31,7 +31,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
 
 public:
-    QLabel * labelListTitle;
+    QLabel * labelListHeaderTitle;
     BesButton*  btnAddItem;
     BesButton*  btnToggleList;
     bool showAddButton;

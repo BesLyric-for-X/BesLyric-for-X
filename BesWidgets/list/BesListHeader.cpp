@@ -4,7 +4,7 @@
 #include <QSpacerItem>
 
 BesListHeader::BesListHeader(QWidget *parent):
-    QWidget(parent),labelListTitle(nullptr), showAddButton(false),showToggleButton(true)
+    QWidget(parent),labelListHeaderTitle(nullptr), showAddButton(false),showToggleButton(true)
 {
     //this->setMouseTracking(true);
     initAll();
@@ -18,7 +18,7 @@ BesListHeader::BesListHeader(QString title, bool bShowAddButton, bool bShowToggl
 
 void BesListHeader::setHeader(QString title, bool bShowAddButton, bool bShowToggleButton)
 {
-    labelListTitle->setText(title);
+    labelListHeaderTitle->setText(title);
     showAddButton = bShowAddButton;
     showToggleButton = bShowToggleButton;
 
@@ -40,11 +40,11 @@ void BesListHeader::initEntity()
 
 void BesListHeader::initLayout()
 {
-    labelListTitle = new QLabel(this);
+    labelListHeaderTitle = new QLabel(this);
     btnAddItem = new BesButton(this);
     btnToggleList= new BesButton(this);
 
-    labelListTitle->setObjectName("labelListTitle");
+    labelListHeaderTitle->setObjectName("labelListHeaderTitle");
     btnAddItem->setObjectName("btnAddItem");
     btnToggleList->setObjectName("btnToggleList");
 
@@ -55,7 +55,7 @@ void BesListHeader::initLayout()
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
     hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
-    hLayout->addWidget(labelListTitle);
+    hLayout->addWidget(labelListHeaderTitle);
     hLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     hLayout->addWidget(btnAddItem);
     hLayout->addWidget(btnToggleList);

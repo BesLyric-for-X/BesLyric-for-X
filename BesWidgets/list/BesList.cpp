@@ -98,6 +98,18 @@ int BesList::getCurrentIndex()
     return this->currentRow();
 }
 
+LyricList *BesList::getCurrentItemData()
+{
+    if(pLyricLists==nullptr)
+        return nullptr;
+
+    int index = this->currentRow();
+    if(index == -1)
+        return nullptr;
+
+    return (LyricList*)&(pLyricLists->at(index));
+}
+
 void BesList::enterEvent(QEvent *event)
 {
     setCursor(QCursor(Qt::ArrowCursor));

@@ -5,10 +5,13 @@
 #include <QGridLayout>
 #include <QSpacerItem>
 #include <QDebug>
+#include <QPixmap>
+#include <QFileDialog>
+#include <assert.h>
 #include "BesMessageBox.h"
 
 PageLyricList::PageLyricList(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),pCurrentLyricList(nullptr)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initEntity();
@@ -56,7 +59,6 @@ void PageLyricList::initLayout()
 
     lyricListHistory->setLyricLists(listData.listsHistory);
 
-
     //创建的歌单
 
     //表头
@@ -75,14 +77,13 @@ void PageLyricList::initLayout()
 
     lyricListCreated->setLyricLists(listData.listsCreated);
 
-    //
+    //左侧控件布局
     vListLayout->setMargin(0);
     vListLayout->addSpacerItem(new QSpacerItem(20,10,QSizePolicy::Fixed, QSizePolicy::Fixed));
     vListLayout->addWidget(lyricListHistory);
     vListLayout->addWidget(headerListCreated);
     vListLayout->addWidget(lyricListCreated);
     vListLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
-
 
     scrollAreaLeft = new QScrollArea(pageLyricListContainer);
     scrollAreaLeft->setMinimumWidth(250);
@@ -94,6 +95,131 @@ void PageLyricList::initLayout()
     scrollAreaLeft->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scrollAreaLeft->setFrameShape(QFrame::NoFrame);
 
+    //右侧控件
+    labelListCoverRect = new QLabel(lyriclistRightPanel);
+    labelListCoverRect->setObjectName("labelListCoverRect");
+    labelListCoverRect->setPixmap(QPixmap(":/resource/image/default_list_cover.png"));
+    labelListCoverRect->setMinimumSize(245,245);
+    labelListCoverRect->setMaximumSize(245,245);
+    labelListCoverRect->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+
+    widgetListInfoRight = new QWidget(lyriclistRightPanel);
+
+    labelLyricListRedMark= new QLabel(widgetListInfoRight);
+    labelListInfoTitle= new QLabel(widgetListInfoRight);
+
+    labelLyricListRedMark->setObjectName("labelLyricListRedMark");
+    labelListInfoTitle->setObjectName("labelListInfoTitle");
+
+    labelLyricListRedMark->setText("歌词单");
+    labelListInfoTitle->setText(tr("歌词单标题"));
+    labelLyricListRedMark->setAlignment(Qt::AlignCenter);
+    labelLyricListRedMark->setMinimumSize(60,26);
+    labelLyricListRedMark->setMaximumSize(60,26);
+    labelLyricListRedMark->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    labelListInfoTitle->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+
+    btnPackupLyricList = new BesButton(widgetListInfoRight);
+    btnPackupLyricList->setObjectName("btnPackupLyricList");
+
+    QHBoxLayout* hLayoutListInfo = new QHBoxLayout();
+    hLayoutListInfo->addWidget(labelLyricListRedMark);
+    hLayoutListInfo->addWidget(labelListInfoTitle);
+    hLayoutListInfo->addWidget(btnPackupLyricList);
+    hLayoutListInfo->setSpacing(2);
+
+    QVBoxLayout* vLayoutListInfo = new QVBoxLayout();
+    vLayoutListInfo->addLayout(hLayoutListInfo);
+    vLayoutListInfo->addSpacerItem(new QSpacerItem(20,200,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+
+    widgetListInfoRight->setMinimumHeight(250);
+    widgetListInfoRight->setMaximumHeight(250);
+    widgetListInfoRight->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+    QHBoxLayout* hLayoutTop = new QHBoxLayout();
+    hLayoutTop->addWidget(labelListCoverRect);
+    hLayoutTop->addLayout(vLayoutListInfo);
+    hLayoutTop->setSpacing(25);
+    hLayoutTop->setMargin(30);
+
+    tabpageLyricList = new  QTabWidget(pageLyricListContainer);
+
+    tableLrcList = new BesLListTableView(tabpageLyricList);
+    widgetEditLyricItem = new QWidget(tabpageLyricList);
+    widgetEditListInfo = new QWidget(tabpageLyricList);
+
+    tabpageLyricList->setObjectName("tabpageLyricList");
+    tabpageLyricList->addTab(tableLrcList, tr("歌词单列表"));
+    tabpageLyricList->addTab(widgetEditLyricItem,tr("创建/编辑项"));
+    tabpageLyricList->addTab(widgetEditListInfo,tr("编辑歌词单"));
+
+    tabpageLyricList->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+
+    QVBoxLayout* vLayoutRight = new QVBoxLayout(lyriclistRightPanel);
+    vLayoutRight->addLayout(hLayoutTop);
+    vLayoutRight->addWidget(tabpageLyricList);
+
+
+    //编辑歌单项
+    labelLrcItemSongPath = new QLabel(widgetEditLyricItem);
+    labelLrcItemLrcPath  = new QLabel(widgetEditLyricItem);
+    editLrcItemSongPath = new QLineEdit(widgetEditLyricItem);
+    editLrcItemLrcPath  = new QLineEdit(widgetEditLyricItem);
+    btnSelectLrcItemSongPath = new BesButton(widgetEditLyricItem);
+    btnSelectLrcItemLrcPath  = new BesButton(widgetEditLyricItem);
+    btnSaveLrcItem     = new BesButton(widgetEditLyricItem);
+    btnCreateLrcItem   = new BesButton(widgetEditLyricItem);
+    btnSaveLrcItem->setObjectName("btnSaveLrcItem");
+    btnCreateLrcItem->setObjectName("btnCreateLrcItem");
+
+    labelLrcItemSongPath->setText(tr("歌曲路径"));
+    labelLrcItemLrcPath->setText(tr("歌词路径"));
+    editLrcItemSongPath->setFocusPolicy(Qt::NoFocus);
+    editLrcItemLrcPath->setFocusPolicy(Qt::NoFocus);
+    editLrcItemSongPath->setMinimumHeight(35);
+    editLrcItemSongPath->setMaximumHeight(35);
+    editLrcItemLrcPath->setMinimumHeight(35);
+    editLrcItemLrcPath->setMaximumHeight(35);
+    editLrcItemSongPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
+    editLrcItemLrcPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
+
+    btnSelectLrcItemSongPath->setText(tr("选择"));
+    btnSelectLrcItemLrcPath->setText(tr("选择"));
+    btnSaveLrcItem->setText("保存");
+    btnCreateLrcItem->setText("新建");
+    btnSelectLrcItemSongPath->setMinimumWidth(80);
+    btnSelectLrcItemSongPath->setMaximumWidth(120);
+    btnSelectLrcItemLrcPath->setMinimumWidth(80);
+    btnSelectLrcItemLrcPath->setMaximumWidth(120);
+    btnSaveLrcItem->setMinimumSize(80,35);
+    btnSaveLrcItem->setMaximumSize(80,35);
+    btnCreateLrcItem->setMinimumSize(80,35);
+    btnCreateLrcItem->setMaximumSize(80,35);
+
+    QHBoxLayout* hEditItemSong = new QHBoxLayout();
+    hEditItemSong->addWidget(labelLrcItemSongPath);
+    hEditItemSong->addWidget(editLrcItemSongPath);
+    hEditItemSong->addWidget(btnSelectLrcItemSongPath);
+
+    QHBoxLayout* hEditItemLrc = new QHBoxLayout();
+    hEditItemLrc->addWidget(labelLrcItemLrcPath);
+    hEditItemLrc->addWidget(editLrcItemLrcPath);
+    hEditItemLrc->addWidget(btnSelectLrcItemLrcPath);
+
+    QHBoxLayout* hEditItemSave = new QHBoxLayout();
+    hEditItemSave->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hEditItemSave->addWidget(btnSaveLrcItem);
+    hEditItemSave->addWidget(btnCreateLrcItem);
+
+    QVBoxLayout* hEditItem = new QVBoxLayout(widgetEditLyricItem);
+    hEditItem->addLayout(hEditItemSong);
+    hEditItem->addLayout(hEditItemLrc);
+    hEditItem->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hEditItem->addLayout(hEditItemSave);
+    hEditItem->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
+
+    //整体布局
     QHBoxLayout* hMainLayout = new QHBoxLayout(pageLyricListContainer);
     hMainLayout->addWidget(scrollAreaLeft);
     hMainLayout->addWidget(lyriclistRightPanel);
@@ -109,17 +235,65 @@ void PageLyricList::initConnection()
     //列表互斥选中项
     connect(lyricListCreated,&QListWidget::itemClicked,this,[=](){
         if(lyricListHistory->getCurrentIndex() != -1)lyricListHistory->setCurrentRow(-1);
-    });connect(lyricListHistory,&QListWidget::itemClicked,this,[=](){
+    });
+    connect(lyricListHistory,&QListWidget::itemClicked,this,[=](){
         if(lyricListCreated->getCurrentIndex() != -1)lyricListCreated->setCurrentRow(-1);
     });
+
+    //选中项，则将对应的数据的指针传出来用于显示、编辑等
+    connect(lyricListCreated,&QListWidget::currentRowChanged,[=](int currentRow){
+        if(currentRow != -1)
+        {
+            pCurrentLyricList = lyricListCreated->getCurrentItemData();
+            labelListInfoTitle->setText( pCurrentLyricList->name);
+            tableLrcList->setDataSource(pCurrentLyricList);
+
+            //重载将自动退出编辑模式
+            enableEditMode(false);
+
+            //切换到列表页面
+            tabpageLyricList->setCurrentIndex(0);
+        }
+    });
+
+    connect(lyricListHistory,&QListWidget::currentRowChanged,[=](int currentRow){
+        if(currentRow != -1)
+        {
+            pCurrentLyricList = lyricListHistory->getCurrentItemData();
+            labelListInfoTitle->setText( pCurrentLyricList->name);
+            tableLrcList->setDataSource(pCurrentLyricList);
+
+            //重载将自动退出编辑模式
+            enableEditMode(false);
+
+            //切换到列表页面
+            tabpageLyricList->setCurrentIndex(0);
+        }
+    });
+
+    connect(lyricListCreated,SIGNAL(sig_listDataChanged()),
+            this, SLOT(OnSaveLyricListData()));
+
 
     QAbstractItemModel* model = lyricListCreated->model();
     connect(model,SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
                         this,SLOT(OnRowsMoved(QModelIndex,int,int,QModelIndex,int)));
 
 
-    connect(lyricListCreated,SIGNAL(sig_listDataChanged()),
-            this, SLOT(OnSaveLyricListData()));
+    //连接按钮动作
+    connect(btnSelectLrcItemSongPath,SIGNAL(clicked(bool)),SLOT(OnSelectSongPath()));
+    connect(btnSelectLrcItemLrcPath,SIGNAL(clicked(bool)),SLOT(OnSelectLrcPath()));
+    connect(btnSaveLrcItem,SIGNAL(clicked(bool)),SLOT(OnSaveLrcListItem()));
+    connect(btnCreateLrcItem,SIGNAL(clicked(bool)),SLOT(OnCreateLrcListItem()));
+
+    connect(tableLrcList,SIGNAL(sig_deleteItem(int)),this,SLOT(OnDeleteListItem(int)));
+    connect(tableLrcList,SIGNAL(sig_editItem(int)),this,SLOT(OnEditListItem(int)));
+
+
+    //连接完后，默认选中第一项
+    lyricListHistory->setCurrentRow(0); //必有一项，默认选中
+
+    enableEditMode(false);              //默认不在编辑模式
 }
 
 void PageLyricList::OnRowsMoved(const QModelIndex &parent, int start, int end,
@@ -147,9 +321,135 @@ void PageLyricList::OnDeleteCurrentItem()
     }
 }
 
+void PageLyricList::OnSelectSongPath()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("选择歌曲"),
+                                                      "/home",
+                                                      tr("音频 (*.mp3 *.wav);;视频 (*.mp4)"));
+
+    if(fileName.size() !=0)
+    {
+        editLrcItemSongPath->setText(fileName);
+    }
+}
+
+void PageLyricList::OnSelectLrcPath()
+{
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("选择歌词"), "/home",
+                                                      tr("文本 (*.lrc);;其他 (*.*)"));
+    if(fileName.size() !=0)
+    {
+        editLrcItemLrcPath->setText(fileName);
+    }
+}
+
+void PageLyricList::OnSaveLrcListItem()
+{
+    QString song = editLrcItemSongPath->text();
+    QString lrc = editLrcItemLrcPath->text();
+
+    assert(bEnableEditMode == true);
+
+    if(pCurrentLyricList->items[currentEditItem].song == song
+            && pCurrentLyricList->items[currentEditItem].lyric ==lrc)
+    {
+        BesMessageBox::information(tr("提示"),tr("没有发生任何更改 ：）"));
+        return;
+    }
+
+    pCurrentLyricList->items[currentEditItem].song = song;//这里的更改直接对  listData 生效
+    pCurrentLyricList->items[currentEditItem].lyric = lrc;
+
+    OnSaveLyricListData();                 //触发保存
+
+    enableEditMode(false);                  //退出编辑模式
+
+    //切换到列表页面
+    tabpageLyricList->setCurrentIndex(0);
+}
+
+void PageLyricList::OnCreateLrcListItem()
+{
+    QString song = editLrcItemSongPath->text();
+    QString lrc = editLrcItemLrcPath->text();
+
+    if(song.size() == 0)
+    {
+        BesMessageBox::information(tr("提示"),tr("请先选择歌曲"));
+        return;
+    }
+    if(lrc.size() == 0)
+    {
+        BesMessageBox::information(tr("提示"),tr("请先选择歌词"));
+        return;
+    }
+
+    for(LyricListItem& item: pCurrentLyricList->items)
+    {
+        if(item.song == song && item.lyric ==lrc)
+        {
+            BesMessageBox::information(tr("提示"),tr("当前歌曲和歌词组合已存在 ：）"));
+            return;
+        }
+    }
+
+    LyricListItem item;
+    item.song = song;
+    item.lyric = lrc;
+    pCurrentLyricList->items.push_back(item);  //这里的更改直接对  listData 生效
+    OnSaveLyricListData();                     //触发保存
+
+    tableLrcList->setDataSource(pCurrentLyricList); //重置使表重载数据
+
+    enableEditMode(false);                  //确保退出编辑模式（由于编辑时可能保持也可能新建）
+
+    //切换到列表页面
+    tabpageLyricList->setCurrentIndex(0);
+}
+
+void PageLyricList::OnDeleteListItem(int row)
+{
+    pCurrentLyricList->items.removeAt(row);//这里的更改直接对  listData 生效
+    OnSaveLyricListData();                 //触发保存
+
+    tableLrcList->reloadTableFromData(); //表格数据改变，让其重显示数据
+
+    //删除项将自动退出编辑模式
+    enableEditMode(false);
+}
+
+void PageLyricList::OnEditListItem(int row)
+{
+    LyricListItem item = pCurrentLyricList->items.at(row);
+
+    editLrcItemSongPath->setText(item.song);
+    editLrcItemLrcPath->setText(item.lyric);
+
+    enableEditMode(true, row);
+
+    //切换到编辑页面
+    tabpageLyricList->setCurrentIndex(1);
+}
+
 void PageLyricList::OnSaveLyricListData()
 {
     LyricListManager::GetInstance().saveLyricListData(listData);
+}
+
+void PageLyricList::enableEditMode(bool bEnable, int indexWhenEnable)
+{
+    bEnableEditMode = bEnable;
+
+    if(bEnableEditMode)
+    {
+        currentEditItem = indexWhenEnable;
+        btnSaveLrcItem->setVisible(true);
+    }
+    else
+    {
+        btnSaveLrcItem->setVisible(false);
+    }
 }
 
 

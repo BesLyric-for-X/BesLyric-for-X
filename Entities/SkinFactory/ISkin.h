@@ -196,7 +196,7 @@ private:
              "margin:10px;"
          "}"
 
-         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, QLabel#settingTitle{"
+         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, QLabel#settingTitle, QLabel#labelListInfoTitle{"
              "color:"+DeepLabelColor+";"
              "font-size:23px;"
              "margin:10px;"
@@ -213,6 +213,14 @@ private:
              "font-size:19px;"
              "margin:1px;"
          "}"
+
+         "QLabel#labelLyricListRedMark{"
+             "color:#e03f40;"
+             "font:15px;"
+             "border:1px solid #e03f40;"
+             "border-radius:2px;"
+         "}"
+
          ;
         return str;
     }
@@ -579,7 +587,7 @@ private:
                 "border-image:url(\":/resource/image/mark_skin_select.png\");"
                  "}"
 
-                "QPushButton#btnPackupLyricBox, QPushButton#btnPackupSetting{"
+                "QPushButton#btnPackupLyricBox, QPushButton#btnPackupSetting,  QPushButton#btnPackupLyricList{"
                  "image:url(\""+btnPackbackToBoxImg +"\");"
                 "border:1px solid "+leftboardBorderColor+";"
                 "width: 42px;"
@@ -588,7 +596,8 @@ private:
                 "}"
 
                 /* 消息框蓝色按钮 */
-                "QPushButton#btnOK, QPushButton#btnAddListItem{"
+                "QPushButton#btnOK, QPushButton#btnAddListItem"
+                ",QPushButton#btnSaveLrcItem, QPushButton#btnCreateLrcItem{"
                 "border:1px solid "+leftboardBorderColor+";"
                 "    border-radius:5px;"
                 "    color:"+defaultButtonColorNormal+";"
@@ -596,12 +605,14 @@ private:
                 "    max-height: 120px;"
                 "    background:"+blueButtonColorNormal+";"
                 "}"
-                "QPushButton#btnOK:hover, QPushButton#btnAddListItem:hover{"
+                "QPushButton#btnOK:hover, QPushButton#btnAddListItem:hover"
+                ",QPushButton#btnSaveLrcItem:hover,QPushButton#btnCreateLrcItem:hover{"
                 "    min-height: 30px;"
                 "    color: "+defaultButtonColorHover+";"
                 "    background:"+blueButtonColorHover+";"
                 "}"
-                "QPushButton#btnOK:disabled, QPushButton#btnAddListItem:disabled{"
+                "QPushButton#btnOK:disabled, QPushButton#btnAddListItem:disabled"
+                ",QPushButton#btnSaveLrcItem:disabled, QPushButton#btnCreateLrcItem:disabled{"
                 "    min-height: 30px;"
                 "    background:"+blueButtonColorDisabled+";"
                 "}"
@@ -875,14 +886,15 @@ private:
         "   border-bottom:5px solid;"
         "   color:"+ DeepLabelColor+";"
         "   border-bottom-color: rgba(0, 0, 0, 0);"
-        "   min-width: 80px;"
+        "   min-width: 96px;"
         "}"
 
         "QTabBar:tab:selected {"
         "   color:"+ btnTabLeftBoderColor+";"
         "   border-bottom-color: "+btnTabLeftBoderColor+";"
-        "}";
+        "}"
 
+;
         return str;
     }
 
@@ -904,7 +916,7 @@ private:
         "     font:14px;"
         "     color:"+DeepLabelColor+";"
         "     gridline-color: #00000000; "
-        "     text-align:middle;"
+        "     text-align:center;"
         " }"
         "  "
         " QTableView::item:selected"

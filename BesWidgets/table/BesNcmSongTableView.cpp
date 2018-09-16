@@ -151,13 +151,18 @@ void BesNcmSongTableView::BaseInit()
     this->horizontalHeader()->setHighlightSections(false);
     this->setGridStyle(Qt::PenStyle::NoPen);
     this->setShowGrid(false);
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 //自动调整大小
 void BesNcmSongTableView::resizeEvent(QResizeEvent *event)
 {
     QTableView::resizeEvent(event);
+
     double widthLeft = this->width() - 50- 100 - 120 - 15;
+    if(widthLeft <= 0)
+        return;
+
     this->setColumnWidth(2,widthLeft * 3/7);
     this->setColumnWidth(3,widthLeft * 2/7);
     this->setColumnWidth(4,widthLeft * 2/7);

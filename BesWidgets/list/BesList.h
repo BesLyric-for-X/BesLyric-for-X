@@ -20,6 +20,7 @@ public:
     void moveRow(int from,int to);
 
     int getCurrentIndex();
+    LyricList* getCurrentItemData();
 
 signals:
     void sig_listDataChanged();
@@ -27,7 +28,6 @@ signals:
 public:
 
     virtual QSize sizeHint() const{return QSize(220,35);}   //默认宽度是256，和左侧列表250出现垂直滚动条时"挤压"，调小些
-    //virtual QSize minimunSizeHint(){return QSize(256,35);}
 
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
@@ -35,7 +35,6 @@ public:
 
 private:
     QVector<LyricList>* pLyricLists;
-    QList<QString> strList;
 };
 
 #endif // BES_LIST_H

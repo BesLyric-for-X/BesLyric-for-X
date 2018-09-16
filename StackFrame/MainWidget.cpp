@@ -72,6 +72,9 @@ void MainWidget::initConnection()
     connect(middleWidget->pageSetting->btnPackupSetting, &QPushButton::clicked, [=](){
             middleWidget->switchPage(4,0);});
 
+    connect(middleWidget->pageLyricList->btnPackupLyricList,&QPushButton::clicked, [=](){
+        middleWidget->switchPage(2,0);});
+
     //制作歌词页面信号响应
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
                                                  this, SLOT(onUnloadLyricFromPreviewPage()));

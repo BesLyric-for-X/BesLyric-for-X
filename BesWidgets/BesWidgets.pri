@@ -12,9 +12,13 @@ HEADERS+=\
     $$PWD/table/BesNcmSongButtonDelegate.h \
     $$PWD/table/BesNcmSongTableModel.h \
     $$PWD/table/BesNcmSongTableView.h\
+    $$PWD/table/BesLListButtonDelegate.h \
+    $$PWD/table/BesLListTableModel.h \
+    $$PWD/table/BesLListTableView.h\
     $$PWD/list/BesListHeader.h\
     $$PWD/list/BesList.h\
-    $$PWD/BesTransparentLayer.h
+    $$PWD/BesTransparentLayer.h\
+
 
 SOURCES+=\
     $$PWD/BesFramelessWidget.cpp \
@@ -28,8 +32,11 @@ SOURCES+=\
     $$PWD/table/BesNcmSongButtonDelegate.cpp \
     $$PWD/table/BesNcmSongTableView.cpp \
     $$PWD/table/BesNcmSongTableModel.cpp\
+    $$PWD/table/BesLListButtonDelegate.cpp \
+    $$PWD/table/BesLListTableView.cpp \
+    $$PWD/table/BesLListTableModel.cpp\
     $$PWD/list/BesListHeader.cpp\
     $$PWD/list/BesList.cpp\
-    $$PWD/BesTransparentLayer.cpp
+    $$PWD/BesTransparentLayer.cpp\
 
 
