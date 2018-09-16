@@ -45,15 +45,11 @@ void PageLyricList::initLayout()
     lyriclistLeftPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     lyriclistRightPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-
     //左侧列表
-
     QVBoxLayout* vListLayout = new QVBoxLayout(lyriclistLeftPanel);
 
     //制作历史歌词单
     lyricListHistory = new BesList(lyriclistLeftPanel);
-//  lyricListHistory->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
-//  lyricListHistory->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     lyricListHistory->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     lyricListHistory->setFocusPolicy(Qt::NoFocus);
     lyricListHistory->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
@@ -72,8 +68,6 @@ void PageLyricList::initLayout()
 
     //列表
     lyricListCreated = new BesList(lyriclistLeftPanel);
-//  lyricListCreated->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);//去掉滚动条
-//  lyricListCreated->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     lyricListCreated->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
     lyricListCreated->setFocusPolicy(Qt::NoFocus);
     lyricListCreated->setDragDropMode(QListView::DragDropMode::InternalMove);
@@ -87,8 +81,6 @@ void PageLyricList::initLayout()
     vListLayout->addWidget(lyricListHistory);
     vListLayout->addWidget(headerListCreated);
     vListLayout->addWidget(lyricListCreated);
-    //vListLayout->addWidget(headerListTest);
-    //vListLayout->addWidget(lyricListTest);
     vListLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
 
 
@@ -112,7 +104,7 @@ void PageLyricList::initLayout()
 void PageLyricList::initConnection()
 {
     connect(headerListCreated, &BesListHeader::sig_toggleList,[=](bool show){lyricListCreated->setVisible(show);});
-    connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(deleteCurrentItem()));
+    //connect(headerListCreated,SIGNAL(sig_addButtonClicked()),this,SLOT(addNewListItem()));
 
     //列表互斥选中项
     connect(lyricListCreated,&QListWidget::itemClicked,this,[=](){
@@ -123,26 +115,29 @@ void PageLyricList::initConnection()
 
     QAbstractItemModel* model = lyricListCreated->model();
     connect(model,SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-                        this,SLOT(rowsMoved(QModelIndex,int,int,QModelIndex,int)));
+                        this,SLOT(OnRowsMoved(QModelIndex,int,int,QModelIndex,int)));
 
 
     connect(lyricListCreated,SIGNAL(sig_listDataChanged()),
             this, SLOT(OnSaveLyricListData()));
 }
 
-void PageLyricList::rowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, PageLyricList::QPrivateSignal)
+void PageLyricList::OnRowsMoved(const QModelIndex &parent, int start, int end,
+                                const QModelIndex &destination, int row, PageLyricList::QPrivateSignal)
 {
+    Q_UNUSED(parent)
+    Q_UNUSED(end)
+    Q_UNUSED(destination)
 	//(start,end)->row
 	lyricListCreated->moveRow(start, row);
 }
 
-void PageLyricList::addNewListItem()
+void PageLyricList::OnAddNewListItem(QString itemName)
 {
-    lyricListCreated->addItem("我创建的歌单");
+    lyricListCreated->addItem(itemName);
 }
 
-
-void PageLyricList::deleteCurrentItem()
+void PageLyricList::OnDeleteCurrentItem()
 {
     int curRow = lyricListCreated->currentRow();
 

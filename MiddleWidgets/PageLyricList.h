@@ -21,10 +21,10 @@ public:
     void initConnection();
 
 public slots:
-    void rowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
+    void OnRowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
 
-    void addNewListItem();
-    void deleteCurrentItem();
+    void OnAddNewListItem(QString itemName);
+    void OnDeleteCurrentItem();
 
     void OnSaveLyricListData();
 

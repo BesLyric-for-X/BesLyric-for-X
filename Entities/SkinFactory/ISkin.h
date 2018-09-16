@@ -206,6 +206,13 @@ private:
              "color:#427cae;"
              "font-size:17px;"
          "}"
+
+         "QLabel#labelAddItemNameTip{"
+             "color:"+DeepLabelColor+";"
+             "font-weight:bold;"
+             "font-size:19px;"
+             "margin:1px;"
+         "}"
          ;
         return str;
     }
@@ -581,7 +588,7 @@ private:
                 "}"
 
                 /* 消息框蓝色按钮 */
-                "QPushButton#btnOK{"
+                "QPushButton#btnOK, QPushButton#btnAddListItem{"
                 "border:1px solid "+leftboardBorderColor+";"
                 "    border-radius:5px;"
                 "    color:"+defaultButtonColorNormal+";"
@@ -589,10 +596,14 @@ private:
                 "    max-height: 120px;"
                 "    background:"+blueButtonColorNormal+";"
                 "}"
-                "QPushButton#btnOK:hover{"
+                "QPushButton#btnOK:hover, QPushButton#btnAddListItem:hover{"
                 "    min-height: 30px;"
                 "    color: "+defaultButtonColorHover+";"
                 "    background:"+blueButtonColorHover+";"
+                "}"
+                "QPushButton#btnOK:disabled, QPushButton#btnAddListItem:disabled{"
+                "    min-height: 30px;"
+                "    background:"+blueButtonColorDisabled+";"
                 "}"
 
                 //搜索歌曲列表按钮
@@ -755,6 +766,7 @@ private:
         QString str =
         "QLineEdit{"
                "color:"+DeepLabelColor+";"
+               "padding:5px;"
                " border: 1px solid rgba(40, 20, 20,50); "
                 "   background: "+editBackground+"; "
                 "   selection-background-color: green;"
@@ -989,6 +1001,7 @@ private:
 
         blueButtonColorNormal       ="#2e4e7e";
         blueButtonColorHover        ="#3a6098";
+        blueButtonColorDisabled      ="#2e4e7eee";
 
 
         titleColor                 ="#ffffff                                     ";
@@ -1059,6 +1072,7 @@ protected:
 
     QString blueButtonColorNormal;  //#2e4e7e
     QString blueButtonColorHover;   //#3a6098
+    QString blueButtonColorDisabled;  //#2e4e7e
 
     QString btnPackbackToBoxImg;        //":/resource/image/btn_pack_back_to_box_black.png"
 

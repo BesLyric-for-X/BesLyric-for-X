@@ -3,7 +3,7 @@
 #include "AppHelper.h"
 
 StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
-    : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr)
+    : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr),addItemWidget(nullptr)
 {
     pApp = pApplication;
     this->setMouseTracking(true);
@@ -30,6 +30,10 @@ void StackFrame::initLayout()
 
     transparentLayer = new BesTransparentLayer(this);       //透明层，用于放置在浮动框和主窗口之间
     skinBoxWidget = new SkinBoxWidget(this);
+    addItemWidget= new AddLyricItemWidget(this);
+
+    addItemWidgetLeft = 250;
+    addItemWidgetTop = 108;
 
     mainWidget->raise();
     isMainOnTop = true;
@@ -43,12 +47,17 @@ void StackFrame::initConnection()
     connect(mainWidget->topWidget->btnRestore, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
 
     connect(mainWidget->topWidget->btnSkinBox, SIGNAL(clicked(bool)), this, SLOT(toggleSkinBox()));
+    connect(mainWidget->middleWidget->pageLyricList->headerListCreated,SIGNAL(sig_addButtonClicked())
+            ,this,SLOT(toggleAddItemWidget()));
 
     connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
     connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
 
     connect(transparentLayer,SIGNAL(sig_layerPressed()),this,SLOT(bringMainToTop()));
-    
+
+    connect(addItemWidget,SIGNAL(sig_toggleAddWidget()),this,SLOT(bringMainToTop()));
+    connect(addItemWidget,SIGNAL(sig_addListItem(QString)),
+            mainWidget->middleWidget->pageLyricList, SLOT(OnAddNewListItem(QString)));
     
     //注意：onSkinClick 这里有2处会触发皮肤的变换，一处是在这里；另一处是这里改变 SkinBoxWidget 触发了纯颜色皮肤设置
     // 这里后连接，所以前面纯颜色的设置不影响这里的效果 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
@@ -114,9 +123,12 @@ void StackFrame::resizeEvent(QResizeEvent *event)
     QRect transWidgetRect(mainWidgetRect);
     transWidgetRect.setTop(transWidgetRect.top()+65);  //上侧标题控件不要阻挡
 
+    QRect addItemWidgetRect = QRect(addItemWidgetLeft,addItemWidgetTop,350,280);
+
     mainWidget->setGeometry(mainWidgetRect);
     transparentLayer->setGeometry(transWidgetRect);
     skinBoxWidget->setGeometry(skinBoxRect);
+    addItemWidget->setGeometry(addItemWidgetRect);
 }
 
 
@@ -124,6 +136,9 @@ void StackFrame::SetSkin(QString skinName)
 {
     if(skinBoxWidget)
         skinBoxWidget->setFinalSkinName(skinName);
+
+    if(addItemWidget)
+        addItemWidget->setFinalSkinName(skinName);
 
     emit onFinalSkinNameChanged(skinName);
 
@@ -165,6 +180,21 @@ void StackFrame::toggleSkinBox()
     {
         transparentLayer->raise();
         skinBoxWidget->raise();
+        isMainOnTop = false;
+    }
+    else
+    {
+        mainWidget->raise();
+        isMainOnTop = true;
+    }
+}
+
+void StackFrame::toggleAddItemWidget()
+{
+    if(isMainOnTop)
+    {
+        transparentLayer->raise();
+        addItemWidget->raise();
         isMainOnTop = false;
     }
     else

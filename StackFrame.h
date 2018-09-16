@@ -5,6 +5,7 @@
 #include "BesFramelessWidget.h"
 #include "MainWidget.h"
 #include "SkinBoxWidget.h"
+#include "AddLyricItemWidget.h"
 #include "BesTransparentLayer.h"
 
 /*
@@ -41,6 +42,7 @@ public slots:
 
     void toggleMaxRestoreStatus();          //切换最大化和恢复2个状态
     void toggleSkinBox();                   //显示或隐藏皮肤盒
+    void toggleAddItemWidget();             //显示或隐藏添加列表项控件
 
     bool mousePressFilter(QMouseEvent *event);
     bool bringMainToTop();                  //将主程序控件提到最前(生效则返回true)
@@ -50,8 +52,13 @@ public:
     bool                    isMainOnTop;            //标记当期主体控件是否在最顶层
     MainWidget*             mainWidget;             //程序的主体功能控件
     BesTransparentLayer*    transparentLayer;       //透明层
+
     SkinBoxWidget*          skinBoxWidget;          //皮肤盒
+    AddLyricItemWidget*     addItemWidget;          //添加列表项的控件
     int                     borderMain;             //边框厚度
+
+    int addItemWidgetLeft;
+    int addItemWidgetTop;
 
     QApplication*           pApp;
 };

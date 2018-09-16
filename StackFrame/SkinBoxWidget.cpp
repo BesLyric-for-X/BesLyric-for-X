@@ -457,4 +457,3 @@ void SkinBoxWidget::resizeEvent(QResizeEvent *event)
     mainLayer->setGeometry(mainLayerRect);
 
 }
-
