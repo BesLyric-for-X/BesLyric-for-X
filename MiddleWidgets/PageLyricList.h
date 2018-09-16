@@ -6,6 +6,7 @@
 #include <QScrollArea>
 #include "list/BesListHeader.h"
 #include "list/BesList.h"
+#include "LyricListManager.h"
 
 class PageLyricList : public QWidget
 {
@@ -15,11 +16,9 @@ public:
     PageLyricList(QWidget *parent = 0);
     ~PageLyricList();
 
+    void initEntity();
     void initLayout();
     void initConnection();
-
-
-
 
 public slots:
     void rowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
@@ -27,6 +26,7 @@ public slots:
     void addNewListItem();
     void deleteCurrentItem();
 
+    void OnSaveLyricListData();
 
 public:
     QWidget* pageLyricListContainer;
@@ -41,6 +41,9 @@ public:
     BesList *lyricListTest;
 
     QScrollArea* scrollAreaLeft;
+
+public:
+    LyricListData listData;
 
     QList<QString> strList;
 };

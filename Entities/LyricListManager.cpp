@@ -40,23 +40,26 @@ bool LyricListManager::saveLyricListData(LyricListData data)
 
         writer.writeStartElement("lyricList"); // 开始元素<lyricList>
 
-        {
-            writer.writeStartElement("history"); // 开始元素<history>
+        writer.writeStartElement("history"); // 开始元素<history>
 
+        for(int j = 0; j < data.listsHistory.size(); j++)
+        {
             writer.writeStartElement("list"); // 开始元素<list>
 
-            writer.writeAttribute("name", data.listHistory.name);
+            writer.writeAttribute("name", data.listsHistory[j].name);
 
-            for(int i = 0; i<data.listHistory.items.size(); i++)
+            for(int i = 0; i<data.listsHistory[j].items.size(); i++)
             {
-                writer.writeTextElement("song", data.listHistory.items[i].song);
-                writer.writeTextElement("lyric",  data.listHistory.items[i].lyric);
+				writer.writeStartElement("item"); // 开始元素<item>
+                writer.writeTextElement("song",data.listsHistory[j].items[i].song);
+                writer.writeTextElement("lyric",  data.listsHistory[j].items[i].lyric);
+				writer.writeEndElement();  // 结束子元素 </item>
             }
 
             writer.writeEndElement();  // 结束子元素 </list>
-
-            writer.writeEndElement();  // 结束子元素 </history>
         }
+
+        writer.writeEndElement();  // 结束子元素 </history>
 
 
         writer.writeStartElement("created"); // 开始元素<created>
@@ -67,10 +70,12 @@ bool LyricListManager::saveLyricListData(LyricListData data)
 
             writer.writeAttribute("name", data.listsCreated[j].name);
 
-            for(int i = 0; i<data.listHistory.items.size(); i++)
+            for(int i = 0; i<data.listsCreated[j].items.size(); i++)
             {
+				writer.writeStartElement("item"); // 开始元素<item>
                 writer.writeTextElement("song", data.listsCreated[j].items[i].song);
                 writer.writeTextElement("lyric",  data.listsCreated[j].items[i].lyric);
+				writer.writeEndElement();  // 结束子元素 </item>
             }
 
             writer.writeEndElement();  // 结束子元素 </list>
@@ -99,6 +104,13 @@ void LyricListManager::loadFromSettingDir()
 
     if(!QFile::exists(path))  //不存在，自动创建歌词单文件，并保存
     {
+        if(listData.listsHistory.size()==0)
+        {
+            LyricList lyricList;
+            lyricList.name = tr("制作记录");
+            listData.listsHistory.push_back(lyricList);
+        }
+
         if(!saveLyricListData(listData))
 			BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败"));
     }
@@ -106,7 +118,15 @@ void LyricListManager::loadFromSettingDir()
     {
 		if (!LoadListData(path))
 		{
-			BesMessageBox::information(tr("提示"), tr("载入歌词单文件失败") + " : " + path + "\n\n"+ "将自动为您重建默认歌词单 :)");
+            BesMessageBox::information(tr("提示"), tr("载入歌词单文件失败")
+                     + " : \n\n" + path + "\n\n"+ "将自动为您重建默认歌词单 :)");
+
+            if(listData.listsHistory.size()==0)
+            {
+                LyricList lyricList;
+                lyricList.name = tr("制作记录");
+                listData.listsHistory.push_back(lyricList);
+            }
 
 			//自动重写
 			if (!saveLyricListData(listData))
@@ -177,8 +197,7 @@ bool LyricListManager::parseAll(QXmlStreamReader &reader, LyricListData &data)
                 if(!parseLyricList(reader, lists,"history"))
                     return false;
 
-                if(lists.size()!=0)
-                    data.listHistory = lists[0];
+                data.listsHistory = lists;
             }
             else if(strElementName == "created")
             {
@@ -218,7 +237,7 @@ bool LyricListManager::parseLyricList(QXmlStreamReader &reader, QVector<LyricLis
                 if (attributes.hasAttribute("name")) {
                     QString listName = attributes.value("name").toString();
                     lyricList.name = listName;
-                    qDebug() << QString::fromLocal8Bit("attribute：name(%1)").arg(listName);
+                    qDebug() << QString::fromLocal8Bit("attribute: name(%1)").arg(listName);
                 }
                 else
                     return false;

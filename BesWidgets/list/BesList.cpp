@@ -5,57 +5,98 @@
 
 BesList::BesList(QWidget *parent):QListWidget(parent)
 {
+    pLyricLists = nullptr;
     this->setMouseTracking(true);
 }
 
-
-void BesList::addItem(QString item)
+void BesList::setLyricLists(QVector<LyricList> &lyricLists)
 {
-    strList.push_back(item);
+    pLyricLists = &lyricLists;
+
+	this->setMinimumHeight(35 * pLyricLists->size());
+	this->setMaximumHeight(35 * pLyricLists->size());
+
+    //创建歌词单项
+    for(auto& list:*pLyricLists)
+    {
+        addItem(list.name, false);
+    }
+}
+
+
+void BesList::addItem(QString item, bool bConstructNewData)
+{
+    if(pLyricLists==nullptr)
+        return;
+
+	LyricList lyricList;
+	lyricList.name = item;
+
+	if (bConstructNewData)
+	{
+		pLyricLists->push_back(lyricList);
+		emit sig_listDataChanged();
+
+		this->setMaximumHeight(35 * pLyricLists->size());
+		this->setMinimumHeight(35 * pLyricLists->size());
+	}
 
     QListWidgetItem *pItem = new QListWidgetItem(this);
     pItem->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
-    pItem->setText(item);
+    pItem->setText(lyricList.name);
 
-    this->setMaximumHeight(35*strList.size());
-    this->setMinimumHeight(35*strList.size());
 }
 
 void BesList::deleteCurrentItem()
 {
+    if(pLyricLists==nullptr)
+        return;
+
     int index = this->currentRow();
     if(index == -1)
         return;
 
-    strList.removeAt(index);
+	pLyricLists->removeAt(index);
 
     QListWidgetItem* item = this->takeItem(index);
     if(item)
         delete item;
 
-    this->setMaximumHeight(35*strList.size());
-    this->setMinimumHeight(35*strList.size());
+    this->setMaximumHeight(35* pLyricLists->size());
+    this->setMinimumHeight(35* pLyricLists->size());
+
+	emit sig_listDataChanged();
 }
 
 void BesList::removeAll()
 {
-    strList.clear();
+    if(pLyricLists==nullptr)
+        return;
+
+	pLyricLists->clear();
+
+	emit sig_listDataChanged();
 }
 
 void BesList::moveRow(int from, int to)
 {
-    QString item = strList.at(from);
-    strList.removeAt(from);
-    strList.insert(to,item);
+    if(pLyricLists==nullptr)
+        return;
+
+	LyricList item = pLyricLists->at(from);
+	pLyricLists->removeAt(from);
+	pLyricLists->insert(to,item);
+
+	emit sig_listDataChanged();
 }
 
 int BesList::getCurrentIndex()
 {
+    if(pLyricLists==nullptr)
+        return -1;
+
     return this->currentRow();
 }
-
-
-
 
 void BesList::enterEvent(QEvent *event)
 {

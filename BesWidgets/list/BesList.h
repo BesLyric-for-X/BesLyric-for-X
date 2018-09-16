@@ -5,22 +5,24 @@
 #include <QLabel>
 #include <QList>
 #include "BesButton.h"
+#include "LyricListManager.h"
 
 class BesList :public QListWidget
 {
     Q_OBJECT
 public:
     BesList(QWidget *parent = Q_NULLPTR);
+    void setLyricLists(QVector<LyricList>& lyricLists);
 
-    void addItem(QString item);
+    void addItem(QString item, bool bConstructNewData = true);
     void deleteCurrentItem();
     void removeAll();
     void moveRow(int from,int to);
 
     int getCurrentIndex();
 
-private:
-
+signals:
+    void sig_listDataChanged();
 
 public:
 
@@ -32,6 +34,7 @@ public:
 
 
 private:
+    QVector<LyricList>* pLyricLists;
     QList<QString> strList;
 };
 

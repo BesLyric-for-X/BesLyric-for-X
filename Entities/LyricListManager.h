@@ -28,7 +28,7 @@ public:
 class LyricListData
 {
 public:
-    LyricList listHistory;
+    QVector<LyricList> listsHistory;  //只有1个项，为了方便和listsCreated一样的方式处理，也用QVector
     QVector<LyricList> listsCreated;
 };
 

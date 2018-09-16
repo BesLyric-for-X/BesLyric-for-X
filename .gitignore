@@ -6,6 +6,7 @@ release
 *.vcxproj*
 *.sln
 *.VC.db
+*.VC.opendb
 
 # C++ objects and libs
 *.slo
