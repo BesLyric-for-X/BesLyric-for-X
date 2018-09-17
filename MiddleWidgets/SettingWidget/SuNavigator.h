@@ -27,6 +27,7 @@ signals:
 private:
     QVector<ISettingUnit*>* pSettings;
 
+    int nCurrentIndex;
 };
 
 #endif // SuNavigator_H

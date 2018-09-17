@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QSpacerItem>
+#include <QScrollBar>
 
 SuScrollPanel::SuScrollPanel(QWidget *parent)
     : QScrollArea(parent)
@@ -85,5 +86,12 @@ void SuScrollPanel::initLayout()
 
 void SuScrollPanel::initConnection()
 {
+    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, [=](int min, int max){
+        nScrollMin = min;
+        nScrollMax = max;
+    });
 
+    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, [=](int value){
+        emit sig_scrollPosChanged(value);
+    });
 }

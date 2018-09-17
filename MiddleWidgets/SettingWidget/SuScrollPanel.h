@@ -36,6 +36,10 @@ public:
 private:
 
     QVector<ISettingUnit*> settings;
+
+    int nScrollMin;
+    int nScrollMax;
+    int nPageStep;
 };
 
 #endif // SuScrollPanel_H

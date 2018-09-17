@@ -3,7 +3,7 @@
 #include <QPixmap>
 
 SuNavigator::SuNavigator(QVector<ISettingUnit*>& settingUnits, QWidget *parent)
-    : QWidget(parent), pSettings(&settingUnits)
+    : QWidget(parent), pSettings(&settingUnits),nCurrentIndex(0)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
@@ -62,7 +62,6 @@ void SuNavigator::paintEvent(QPaintEvent *event)
     }
 
     //再画当前节点 红点高亮
-    int nCurrentIndex = 0;
 
     QPoint pt = QPoint(this->width() - nRight, nTop + nCurrentIndex * nStep);
     p.setBrush(QColor("#b82525"));            //画刷颜色
@@ -93,5 +92,23 @@ void SuNavigator::paintEvent(QPaintEvent *event)
 
 void SuNavigator::OnSettingUnitPanelPosChanged(int pos)
 {
+    pos += 100;  //当前导航是哪一个，并不严格看实际位置 pos
+                //比如 加入有2个设置单元，当上一个设置单元只能看到 25px 大小时，
+                //  其实上面那个设置基本看不到了，这是理应该认为是在看下面一个
+                //  这里通过 将位置 + 50 ,效果是，当上一个剩下小于 50 ，会认为是下一个
 
+    nCurrentIndex = 0;
+
+    int nCumulate = 0;
+    for(int i = 0; i< pSettings->size(); i++)
+    {
+        nCumulate += pSettings->at(i)->getUnitHeight();
+        if(pos < nCumulate)
+        {
+            nCurrentIndex = i;
+            break;
+        }
+    }
+
+    update();
 }
