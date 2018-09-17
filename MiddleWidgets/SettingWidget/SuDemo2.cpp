@@ -2,7 +2,7 @@
 
 QString SuDemo2::getName()
 {
-   return tr("demo2");
+   return tr("demo23333333");
 }
 
 int SuDemo2::getUnitHeight()

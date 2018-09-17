@@ -22,7 +22,7 @@ public slots:
     void OnScrollToIndex(int index);        //如果存在滚动条，滚动到指定目标设置单元的位置
 
 signals:
-    void sig_scrollPosChanged(int pos);            //在滚动条位置发生变化时，发出当前的位置
+    void sig_scrollPosChanged(int pos, int pageStep);//在滚动条位置发生变化时，发出当前的位置
 
 private:
 

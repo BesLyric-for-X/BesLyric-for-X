@@ -3,7 +3,7 @@
 #include <QPixmap>
 
 SuNavigator::SuNavigator(QVector<ISettingUnit*>& settingUnits, QWidget *parent)
-    : QWidget(parent), pSettings(&settingUnits),nCurrentIndex(0)
+    : QWidget(parent), pSettings(&settingUnits)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
@@ -13,13 +13,20 @@ SuNavigator::SuNavigator(QVector<ISettingUnit*>& settingUnits, QWidget *parent)
 }
 
 SuNavigator::~SuNavigator()
-{
-
-}
+{}
 
 void SuNavigator::initEntity()
 {
+    nCurrentIndex = 0;
 
+    nRight = 40;
+    nTop = 40;
+    nStep = 40;
+    nr = 3;
+    nR = 5;
+    textHeight = 26;
+
+    fontMetrics = nullptr;
 }
 
 void SuNavigator::initLayout()
@@ -34,19 +41,14 @@ void SuNavigator::initConnection()
 
 void SuNavigator::paintEvent(QPaintEvent *event)
 {
-    int marginTop = 10;
-
     QPainter p(this);
     //p.setPen(Qt::transparent);
     p.setRenderHint(QPainter::Antialiasing);
     p.setPen(QPen(QColor(99,99,99,66),1));      //画笔颜色
     p.setBrush(QColor(99,99,99,66));            //画刷颜色
 
-    int nRight = 40;
-    int nTop = 40;
-    int nStep = 40;
-    int nr = 3;
-    int nR = 5;
+    if(fontMetrics == nullptr)
+        fontMetrics = new QFontMetrics(p.font());       //获得当前使用的字体度量
 
     //先画右侧的滑动槽 （2个小圆1条直线）
     if(pSettings->size() >= 1)
@@ -69,8 +71,6 @@ void SuNavigator::paintEvent(QPaintEvent *event)
 
     QColor colorText;
 
-    int textHeight = 26;
-
     //绘制文字
     for(int i =0; i < pSettings->size() ; i++)
     {
@@ -80,22 +80,58 @@ void SuNavigator::paintEvent(QPaintEvent *event)
             colorText = QColor("#828385");
 
         p.setPen(colorText);
-
-        QRect r(this->width() - nRight-28 - 200, nTop + i * nStep - textHeight/ 2
-                ,this->width() - nRight-28,  nTop + i * nStep + textHeight/ 2  );
-
-        p.drawText(r,Qt::AlignRight, pSettings->at(i)->getName());
+        p.drawText(vecRect.at(i), Qt::AlignRight, pSettings->at(i)->getName());
     }
 
     QWidget::paintEvent(event);
 }
 
-void SuNavigator::OnSettingUnitPanelPosChanged(int pos)
+void SuNavigator::mouseMoveEvent(QMouseEvent *event)
 {
-    pos += 100;  //当前导航是哪一个，并不严格看实际位置 pos
+    int index = getPointInRect(event->pos());
+
+    if(index != -1)
+        setCursor(QCursor(Qt::PointingHandCursor));
+    else
+        unsetCursor();
+}
+
+void SuNavigator::mousePressEvent(QMouseEvent *event)
+{
+    int index = getPointInRect(event->pos());
+    if(index != -1)
+        emit sig_scrollToSettingUnit(index);
+}
+
+void SuNavigator::resizeEvent(QResizeEvent *event)
+{
+    vecRect.clear();
+
+    for(int i =0; i < pSettings->size() ; i++)
+    {
+        int nWidth = 200;
+        if(fontMetrics != nullptr)
+        {
+            QRect boundRect = fontMetrics->boundingRect(pSettings->at(i)->getName());
+            nWidth= boundRect.width() + 10;
+        }
+        QRect r(this->width() - nRight-28 - nWidth, nTop + i * nStep - textHeight/ 2
+                ,nWidth,25);
+
+        vecRect.push_back(r);
+    }
+
+    QWidget::resizeEvent(event);
+}
+
+void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep)
+{
+    //pos += 100;  //当前导航是哪一个，并不严格看实际位置 pos
                 //比如 加入有2个设置单元，当上一个设置单元只能看到 25px 大小时，
                 //  其实上面那个设置基本看不到了，这是理应该认为是在看下面一个
                 //  这里通过 将位置 + 50 ,效果是，当上一个剩下小于 50 ，会认为是下一个
+
+    int dividedStep = pageStep / pSettings->size();
 
     nCurrentIndex = 0;
 
@@ -103,7 +139,7 @@ void SuNavigator::OnSettingUnitPanelPosChanged(int pos)
     for(int i = 0; i< pSettings->size(); i++)
     {
         nCumulate += pSettings->at(i)->getUnitHeight();
-        if(pos < nCumulate)
+        if(pos + dividedStep * i < nCumulate)
         {
             nCurrentIndex = i;
             break;
@@ -111,4 +147,14 @@ void SuNavigator::OnSettingUnitPanelPosChanged(int pos)
     }
 
     update();
+}
+
+int SuNavigator::getPointInRect(QPoint& pt)
+{
+    for(int i = 0; i< vecRect.size(); i++)
+    {
+        if(vecRect.at(i).contains(pt))
+            return i;
+    }
+    return -1;
 }

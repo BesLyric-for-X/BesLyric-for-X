@@ -39,9 +39,23 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
 
 void SuScrollPanel::OnScrollToIndex(int index)
 {
+    int devidedStep = nPageStep / settings.size();
 
+    int pos = 0;
+    for(int i = 0; i< settings.size(); i++ )
+    {
+        if(i < index)
+        {
+            pos += settings.at(i)->getUnitHeight();
+        }
+        else
+            break;
+    }
+
+    int sub = index <= 1 ? 0: devidedStep * (index-1);
+
+    this->verticalScrollBar()->setValue(pos - sub);
 }
-
 
 void SuScrollPanel::initLayout()
 {
@@ -82,16 +96,20 @@ void SuScrollPanel::initLayout()
 
     settingUnitContainer->setMinimumHeight(nTotalHeight);
     settingUnitContainer->setMaximumHeight(nTotalHeight);
+
 }
 
 void SuScrollPanel::initConnection()
 {
     connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, [=](int min, int max){
+        nPageStep = this->verticalScrollBar()->pageStep();
         nScrollMin = min;
         nScrollMax = max;
     });
 
     connect(this->verticalScrollBar(), &QScrollBar::valueChanged, [=](int value){
-        emit sig_scrollPosChanged(value);
+        nPageStep = this->verticalScrollBar()->pageStep();
+        emit sig_scrollPosChanged(value, nPageStep);
     });
+
 }
