@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include "BesButton.h"
+#include "SettingWidget/SettingWidget.h"
 
 class PageSetting : public QWidget
 {
@@ -21,6 +22,8 @@ public:
     QWidget * settingTopPanel;
     QWidget * settingLeftPanel;
     QWidget * settingRightPanel;
+
+    SettingWidget* settingWidget;
 
     QLabel*   settingTitle;            //设置标题
     BesButton*  btnPackupSetting;      //将设置收起按钮

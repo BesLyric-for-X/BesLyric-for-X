@@ -49,26 +49,13 @@ void PageSetting::initLayout()
     hSettingLayout->addWidget(btnPackupSetting);
     hSettingLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    settingLeftPanel = new QWidget(pageSettingContainer);
-    settingRightPanel = new QWidget(pageSettingContainer);
-    settingLeftPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
-    settingRightPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
-    settingLeftPanel->setObjectName("settingLeftPanel");
-    settingRightPanel->setObjectName("settingRightPanel");
-    settingLeftPanel->setMinimumWidth(270);
-    settingLeftPanel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
-    settingRightPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-
-    QHBoxLayout* hMainLayout = new QHBoxLayout();
-    hMainLayout->addWidget(settingLeftPanel);
-    hMainLayout->addWidget(settingRightPanel);
-    hMainLayout->setMargin(0);
-    hMainLayout->setSpacing(0);
+    settingWidget = new SettingWidget(pageSettingContainer);
+    settingWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
     vMainLayout->setMargin(0);
     vMainLayout->setSpacing(0);
     vMainLayout->addWidget(settingTopPanel);
-    vMainLayout->addLayout(hMainLayout);
+    vMainLayout->addWidget(settingWidget);
 
 }
 

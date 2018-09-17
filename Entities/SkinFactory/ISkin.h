@@ -114,9 +114,12 @@ private:
 //           "border: 1px solid #ff0000;"
 //           " background-color:#ff0000;"
         "}"
-//        "QWidget#lyriclistRightPanel{"
-//           " background-color:#00ff00;"
-//         "}"
+        "QWidget#SettingUnitContainer{"
+           " background-color:#004400;"
+         "}"
+        "QWidget#SettingUnitContainer2{"
+           " background-color:#000044;"
+         "}"
 
 
         ;

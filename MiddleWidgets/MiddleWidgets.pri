@@ -10,7 +10,14 @@ HEADERS+=\
     $$PWD/SubPageDownloadSong.h\
     $$PWD/SubPageDownloadLyric.h\
     $$PWD/BoxPageLyricList.h\
-    $$PWD/BoxPagePreviewLyric.h
+    $$PWD/BoxPagePreviewLyric.h\
+    $$PWD/SettingWidget/SettingWidget.h\
+    $$PWD/SettingWidget/SuNavigator.h\
+    $$PWD/SettingWidget/SuScrollPanel.h\
+    $$PWD/SettingWidget/ISettingUnit.h\
+    $$PWD/SettingWidget/SuDemo1.h\
+    $$PWD/SettingWidget/SuDemo2.h\
+
 
 SOURCES+=\
     $$PWD/MiddleWidget.cpp\
@@ -23,5 +30,9 @@ SOURCES+=\
     $$PWD/SubPageDownloadSong.cpp\
     $$PWD/SubPageDownloadLyric.cpp\
     $$PWD/BoxPageLyricList.cpp\
-    $$PWD/BoxPagePreviewLyric.cpp
-
+    $$PWD/BoxPagePreviewLyric.cpp\
+    $$PWD/SettingWidget/SettingWidget.cpp\
+    $$PWD/SettingWidget/SuNavigator.cpp\
+    $$PWD/SettingWidget/SuScrollPanel.cpp\
+    $$PWD/SettingWidget/SuDemo1.cpp\
+    $$PWD/SettingWidget/SuDemo2.cpp\
