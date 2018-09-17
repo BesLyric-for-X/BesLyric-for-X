@@ -80,6 +80,12 @@ void BesListHeader::updateVisibleStatus()
     btnToggleList->setVisible(showToggleButton);
 }
 
+void BesListHeader::OnMakeSureHeaderChecking()
+{
+    if(!btnToggleList->isChecked())
+        btnToggleList->setChecked(true);
+}
+
 
 
 void BesListHeader::enterEvent(QEvent *event)

@@ -22,6 +22,7 @@ public:
     int getCurrentIndex();
     LyricList* getCurrentItemData();
 
+    void reloadAllItemText();
 signals:
     void sig_listDataChanged();
 

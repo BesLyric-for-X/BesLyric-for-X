@@ -110,6 +110,15 @@ LyricList *BesList::getCurrentItemData()
     return (LyricList*)&(pLyricLists->at(index));
 }
 
+void BesList::reloadAllItemText()
+{
+    for(int i = 0; i< pLyricLists->size(); i++)
+    {
+        this->item(i)->setText(pLyricLists->at(i).name);
+    }
+}
+
+
 void BesList::enterEvent(QEvent *event)
 {
     setCursor(QCursor(Qt::ArrowCursor));

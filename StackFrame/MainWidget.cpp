@@ -4,7 +4,7 @@
 #include "MusicPlayer/musicPlayer.h"
 
 MainWidget::MainWidget(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),topWidget(nullptr),middleWidget(nullptr),bottomWidget(nullptr)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 

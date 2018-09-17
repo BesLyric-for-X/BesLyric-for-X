@@ -8,15 +8,17 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     pApp = pApplication;
     this->setMouseTracking(true);
 
+    QString skinName = "black";
+
     //先设置基本的皮肤样式，再初始化控件，这样在出错弹框提示时，样式能够起作用
-    SetSkin("black");
+    SetSkin(skinName);
 
     setBorderMain(8);
     initLayout();
     initConnection();
 
     //再设置特殊的皮肤，这一步需要初始化好控件，所以放在 initLayout 之后
-    SetSpecialSkin("black");
+    SetSpecialSkin(skinName);
 }
 
 StackFrame::~StackFrame()
@@ -134,21 +136,23 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 
 void StackFrame::SetSkin(QString skinName)
 {
+    AppHelper::SetStyle(pApp, skinName);
+
+    SetSpecialSkin(skinName);
+}
+
+void StackFrame::SetSpecialSkin(QString skinName)
+{
     if(skinBoxWidget)
         skinBoxWidget->setFinalSkinName(skinName);
 
     if(addItemWidget)
         addItemWidget->setFinalSkinName(skinName);
 
+    if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pagePreviewLyric)
+        mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
+
     emit onFinalSkinNameChanged(skinName);
-
-    AppHelper::SetStyle(pApp, skinName);
-}
-
-void StackFrame::SetSpecialSkin(QString skinName)
-{
-    mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
-
 }
 
 

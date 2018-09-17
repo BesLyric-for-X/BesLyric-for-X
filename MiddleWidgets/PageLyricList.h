@@ -28,7 +28,7 @@ public slots:
     //左侧歌词单操作
     void OnRowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
     void OnAddNewListItem(QString itemName);
-    void OnDeleteCurrentItem();
+    bool OnDeleteCurrentItem(bool bDeleteConformRequested);
 
     //右侧编辑歌词单相关
     void OnSelectSongPath();
@@ -39,11 +39,17 @@ public slots:
     void OnDeleteListItem(int row);
     void OnEditListItem(int row);
 
+    void OnSaveListInfo();
+    void OnDeleteLrcList();
+
     //凡是歌词单数据发生改变，都调用此保存数据
     void OnSaveLyricListData();
 
 private:
+    void reloadLyricListData(LyricList* pLyricListData);
+
     void enableEditMode(bool bEnable, int indexWhenEnable = -1);
+
 
 public:
     QWidget * pageLyricListContainer;
@@ -81,6 +87,15 @@ public:
 
     BesButton* btnCreateLrcItem;
     BesButton* btnSaveLrcItem;
+
+    //编辑歌词单信息
+    QLabel* labelModifyLrcListName;
+    QLineEdit* editModifyLrcListName;
+    QLabel* labelModifyListCoverRect;
+    BesButton* btnModifyListCover;
+
+    BesButton* btnDeleteLrcList;
+    BesButton* btnSaveLrcListModified;
 
 public:
 

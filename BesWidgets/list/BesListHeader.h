@@ -25,6 +25,9 @@ signals:
     void sig_toggleList(bool show);
     void sig_addButtonClicked();
 
+public slots:
+    void OnMakeSureHeaderChecking();
+
 protected:
     virtual void enterEvent(QEvent *event);
     virtual void leaveEvent(QEvent *event);

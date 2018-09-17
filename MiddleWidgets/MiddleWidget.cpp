@@ -1,7 +1,8 @@
 ﻿#include "MiddleWidget.h"
 
 MiddleWidget::MiddleWidget(QWidget *parent)
-    : QWidget(parent),currentPage(0)
+    : QWidget(parent),pageMain(nullptr),pagePreviewLyric(nullptr),pageLyricList(nullptr),
+      pageMatchNcmID(nullptr),pageSetting(nullptr),currentPage(0)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();

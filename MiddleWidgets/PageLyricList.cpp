@@ -219,6 +219,70 @@ void PageLyricList::initLayout()
     hEditItem->addLayout(hEditItemSave);
     hEditItem->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
 
+    //编辑歌词单信息
+    labelModifyLrcListName = new QLabel(widgetEditListInfo);
+    editModifyLrcListName= new QLineEdit(widgetEditListInfo);
+    labelModifyListCoverRect= new QLabel(widgetEditListInfo);
+    btnModifyListCover = new BesButton(widgetEditListInfo);
+
+    labelModifyLrcListName->setText(tr("歌词单名:"));
+    labelModifyLrcListName->setMinimumSize(80,30);
+    labelModifyLrcListName->setMaximumSize(80,30);
+    labelModifyLrcListName->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    editModifyLrcListName->setMinimumHeight(35);
+    editModifyLrcListName->setMaximumHeight(35);
+    editModifyLrcListName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+    labelModifyListCoverRect->setObjectName("labelModifyListCoverRect");
+    labelModifyListCoverRect->setPixmap(QPixmap(":/resource/image/default_list_cover.png"));
+    labelModifyListCoverRect->setMinimumSize(245,245);
+    labelModifyListCoverRect->setMaximumSize(245,245);
+    labelModifyListCoverRect->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    btnModifyListCover->setMinimumSize(120,35);
+    btnModifyListCover->setMaximumSize(120,35);
+    btnModifyListCover->setText(tr("编辑封面"));
+    btnModifyListCover->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    btnDeleteLrcList  = new BesButton(widgetEditListInfo);
+    btnSaveLrcListModified  = new BesButton(widgetEditListInfo);
+    btnDeleteLrcList->setObjectName("btnDeleteLrcList");
+    btnSaveLrcListModified->setObjectName("btnSaveLrcListModified");
+
+    btnDeleteLrcList->setText(tr("删除整个歌词单"));
+    btnSaveLrcListModified->setText(tr("保存"));
+    btnDeleteLrcList->setMinimumSize(160,35);
+    btnDeleteLrcList->setMaximumSize(160,35);
+    btnSaveLrcListModified->setMinimumSize(100,35);
+    btnSaveLrcListModified->setMaximumSize(100,35);
+    btnDeleteLrcList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    btnSaveLrcListModified->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    QHBoxLayout* hModifyListName = new QHBoxLayout();
+    hModifyListName->addWidget(labelModifyLrcListName);
+    hModifyListName->addWidget(editModifyLrcListName);
+
+    QHBoxLayout* hModifyListButtons = new QHBoxLayout();
+    hModifyListButtons->addWidget(btnDeleteLrcList);
+    hModifyListButtons->addWidget(btnSaveLrcListModified);
+    hModifyListButtons->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed ));
+    hModifyListButtons->addWidget(btnModifyListCover);
+
+    QVBoxLayout* vModifyListInfoLeft = new QVBoxLayout();
+    vModifyListInfoLeft->addLayout(hModifyListName);
+    vModifyListInfoLeft->addSpacerItem(new QSpacerItem(20,100,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding ));
+    vModifyListInfoLeft->addLayout(hModifyListButtons);
+
+    QHBoxLayout* hModifyListTop = new QHBoxLayout();
+    hModifyListTop->addLayout(vModifyListInfoLeft);
+    hModifyListTop->addWidget(labelModifyListCoverRect);
+    hModifyListTop->setSpacing(15);
+
+    QVBoxLayout* vModifyListInfo = new QVBoxLayout(widgetEditListInfo);
+    vModifyListInfo->addLayout(hModifyListTop);
+    vModifyListInfo->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding ));
+
     //整体布局
     QHBoxLayout* hMainLayout = new QHBoxLayout(pageLyricListContainer);
     hMainLayout->addWidget(scrollAreaLeft);
@@ -244,30 +308,16 @@ void PageLyricList::initConnection()
     connect(lyricListCreated,&QListWidget::currentRowChanged,[=](int currentRow){
         if(currentRow != -1)
         {
-            pCurrentLyricList = lyricListCreated->getCurrentItemData();
-            labelListInfoTitle->setText( pCurrentLyricList->name);
-            tableLrcList->setDataSource(pCurrentLyricList);
-
-            //重载将自动退出编辑模式
-            enableEditMode(false);
-
-            //切换到列表页面
-            tabpageLyricList->setCurrentIndex(0);
+            lyricListCurrent = lyricListCreated;
+            reloadLyricListData(lyricListCreated->getCurrentItemData());
         }
     });
 
     connect(lyricListHistory,&QListWidget::currentRowChanged,[=](int currentRow){
         if(currentRow != -1)
         {
-            pCurrentLyricList = lyricListHistory->getCurrentItemData();
-            labelListInfoTitle->setText( pCurrentLyricList->name);
-            tableLrcList->setDataSource(pCurrentLyricList);
-
-            //重载将自动退出编辑模式
-            enableEditMode(false);
-
-            //切换到列表页面
-            tabpageLyricList->setCurrentIndex(0);
+            lyricListCurrent = lyricListHistory;
+            reloadLyricListData(lyricListHistory->getCurrentItemData());
         }
     });
 
@@ -289,11 +339,15 @@ void PageLyricList::initConnection()
     connect(tableLrcList,SIGNAL(sig_deleteItem(int)),this,SLOT(OnDeleteListItem(int)));
     connect(tableLrcList,SIGNAL(sig_editItem(int)),this,SLOT(OnEditListItem(int)));
 
+    connect(btnSaveLrcListModified,SIGNAL(clicked(bool)), this, SLOT(OnSaveListInfo()));
+    connect(btnDeleteLrcList,SIGNAL(clicked(bool)), this, SLOT(OnDeleteLrcList()));
 
     //连接完后，默认选中第一项
     lyricListHistory->setCurrentRow(0); //必有一项，默认选中
 
     enableEditMode(false);              //默认不在编辑模式
+
+    headerListCreated->OnMakeSureHeaderChecking();  //默认列表是展开的
 }
 
 void PageLyricList::OnRowsMoved(const QModelIndex &parent, int start, int end,
@@ -309,16 +363,29 @@ void PageLyricList::OnRowsMoved(const QModelIndex &parent, int start, int end,
 void PageLyricList::OnAddNewListItem(QString itemName)
 {
     lyricListCreated->addItem(itemName);
+
+    headerListCreated->OnMakeSureHeaderChecking();
 }
 
-void PageLyricList::OnDeleteCurrentItem()
+bool PageLyricList::OnDeleteCurrentItem(bool bDeleteConformRequested)
 {
-    int curRow = lyricListCreated->currentRow();
-
-    if(QMessageBox::StandardButton::Ok==BesMessageBox::question(tr("提示"), tr("是否确认删除 %1").arg(curRow)))
+    if(bDeleteConformRequested)
+    {
+        if(QMessageBox::StandardButton::Ok ==
+                BesMessageBox::question(tr("温馨提示"), tr("该歌词单中包含有 %1 个歌词项\n\n是否确定删除 [%2]？").arg(
+                    pCurrentLyricList->items.size()).arg(pCurrentLyricList->name)))
+        {
+            lyricListCreated->deleteCurrentItem();
+            return true;
+        }
+    }
+    else
     {
         lyricListCreated->deleteCurrentItem();
+        return true;
     }
+
+    return false;
 }
 
 void PageLyricList::OnSelectSongPath()
@@ -335,7 +402,6 @@ void PageLyricList::OnSelectSongPath()
 
 void PageLyricList::OnSelectLrcPath()
 {
-
     QString fileName = QFileDialog::getOpenFileName(this, tr("选择歌词"), "/home",
                                                       tr("文本 (*.lrc);;其他 (*.*)"));
     if(fileName.size() !=0)
@@ -432,9 +498,63 @@ void PageLyricList::OnEditListItem(int row)
     tabpageLyricList->setCurrentIndex(1);
 }
 
+void PageLyricList::OnSaveListInfo()
+{
+    QString text = editModifyLrcListName->text().trimmed();
+
+    bool bModified = false;
+    if(pCurrentLyricList->name != text)
+    {
+        pCurrentLyricList->name = text;  //这里的更改直接对  listData 生效
+
+        labelListInfoTitle->setText(text);          //页面显示改变
+        lyricListCreated->reloadAllItemText();      //左侧列表显示改变
+
+        bModified = true;
+    }
+
+    if(bModified)
+    {
+        OnSaveLyricListData();                 //触发保存
+    }
+
+    //无论是否真正保存，都切换到列表页面
+    tabpageLyricList->setCurrentIndex(0);
+}
+
+void PageLyricList::OnDeleteLrcList()
+{
+    if(OnDeleteCurrentItem(pCurrentLyricList->items.size() != 0))
+    {
+        lyricListCreated->setCurrentRow(-1);
+        lyricListHistory->setCurrentRow(0); //删除后，默认选中制作历史歌词单;必有一项，默认选中
+    }
+}
+
 void PageLyricList::OnSaveLyricListData()
 {
     LyricListManager::GetInstance().saveLyricListData(listData);
+}
+
+void PageLyricList::reloadLyricListData(LyricList *pLyricListData)
+{
+    pCurrentLyricList = pLyricListData;
+
+    labelListInfoTitle->setText( pCurrentLyricList->name);
+    editModifyLrcListName->setText(pCurrentLyricList->name);
+    tableLrcList->setDataSource(pCurrentLyricList);
+
+    //重载将自动退出编辑模式
+    enableEditMode(false);
+
+    //历史记录列表不让编辑名字和删除
+    bool bIsNotHistory = lyricListCurrent != lyricListHistory;
+    editModifyLrcListName->setEnabled(bIsNotHistory);
+    btnDeleteLrcList->setEnabled(bIsNotHistory);
+
+
+    //切换到列表页面
+    tabpageLyricList->setCurrentIndex(0);
 }
 
 void PageLyricList::enableEditMode(bool bEnable, int indexWhenEnable)
