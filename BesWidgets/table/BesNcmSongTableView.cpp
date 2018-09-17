@@ -56,7 +56,7 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
     {
         QString strId = QString().number(songInfo.nID);
         QString strLink = "http://music.163.com/song/media/outer/url?id="+ strId +".mp3";
-        QString strSavePath = "C:/Users/BensonLaur/Desktop/"
+        QString strSavePath = "C:/Users/BensonLaur/Desktop/"            //"C:/Users/Benso/Desktop/"  "C:/Users/BensonLaur/Desktop/"
                 +songInfo.strSong +"-"+ songInfo.strArtists + ".mp3";
 
         net.DownloadFile(strLink, strSavePath, songInfo.nID);

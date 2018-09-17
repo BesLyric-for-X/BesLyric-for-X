@@ -31,7 +31,7 @@ void SettingWidget::initLayout()
     settingLeftNavigator->setObjectName("settingLeftNavigator");    //("settingLeftPanel");
     settingScrollPanel->setObjectName("settingScrollPanel");        //("settingRightPanel");
     settingLeftNavigator->setMinimumWidth(270);
-    settingLeftNavigator->setMaximumHeight(270);
+    settingLeftNavigator->setMaximumWidth(270);
     settingLeftNavigator->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding);
 
     QHBoxLayout* hLayout = new QHBoxLayout(this);
