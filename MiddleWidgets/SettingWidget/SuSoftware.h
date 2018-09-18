@@ -16,11 +16,7 @@ public:
 
 public:
     QWidget* SettingUnitContainer;
-
-    QLabel*  labelSettingTitle;
-    QLabel*  labelShiftBackwardTime;
-    QLineEdit*  editShiftBackwardTime;
-    BesButton*  btnEditShiftTime;
+    QLabel* labelSettingTitle;
 };
 
 #endif // SuSoftware_H

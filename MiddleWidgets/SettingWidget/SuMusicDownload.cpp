@@ -11,7 +11,7 @@ QString SuMusicDownload::getName()
 
 int SuMusicDownload::getUnitHeight()
 {
-   return 200;
+   return 230;
 }
 
 QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
@@ -20,40 +20,48 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
     SettingUnitContainer->setObjectName("SettingUnitContainer");
 
     labelSettingTitle = new QLabel(SettingUnitContainer);
-    labelSettingTitle->setObjectName("settingTitle");
+    labelSettingTitle->setObjectName("settingUnitTitle");
     labelSettingTitle->setText(tr("歌曲下载"));
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
     hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
-    labelShiftBackwardTime = new QLabel(SettingUnitContainer);
-    editShiftBackwardTime = new QLineEdit(SettingUnitContainer);
-    btnEditShiftTime = new BesButton(SettingUnitContainer);
+    btnSelectMusicDownloadPath = new BesButton(SettingUnitContainer);
+    labelMusicDownloadPathTip = new QLabel(SettingUnitContainer);
+    labelMusicDownloadPath = new QLabel(SettingUnitContainer);
 
-    labelShiftBackwardTime->setText(tr("提前毫秒数："));
-    labelShiftBackwardTime->setMinimumSize(100,30);
-    labelShiftBackwardTime->setMaximumSize(100,30);
-    labelShiftBackwardTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    editShiftBackwardTime->setMinimumHeight(30);
-    editShiftBackwardTime->setMaximumHeight(30);
-    editShiftBackwardTime->setMaximumWidth(200);
-    editShiftBackwardTime->setMinimumWidth(200);
-    editShiftBackwardTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    btnEditShiftTime->setMinimumSize(80,30);
-    btnEditShiftTime->setMaximumSize(80,30);
-    btnEditShiftTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    btnEditShiftTime->setText(tr("修改"));
+    btnSelectMusicDownloadPath->setText(tr("选择"));
+    labelMusicDownloadPathTip->setText(tr("歌曲下载路径："));
+
+    btnSelectMusicDownloadPath->setMinimumSize(80,30);
+    btnSelectMusicDownloadPath->setMaximumSize(80,30);
+    btnSelectMusicDownloadPath->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    labelMusicDownloadPathTip->setMinimumSize(120,30);
+    labelMusicDownloadPathTip->setMaximumSize(120,30);
+    labelMusicDownloadPathTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    labelMusicDownloadPath->setMinimumHeight(30);
+    labelMusicDownloadPath->setMaximumHeight(30);
+    labelMusicDownloadPath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
+    checkboxMusicDownload = new QCheckBox(SettingUnitContainer);
+    checkboxMusicDownload->setText(tr("我已查看并同意《 BesLyric 音乐下载声明 》 "));
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
-    hLayout2->addWidget(labelShiftBackwardTime);
-    hLayout2->addWidget(editShiftBackwardTime);
-    hLayout2->addWidget(btnEditShiftTime);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout2->addWidget(btnSelectMusicDownloadPath);
+    hLayout2->addWidget(labelMusicDownloadPathTip);
+    hLayout2->addWidget(labelMusicDownloadPath);
+
+    QHBoxLayout* hLayout3 = new QHBoxLayout();
+    hLayout3->addWidget(checkboxMusicDownload);
+    hLayout3->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::MinimumExpanding ,QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
+    vLayout->setSpacing(15);
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
+    vLayout->addSpacerItem(new QSpacerItem(20,15, QSizePolicy::Fixed ,QSizePolicy::Fixed));
+    vLayout->addLayout(hLayout3);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     return SettingUnitContainer;

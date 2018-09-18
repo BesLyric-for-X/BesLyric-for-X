@@ -1,10 +1,13 @@
-﻿#ifndef SuDemo1_H
-#define SuDemo1_H
+﻿#ifndef SuDonation_H
+#define SuDonation_H
 #include <QWidget>
 #include <QObject>
+#include <QLabel>
+#include <QLineEdit>
+#include "BesButton.h"
 #include "ISettingUnit.h"
 
-class SuDemo1: public ISettingUnit
+class SuDonation: public ISettingUnit
 {
 public:
     virtual QString getName() override;
@@ -13,6 +16,7 @@ public:
 
 public:
     QWidget* SettingUnitContainer;
+    QLabel* labelSettingTitle;
 };
 
-#endif // SuDemo1_H
+#endif // SuDonation_H

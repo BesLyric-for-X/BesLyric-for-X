@@ -24,7 +24,6 @@ public:
         cssContent += GetQTabWidgetCss();
         cssContent += GetQTableWidgetCss();
         cssContent += GetQListWidgetCss();
-
         return cssContent;
     }
 
@@ -108,10 +107,12 @@ private:
 
         "QWidget#lyriclistLeftPanel{"
              "background-color:"+ leftboardBgColor+";"
-         "}"  
+         "}"
+
          "QWidget#settingUnitContainer"
          "{"
            "background-color:rgba(0,0,0,0%);"
+           "padding:20px;"
          "}"
 
         "QWidget#lyriclistLeftPanel{"
@@ -120,6 +121,7 @@ private:
         "}"
         "QWidget#SettingUnitContainer{"
         "border-bottom: 1px solid rgba(150,150,150,15%);"
+        "margin-right:20px;"
          "}"
         "QWidget#SettingUnitContainer2{"
              " border-bottom: 1px solid rgba(150,150,150,15%);"
@@ -169,6 +171,13 @@ private:
          "color:"+DeepLabelColor+";"
             "font-size:18px;"
         "}"
+
+        "QLabel#labelSettingHighColor{"
+         "color:"+DeepLabelColor+";"
+            "font-size:17px;"
+        "}"
+
+
         "QLabel#labelCurrenLineEmptyTip{"
             "background:rgba(77, 77, 77, 10);"
            " border:1px solid "+defautlLabelColor+";"
@@ -202,8 +211,7 @@ private:
          "}"
 
          "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, "
-         "QLabel#settingTitle, QLabel#labelListInfoTitle"
-         ",QLabel#settingTitle{"
+         "QLabel#settingTitle, QLabel#labelListInfoTitle{"
              "color:"+DeepLabelColor+";"
              "font-size:23px;"
              "margin:10px;"
@@ -228,6 +236,12 @@ private:
              "border-radius:2px;"
          "}"
 
+      "QLabel#settingUnitTitle{"
+          "color:"+DeepLabelColor+";"
+          "font-size:23px;"
+          "margin-top:15px;"
+          "margin-bottom:15px;"
+      "}"
          ;
         return str;
     }
@@ -602,7 +616,7 @@ private:
                 "padding:0px;"
                 "}"
 
-                /* 消息框蓝色按钮 */
+                /* 蓝色按钮(消息框等) */
                 "QPushButton#btnOK, QPushButton#btnAddListItem"
                 ",QPushButton#btnSaveLrcItem, QPushButton#btnCreateLrcItem"
                 ",QPushButton#btnDeleteLrcList, QPushButton#btnSaveLrcListModified{"
@@ -626,6 +640,25 @@ private:
                 "    min-height: 30px;"
                 "    background:"+blueButtonColorDisabled+";"
                 "}"
+
+
+                "QPushButton#btnDownloadWindow, QPushButton#btnDownloadLinux"
+                ",QPushButton#btnDownloadMac{"
+                "border:1px solid "+leftboardBorderColor+";"
+                "    border-radius:5px;"
+                "    color:"+defaultButtonColorNormal+";"
+                "    padding: 3px;"
+                "    max-height: 120px;"
+                "    background:"+blueButtonColorNormal+";"
+                "}"
+                "QPushButton#btnDownloadWindow:hover, QPushButton#btnDownloadLinux:hover"
+                ",QPushButton#btnDownloadMac:hover{"
+                "    min-height: 30px;"
+                "    color: "+defaultButtonColorHover+";"
+                "    background:"+blueButtonColorHover+";"
+                "}"
+
+
 
                 //搜索歌曲列表按钮
                 "QPushButton#m_pBtnPreviewSong{"

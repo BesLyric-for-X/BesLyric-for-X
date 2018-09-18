@@ -3,8 +3,7 @@
 #include <QWidget>
 #include <QObject>
 #include <QLabel>
-#include <QLineEdit>
-#include "BesButton.h"
+#include <QCheckBox>
 #include "ISettingUnit.h"
 
 class SuUpgrade: public ISettingUnit
@@ -18,9 +17,11 @@ public:
     QWidget* SettingUnitContainer;
 
     QLabel*  labelSettingTitle;
-    QLabel*  labelShiftBackwardTime;
-    QLineEdit*  editShiftBackwardTime;
-    BesButton*  btnEditShiftTime;
+
+    QCheckBox* checkboxAutoUpgrade;
+
+    QLabel*  labelCurrentVersionTip;
+    QLabel*  labelCurrentVersion;
 };
 
 #endif // SuUpgrade_H

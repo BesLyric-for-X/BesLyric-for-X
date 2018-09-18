@@ -30,6 +30,7 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
         ISettingUnit* suLogin = new SuLogin();
         ISettingUnit* suUpgrade = new SuUpgrade();
         ISettingUnit* suSoftware = new SuSoftware();
+        ISettingUnit* suDonation = new SuDonation();
 
         settings.push_back(suLyricMaker);
         settings.push_back(suDefaultPath);
@@ -37,6 +38,7 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
         settings.push_back(suLogin);
         settings.push_back(suUpgrade);
         settings.push_back(suSoftware);
+        settings.push_back(suDonation);
     }
 
     return settings;
@@ -59,8 +61,13 @@ void SuScrollPanel::OnScrollToIndex(int index)
 
     nTargetPos = pos - devidedStep * index;
 
+    //本软件特殊处理
     if(index == settings.size() -1)            //最后一个特殊处理，滑到最下
        nTargetPos = nScrollMax - 1;            // -1 最后的横线不显示
+
+    if(index == settings.size() -2)            //在本软件中，最后第二个特殊处理，为了直接显示更多文字说明
+       nTargetPos = pos;
+
 
     if(!scrollTimer->isActive())
         scrollTimer->start();
@@ -120,6 +127,7 @@ void SuScrollPanel::initLayout()
     settingUnitContainer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     scrollAreaSetting = new QScrollArea(this);
+    scrollAreaSetting->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     scrollAreaSetting->setWidgetResizable(true);
     scrollAreaSetting->setWidget(settingUnitContainer);
     scrollAreaSetting->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -168,7 +176,7 @@ void SuScrollPanel::initConnection()
 
     connect(scrollAreaSetting->verticalScrollBar(), &QScrollBar::valueChanged, [=](int value){
         nPageStep = scrollAreaSetting->verticalScrollBar()->pageStep();
-        emit sig_scrollPosChanged(value, nPageStep);
+        emit sig_scrollPosChanged(value, nPageStep, nScrollMax);
     });
 
     connect(scrollTimer,SIGNAL(timeout()), this, SLOT(OnSrcollTimerTimeout()));

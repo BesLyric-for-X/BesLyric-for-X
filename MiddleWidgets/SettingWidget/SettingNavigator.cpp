@@ -124,7 +124,7 @@ void SuNavigator::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 }
 
-void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep)
+void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep, int nScrollMax)
 {
     int dividedStep = pageStep / pSettings->size();
 
@@ -140,6 +140,12 @@ void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep)
             break;
         }
     }
+
+    //本软件特殊处理
+    if(nCurrentIndex == pSettings->size() -1)   //在本软件中，滚动到最后时特殊处理，高亮倒数第2个（软件说明）
+        nCurrentIndex = pSettings->size() -2;
+    if(pos == nScrollMax-1 )//只有在 nScrollMax-1 位置才高亮最后一个
+        nCurrentIndex = pSettings->size() -1;   //这个位置一般是点击最后一个触发 ScrollPanel的 OnScrollToIndex(int index)
 
     update();
 }

@@ -11,6 +11,7 @@
 #include "SuLogin.h"
 #include "SuUpgrade.h"
 #include "SuSoftware.h"
+#include "SuDonation.h"
 
 class SuScrollPanel : public QWidget
 {
@@ -28,7 +29,7 @@ public slots:
     void OnSrcollTimerTimeout();
 
 signals:
-    void sig_scrollPosChanged(int pos, int pageStep);//在滚动条位置发生变化时，发出当前的位置
+    void sig_scrollPosChanged(int pos, int pageStep, int nScrollMax);//在滚动条位置发生变化时，发出当前的位置
 
 
 private:

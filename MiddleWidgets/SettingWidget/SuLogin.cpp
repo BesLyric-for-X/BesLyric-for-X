@@ -11,7 +11,7 @@ QString SuLogin::getName()
 
 int SuLogin::getUnitHeight()
 {
-   return 200;
+   return 150;
 }
 
 QWidget *SuLogin::getUnitWidget(QWidget *parent)
@@ -20,38 +20,29 @@ QWidget *SuLogin::getUnitWidget(QWidget *parent)
     SettingUnitContainer->setObjectName("SettingUnitContainer");
 
     labelSettingTitle = new QLabel(SettingUnitContainer);
-    labelSettingTitle->setObjectName("settingTitle");
+    labelSettingTitle->setObjectName("settingUnitTitle");
     labelSettingTitle->setText(tr("匿名登录"));
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
     hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
-    labelShiftBackwardTime = new QLabel(SettingUnitContainer);
-    editShiftBackwardTime = new QLineEdit(SettingUnitContainer);
-    btnEditShiftTime = new BesButton(SettingUnitContainer);
 
-    labelShiftBackwardTime->setText(tr("提前毫秒数："));
-    labelShiftBackwardTime->setMinimumSize(100,30);
-    labelShiftBackwardTime->setMaximumSize(100,30);
-    labelShiftBackwardTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    editShiftBackwardTime->setMinimumHeight(30);
-    editShiftBackwardTime->setMaximumHeight(30);
-    editShiftBackwardTime->setMaximumWidth(200);
-    editShiftBackwardTime->setMinimumWidth(200);
-    editShiftBackwardTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    btnEditShiftTime->setMinimumSize(80,30);
-    btnEditShiftTime->setMaximumSize(80,30);
-    btnEditShiftTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    btnEditShiftTime->setText(tr("修改"));
+    checkboxLoginAnonymously = new QCheckBox(SettingUnitContainer);
+    checkboxLoginAnonymously->setText(tr("匿名登录"));
+
+    linkWhatIsLoginAnonymously= new QLabel(SettingUnitContainer);
+    linkWhatIsLoginAnonymously->setText(tr("<a style='color:#666666;' href='http://www.cnblogs.com/BensonLaur/p/6262565.html#title_4_4'>什么是匿名登录?</a>"));
+    linkWhatIsLoginAnonymously->setOpenExternalLinks(true);
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
-    hLayout2->addWidget(labelShiftBackwardTime);
-    hLayout2->addWidget(editShiftBackwardTime);
-    hLayout2->addWidget(btnEditShiftTime);
+    hLayout2->addWidget(checkboxLoginAnonymously);
+    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addWidget(linkWhatIsLoginAnonymously);
     hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
+    vLayout->setSpacing(15);
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));

@@ -27,7 +27,7 @@ public:
     void resizeEvent(QResizeEvent* event);
 
 public slots:
-    void OnSettingUnitPanelPosChanged(int pos, int pageStep);  //响应设置面板的滚动，在单元改变时，重画项目高亮
+    void OnSettingUnitPanelPosChanged(int pos, int pageStep, int nScrollMax);  //响应设置面板的滚动，在单元改变时，重画项目高亮
 
     int getPointInRect(QPoint& pt);                      //获得点在哪个矩形里
 

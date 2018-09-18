@@ -12,12 +12,18 @@ HEADERS+=\
     $$PWD/BoxPageLyricList.h\
     $$PWD/BoxPagePreviewLyric.h\
     $$PWD/SettingWidget/SettingWidget.h\
-    $$PWD/SettingWidget/SuNavigator.h\
-    $$PWD/SettingWidget/SuScrollPanel.h\
+    $$PWD/SettingWidget/SettingNavigator.h \
+    $$PWD/SettingWidget/SettingScrollPanel.h\
     $$PWD/SettingWidget/ISettingUnit.h\
-    $$PWD/SettingWidget/SuDemo2.h\
     $$PWD/SettingWidget/SuLyricMaker.h \
-    $$PWD/SettingWidget/SuDemo1.h
+    $$PWD/SettingWidget/SuDefaultPath.h \
+    $$PWD/SettingWidget/SuMusicDownload.h\
+    $$PWD/SettingWidget/SuLogin.h\
+    $$PWD/SettingWidget/SuSoftware.h\
+    $$PWD/SettingWidget/SuUpgrade.h\
+    $$PWD/SettingWidget/SuDonation.h\
+
+
 
 SOURCES+=\
     $$PWD/MiddleWidget.cpp\
@@ -32,8 +38,14 @@ SOURCES+=\
     $$PWD/BoxPageLyricList.cpp\
     $$PWD/BoxPagePreviewLyric.cpp\
     $$PWD/SettingWidget/SettingWidget.cpp\
-    $$PWD/SettingWidget/SuNavigator.cpp\
-    $$PWD/SettingWidget/SuScrollPanel.cpp\
-    $$PWD/SettingWidget/SuDemo1.cpp\
-    $$PWD/SettingWidget/SuDemo2.cpp\
+    $$PWD/SettingWidget/SettingScrollPanel.cpp \
+    $$PWD/SettingWidget/SettingNavigator.cpp\
     $$PWD/SettingWidget/SuLyricMaker.cpp\
+    $$PWD/SettingWidget/SuDefaultPath.cpp \
+    $$PWD/SettingWidget/SuMusicDownload.cpp\
+    $$PWD/SettingWidget/SuLogin.cpp\
+    $$PWD/SettingWidget/SuSoftware.cpp\
+    $$PWD/SettingWidget/SuUpgrade.cpp\
+    $$PWD/SettingWidget/SuDonation.cpp\
+
+

@@ -18,9 +18,16 @@ public:
     QWidget* SettingUnitContainer;
 
     QLabel*  labelSettingTitle;
-    QLabel*  labelShiftBackwardTime;
-    QLineEdit*  editShiftBackwardTime;
-    BesButton*  btnEditShiftTime;
+
+    BesButton*  btnSelectDefaultPathMusic;
+    BesButton*  btnSelectDefaultPathLyric;
+    BesButton*  btnSelectDefaultPathOutput;
+    QLabel*  labelTipPathMusic;
+    QLabel*  labelTipPathLyric;
+    QLabel*  labelTipPathOutput;
+    QLabel*  labelDefaultPathMusic;
+    QLabel*  labelDefaultPathLyric;
+    QLabel*  labelDefaultPathOutput;
 };
 
 #endif // SuDefaultPath_H

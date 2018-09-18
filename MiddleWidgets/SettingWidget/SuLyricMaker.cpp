@@ -11,7 +11,7 @@ QString SuLyricMaker::getName()
 
 int SuLyricMaker::getUnitHeight()
 {
-   return 200;
+   return 150;
 }
 
 QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
@@ -20,7 +20,7 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
     SettingUnitContainer->setObjectName("SettingUnitContainer");
 
     labelSettingTitle = new QLabel(SettingUnitContainer);
-    labelSettingTitle->setObjectName("settingTitle");
+    labelSettingTitle->setObjectName("settingUnitTitle");
     labelSettingTitle->setText(tr("歌词制作"));
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
@@ -52,6 +52,7 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
     hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
+    vLayout->setSpacing(15);
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));

@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QObject>
 #include <QLabel>
-#include <QLineEdit>
+#include <QCheckBox>
 #include "BesButton.h"
 #include "ISettingUnit.h"
 
@@ -18,9 +18,12 @@ public:
     QWidget* SettingUnitContainer;
 
     QLabel*  labelSettingTitle;
-    QLabel*  labelShiftBackwardTime;
-    QLineEdit*  editShiftBackwardTime;
-    BesButton*  btnEditShiftTime;
+
+    BesButton*  btnSelectMusicDownloadPath;
+    QLabel*  labelMusicDownloadPathTip;
+    QLabel*  labelMusicDownloadPath;
+
+    QCheckBox*  checkboxMusicDownload;
 };
 
 #endif // SuMusicDownload_H
