@@ -3,6 +3,7 @@
 
 #include <QVector>
 #include <QScrollArea>
+#include <QTimer>
 #include "ISettingUnit.h"
 #include "SuDemo1.h"
 #include "SuDemo2.h"
@@ -20,14 +21,17 @@ public:
 
 public slots:
     void OnScrollToIndex(int index);        //如果存在滚动条，滚动到指定目标设置单元的位置
+    void OnSrcollTimerTimeout();
 
 signals:
     void sig_scrollPosChanged(int pos, int pageStep);//在滚动条位置发生变化时，发出当前的位置
 
-private:
 
+private:
+    void initEntity();
     void initLayout();
     void initConnection();
+
 
 public:
     QWidget * settingUnitContainer;
@@ -40,6 +44,9 @@ private:
     int nScrollMin;
     int nScrollMax;
     int nPageStep;
+
+    QTimer*             scrollTimer;        //滚动用的定时器
+    int                 nTargetPos;         //目标位置
 };
 
 #endif // SuScrollPanel_H

@@ -10,6 +10,7 @@ SuScrollPanel::SuScrollPanel(QWidget *parent)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
+    initEntity();
     initLayout();
     initConnection();
 }
@@ -27,11 +28,19 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
         ISettingUnit* suDemo2 = new SuDemo2();
         ISettingUnit* suDemo3 = new SuDemo1();
         ISettingUnit* suDemo4 = new SuDemo2();
+        ISettingUnit* suDemo11 = new SuDemo1();
+        ISettingUnit* suDemo12 = new SuDemo2();
+        ISettingUnit* suDemo13 = new SuDemo1();
+        ISettingUnit* suDemo14 = new SuDemo2();
 
         settings.push_back(suDemo1);
         settings.push_back(suDemo2);
         settings.push_back(suDemo3);
         settings.push_back(suDemo4);
+        settings.push_back(suDemo11);
+        settings.push_back(suDemo12);
+        settings.push_back(suDemo13);
+        settings.push_back(suDemo14);
     }
 
     return settings;
@@ -54,7 +63,56 @@ void SuScrollPanel::OnScrollToIndex(int index)
 
     int sub = index <= 1 ? 0: devidedStep * (index-1);
 
-    this->verticalScrollBar()->setValue(pos - sub);
+    nTargetPos = pos - sub;
+
+    if(!scrollTimer->isActive())
+        scrollTimer->start();
+}
+
+void SuScrollPanel::OnSrcollTimerTimeout()
+{
+    int minStep = 40;
+    int maxStep = 200;
+
+    int current = this->verticalScrollBar()->value();
+
+    if(current == nTargetPos)
+        scrollTimer->stop();
+    else
+    {
+        if(current < nTargetPos)
+        {
+            int step = (nTargetPos - current)*3/4;
+            if(step > maxStep)
+                step = maxStep;
+            if(step < minStep)
+                step = minStep;
+
+            current+=step;
+            if(current > nTargetPos)
+                current = nTargetPos;
+        }
+        else
+        {
+            int step = (current - nTargetPos)*3/4;
+            if(step > maxStep)
+                step = maxStep;
+            if(step < minStep)
+                step = minStep;
+
+            current-=step;
+            if(current < nTargetPos)
+                current = nTargetPos;
+        }
+
+        this->verticalScrollBar()->setValue(current);
+    }
+}
+
+void SuScrollPanel::initEntity()
+{
+    scrollTimer = new QTimer(this);
+    scrollTimer->setInterval(1);
 }
 
 void SuScrollPanel::initLayout()
@@ -112,4 +170,5 @@ void SuScrollPanel::initConnection()
         emit sig_scrollPosChanged(value, nPageStep);
     });
 
+    connect(scrollTimer,SIGNAL(timeout()), this, SLOT(OnSrcollTimerTimeout()));
 }
