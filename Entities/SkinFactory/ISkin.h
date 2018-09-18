@@ -108,6 +108,10 @@ private:
 
         "QWidget#lyriclistLeftPanel{"
              "background-color:"+ leftboardBgColor+";"
+         "}"  
+         "QWidget#settingUnitContainer"
+         "{"
+           "background-color:rgba(0,0,0,0%);"
          "}"
 
         "QWidget#lyriclistLeftPanel{"
@@ -130,7 +134,7 @@ private:
     {
           QString str =
 
-          "QScrollArea#ScrollLyricPanelScrollArea, QScrollArea#scrollAreaLeftList"
+          "QScrollArea#ScrollLyricPanelScrollArea, QScrollArea#scrollAreaLeftList,QScrollArea#scrollAreaSetting"
           "{"
               "background-color:rgba(0,0,0,0%);"
           "}"
@@ -140,16 +144,6 @@ private:
               "background-color:"+ leftboardBgColor+";"
               "border-right: 1px solid "+ leftboardBorderColor +";"
           "}"
-
-
-//          "SuScrollPanel#settingScrollPanel,SuScrollPanel#scrollAreaSetting,QWidget#settingUnitContainer"
-//          "{"
-//              "background-color:#ff0000;"
-//          "}"
-//          "QWidget#settingUnitContainer"
-//          "{"
-//              "background-color:#ff0000;"
-//          "}"
           ;
           return str;
     }

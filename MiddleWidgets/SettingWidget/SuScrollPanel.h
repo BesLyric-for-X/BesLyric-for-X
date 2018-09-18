@@ -9,7 +9,7 @@
 #include "SuDemo1.h"
 #include "SuDemo2.h"
 
-class SuScrollPanel : public QScrollArea
+class SuScrollPanel : public QWidget
 {
     Q_OBJECT
 
@@ -36,6 +36,7 @@ private:
 
 public:
     QWidget * settingUnitContainer;
+
     QScrollArea * scrollAreaSetting;
 
 private:

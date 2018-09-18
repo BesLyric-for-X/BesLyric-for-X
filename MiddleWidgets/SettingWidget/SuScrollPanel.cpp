@@ -6,7 +6,7 @@
 #include <QScrollBar>
 
 SuScrollPanel::SuScrollPanel(QWidget *parent)
-    : QScrollArea(parent)
+    : QWidget(parent)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
@@ -74,7 +74,7 @@ void SuScrollPanel::OnSrcollTimerTimeout()
     int minStep = 40;
     int maxStep = 200;
 
-    int current = this->verticalScrollBar()->value();
+    int current = scrollAreaSetting->verticalScrollBar()->value();
 
     if(current == nTargetPos)
         scrollTimer->stop();
@@ -105,7 +105,7 @@ void SuScrollPanel::OnSrcollTimerTimeout()
                 current = nTargetPos;
         }
 
-        this->verticalScrollBar()->setValue(current);
+        scrollAreaSetting->verticalScrollBar()->setValue(current);
     }
 }
 
@@ -122,11 +122,13 @@ void SuScrollPanel::initLayout()
     settingUnitContainer->setObjectName("settingUnitContainer");
     settingUnitContainer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
-    this->setWidgetResizable(true);
-    this->setWidget(settingUnitContainer);
-    this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //this->setFrameShape(QFrame::NoFrame);
+    scrollAreaSetting = new QScrollArea(this);
+    scrollAreaSetting->setWidgetResizable(true);
+    scrollAreaSetting->setWidget(settingUnitContainer);
+    scrollAreaSetting->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    scrollAreaSetting->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollAreaSetting->setFrameShape(QFrame::NoFrame);
+    scrollAreaSetting->setObjectName("scrollAreaSetting");
 
     //初始化所有的设置单元控件
     getSettingUnits();
@@ -153,18 +155,22 @@ void SuScrollPanel::initLayout()
 
     settingUnitContainer->setMinimumHeight(nTotalHeight);
     settingUnitContainer->setMaximumHeight(nTotalHeight);
+
+    QGridLayout* mainLayout = new QGridLayout(this);
+    mainLayout->setMargin(0);
+    mainLayout->addWidget(scrollAreaSetting);
 }
 
 void SuScrollPanel::initConnection()
 {
-    connect(this->verticalScrollBar(), &QScrollBar::rangeChanged, [=](int min, int max){
-        nPageStep = this->verticalScrollBar()->pageStep();
+    connect(scrollAreaSetting->verticalScrollBar(), &QScrollBar::rangeChanged, [=](int min, int max){
+        nPageStep = scrollAreaSetting->verticalScrollBar()->pageStep();
         nScrollMin = min;
         nScrollMax = max;
     });
 
-    connect(this->verticalScrollBar(), &QScrollBar::valueChanged, [=](int value){
-        nPageStep = this->verticalScrollBar()->pageStep();
+    connect(scrollAreaSetting->verticalScrollBar(), &QScrollBar::valueChanged, [=](int value){
+        nPageStep = scrollAreaSetting->verticalScrollBar()->pageStep();
         emit sig_scrollPosChanged(value, nPageStep);
     });
 
