@@ -1,8 +1,9 @@
-﻿#include "SuDemo1.h"
+﻿#include <global.h>
+#include "SuDemo1.h"
 
 QString SuDemo1::getName()
 {
-   return tr("demo1");
+   return tr("歌词制作");
 }
 
 int SuDemo1::getUnitHeight()
@@ -17,3 +18,5 @@ QWidget *SuDemo1::getUnitWidget(QWidget *parent)
 
     return SettingUnitContainer;
 }
+
+

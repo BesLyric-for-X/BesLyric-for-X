@@ -15,9 +15,9 @@ HEADERS+=\
     $$PWD/SettingWidget/SuNavigator.h\
     $$PWD/SettingWidget/SuScrollPanel.h\
     $$PWD/SettingWidget/ISettingUnit.h\
-    $$PWD/SettingWidget/SuDemo1.h\
     $$PWD/SettingWidget/SuDemo2.h\
-
+    $$PWD/SettingWidget/SuLyricMaker.h \
+    $$PWD/SettingWidget/SuDemo1.h
 
 SOURCES+=\
     $$PWD/MiddleWidget.cpp\
@@ -36,3 +36,4 @@ SOURCES+=\
     $$PWD/SettingWidget/SuScrollPanel.cpp\
     $$PWD/SettingWidget/SuDemo1.cpp\
     $$PWD/SettingWidget/SuDemo2.cpp\
+    $$PWD/SettingWidget/SuLyricMaker.cpp\

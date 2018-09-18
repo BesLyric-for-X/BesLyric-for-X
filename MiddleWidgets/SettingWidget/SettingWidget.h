@@ -7,7 +7,7 @@
 #include <QScrollArea>
 #include "BesButton.h"
 #include "ISettingUnit.h"
-#include "SuDemo1.h"
+#include "SuLyricMaker.h"
 #include "SuDemo2.h"
 #include "SuNavigator.h"
 #include "SuScrollPanel.h"

@@ -24,7 +24,7 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
 {
     if(settings.size() == 0)
     {
-        ISettingUnit* suDemo1 = new SuDemo1();
+        ISettingUnit* suLyricMaker = new SuLyricMaker();
         ISettingUnit* suDemo2 = new SuDemo2();
         ISettingUnit* suDemo3 = new SuDemo1();
         ISettingUnit* suDemo4 = new SuDemo2();
@@ -33,7 +33,7 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
         ISettingUnit* suDemo13 = new SuDemo1();
         ISettingUnit* suDemo14 = new SuDemo2();
 
-        settings.push_back(suDemo1);
+        settings.push_back(suLyricMaker);
         settings.push_back(suDemo2);
         settings.push_back(suDemo3);
         settings.push_back(suDemo4);
@@ -123,11 +123,10 @@ void SuScrollPanel::initLayout()
     settingUnitContainer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     this->setWidgetResizable(true);
-    this->setWidget(settingUnitContainer); //
-    this->setObjectName("scrollAreaSetting");
+    this->setWidget(settingUnitContainer);
     this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->setFrameShape(QFrame::NoFrame);
+    //this->setFrameShape(QFrame::NoFrame);
 
     //初始化所有的设置单元控件
     getSettingUnits();
@@ -154,7 +153,6 @@ void SuScrollPanel::initLayout()
 
     settingUnitContainer->setMinimumHeight(nTotalHeight);
     settingUnitContainer->setMaximumHeight(nTotalHeight);
-
 }
 
 void SuScrollPanel::initConnection()

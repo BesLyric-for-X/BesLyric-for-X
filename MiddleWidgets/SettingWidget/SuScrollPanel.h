@@ -5,6 +5,7 @@
 #include <QScrollArea>
 #include <QTimer>
 #include "ISettingUnit.h"
+#include "SuLyricMaker.h"
 #include "SuDemo1.h"
 #include "SuDemo2.h"
 

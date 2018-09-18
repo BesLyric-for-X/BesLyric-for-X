@@ -21,8 +21,9 @@ public:
         file.open(QFile::ReadOnly);
         QString qssTest = QLatin1String(file.readAll());    //暂时保留测试用
 
-        app->setStyleSheet(qss);
         app->setPalette(QPalette(styleName == "black" ? QColor("#393b3f"):  QColor("#e5e5e7")));
+        app->setStyleSheet(qss);
+        //app->setPalette(QPalette(styleName == "black" ? QColor("#ff0000"):  QColor("#e5e5e7")));
     }
 
 };

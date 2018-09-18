@@ -115,13 +115,12 @@ private:
 //           " background-color:#ff0000;"
         "}"
         "QWidget#SettingUnitContainer{"
-           " background-color:#004400;"
+        "border-bottom: 1px solid rgba(150,150,150,15%);"
          "}"
         "QWidget#SettingUnitContainer2{"
-           " background-color:#000044;"
+             " border-bottom: 1px solid rgba(150,150,150,15%);"
+//           " background-color:#000044;"
          "}"
-
-
         ;
 
         return str;
@@ -142,6 +141,15 @@ private:
               "border-right: 1px solid "+ leftboardBorderColor +";"
           "}"
 
+
+//          "SuScrollPanel#settingScrollPanel,SuScrollPanel#scrollAreaSetting,QWidget#settingUnitContainer"
+//          "{"
+//              "background-color:#ff0000;"
+//          "}"
+//          "QWidget#settingUnitContainer"
+//          "{"
+//              "background-color:#ff0000;"
+//          "}"
           ;
           return str;
     }
@@ -199,7 +207,9 @@ private:
              "margin:10px;"
          "}"
 
-         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, QLabel#settingTitle, QLabel#labelListInfoTitle{"
+         "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, "
+         "QLabel#settingTitle, QLabel#labelListInfoTitle"
+         ",QLabel#settingTitle{"
              "color:"+DeepLabelColor+";"
              "font-size:23px;"
              "margin:10px;"
