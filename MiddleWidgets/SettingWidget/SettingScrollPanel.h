@@ -6,8 +6,11 @@
 #include <QTimer>
 #include "ISettingUnit.h"
 #include "SuLyricMaker.h"
-#include "SuDemo1.h"
-#include "SuDemo2.h"
+#include "SuDefaultPath.h"
+#include "SuMusicDownload.h"
+#include "SuLogin.h"
+#include "SuUpgrade.h"
+#include "SuSoftware.h"
 
 class SuScrollPanel : public QWidget
 {

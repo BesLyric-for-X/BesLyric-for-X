@@ -9,8 +9,8 @@
 #include "ISettingUnit.h"
 #include "SuLyricMaker.h"
 #include "SuDemo2.h"
-#include "SuNavigator.h"
-#include "SuScrollPanel.h"
+#include "SettingNavigator.h"
+#include "SettingScrollPanel.h"
 
 class SettingWidget : public QWidget
 {

@@ -1,4 +1,4 @@
-﻿#include "SuScrollPanel.h"
+﻿#include "SettingScrollPanel.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
@@ -25,22 +25,18 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
     if(settings.size() == 0)
     {
         ISettingUnit* suLyricMaker = new SuLyricMaker();
-        ISettingUnit* suDemo2 = new SuDemo2();
-        ISettingUnit* suDemo3 = new SuDemo1();
-        ISettingUnit* suDemo4 = new SuDemo2();
-        ISettingUnit* suDemo11 = new SuDemo1();
-        ISettingUnit* suDemo12 = new SuDemo2();
-        ISettingUnit* suDemo13 = new SuDemo1();
-        ISettingUnit* suDemo14 = new SuDemo2();
+        ISettingUnit* suDefaultPath = new SuDefaultPath();
+        ISettingUnit* suMusicDownload = new SuMusicDownload();
+        ISettingUnit* suLogin = new SuLogin();
+        ISettingUnit* suUpgrade = new SuUpgrade();
+        ISettingUnit* suSoftware = new SuSoftware();
 
         settings.push_back(suLyricMaker);
-        settings.push_back(suDemo2);
-        settings.push_back(suDemo3);
-        settings.push_back(suDemo4);
-        settings.push_back(suDemo11);
-        settings.push_back(suDemo12);
-        settings.push_back(suDemo13);
-        settings.push_back(suDemo14);
+        settings.push_back(suDefaultPath);
+        settings.push_back(suMusicDownload);
+        settings.push_back(suLogin);
+        settings.push_back(suUpgrade);
+        settings.push_back(suSoftware);
     }
 
     return settings;
@@ -61,9 +57,10 @@ void SuScrollPanel::OnScrollToIndex(int index)
             break;
     }
 
-    int sub = index <= 1 ? 0: devidedStep * (index-1);
+    nTargetPos = pos - devidedStep * index;
 
-    nTargetPos = pos - sub;
+    if(index == settings.size() -1)            //最后一个特殊处理，滑到最下
+       nTargetPos = nScrollMax - 1;            // -1 最后的横线不显示
 
     if(!scrollTimer->isActive())
         scrollTimer->start();

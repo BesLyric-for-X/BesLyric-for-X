@@ -1,27 +1,27 @@
 ﻿#include <global.h>
-#include "SuLyricMaker.h"
+#include "SuMusicDownload.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
 
-QString SuLyricMaker::getName()
+QString SuMusicDownload::getName()
 {
-   return tr("歌词制作");
+   return tr("歌曲下载");
 }
 
-int SuLyricMaker::getUnitHeight()
+int SuMusicDownload::getUnitHeight()
 {
    return 200;
 }
 
-QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
+QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 {
     SettingUnitContainer = new QWidget(parent);
     SettingUnitContainer->setObjectName("SettingUnitContainer");
 
     labelSettingTitle = new QLabel(SettingUnitContainer);
     labelSettingTitle->setObjectName("settingTitle");
-    labelSettingTitle->setText(tr("歌词制作"));
+    labelSettingTitle->setText(tr("歌曲下载"));
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);

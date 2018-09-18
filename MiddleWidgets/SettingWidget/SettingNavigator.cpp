@@ -1,4 +1,4 @@
-﻿#include "SuNavigator.h"
+﻿#include "SettingNavigator.h"
 #include <QPainter>
 #include <QPixmap>
 
@@ -126,11 +126,6 @@ void SuNavigator::resizeEvent(QResizeEvent *event)
 
 void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep)
 {
-    //pos += 100;  //当前导航是哪一个，并不严格看实际位置 pos
-                //比如 加入有2个设置单元，当上一个设置单元只能看到 25px 大小时，
-                //  其实上面那个设置基本看不到了，这是理应该认为是在看下面一个
-                //  这里通过 将位置 + 50 ,效果是，当上一个剩下小于 50 ，会认为是下一个
-
     int dividedStep = pageStep / pSettings->size();
 
     nCurrentIndex = 0;
@@ -139,7 +134,7 @@ void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep)
     for(int i = 0; i< pSettings->size(); i++)
     {
         nCumulate += pSettings->at(i)->getUnitHeight();
-        if(pos + dividedStep * i < nCumulate)
+        if(pos + dividedStep * (i+1) < nCumulate)
         {
             nCurrentIndex = i;
             break;
