@@ -27,6 +27,7 @@ public:
     bool autoCheckForUpgrade;
 
     QString skinName;
+    QString machineCode;        //存储上次获取的设备相关的唯一标志，在设备更换时，需要重置 agreeDownloadDeclaration 等设置
 
     SettingData()
     {
@@ -35,6 +36,7 @@ public:
         loginAnonymously = false;
         autoCheckForUpgrade = true;
         skinName = "black";
+        machineCode = "";
     }
 };
 
