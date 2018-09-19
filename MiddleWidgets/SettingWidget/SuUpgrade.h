@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QLabel>
 #include <QCheckBox>
+#include "BesButton.h"
 #include "ISettingUnit.h"
 
 class SuUpgrade: public ISettingUnit
@@ -19,6 +20,7 @@ public:
     QLabel*  labelSettingTitle;
 
     QCheckBox* checkboxAutoUpgrade;
+    BesButton* btnCheckUpgrade;
 
     QLabel*  labelCurrentVersionTip;
     QLabel*  labelCurrentVersion;

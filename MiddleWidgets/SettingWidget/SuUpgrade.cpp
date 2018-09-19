@@ -11,7 +11,7 @@ QString SuUpgrade::getName()
 
 int SuUpgrade::getUnitHeight()
 {
-   return 150;
+   return 240;
 }
 
 QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
@@ -28,7 +28,13 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     checkboxAutoUpgrade = new QCheckBox(SettingUnitContainer);
-    checkboxAutoUpgrade->setText(tr("自动升级到最新版本"));
+    checkboxAutoUpgrade->setText(tr("自动检测新版本并提示"));
+
+    btnCheckUpgrade = new BesButton(SettingUnitContainer);
+    btnCheckUpgrade->setText(tr("检测更新"));
+    btnCheckUpgrade->setMinimumSize(80,30);
+    btnCheckUpgrade->setMaximumSize(80,30);
+    btnCheckUpgrade->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
 
     labelCurrentVersionTip = new QLabel(SettingUnitContainer);
     labelCurrentVersion    = new QLabel(SettingUnitContainer);
@@ -45,6 +51,8 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(labelCurrentVersion);
     hLayout2->addWidget(labelCurrentVersionTip);
+    hLayout2->addSpacerItem(new QSpacerItem(20,40,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addWidget(btnCheckUpgrade);
     hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);

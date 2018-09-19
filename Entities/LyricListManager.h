@@ -48,7 +48,7 @@ public:
 
 private:
     LyricListManager():bDataLoaded(false){}
-    void loadFromSettingDir();
+    void loadFromDataDir();
     bool LoadListData(QString filePath);
 
     bool parseAll(QXmlStreamReader &reader, LyricListData &data);

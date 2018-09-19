@@ -13,7 +13,7 @@ LyricListManager &LyricListManager::GetInstance()
 LyricListData LyricListManager::getLyricListData()
 {
     if(!bDataLoaded)
-        loadFromSettingDir();
+        loadFromDataDir();
 
     return listData;
 }
@@ -96,7 +96,7 @@ bool LyricListManager::saveLyricListData(LyricListData data)
 }
 
 
-void LyricListManager::loadFromSettingDir()
+void LyricListManager::loadFromDataDir()
 {
     QString path = MakeSureConfigPathAvailable();
     if(path.size() == 0)
@@ -304,20 +304,20 @@ bool LyricListManager::parseLyricList(QXmlStreamReader &reader, QVector<LyricLis
 
 QString LyricListManager::MakeSureConfigPathAvailable()
 {
-    QString StrSettingsDir = QCoreApplication::applicationDirPath() + "/settings";
+    QString StrDataDir = QCoreApplication::applicationDirPath() + "/data";
 
     //如果settings 目录不存在则创建目录
-    QDir SettingDir(StrSettingsDir);
-    if(!SettingDir.exists())
+    QDir DataDir(StrDataDir);
+    if(!DataDir.exists())
     {
-        if(!SettingDir.mkpath(StrSettingsDir))
+        if(!DataDir.mkpath(StrDataDir))
         {
-            BesMessageBox::information(tr("提示"),tr("无法为配置创建目录")+":" + StrSettingsDir);
+            BesMessageBox::information(tr("提示"),tr("无法为配置创建目录")+":" + StrDataDir);
             return "";
         }
     }
 
     //得到目标路径
-    return StrSettingsDir + "/lyricList.xml";
+    return StrDataDir + "/lyricList.xml";
 }
 

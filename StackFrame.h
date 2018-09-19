@@ -20,8 +20,10 @@ public:
     StackFrame(QApplication* pApplication, QWidget *parent = 0);
     ~StackFrame();
 
+    void initSetting();
     void initLayout();
     void initConnection();
+    void initEntity();
 
     void setBorderMain(int border);
 

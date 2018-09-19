@@ -21,6 +21,7 @@ HEADERS+=\
     $$PWD/LyricSearcherFactory/ThreadSearchLyric.h\
     $$PWD/LyricSearcherFactory/ThreadSearchNcmMusic.h\
     $$PWD/LyricListManager.h\
+    $$PWD/SettingManager.h\
 
 
 
@@ -33,6 +34,7 @@ SOURCES+=\
     $$PWD/LyricMaker.cpp \
     $$PWD/LrcProcessor.cpp\
     $$PWD/LyricListManager.cpp\
+    $$PWD/SettingManager.cpp\
 
 
 INCLUDEPATH +=$$PWD MusicPlayer

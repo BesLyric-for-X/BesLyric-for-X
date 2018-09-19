@@ -16,10 +16,7 @@ SettingWidget::SettingWidget(QWidget *parent)
 
 SettingWidget::~SettingWidget()
 {
-
 }
-
-
 
 void SettingWidget::initLayout()
 {

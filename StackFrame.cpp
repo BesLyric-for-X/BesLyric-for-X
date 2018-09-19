@@ -1,6 +1,7 @@
 ﻿#include "StackFrame.h"
 #include <QVBoxLayout>
 #include "AppHelper.h"
+#include "SettingManager.h"
 
 StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr),addItemWidget(nullptr)
@@ -8,7 +9,11 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     pApp = pApplication;
     this->setMouseTracking(true);
 
-    QString skinName = "black";
+    //先初始化设置（由于没有读取皮肤设置，先设置一个默认的皮肤）
+    SetSkin("black");
+    initSetting();
+
+    QString skinName = SettingManager::GetInstance().data().skinName;
 
     //先设置基本的皮肤样式，再初始化控件，这样在出错弹框提示时，样式能够起作用
     SetSkin(skinName);
@@ -19,10 +24,20 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
 
     //再设置特殊的皮肤，这一步需要初始化好控件，所以放在 initLayout 之后
     SetSpecialSkin(skinName);
+
+    //初始化实体类
+    initEntity();
 }
 
 StackFrame::~StackFrame()
 {
+
+}
+
+void StackFrame::initSetting()
+{
+    //载入设置
+    SettingManager::GetInstance().loadSettingData();
 
 }
 
@@ -83,6 +98,11 @@ void StackFrame::initConnection()
 
     connect(this,SIGNAL(onFinalSkinNameChanged(QString)),
             this->mainWidget->middleWidget->pagePreviewLyric->lyricViewer, SLOT(skinNameChanged(QString)));
+}
+
+void StackFrame::initEntity()
+{
+
 }
 
 void StackFrame::setBorderMain(int border)
