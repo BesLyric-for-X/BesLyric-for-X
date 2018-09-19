@@ -44,6 +44,8 @@ signals:
     //载入lrc歌词，并且播放当前歌曲来预览
     void loadLrcLyricAndSwitchToPreview(QString lycLyricPath);
 
+    void sig_addToMakingHistory(QString musicPath, QString lrcPath);
+
 public slots:
 
     void selectMusicPath();
@@ -69,7 +71,7 @@ public:
     bool isMaking;                  //标记是否正在制作
 
 private:
-    QString         pathMusic;
+    QString         pathMusic;          //当前选择中的路径
     QString         pathLyric;
     QString         pathOutputDir;
 
@@ -77,6 +79,7 @@ private:
     int             curAudioPos;        //当前歌曲播放到的位置
 
     bool            pathLoaded;         //标记路径是否被成功加载
+    QString         pathMusicLoaded;    //当前被载入的音乐
     QString         pathResultLrcLyric; //生成的结果
 
 public:

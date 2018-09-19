@@ -22,6 +22,9 @@ public:
 
 public slots:
 
+    //播放全新的音乐盒歌词
+    void OnPlayNewMusicAndLyric(QString music, QString lrc);
+
     //载入lrc歌词，并且播放当前歌曲来预览
     void onLoadLrcLyricAndSwitchToPreview(QString lycLyricPath);
 

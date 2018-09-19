@@ -45,6 +45,9 @@ public slots:
     //凡是歌词单数据发生改变，都调用此保存数据
     void OnSaveLyricListData();
 
+    //用于外部添加到历史记录
+    void OnAddToMakingHistory(QString musicPath, QString lrcPath);
+
 private:
     void reloadLyricListData(LyricList* pLyricListData);
 

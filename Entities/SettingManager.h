@@ -56,13 +56,14 @@ public:
 
 private:
     SettingManager(){}
+
     void loadFromDataDir();
     bool LoadSettingData(QString filePath);
-
     bool parseAll(QXmlStreamReader &reader);
 
     QString MakeSureConfigPathAvailable();  //确保配置路径可用，返回配置路径
 
+    void preProcessSetting();//预处理设置
 private:
     SettingData settingData;
 };

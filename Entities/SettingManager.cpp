@@ -33,6 +33,8 @@ void SettingManager::loadSettingData()
                 BesMessageBox::information(tr("提示"), tr("尝试创建默认设置失败 :("));
         }
     }
+
+    preProcessSetting();
 }
 
 bool SettingManager::saveSettingData()
@@ -349,5 +351,12 @@ QString SettingManager::MakeSureConfigPathAvailable()
 
     //得到目标路径
     return StrDataDir + "/setting.xml";
+}
+
+void SettingManager::preProcessSetting()
+{
+    //如果不同意下载声明，下载路径置空
+    if(!settingData.agreeDownloadDeclaration)
+        settingData.musicDowloadPath = "";
 }
 

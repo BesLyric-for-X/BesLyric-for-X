@@ -251,7 +251,7 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 
 void PlayThread::run()
 {
-    g_threadMutex.lock();       //保证 SDL 播放设备互斥访问
+    g_threadMutex.lock();       //保证 SDL 播放设备互斥访问;
 
     ResetToInitAll();           //重置以初始化所有状态
 
@@ -757,7 +757,7 @@ void MusicPlayer::reload()
 //播放控制
 void MusicPlayer::play()
 {
-	if (!playThread->bIsDeviceInit)
+    if (!playThread->bIsDeviceInit)
 	{
         playThread->start(QThread::Priority::HighestPriority);
 	}
@@ -784,6 +784,10 @@ void MusicPlayer::stop()
         m_positionUpdateTimer.stop();
         emit positionChanged(0);       //停止了timer ，自己发送0时间
     }
+
+    //停止音乐必须保证线程真的退出(否则 playThread->bIsDeviceInit 可能判断成立，而实际线程还没退出，导致下一次 播放 playThread->playDevice() 没能及时起作用)
+    while(playThread->isRunning())
+        _millisecondSleep(10); //等待结束
 }
 
 //跳到时间点播放（单位 毫秒）

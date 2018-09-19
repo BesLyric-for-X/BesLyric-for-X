@@ -26,9 +26,11 @@ public:
 
     void reloadTableFromData();
 
+
 signals:
     void sig_deleteItem(int row);
     void sig_editItem(int row);
+    void sig_playSongAndLyric(QString song, QString lyric);
 
 public slots:
 

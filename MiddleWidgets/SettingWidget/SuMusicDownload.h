@@ -14,6 +14,11 @@ public:
     virtual int getUnitHeight() override;
     virtual QWidget* getUnitWidget(QWidget* parent) override;
 
+private:
+    virtual QString getTipAfterAgreeForTimes(int);
+
+    virtual QString getTipForClickCount(int count, qint64 currentTime);
+
 public:
     QWidget* SettingUnitContainer;
 

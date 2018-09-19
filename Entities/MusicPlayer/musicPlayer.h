@@ -154,6 +154,10 @@ private:
 
     void ResetToInitAll();              //重置以初始化所有状态
     void ReleaseAll();                  //释放所有可能分配的内存
+
+private:
+    bool getIsDeviceInit();             //实现互斥访问 isDeviceInit 的接口
+
 private:
 
     AVFormatContext	*pFormatCtx;

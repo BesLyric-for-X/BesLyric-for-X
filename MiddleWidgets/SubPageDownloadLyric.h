@@ -36,9 +36,9 @@ public slots:
     void OnShowLrcLyric(const LyricInfo& info);
 
     void OnSelectRawLyricSavePath();
-    //void OnSelectLrcLyricSavePath();
+    void OnSelectLrcLyricSavePath();
     void OnSaveRawLyric();
-    //void OnSavectLrcLyric();
+    void OnSavectLrcLyric();
 
 private:
     void showTipLabel(bool bShow);

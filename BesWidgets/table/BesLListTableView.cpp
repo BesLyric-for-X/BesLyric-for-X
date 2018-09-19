@@ -74,14 +74,12 @@ void BesLListTableView::initConnection()
         emit sig_editItem(row);
     });
 
-//    connect(m_buttonDelegate,&BesLListButtonDelegate::sig_download_ncm_song, [=](int row){
-//        OnDownloadNcmMusic( m_model->DataVector().at(row));
-//    });
+    connect(this,&QTableView::doubleClicked,[=](QModelIndex index){
+        LyricListItem& listItem = m_model->getData()->items[index.row()];
+        emit sig_playSongAndLyric(listItem.song, listItem.lyric);
+    });
 
-//    connect(&net, SIGNAL(sig_finishDownload(QVariant,DOWNLOAD_FINISH_STATUS)),
-//            this, SLOT(OnFinishedDownload(QVariant,DOWNLOAD_FINISH_STATUS)));
-//    connect(&net,SIGNAL(sig_progressChanged(QString,int,QVariant)),
-//            this,SLOT(OnProgressChanged(QString,int,QVariant)));
+
 }
 
  //基础的初始化

@@ -7,6 +7,7 @@
 #include <BesMessageBox.h>
 #include <BesShadowDialog.h>
 #include <QDesktopServices>
+#include "SettingManager.h"
 
 SubPageMaking::SubPageMaking(QWidget *parent)
     : QWidget(parent)
@@ -33,6 +34,9 @@ void SubPageMaking::initEntity()
     btnOpenResult->setEnabled(false);
     btnToRemaking->setEnabled(false);
     btnStartMaking->setEnabled(false);
+
+    editSelectOutputDir->setText(SettingManager::GetInstance().data().defaultOutputPath);
+    pathOutputDir = SettingManager::GetInstance().data().defaultOutputPath;
 }
 
 void SubPageMaking::initLayout()
@@ -385,6 +389,8 @@ void SubPageMaking::finishMaking()
             {
                 pathResultLrcLyric = outputFile;
                 BesMessageBox::information(tr("提示"),tr("成功保存到：")+outputFile);
+
+                emit sig_addToMakingHistory(pathMusicLoaded, pathResultLrcLyric);
             }
             else
             {
@@ -455,7 +461,7 @@ void SubPageMaking::updateLinesText()
 void SubPageMaking::selectMusicPath()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("打开音频文件"),
-                                                      "/home",
+                                                      SettingManager::GetInstance().data().defaultMusicPath,
                                                       tr("音频 (*.mp3 *.wav);;视频 (*.mp4)"));
 
     if(fileName.size() !=0)
@@ -468,14 +474,16 @@ void SubPageMaking::selectMusicPath()
 void SubPageMaking::selectLyricPath()
 {
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("打开原歌词文件"), "/home",
+    QString fileName = QFileDialog::getOpenFileName(this, tr("打开原歌词文件"),
+                                                     SettingManager::GetInstance().data().defaultLyricPath,
                                                       tr("文本 (*.txt);;其他 (*.*)"));
     selectLyricPath(fileName);
 }
 
 void SubPageMaking::selectOutputDir()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("打开 LRC 歌词输出目录"),  "/home",
+    QString dir = QFileDialog::getExistingDirectory(this, tr("打开 LRC 歌词输出目录"),
+                                     SettingManager::GetInstance().data().defaultOutputPath,
                                      QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if(dir.size() !=0)
@@ -522,6 +530,8 @@ void SubPageMaking::loadCurrentPath()
     pathLoaded = true;
 
     emit onReloadMusic(pathMusic); 
+
+    pathMusicLoaded = pathMusic;
 
     //初始化歌词制作过程
     initMakingProcess();

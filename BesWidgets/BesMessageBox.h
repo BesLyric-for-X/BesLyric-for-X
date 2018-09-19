@@ -14,13 +14,24 @@
 class BesMessageBox :public BesFramelessDialog
 {
 public:
-    static int question(const QString &title,const QString& text)
+    static int question(const QString &title,const QString& text,
+           QString strYes = "", QString strNo = "",bool bShowIcon = true, bool bWordWrap = false)
     {
         besMessageBox = new BesMessageBox(nullptr);
+
+        if(!bShowIcon)
+            besMessageBox->labelMessageIcon->setVisible(false);
+
+        if(!strYes.isEmpty())
+            besMessageBox->btnOK->setText(strYes);
+        if(!strNo.isEmpty())
+            besMessageBox->btnCancel->setText(strNo);
 
         besMessageBox->labelMessageIcon->setPixmap(QPixmap(":/resource/image/icon_question_white.png"));
         besMessageBox->labelMessageTitle->setText(title);
         besMessageBox->labelMessageContent->setText(text);
+        besMessageBox->labelMessageContent->setWordWrap(bWordWrap);
+        besMessageBox->labelMessageContent->setOpenExternalLinks(true);
         besMessageBox->exec();
 
         QMessageBox::StandardButton result = besMessageBox->btnResult;
@@ -28,13 +39,14 @@ public:
         return result;
     }
 
-    static int information(const QString &title,const QString& text)
+    static int information(const QString &title,const QString& text, bool bWordWrap = false)
     {
         besMessageBox = new BesMessageBox(nullptr);
 
         besMessageBox->labelMessageIcon->setPixmap(QPixmap(":/resource/image/icon_music_white.png"));
         besMessageBox->labelMessageTitle->setText(title);
         besMessageBox->labelMessageContent->setText(text);
+        besMessageBox->labelMessageContent->setWordWrap(bWordWrap);
         besMessageBox->btnCancel->setVisible(false);
         besMessageBox->exec();
 
@@ -122,10 +134,10 @@ public:
         btnCancel->setText(tr("取消"));
         btnOK->setMinimumSize(75,30);
         btnCancel->setMinimumSize(75,30);
-        btnOK->setMaximumSize(75,30);
-        btnCancel->setMaximumSize(75,30);
-        btnOK->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-        btnCancel->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+        btnOK->setMaximumSize(200,30);
+        btnCancel->setMaximumSize(200,30);
+        btnOK->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+        btnCancel->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 
 
         hBottomLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Expanding, QSizePolicy::Fixed));

@@ -55,9 +55,9 @@ QVariant BesLListTableModel::data(const QModelIndex &index, int role) const
         case 1:
             return "";
         case 2:
-            return item.song;
+            return item.song.right(item.song.length() - item.song.lastIndexOf('/')-1);
         case 3:
-            return item.lyric;
+            return item.lyric.right(item.lyric.length() - item.lyric.lastIndexOf('/')-1);
         default:
             return QVariant();
         }

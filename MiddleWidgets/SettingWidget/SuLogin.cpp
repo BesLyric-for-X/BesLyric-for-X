@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include "BesMessageBox.h"
 
 QString SuLogin::getName()
 {
@@ -46,6 +47,25 @@ QWidget *SuLogin::getUnitWidget(QWidget *parent)
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+
+    checkboxLoginAnonymously->setChecked(SettingManager::GetInstance().data().loginAnonymously);
+
+    //连接信号
+
+    connect(checkboxLoginAnonymously, &QPushButton::toggled, [=]()
+    {
+        bool backup = SettingManager::GetInstance().data().loginAnonymously;
+
+        SettingManager::GetInstance().data().loginAnonymously = checkboxLoginAnonymously->isChecked();
+        if(!SettingManager::GetInstance().saveSettingData())
+        {
+            SettingManager::GetInstance().data().loginAnonymously = backup;
+            checkboxLoginAnonymously->setChecked(backup);
+            BesMessageBox::information(tr("提示"),tr("保存失败"));
+        }
+    });
+
+
 
     return SettingUnitContainer;
 }

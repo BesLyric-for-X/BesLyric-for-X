@@ -1,6 +1,7 @@
 ﻿#include "global.h"
 #include "SubPageDownloadLyric.h"
 #include "BesMessageBox.h"
+#include "SettingManager.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -156,6 +157,7 @@ void SubPageDownloadLyric::initLayout()
 
     editRawLyricPanelSavePath->setFocusPolicy(Qt::NoFocus);
     editRawLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    editRawLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultLyricPath);
 
     btnRawLyricPanelSelect->setMinimumSize(80,30);
     btnRawLyricPanelSave->setMinimumSize(120,30);
@@ -218,6 +220,7 @@ void SubPageDownloadLyric::initLayout()
     editLrcLyricPanelSong->setFocusPolicy(Qt::NoFocus);
     editLrcLyricPanelArtist->setFocusPolicy(Qt::NoFocus);
     editLrcLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    editLrcLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultOutputPath);
 
     btnLrcLyricPanelSelect->setMinimumSize(80,30);
     btnLrcLyricPanelSave->setMinimumSize(120,30);
@@ -351,11 +354,22 @@ void SubPageDownloadLyric::OnShowLrcLyric(const LyricInfo &info)
 
 void SubPageDownloadLyric::OnSelectRawLyricSavePath()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("选择保存原歌词路径"),  "/home",
+    QString dir = QFileDialog::getExistingDirectory(this, tr("选择保存原歌词路径"),
+                                     SettingManager::GetInstance().data().defaultLyricPath,
                                      QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if(dir.size() !=0)
         editRawLyricPanelSavePath->setText(dir);
+}
+
+void SubPageDownloadLyric::OnSelectLrcLyricSavePath()
+{
+    QString dir = QFileDialog::getExistingDirectory(this, tr("选择保存LRC歌词路径"),
+                                     SettingManager::GetInstance().data().defaultOutputPath,
+                                     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if(dir.size() !=0)
+        editLrcLyricPanelSavePath->setText(dir);
 }
 
 void SubPageDownloadLyric::OnSaveRawLyric()
@@ -425,6 +439,71 @@ void SubPageDownloadLyric::OnSaveRawLyric()
         {
             emit sig_autoSelectRawLyric(fileName);
         }
+    }
+}
+
+void SubPageDownloadLyric::OnSavectLrcLyric()
+{
+    //检查保存路径和是否有要保存的内容
+    if(editLrcLyricPanelSavePath->text().size() == 0)
+    {
+        BesMessageBox::information(tr("提示"),tr("请先选择保存路径"));
+        return;
+    }
+
+    if(editTextLrcLyric->toPlainText().trimmed().size() == 0)
+    {
+        BesMessageBox::information(tr("提示"),tr("歌词内容为空"));
+        return;
+    }
+
+    QString fileName;
+    QString content = editTextLrcLyric->toPlainText();
+
+    //构建 fileName
+    QString song = editLrcLyricPanelSong->text();
+    QString artist = editLrcLyricPanelArtist->text();
+    if(song.size() == 0 && artist.size() == 0)
+    {
+        song = strLastSongName;
+        artist = strLastArtistName;
+    }
+
+    if(song.size() == 0 && artist.size() == 0) //尝试构建失败
+    {
+        BesMessageBox::information(tr("提示"),tr("歌名和歌手为空，无法保存"));
+        return;
+    }
+
+    if(song.size() == 0)
+        song = "XXX";
+
+    if(artist.size() == 0)
+        artist = "XXX";
+
+    fileName = editLrcLyricPanelSavePath->text() + "/"
+            + song + " - " + artist + ".lrc";
+
+    //提示是否保存到路径
+    if(QMessageBox::StandardButton::Ok ==
+      BesMessageBox::question(tr("保存确认"), tr("是否保存到路径：")+fileName))
+    {
+        QFile fileOut(fileName);
+        if (! fileOut.open(QFile::WriteOnly | QFile::Truncate))
+        {
+            BesMessageBox::information(tr("失败提示"), tr("无法保存文件:")+ fileName);
+            return;
+        }
+
+        QTextStream streamFileOut(&fileOut);
+        streamFileOut.setCodec("UTF-8");
+        streamFileOut.setGenerateByteOrderMark(false);
+        streamFileOut << content;
+        streamFileOut.flush();
+
+        fileOut.close();
+
+        BesMessageBox::information(tr("提示"), tr("歌词已成功保存到路径：")+fileName );
     }
 }
 

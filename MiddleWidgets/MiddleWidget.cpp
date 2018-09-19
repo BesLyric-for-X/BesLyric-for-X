@@ -43,6 +43,9 @@ void MiddleWidget::initConnection()
     connect(&animationPreviewExtend, SIGNAL(finished()), this, SLOT(geometryAnimationFinish()) );
     connect(&animationLrcListExtend, SIGNAL(finished()), this, SLOT(geometryAnimationFinish()) );
     connect(&animationSettingExtend, SIGNAL(finished()), this, SLOT(geometryAnimationFinish()) );
+
+    connect(pageMain->subPageMaking, SIGNAL(sig_addToMakingHistory(QString,QString)),
+            pageLyricList, SLOT(OnAddToMakingHistory(QString,QString)));
    }
 
 

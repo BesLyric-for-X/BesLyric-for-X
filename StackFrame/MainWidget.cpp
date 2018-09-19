@@ -105,6 +105,11 @@ void MainWidget::initConnection()
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onExitMakingMode())
                                                         ,bottomWidget, SLOT(exitMakingMode()));
 
+    //歌词单页面
+    connect(middleWidget->pageLyricList->tableLrcList,SIGNAL(sig_playSongAndLyric(QString,QString)),
+            this,SLOT(OnPlayNewMusicAndLyric(QString,QString)));
+
+
     //底部播放器信号响应
     connect(bottomWidget->musicPlayer, SIGNAL(positionChanged(int)),this, SLOT(musicPositionChanged(int)));
 
@@ -156,6 +161,31 @@ bool MainWidget::keyPress(QKeyEvent  *event)
     }
 
     return false;
+}
+
+void MainWidget::OnPlayNewMusicAndLyric(QString music, QString lrc)
+{
+    if(middleWidget->pageMain->subPageMaking->isMaking)
+    {
+        BesMessageBox::information(tr("提示"),tr("制作歌词过程中，不能播放其他音乐"));
+        return;
+    }
+
+    //重载入音乐
+    bottomWidget->reloadMusic(music);
+
+    //载入歌词
+    middleWidget->pagePreviewLyric->lyricViewer->setLrcLyricPath(lrc);
+
+    //播放歌曲
+    bottomWidget->play();
+
+//    //执行切换页面相关逻辑，如果当前正在歌词单页面，收起歌词单页面，展开预览页面
+//    if(middleWidget->currentPage == 2)
+//    {
+//        middleWidget->switchPage(2,0);
+//        middleWidget->switchPage(0,1);
+//    }
 }
 
 //载入lrc歌词，并且播放当前歌曲来预览

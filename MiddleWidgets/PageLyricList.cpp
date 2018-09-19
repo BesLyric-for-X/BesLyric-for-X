@@ -536,6 +536,38 @@ void PageLyricList::OnSaveLyricListData()
     LyricListManager::GetInstance().saveLyricListData(listData);
 }
 
+void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
+{
+    LyricList& historyList = listData.listsHistory[0];
+    for(LyricListItem& item: historyList.items)
+    {
+        if(item.song == song && item.lyric ==lrc)
+        {
+            return;  //已存在
+        }
+    }
+
+    LyricListItem item;
+    item.song = song;
+    item.lyric = lrc;
+    historyList.items.push_back(item);        //这里的更改直接对  listData 生效
+    OnSaveLyricListData();                     //触发保存
+
+    if(lyricListCurrent == lyricListHistory) //如果当前在历史列表页面，需要重载入界面数据
+    {
+        tableLrcList->setDataSource(pCurrentLyricList); //重置使表重载数据
+
+        enableEditMode(false);                  //确保退出编辑模式（由于编辑时可能保持也可能新建）
+
+        //切换到列表页面
+        tabpageLyricList->setCurrentIndex(0);
+    }
+    else
+    {
+        //如果当前不在历史表，不需要做重载处理 ,从别处点击历史列表，会自动重载
+    }
+}
+
 void PageLyricList::reloadLyricListData(LyricList *pLyricListData)
 {
     pCurrentLyricList = pLyricListData;
