@@ -59,8 +59,7 @@ private:
     void loadFromDataDir();
     bool LoadSettingData(QString filePath);
 
-//    bool parseAll(QXmlStreamReader &reader, LyricListData &data);
-//    bool parseLyricList (QXmlStreamReader &reader,QVector<LyricList> &lists, QString parentName);
+    bool parseAll(QXmlStreamReader &reader);
 
     QString MakeSureConfigPathAvailable();  //确保配置路径可用，返回配置路径
 

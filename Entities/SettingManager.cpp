@@ -140,158 +140,196 @@ bool SettingManager::LoadSettingData(QString filePath)
     }
 
 
-//    //读取示例参考: https://blog.csdn.net/liang19890820/article/details/52808829
+    //读取示例参考: https://blog.csdn.net/liang19890820/article/details/52808829
 
-//    //将配置从xml文件读出
-//    QXmlStreamReader reader(&file);
+    //将配置从xml文件读出
+    QXmlStreamReader reader(&file);
 
-//    QString strElementName = "";
+    QString strElementName = "";
 
-//    // 解析 XML，直到结束
-//    while (!reader.atEnd()) {
+    // 解析 XML，直到结束
+    while (!reader.atEnd()) {
 
-//        // 读取下一个元素
-//        QXmlStreamReader::TokenType nType = reader.readNext();
+        // 读取下一个元素
+        QXmlStreamReader::TokenType nType = reader.readNext();
 
-//        if (nType == QXmlStreamReader::StartElement)
-//        {
-//            strElementName = reader.name().toString();
-//            if (QString::compare(strElementName, "lyricList") == 0) // 根元素
-//            {
-//                parseAll(reader, lyricListData);
-//            }
-//        }
-//    }
+        if (nType == QXmlStreamReader::StartElement)
+        {
+            strElementName = reader.name().toString();
+            if (QString::compare(strElementName, "settings") == 0) // 根元素
+            {
+                parseAll(reader);
+            }
+        }
+    }
 
-//    if (reader.hasError()) {  // 解析出错
-//       qDebug() << QObject::tr("错误信息：%1  行号：%2  列号：%3  字符位移：%4").arg(reader.errorString()).arg(reader.lineNumber()).arg(reader.columnNumber()).arg(reader.characterOffset());
-//       return false;
-//    }
+    if (reader.hasError()) {  // 解析出错
+       qDebug() << QObject::tr("错误信息：%1  行号：%2  列号：%3  字符位移：%4").arg(reader.errorString()).arg(reader.lineNumber()).arg(reader.columnNumber()).arg(reader.characterOffset());
+       return false;
+    }
 
     file.close();  // 关闭文件
-
-//    listData = lyricListData;
-
 
     return true;
 }
 
-//bool SettingManager::parseAll(QXmlStreamReader &reader, LyricListData &data)
-//{
-//    while (!reader.atEnd()) {
+bool SettingManager::parseAll(QXmlStreamReader &reader)
+{
+    while (!reader.atEnd()) {
 
-//        reader.readNext();
-//        if (reader.isStartElement()) {  // 开始元素
-//            QString strElementName = reader.name().toString();
-//            if(strElementName == "history")
-//            {
-//                QVector<LyricList> lists;
-//                if(!parseLyricList(reader, lists,"history"))
-//                    return false;
+        reader.readNext();
+        if (reader.isStartElement()) {  // 开始元素
+            QString strElementName = reader.name().toString();
+            if(strElementName == "lyricMaker")
+            {
+                 while (!reader.atEnd())
+                 {
+                     reader.readNext();
+                     QString strElementName = reader.name().toString();
+                   if (reader.isStartElement()) {  // 开始元素
+                       if(strElementName == "shiftTime")
+                       {
+                           settingData.shiftTime = reader.readElementText().toInt();
+                       }
+                   }
+                   else if(reader.isEndElement()) {
 
-//                data.listsHistory = lists;
-//            }
-//            else if(strElementName == "created")
-//            {
-//                QVector<LyricList> lists;
-//                if(!parseLyricList(reader, lists, "created"))
-//                    return false;
+                       QString strElementName = reader.name().toString();
+                       if (QString::compare(strElementName, "lyricMaker") == 0) {
+                           break;  // 跳出
+                       }
+                   }
+                }
+            }
+            else if(strElementName == "defaultPath")
+            {
+                while (!reader.atEnd())
+                {
+                    reader.readNext();
+                    QString strElementName = reader.name().toString();
+                  if (reader.isStartElement()) {  // 开始元素
+                      if(strElementName == "music")
+                      {
+                          settingData.defaultMusicPath = reader.readElementText();
+                      }
+                      else if (strElementName == "lyric")
+                      {
+                          settingData.defaultLyricPath = reader.readElementText();
+                      }
+                      else if (strElementName == "output")
+                      {
+                          settingData.defaultOutputPath = reader.readElementText();
+                      }
+                  }
+                  else if(reader.isEndElement()) {
 
-//                data.listsCreated = lists;
-//            }
-//        }
-//        else if(reader.isEndElement()) {
+                      QString strElementName = reader.name().toString();
+                      if (QString::compare(strElementName, "defaultPath") == 0) {
+                          break;  // 跳出
+                      }
+                  }
+               }
+            }
+            else if(strElementName == "musicDownload")
+            {
+                while (!reader.atEnd())
+                {
+                    reader.readNext();
+                    QString strElementName = reader.name().toString();
+                  if (reader.isStartElement()) {  // 开始元素
+                      if(strElementName == "path")
+                      {
+                          settingData.musicDowloadPath = reader.readElementText();
+                      }
+                      else if (strElementName == "agreeDeclaration")
+                      {
+                          settingData.agreeDownloadDeclaration = reader.readElementText().toInt() == 1;
+                      }
+                  }
+                  else if(reader.isEndElement()) {
 
-//            QString strElementName = reader.name().toString();
-//            if (QString::compare(strElementName, "lyricList") == 0) {
-//                break;  // 跳出
-//            }
-//        }
-//    }
+                      QString strElementName = reader.name().toString();
+                      if (QString::compare(strElementName, "musicDownload") == 0) {
+                          break;  // 跳出
+                      }
+                  }
+               }
+            }
+            else if(strElementName == "login")
+            {
+                while (!reader.atEnd())
+                {
+                    reader.readNext();
+                    QString strElementName = reader.name().toString();
+                  if (reader.isStartElement()) {  // 开始元素
+                      if(strElementName == "anonymous")
+                      {
+                          settingData.loginAnonymously = reader.readElementText().toInt() == 1;
+                      }
+                  }
+                  else if(reader.isEndElement()) {
 
-//    return true;
-//}
+                      QString strElementName = reader.name().toString();
+                      if (QString::compare(strElementName, "login") == 0) {
+                          break;  // 跳出
+                      }
+                  }
+               }
+            }
+            else if(strElementName == "upgrade")
+            {
+                while (!reader.atEnd())
+                {
+                    reader.readNext();
+                    QString strElementName = reader.name().toString();
+                  if (reader.isStartElement()) {  // 开始元素
+                      if(strElementName == "autoCheck")
+                      {
+                          settingData.autoCheckForUpgrade = reader.readElementText().toInt() == 1;
+                      }
+                  }
+                  else if(reader.isEndElement()) {
 
-//bool SettingManager::parseLyricList(QXmlStreamReader &reader, QVector<LyricList> &lists, QString parentName)
-//{
-//    lists.clear();
-//    while (!reader.atEnd()) {
+                      QString strElementName = reader.name().toString();
+                      if (QString::compare(strElementName, "upgrade") == 0) {
+                          break;  // 跳出
+                      }
+                  }
+               }
+            }
+            else if(strElementName == "other")
+            {
+                while (!reader.atEnd())
+                {
+                    reader.readNext();
+                    QString strElementName = reader.name().toString();
+                  if (reader.isStartElement()) {  // 开始元素
+                      if(strElementName == "skinName")
+                      {
+                          settingData.skinName = reader.readElementText();
+                      }
+                  }
+                  else if(reader.isEndElement()) {
 
-//        reader.readNext();
-//        if (reader.isStartElement()) {  // 开始元素
-//            QString strElementName = reader.name().toString();
-//            if(strElementName == "list")
-//            {
-//                LyricList lyricList;
+                      QString strElementName = reader.name().toString();
+                      if (QString::compare(strElementName, "other") == 0) {
+                          break;  // 跳出
+                      }
+                  }
+               }
+            }
+        }
+        else if(reader.isEndElement()) {
 
-//                //获取列名
-//                QXmlStreamAttributes attributes = reader.attributes();
-//                if (attributes.hasAttribute("name")) {
-//                    QString listName = attributes.value("name").toString();
-//                    lyricList.name = listName;
-//                    qDebug() << QString::fromLocal8Bit("attribute: name(%1)").arg(listName);
-//                }
-//                else
-//                    return false;
+            QString strElementName = reader.name().toString();
+            if (QString::compare(strElementName, "settings") == 0) {
+                break;  // 跳出
+            }
+        }
+    }
 
-//                //获取具体项
-//                while (!reader.atEnd()) {
-//                    reader.readNext();
-//                    if (reader.isStartElement()) {  // 开始元素
-//                        QString strElementName = reader.name().toString();
-//                        if(strElementName == "item")
-//                        {
-//                            LyricListItem item;
-
-//                            //收集单个项
-//                            while (!reader.atEnd()){
-//                                  reader.readNext();
-//                                  if (reader.isStartElement()) {  // 开始元素
-//                                      QString strElementName = reader.name().toString();
-//                                      if(strElementName == "song")
-//                                      {
-//                                          item.song = reader.readElementText();
-//                                      }
-//                                      else if(strElementName == "lyric")
-//                                      {
-//                                          item.lyric = reader.readElementText();
-//                                      }
-//                                  }
-//                                  else if(reader.isEndElement()) {
-
-//                                      QString strElementName = reader.name().toString();
-//                                      if (QString::compare(strElementName, "item") == 0) {
-//                                          break;  // 跳出
-//                                      }
-//                                  }
-//                            }
-
-//                            lyricList.items.push_back(item);
-//                        }
-//                    }
-//                    else if(reader.isEndElement()) {
-
-//                        QString strElementName = reader.name().toString();
-//                        if (QString::compare(strElementName, "list") == 0) {
-//                            break;  // 跳出
-//                        }
-//                    }
-//                }
-
-//                lists.push_back(lyricList);
-//            }
-//        }
-//        else if(reader.isEndElement()) {
-
-//            QString strElementName = reader.name().toString();
-//            if (QString::compare(strElementName, parentName) == 0) {
-//                break;  // 跳出
-//            }
-//        }
-//    }
-
-//    return true;
-//}
+    return true;
+}
 
 
 QString SettingManager::MakeSureConfigPathAvailable()

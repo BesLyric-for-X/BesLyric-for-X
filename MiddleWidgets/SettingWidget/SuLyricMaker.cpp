@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <QIntValidator>
+#include "BesMessageBox.h"
 
 QString SuLyricMaker::getName()
 {
@@ -31,6 +33,8 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
     editShiftBackwardTime = new QLineEdit(SettingUnitContainer);
     btnEditShiftTime = new BesButton(SettingUnitContainer);
 
+    editShiftBackwardTime->setValidator(new QIntValidator(0, 3000, this));
+
     labelShiftBackwardTime->setText(tr("提前毫秒数："));
     labelShiftBackwardTime->setMinimumSize(100,30);
     labelShiftBackwardTime->setMaximumSize(100,30);
@@ -56,6 +60,34 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+
+    //连接信号
+
+    connect(editShiftBackwardTime,&QLineEdit::textChanged, [=](QString text){
+        int time  = text.toInt();
+        if(time == SettingManager::GetInstance().data().shiftTime)
+            btnEditShiftTime->setEnabled(false);
+        else
+            btnEditShiftTime->setEnabled(true);
+    });
+
+    connect(btnEditShiftTime, &QPushButton::clicked, [=]()
+    {
+        int shiftTimeBackup = SettingManager::GetInstance().data().shiftTime;
+        SettingManager::GetInstance().data().shiftTime = editShiftBackwardTime->text().toInt();
+        if(SettingManager::GetInstance().saveSettingData())
+        {
+            BesMessageBox::information(tr("提示"),tr("保存成功"));
+            btnEditShiftTime->setEnabled(false);
+        }
+        else
+        {
+            SettingManager::GetInstance().data().shiftTime = shiftTimeBackup;
+            BesMessageBox::information(tr("提示"),tr("保存失败"));
+        }
+    });
+
+    editShiftBackwardTime->setText(QString().number(SettingManager::GetInstance().data().shiftTime));
 
     return SettingUnitContainer;
 }

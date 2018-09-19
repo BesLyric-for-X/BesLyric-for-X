@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <QFileDialog>
+#include "BesMessageBox.h"
 
 QString SuDefaultPath::getName()
 {
@@ -53,12 +55,12 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
     labelTipPathMusic->setText(tr("音乐目录："));
     labelTipPathLyric->setText(tr("歌词目录："));
     labelTipPathOutput->setText(tr("输出目录："));
-    labelTipPathMusic->setMinimumSize(100,30);
-    labelTipPathMusic->setMaximumSize(100,30);
-    labelTipPathLyric->setMinimumSize(100,30);
-    labelTipPathLyric->setMaximumSize(100,30);
-    labelTipPathOutput->setMinimumSize(100,30);
-    labelTipPathOutput->setMaximumSize(100,30);
+    labelTipPathMusic->setMinimumSize(80,30);
+    labelTipPathMusic->setMaximumSize(80,30);
+    labelTipPathLyric->setMinimumSize(80,30);
+    labelTipPathLyric->setMaximumSize(80,30);
+    labelTipPathOutput->setMinimumSize(80,30);
+    labelTipPathOutput->setMaximumSize(80,30);
     labelTipPathMusic->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelTipPathLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelTipPathOutput->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -69,9 +71,9 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
     labelDefaultPathLyric->setMaximumHeight(30);
     labelDefaultPathOutput->setMinimumHeight(30);
     labelDefaultPathOutput->setMaximumHeight(30);
-    labelTipPathMusic->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    labelTipPathLyric->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    labelTipPathOutput->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    labelDefaultPathMusic->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    labelDefaultPathLyric->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    labelDefaultPathOutput->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     hLayout2->addWidget(btnSelectDefaultPathMusic);
@@ -95,6 +97,76 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
     vLayout->addLayout(hLayout3);
     vLayout->addLayout(hLayout4);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+
+
+    labelDefaultPathMusic->setText(SettingManager::GetInstance().data().defaultMusicPath);
+    labelDefaultPathLyric->setText(SettingManager::GetInstance().data().defaultLyricPath);
+    labelDefaultPathOutput->setText(SettingManager::GetInstance().data().defaultOutputPath);
+
+    //连接信号
+
+    connect(btnSelectDefaultPathMusic, &QPushButton::clicked, [=]()
+    {
+        QString backup = SettingManager::GetInstance().data().defaultMusicPath;
+        QString dir = QFileDialog::getExistingDirectory(parent, tr("选择默认歌曲目录"),  backup,
+                                         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+        if(dir.size() !=0)
+        {
+            labelDefaultPathMusic->setText(dir);
+
+            SettingManager::GetInstance().data().defaultMusicPath = dir;
+
+            if(!SettingManager::GetInstance().saveSettingData())
+            {
+                SettingManager::GetInstance().data().defaultMusicPath = backup;
+                labelDefaultPathMusic->setText(backup);
+                BesMessageBox::information(tr("提示"),tr("保存失败"));
+            }
+        }
+    });
+
+    connect(btnSelectDefaultPathLyric, &QPushButton::clicked, [=]()
+    {
+        QString backup = SettingManager::GetInstance().data().defaultLyricPath;
+        QString dir = QFileDialog::getExistingDirectory(parent, tr("选择默认歌词目录"),  backup,
+                                         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+        if(dir.size() !=0)
+        {
+            labelDefaultPathLyric->setText(dir);
+
+            SettingManager::GetInstance().data().defaultLyricPath = dir;
+
+            if(!SettingManager::GetInstance().saveSettingData())
+            {
+                SettingManager::GetInstance().data().defaultLyricPath = backup;
+                labelDefaultPathLyric->setText(backup);
+                BesMessageBox::information(tr("提示"),tr("保存失败"));
+            }
+        }
+    });
+
+    connect(btnSelectDefaultPathOutput, &QPushButton::clicked, [=]()
+    {
+        QString backup = SettingManager::GetInstance().data().defaultOutputPath;
+        QString dir = QFileDialog::getExistingDirectory(parent, tr("选择默认输出目录"),  backup,
+                                         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+        if(dir.size() !=0)
+        {
+            labelDefaultPathOutput->setText(dir);
+
+            SettingManager::GetInstance().data().defaultOutputPath = dir;
+
+            if(!SettingManager::GetInstance().saveSettingData())
+            {
+                SettingManager::GetInstance().data().defaultOutputPath = backup;
+                labelDefaultPathOutput->setText(backup);
+                BesMessageBox::information(tr("提示"),tr("保存失败"));
+            }
+        }
+    });
 
     return SettingUnitContainer;
 }
