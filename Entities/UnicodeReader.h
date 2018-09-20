@@ -35,8 +35,7 @@ public:
         return true;
     }
 
-private:
-    QString ReadUnicodeString(const QByteArray &ba)
+    static QString ReadUnicodeString(const QByteArray &ba)
     {
         encoding_type etype = GetFileBufferEncodingType(ba.data(), ba.size());
 
@@ -59,7 +58,8 @@ private:
         return text;
     }
 
-    encoding_type GetFileBufferEncodingType(const char* buf, int nSize)
+private:
+    static encoding_type GetFileBufferEncodingType(const char* buf, int nSize)
     {
         if (nSize < 2)
             return ENCODING_ASCII; //文件内容太少，直接当做是 ascii 码处理
@@ -90,7 +90,7 @@ private:
         return type;
     }
 
-    bool IsUTF8WithNoBom(const void* pBuffer, long size)
+    static bool IsUTF8WithNoBom(const void* pBuffer, long size)
     {
          //参考 http://blog.csdn.net/bladeandmaster88/article/details/54767487
 

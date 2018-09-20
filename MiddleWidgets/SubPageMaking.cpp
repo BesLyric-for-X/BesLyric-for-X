@@ -86,11 +86,20 @@ void SubPageMaking::initLayout()
     btnSelectLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+	btnGuessLyricInfo = new BesButton(this);
+    btnGuessLyricInfo->setText(tr("搜词"));
+    btnGuessLyricInfo->setToolTip(tr("尽可能智能地得到歌手和歌曲名，在歌词下载页面进行搜索"));
+    btnGuessLyricInfo->setMinimumSize(60,28);
+    btnGuessLyricInfo->setMaximumSize(60,28);
+    btnGuessLyricInfo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	btnGuessLyricInfo->setVisible(false);
+
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     QHBoxLayout* hLayout3 = new QHBoxLayout();
     hLayout1->addWidget(labelSelectMusic);
     hLayout1->addWidget(editSelectMusic);
+    hLayout1->addWidget(btnGuessLyricInfo);
     hLayout1->addWidget(btnSelectMusic);
     hLayout2->addWidget(labelSelectLyric);
     hLayout2->addWidget(editSelectLyric);
@@ -330,6 +339,8 @@ void SubPageMaking::initConnection()
 
     connect(btnPreviewResult,SIGNAL(clicked(bool)),this,SLOT(previewResult()));
     connect(btnOpenResult,SIGNAL(clicked(bool)),this,SLOT(openResult()));
+
+	connect(btnGuessLyricInfo, SIGNAL(clicked(bool)), this, SLOT(onGuessLyricInfo()));
 }
 
 //推上一行
@@ -464,11 +475,7 @@ void SubPageMaking::selectMusicPath()
                                                       SettingManager::GetInstance().data().defaultMusicPath,
                                                       tr("音频 (*.mp3 *.wav);;视频 (*.mp4)"));
 
-    if(fileName.size() !=0)
-    {
-        editSelectMusic->setText(fileName);
-        pathMusic = fileName;
-    }
+    selectMusicPath(fileName);
 }
 
 void SubPageMaking::selectLyricPath()
@@ -486,11 +493,7 @@ void SubPageMaking::selectOutputDir()
                                      SettingManager::GetInstance().data().defaultOutputPath,
                                      QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    if(dir.size() !=0)
-    {
-        editSelectOutputDir->setText(dir);
-        pathOutputDir = dir;
-    }
+    selectOutputPath(dir);
 }
 
 void SubPageMaking::loadCurrentPath()
@@ -604,12 +607,41 @@ void SubPageMaking::updatePos(int pos)
     }
 }
 
-void SubPageMaking::selectLyricPath(const QString &lyricPath)
+void SubPageMaking::onGuessLyricInfo()
+{
+	if (pathMusic.size() != 0)
+	{
+		btnGuessLyricInfo->setEnabled(false);
+		threadGuessLyricInfo.StartGuess(pathMusic);
+	}
+}
+
+void SubPageMaking::selectMusicPath(const QString& musicPath)
+{
+    if(musicPath.size() !=0)
+    {
+        editSelectMusic->setText(musicPath);
+        pathMusic = musicPath;
+		btnGuessLyricInfo->setVisible(true);
+    }
+
+}
+
+void SubPageMaking::selectLyricPath(const QString& lyricPath)
 {
     if(lyricPath.size() !=0)
     {
         editSelectLyric->setText(lyricPath);
         pathLyric = lyricPath;
+    }
+}
+
+void SubPageMaking::selectOutputPath(const QString& outputPath)
+{
+    if(outputPath.size() !=0)
+    {
+        editSelectOutputDir->setText(outputPath);
+        pathOutputDir = outputPath;
     }
 }
 

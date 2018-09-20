@@ -105,15 +105,42 @@ void PageMain::initConnection()
     {if(checked)subpageStackedLayout->setCurrentIndex(2);});
 
     connect(subPageDownloadLyric,SIGNAL(sig_autoSelectRawLyric(const QString&)),this,
-            SLOT(OnAutoSelectRawLyric(const QString&)));
+            SLOT(onAutoSelectRawLyric(const QString&)));
+
+    connect(subPageDownloadSong->tableNcmSongSearch,SIGNAL(sig_setMusicPathToMakingPage(QString)),
+            this,SLOT(onAutoSelectMusic(QString)));
+
+
+    connect(&subPageMaking->threadGuessLyricInfo,SIGNAL(sig_loadLyricInfoGuessResult(QString,QString)),
+            this, SLOT(onLoadLyricGuess(QString,QString)));
 }
 
-void PageMain::OnAutoSelectRawLyric(const QString& RawlyricPath)
+void PageMain::onAutoSelectRawLyric(const QString& RawlyricPath)
 {
     //自动切换页面
-    subpageStackedLayout->setCurrentIndex(0);
+	btnMakingLyric->setChecked(true);
 
     //自动填入新的歌词路径
     subPageMaking->selectLyricPath(RawlyricPath);
+}
+
+void PageMain::onAutoSelectMusic(const QString &musicPath)
+{
+    //自动切换页面
+	btnMakingLyric->setChecked(true);
+
+    //自动填入新的歌词路径
+    subPageMaking->selectMusicPath(musicPath);
+}
+
+void PageMain::onLoadLyricGuess(QString strSong, QString strArtist)
+{
+    //自动切换页面
+	btnDownloadLyric->setChecked(true);
+
+    subPageDownloadLyric->searchLyricDirectly(strArtist, strSong);
+
+	//重新启用按钮
+	subPageMaking->btnGuessLyricInfo->setEnabled(true);
 }
 

@@ -23,7 +23,9 @@ public:
     void initConnection();
 
 public slots:
-    void OnAutoSelectRawLyric(const QString& RawlyricPath);
+    void onAutoSelectRawLyric(const QString& RawlyricPath);
+    void onAutoSelectMusic(const QString& musicPath);
+    void onLoadLyricGuess(QString strSong, QString strArtist);
 
 public:
     QWidget*                leftBoardMainPage;
@@ -31,6 +33,7 @@ public:
     BesButton*              btnMakingLyric;
     BesButton*              btnDownloadSong;
     BesButton*              btnDownloadLyric;
+
     BoxPageLyricList*       boxPageLyricList;
     BoxPagePreviewLyric*    boxPagePreviewLyric;
 

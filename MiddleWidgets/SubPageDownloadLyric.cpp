@@ -507,6 +507,15 @@ void SubPageDownloadLyric::OnSavectLrcLyric()
     }
 }
 
+void SubPageDownloadLyric::searchLyricDirectly(const QString& artists, const QString& song)
+{
+    editSearchLyricSong->setText(song);
+    editSearchLyricArtist->setText(artists);
+
+    OnSearchInProgram();
+}
+
+
 
 void SubPageDownloadLyric::showTipLabel(bool bShow)
 {

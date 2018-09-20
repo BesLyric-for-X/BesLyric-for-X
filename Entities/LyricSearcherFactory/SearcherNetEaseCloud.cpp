@@ -68,8 +68,6 @@ bool SearcherNetEaseCloud::GetSongListWithNameAndArtist(QString strSong, QString
         return false;
     }
 	
-    //strRes = strRes.substr( strRes.find_first_of('{'), strRes.find_last_of('}') - strRes.find_first_of('{')+1);
-
     //获取id列表
     if(!GetSongListFromJson(strRes, vecSongList))
     {

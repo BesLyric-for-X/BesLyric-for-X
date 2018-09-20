@@ -8,6 +8,7 @@
 
 #include "BesButton.h"
 #include "LyricMaker.h"
+#include "ThreadGuessLyricInfo.h"
 
 class SubPageMaking : public QWidget
 {
@@ -60,15 +61,20 @@ public slots:
 
     void updatePos(int);
 
+	void onGuessLyricInfo();  //猜测歌词信息
+
 public:
+    void selectMusicPath(const QString& musicPath);
     void selectLyricPath(const QString& lyricPath);
+    void selectOutputPath(const QString& outputPath);
 
 
 private:
     void initMakingProcess(); //初始化制作歌词的过程
 
 public:
-    bool isMaking;                  //标记是否正在制作
+    bool isMaking;									//标记是否正在制作
+	ThreadGuessLyricInfo	threadGuessLyricInfo;	//当前猜词用的线程
 
 private:
     QString         pathMusic;          //当前选择中的路径
@@ -82,6 +88,7 @@ private:
     QString         pathMusicLoaded;    //当前被载入的音乐
     QString         pathResultLrcLyric; //生成的结果
 
+
 public:
     QLabel*         labelSelectMusic;
     QLabel*         labelSelectLyric;
@@ -94,6 +101,8 @@ public:
     BesButton*    btnSelectMusic;
     BesButton*    btnSelectLyric;
     BesButton*    btnSelectOutputDir;
+
+    BesButton*    btnGuessLyricInfo;
 
     QLabel*         labelTip;
     QLabel*         labelTipUp;

@@ -8,6 +8,7 @@
 #include <QUrl>
 #include "NetAccess.h"
 #include "BesMessageBox.h"
+#include "SettingManager.h"
 
 BesNcmSongTableView::BesNcmSongTableView(QWidget *parent) :
     QTableView(parent)
@@ -52,11 +53,26 @@ void BesNcmSongTableView::setItems(const QVector<SONGINFO> &infos)
 
 void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
 {
+    //先查看配置是否同意下载声明
+    if(!SettingManager::GetInstance().data().agreeDownloadDeclaration
+            || SettingManager::GetInstance().data().musicDowloadPath.size() == 0)
+    {
+        BesMessageBox::information(tr("提示"),tr("请先在 “设置 -> 歌曲下载” 下 “选择” 歌曲下载目录"));
+        return;
+    }
+
+    QFile file(SettingManager::GetInstance().data().musicDowloadPath);
+    if(!file.exists())
+    {
+        BesMessageBox::information(tr("提示"),tr("设置的路径无效，请先在 “设置 -> 歌曲下载” 下 “选择” 歌曲下载目录"));
+        return;
+    }
+
     if(songInfo.nPercentage == -1) //只有从未下载过时，才尝试下载
     {
         QString strId = QString().number(songInfo.nID);
         QString strLink = "http://music.163.com/song/media/outer/url?id="+ strId +".mp3";
-        QString strSavePath = "C:/Users/BensonLaur/Desktop/"            //"C:/Users/Benso/Desktop/"  "C:/Users/BensonLaur/Desktop/"
+        QString strSavePath = SettingManager::GetInstance().data().musicDowloadPath + '/'
                 +songInfo.strSong +"-"+ songInfo.strArtists + ".mp3";
 
         net.DownloadFile(strLink, strSavePath, songInfo.nID);
@@ -65,6 +81,14 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
     {
         //已经尝试过，404 找不到音乐，应该是没版权
         BesMessageBox::information(tr("提示"),tr("由于版权保护等原因，无法获取该音乐"));
+    }
+    else if(songInfo.nPercentage == 100)
+    {
+        //直接选择歌曲到制作页面，并自动跳转页面
+        QString strSavePath = SettingManager::GetInstance().data().musicDowloadPath + '/'
+                +songInfo.strSong +"-"+ songInfo.strArtists + ".mp3";
+
+        emit sig_setMusicPathToMakingPage(strSavePath);
     }
 }
 
@@ -128,11 +152,14 @@ void BesNcmSongTableView::initConnection()
     connect(m_buttonDelegate,&BesNcmSongButtonDelegate::sig_download_ncm_song, [=](int row){
         OnDownloadNcmMusic( m_model->DataVector().at(row));
     });
+    connect(m_buttonDelegate, &BesNcmSongButtonDelegate::sig_setMusicPathToMakingPage, [=](QString musicPath)
+            {emit sig_setMusicPathToMakingPage(musicPath);});
 
     connect(&net, SIGNAL(sig_finishDownload(QVariant,DOWNLOAD_FINISH_STATUS)),
             this, SLOT(OnFinishedDownload(QVariant,DOWNLOAD_FINISH_STATUS)));
     connect(&net,SIGNAL(sig_progressChanged(QString,int,QVariant)),
             this,SLOT(OnProgressChanged(QString,int,QVariant)));
+
 }
 
  //基础的初始化

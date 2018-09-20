@@ -3,6 +3,7 @@
 #include <QTextStream>
 #include <QStringList>
 #include <UnicodeReader.h>
+#include "SettingManager.h"
 
 //载入原始的歌词数据
 bool LyricMaker::loadRawLyric(QString lyricPath)
@@ -57,6 +58,8 @@ bool LyricMaker::saveLyrc(QString savePath)
 //开始制作歌词
 void LyricMaker::startMaking()
 {
+    insertOffsetTime = SettingManager::GetInstance().data().shiftTime;  //现在开始制作的时候读取偏移设置
+
     rawCurrent = 0;
     lrcNext = 0;
 
@@ -139,6 +142,7 @@ bool LyricMaker::getNextRawLineText(QString& line)
 //标记当前行为 time
 bool LyricMaker::markCurrentRawLine(quint64 time)
 {
+    time -= insertOffsetTime;
     lrcLines.push_back(QPair<quint64, QString>(time,rawLines[rawCurrent]));
 
     rawCurrent++;
@@ -153,6 +157,7 @@ bool LyricMaker::markEmptyLine(quint64 time)
     //只有当lrc 歌词为空，或者不为空时最后一个元素的内容不为空时，才插入一个空的时间行
     if(lrcLines.isEmpty() || lrcLines.last().second != "")
     {
+        time -= insertOffsetTime;
         lrcLines.push_back(QPair<quint64, QString>(time,""));
         lrcNext++;
     }

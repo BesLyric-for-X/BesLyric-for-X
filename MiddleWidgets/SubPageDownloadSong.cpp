@@ -126,8 +126,6 @@ void SubPageDownloadSong::initConnection()
 {
      connect(&searchThread, SIGNAL(songResultChanged(LyricSearchResult)), this,SLOT(OnSongResultChanged(LyricSearchResult)));
      connect(btnSearchNcmSong, SIGNAL(clicked(bool)),this,SLOT(OnSearchSong()) );
-
-
 }
 
 void SubPageDownloadSong::OnSearchSong()

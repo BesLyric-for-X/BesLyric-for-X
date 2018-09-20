@@ -40,6 +40,9 @@ public slots:
     void OnSaveRawLyric();
     void OnSavectLrcLyric();
 
+public:
+    void searchLyricDirectly(const QString& artists, const QString& song);
+
 private:
     void showTipLabel(bool bShow);
 

@@ -11,7 +11,7 @@ class LyricMaker:public QObject
 {
     Q_OBJECT
 public:
-    LyricMaker(QObject* parent = nullptr):QObject(parent){}
+    LyricMaker(QObject* parent = nullptr):QObject(parent),insertOffsetTime(0){}
 
     //歌词是否为空
     bool isRawLyricEmpty();
@@ -50,6 +50,7 @@ private:
 
     QString lrcContent;                                 //最终得到的lrc歌词内容
 
+    int insertOffsetTime;                           //插入歌词时提前偏移的时间值
 };
 
 

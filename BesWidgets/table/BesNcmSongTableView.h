@@ -28,6 +28,7 @@ public:
 signals:
     void sig_showRawLyric(const SONGINFO&);
     void sig_showLrcLyric(const SONGINFO&);
+    void sig_setMusicPathToMakingPage(QString musicPath);
 
 public slots:
     void OnDownloadNcmMusic(SONGINFO songInfo);

@@ -22,6 +22,7 @@ HEADERS+=\
     $$PWD/LyricSearcherFactory/ThreadSearchNcmMusic.h\
     $$PWD/LyricListManager.h\
     $$PWD/SettingManager.h\
+    $$PWD/ThreadGuessLyricInfo.h\
 
 
 

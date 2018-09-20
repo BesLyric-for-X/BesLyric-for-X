@@ -26,14 +26,6 @@ public slots:
 
     void OnSongResultChanged(LyricSearchResult result);
 
-//    void OnShowRawLyric(const LyricInfo& info);
-//    void OnShowLrcLyric(const LyricInfo& info);
-
-//    void OnSelectRawLyricSavePath();
-//    //void OnSelectLrcLyricSavePath();
-//    void OnSaveRawLyric();
-//    //void OnSavectLrcLyric();
-
 private:
     void showTipLabel(bool bShow);
 

@@ -20,6 +20,8 @@ signals:
     void sig_listen_ncm_song(int row);
     void sig_download_ncm_song(int row);
 
+    void sig_setMusicPathToMakingPage(QString);
+
 public slots:
 
 
