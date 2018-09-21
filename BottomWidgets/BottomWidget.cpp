@@ -2,6 +2,8 @@
 #include "BottomWidget.h"
 #include <QHBoxLayout>
 #include "MusicPlayer/musicPlayer.h"
+#include "BesMessageBox.h"
+#include "SettingManager.h"
 
 BottomWidget::BottomWidget(QWidget *parent)
     :QWidget(parent)
@@ -102,19 +104,18 @@ void BottomWidget::initConnection()
     connect(sliderSong,SIGNAL(sliderMoved(int)),this, SLOT(onSliderSongMoved(int)));
     connect(sliderSong,SIGNAL(sliderReleased()),this, SLOT(onSliderSongReleased()));
 
+    connect(sliderSound,SIGNAL(valueChanged(int)),musicPlayer,SLOT(setVolume(int)));
+    connect(sliderSound,SIGNAL(sliderReleased()),this, SLOT(onSliderSoundReleased()));
+
     connect(musicPlayer, SIGNAL(durationChanged(qint64)),this,SLOT(durationChanged(qint64)));
     connect(musicPlayer,SIGNAL(volumeChanged(int)),this,SLOT(volumeChanged(int)));
 
-    connect(btnPlayAndPause, &QPushButton::clicked,[=](){
-        if(musicPlayer->state() == MusicPlayer::PlayingState)
-            pause();
-        else
-            play();
-    });
+    connect(btnPlayAndPause, SIGNAL(clicked(bool)), this, SLOT(onPlayOrPause()));
 
+    connect(musicPlayer, SIGNAL(errorOccur(int,QString)),this,SLOT(onErrorOccurs(int,QString)));
 
+    sliderSound->setValue(SettingManager::GetInstance().data().volume);
 }
-
 
 void  BottomWidget::reloadMusic(QString musicPath)
 {
@@ -246,11 +247,6 @@ void BottomWidget::positionChanged(int position)
 
 }
 
-void BottomWidget::volumeChanged(int volume)
-{
-     sliderSound->setValue(volume);
-}
-
 void BottomWidget::onSliderSongMoved(int position)
 {
     if(bInMakingMode)
@@ -274,6 +270,35 @@ void BottomWidget::onSliderSongReleased()
 
     AdjustingPos = false;
     musicPlayer->seek(posAdjust);
+}
+
+void BottomWidget::volumeChanged(int volume)
+{
+    sliderSound->setValue(volume);
+}
+
+void BottomWidget::onSliderSoundReleased()
+{
+    //每次结束音量的改变，需要即时保存
+    SettingManager::GetInstance().data().volume = sliderSound->value();
+
+    SettingManager::GetInstance().saveSettingData();  //出错不报提示 //TODOTODO 考虑是否和配置页面配置分开储存
+}
+
+
+void BottomWidget::onPlayOrPause()
+{
+    if(musicPlayer->state() == MusicPlayer::PlayingState)
+        pause();
+    else
+        play();
+}
+
+void BottomWidget::onErrorOccurs(int code, QString strErr)
+{
+    Q_UNUSED(code)
+    BesMessageBox::information(tr("提示"),
+        tr("播放音频时发生错误，请尝试使用别的音频文件")+ "\n\n" + tr("出错细节:")+ strErr);
 }
 
 

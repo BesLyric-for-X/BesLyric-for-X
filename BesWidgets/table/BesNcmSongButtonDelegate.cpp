@@ -27,7 +27,8 @@ BesNcmSongButtonDelegate::BesNcmSongButtonDelegate(QObject *parent) :
     m_pBtnListenSong->setObjectName("m_pBtnListenSong");
     m_pBtnDownloadSong->setObjectName("m_pBtnDownloadSong");
 
-    m_list << QStringLiteral("查看歌曲")<< QStringLiteral("试听歌曲") << QStringLiteral("下载歌曲");
+    m_list << QStringLiteral("查看歌曲")<< QStringLiteral("试听歌曲")
+           << QStringLiteral("点击下载歌曲，下载完后，点击可直接选用音乐用于制作歌词");
 }
 
 void BesNcmSongButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -119,69 +120,69 @@ bool BesNcmSongButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *mo
 {
     Q_UNUSED(model);
     if (index.column() != NCM_LIST_OPERATE_COLUMN)
-            return false;
+        return false;
 
-        m_nType = -1;
-        bool bRepaint = false;
-        QMouseEvent *pEvent = static_cast<QMouseEvent *> (event);
-        m_mousePoint = pEvent->pos();
+    m_nType = -1;
+    bool bRepaint = false;
+    QMouseEvent *pEvent = static_cast<QMouseEvent *> (event);
+    m_mousePoint = pEvent->pos();
 
-        int nCount = m_list.count();
-        int nHalf = (option.rect.width() - m_nWidth * nCount - m_nSpacing * (nCount - 1)) / 2;
-        int nTop = (option.rect.height() - m_nHeight) / 2;
+    int nCount = m_list.count();
+    int nHalf = (option.rect.width() - m_nWidth * nCount - m_nSpacing * (nCount - 1)) / 2;
+    int nTop = (option.rect.height() - m_nHeight) / 2;
 
-        // 还原鼠标样式
-        //QApplication::restoreOverrideCursor();
+    // 还原鼠标样式
+    //QApplication::restoreOverrideCursor();
 
-        for (int i = 0; i < nCount; ++i)
+    for (int i = 0; i < nCount; ++i)
+    {
+        QStyleOptionButton button;
+        button.rect = QRect(option.rect.left() + nHalf + m_nWidth * i + m_nSpacing * i,
+                            option.rect.top() + nTop,  m_nWidth, m_nHeight);
+
+        // 鼠标位于按钮之上
+        if (!button.rect.contains(m_mousePoint))
+            continue;
+
+        bRepaint = true;
+        switch (event->type())
         {
-            QStyleOptionButton button;
-            button.rect = QRect(option.rect.left() + nHalf + m_nWidth * i + m_nSpacing * i,
-                                option.rect.top() + nTop,  m_nWidth, m_nHeight);
+        // 鼠标滑过
+        case QEvent::MouseMove:
+        {
+            // 设置鼠标样式为手型
+            //QApplication::setOverrideCursor(Qt::PointingHandCursor);
 
-            // 鼠标位于按钮之上
-            if (!button.rect.contains(m_mousePoint))
-                continue;
+            m_nType = 0;
 
-            bRepaint = true;
-            switch (event->type())
-            {
-            // 鼠标滑过
-            case QEvent::MouseMove:
-            {
-                // 设置鼠标样式为手型
-                //QApplication::setOverrideCursor(Qt::PointingHandCursor);
+            //if(i == 2 && )
 
-                m_nType = 0;
+            QToolTip::showText(pEvent->globalPos(), m_list.at(i));
 
-                //if(i == 2 && )
-
-                QToolTip::showText(pEvent->globalPos(), m_list.at(i));
-
-                break;
-            }
-            // 鼠标按下
-            case QEvent::MouseButtonPress:
-            {
-                emit sig_rowClicked(index.row());
-                m_nType = 1;
-                break;
-            }
-            // 鼠标释放
-            case QEvent::MouseButtonRelease:
-            {
-                if (i == 0)
-                    emit sig_preview_ncm_song(index.row());
-                else if(i== 1)
-                    emit sig_listen_ncm_song(index.row());
-                else
-                    emit sig_download_ncm_song(index.row());
-                break;
-            }
-            default:
-                break;
-            }
+            break;
         }
+        // 鼠标按下
+        case QEvent::MouseButtonPress:
+        {
+            emit sig_rowClicked(index.row());
+            m_nType = 1;
+            break;
+        }
+        // 鼠标释放
+        case QEvent::MouseButtonRelease:
+        {
+            if (i == 0)
+                emit sig_preview_ncm_song(index.row());
+            else if(i== 1)
+                emit sig_listen_ncm_song(index.row());
+            else
+                emit sig_download_ncm_song(index.row());
+            break;
+        }
+        default:
+            break;
+        }
+    }
 
-        return bRepaint;
+     return bRepaint;
 }

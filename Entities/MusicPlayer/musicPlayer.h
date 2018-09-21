@@ -243,7 +243,16 @@ signals:
     void durationChanged(qint64);   //总长发生改变（单位 毫秒）
     void positionChanged(int);   //位置发生改变（单位 毫秒）
     void volumeChanged(int);        //音量大小发生改变，范围 0-128
-    void errorOccur(QString msg);   //发生错误
+    void errorOccur(int errorCode, QString msg);   //发生错误
+
+    //      emit errorOccur(1,tr("无法打开媒体输入流"));
+    //      emit errorOccur(2,tr("媒体输入流中找不到任何可播放数据"));
+    //      emit errorOccur(3,tr("媒体输入流中找不到任何音频数据"));
+    //      emit errorOccur(4,"ffmpeg模块无法找到可用解码器");
+    //      emit errorOccur(5,"ffmpeg模块无法启用解码器");
+    //      emit errorOccur(6,QString(tr("无法初始化播放设备模块 SDL - %s.")).arg(errorString));
+    //      emit errorOccur(7,tr("播放设备模块 SDL 无法打开指定音频数据"));
+
 
     void albumFound(QString);       //发现信息
     void artistFound(QString);
@@ -270,7 +279,7 @@ public slots:
 
 private slots:
     void sendPosChangedSignal();
-
+    void onErrorOccurs(int ,QString);
 
 private:
     //歌曲文件信息
@@ -283,8 +292,10 @@ private:
     QString musicPath;
     quint64 m_position;              //当前时间（单位 毫秒）
 
+    int m_volume;
+
     QTimer  m_positionUpdateTimer;    //通知歌曲进度发生改变的Timer
-    int     m_interval;                //间隔，单位毫秒
+    int     m_interval;               //间隔，单位毫秒
 
     PlayThread* playThread;
 

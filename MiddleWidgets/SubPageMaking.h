@@ -62,7 +62,10 @@ public slots:
 
     void updatePos(int);
 
+    void onGuessNcmInfo();    //猜测ncm文件的歌曲名和歌词
 	void onGuessLyricInfo();  //猜测歌词信息
+
+    void onEditCurrentRawLyric(); //编辑当前原歌词
 
 public:
     void selectMusicPath(const QString& musicPath);

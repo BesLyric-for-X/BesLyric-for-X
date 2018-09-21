@@ -113,6 +113,9 @@ void PageMain::initConnection()
 
     connect(&subPageMaking->threadGuessLyricInfo,SIGNAL(sig_loadLyricInfoGuessResult(QString,QString)),
             this, SLOT(onLoadLyricGuess(QString,QString)));
+    connect(&subPageMaking->threadGuessLyricInfo,SIGNAL(sig_loadNcmInfoGuessResult(QString,QString)),
+            this, SLOT(onLoadNcmGuess(QString,QString)));
+
 }
 
 void PageMain::onAutoSelectRawLyric(const QString& RawlyricPath)
@@ -136,11 +139,22 @@ void PageMain::onAutoSelectMusic(const QString &musicPath)
 void PageMain::onLoadLyricGuess(QString strSong, QString strArtist)
 {
     //自动切换页面
-	btnDownloadLyric->setChecked(true);
+    btnDownloadLyric->setChecked(true);
 
     subPageDownloadLyric->searchLyricDirectly(strArtist, strSong);
 
-	//重新启用按钮
-	subPageMaking->btnGuessLyricInfo->setEnabled(true);
+    //重新启用按钮
+    subPageMaking->btnGuessLyricInfo->setEnabled(true);
+}
+
+void PageMain::onLoadNcmGuess(QString strSong, QString strArtist)
+{
+    //自动切换页面
+    btnDownloadSong->setChecked(true);
+
+    subPageDownloadSong->searchNcmDirectly(strArtist, strSong);
+
+    //重新启用按钮
+    subPageMaking->btnDownloadMp3->setEnabled(true);
 }
 

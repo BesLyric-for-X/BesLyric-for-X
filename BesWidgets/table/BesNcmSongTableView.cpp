@@ -70,6 +70,10 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
 
     if(songInfo.nPercentage == -1) //只有从未下载过时，才尝试下载
     {
+        emit sig_oneDownloadStarted();
+
+        OnProgressChanged("0 kB/s", 5,QVariant(songInfo.nID)); //先发一个信号，让界面有所显示
+
         QString strId = QString().number(songInfo.nID);
         QString strLink = "http://music.163.com/song/media/outer/url?id="+ strId +".mp3";
         QString strSavePath = SettingManager::GetInstance().data().musicDowloadPath + '/'
@@ -94,6 +98,8 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
 
 void BesNcmSongTableView::OnFinishedDownload(QVariant data, DOWNLOAD_FINISH_STATUS status)
 {
+    emit sig_oneDownloadFinished();
+
     int nSongId = data.toInt();
 
     QVector<SONGINFO>& infos =m_model->DataVector();
@@ -113,6 +119,8 @@ void BesNcmSongTableView::OnFinishedDownload(QVariant data, DOWNLOAD_FINISH_STAT
 
 void BesNcmSongTableView::OnProgressChanged(QString speed, int percentage, QVariant data)
 {
+    Q_UNUSED(speed);
+
     int nSongId = data.toInt();
 
     QVector<SONGINFO>& infos =m_model->DataVector();
@@ -120,7 +128,8 @@ void BesNcmSongTableView::OnProgressChanged(QString speed, int percentage, QVari
     {
         if(info.nID == nSongId)
         {
-            info.nPercentage = percentage;
+            info.nPercentage = percentage < 5 ? 5: percentage;  //为了用户不因网络卡顿而看不到任何进度，最小显示5
+
             update();
         }
     }

@@ -26,6 +26,7 @@ public slots:
     void onAutoSelectRawLyric(const QString& RawlyricPath);
     void onAutoSelectMusic(const QString& musicPath);
     void onLoadLyricGuess(QString strSong, QString strArtist);
+    void onLoadNcmGuess(QString strSong, QString strArtist);
 
 public:
     QWidget*                leftBoardMainPage;

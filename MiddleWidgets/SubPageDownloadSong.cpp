@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 
 SubPageDownloadSong::SubPageDownloadSong(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), nCurrentDownloadCount(0)
 {
     this->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
     initLayout();
@@ -126,7 +126,26 @@ void SubPageDownloadSong::initConnection()
 {
      connect(&searchThread, SIGNAL(songResultChanged(LyricSearchResult)), this,SLOT(OnSongResultChanged(LyricSearchResult)));
      connect(btnSearchNcmSong, SIGNAL(clicked(bool)),this,SLOT(OnSearchSong()) );
+
+     connect(tableNcmSongSearch,SIGNAL(sig_oneDownloadStarted()),this,SLOT(onStartOneDownload()));
+     connect(tableNcmSongSearch,SIGNAL(sig_oneDownloadFinished()),this,SLOT(onFinishOneDownload()));
 }
+
+void SubPageDownloadSong::searchNcmDirectly(const QString &artists, const QString &song)
+{
+    editSearchNcmSong->setText(song);
+    editSearchNcmArtist->setText(artists);
+
+    if(btnSearchNcmSong->isEnabled() == false)
+    {
+        //正在下载中，提示稍后再搜索
+        BesMessageBox::information(tr("提示"),tr("有歌曲正在下载中，请稍后搜索"));
+        return;
+    }
+
+    OnSearchSong();
+}
+
 
 void SubPageDownloadSong::OnSearchSong()
 {
@@ -169,6 +188,21 @@ void SubPageDownloadSong::OnSongResultChanged(LyricSearchResult result)
         btnSearchNcmSong->setEnabled(true);
     }
 }
+
+
+void SubPageDownloadSong::onStartOneDownload()
+{
+    nCurrentDownloadCount++;
+    btnSearchNcmSong->setEnabled(false);
+}
+
+void SubPageDownloadSong::onFinishOneDownload()
+{
+    nCurrentDownloadCount--;
+    if(nCurrentDownloadCount == 0)
+        btnSearchNcmSong->setEnabled(true);
+}
+
 
 void SubPageDownloadSong::showTipLabel(bool bShow)
 {

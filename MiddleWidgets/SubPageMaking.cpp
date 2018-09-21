@@ -96,10 +96,11 @@ void SubPageMaking::initLayout()
 
     btnDownloadMp3= new BesButton(this);
     btnDownloadMp3->setText(tr("mp3"));
-    btnDownloadMp3->setToolTip(tr("本软件无法直接播放ncm，可点此尝试下载其 mp3"));
+    btnDownloadMp3->setToolTip(tr("本软件无法直接播放 ncm 文件，可点此尝试下载其 mp3"));
     btnDownloadMp3->setMinimumSize(60,28);
     btnDownloadMp3->setMaximumSize(60,28);
     btnDownloadMp3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    btnDownloadMp3->setVisible(false);
 
     btnEditTxtLyric= new BesButton(this);
     btnEditTxtLyric->setText(tr("编辑"));
@@ -107,8 +108,7 @@ void SubPageMaking::initLayout()
     btnEditTxtLyric->setMinimumSize(60,28);
     btnEditTxtLyric->setMaximumSize(60,28);
     btnEditTxtLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-
+    btnEditTxtLyric->setVisible(false);
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     QHBoxLayout* hLayout2 = new QHBoxLayout();
@@ -358,7 +358,10 @@ void SubPageMaking::initConnection()
     connect(btnPreviewResult,SIGNAL(clicked(bool)),this,SLOT(previewResult()));
     connect(btnOpenResult,SIGNAL(clicked(bool)),this,SLOT(openResult()));
 
-	connect(btnGuessLyricInfo, SIGNAL(clicked(bool)), this, SLOT(onGuessLyricInfo()));
+    connect(btnGuessLyricInfo, SIGNAL(clicked(bool)), this, SLOT(onGuessLyricInfo()));
+    connect(btnDownloadMp3, SIGNAL(clicked(bool)), this, SLOT(onGuessNcmInfo()));
+
+    connect(btnEditTxtLyric, SIGNAL(clicked(bool)), this,SLOT(onEditCurrentRawLyric()));
 
     connect(editSelectMusic, &BesFileLineEdit::sig_filesHaveBeenDrop,
             [=](QList<QString> list){selectMusicPath(list.at(0));});
@@ -415,6 +418,11 @@ void SubPageMaking::finishMaking()
         if(lyricMaker.isResultLrcEmpty())
         {
             BesMessageBox::information( tr("提示"),tr("制作结果为空，请重新按提示制作"));
+
+            btnLoadLastFiles->setEnabled(true);
+            btnPreviewResult->setEnabled(false);
+            btnOpenResult->setEnabled(false);
+            btnToRemaking->setEnabled(false);
         }
         else
         {
@@ -427,21 +435,27 @@ void SubPageMaking::finishMaking()
                 BesMessageBox::information(tr("提示"),tr("成功保存到：")+outputFile);
 
                 emit sig_addToMakingHistory(pathMusicLoaded, pathResultLrcLyric);
+
+                btnPreviewResult->setEnabled(true);
+                btnOpenResult->setEnabled(true);
             }
             else
             {
                 BesMessageBox::information( tr("提示"),tr("成功失败，无法保存到：")+outputFile);
+
+                btnPreviewResult->setEnabled(false);
+                btnOpenResult->setEnabled(false);
             }
+
+
+            btnLoadLastFiles->setEnabled(true);
+            btnToRemaking->setEnabled(false);
         }
 
         emit onStopMusic();
 
         emit onExitMakingMode();
 
-        btnLoadLastFiles->setEnabled(true);
-        btnPreviewResult->setEnabled(true);
-        btnOpenResult->setEnabled(true);
-        btnToRemaking->setEnabled(false);
     }
 }
 
@@ -498,7 +512,7 @@ void SubPageMaking::selectMusicPath()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("打开音频文件"),
                                                       SettingManager::GetInstance().data().defaultMusicPath,
-                                                      tr("音频 (*.mp3 *.wav);;视频 (*.mp4)"));
+                                                      tr("音频 (*.mp3 *.wav *.ncm);;视频 (*.mp4)"));
 
     selectMusicPath(fileName);
 }
@@ -510,6 +524,8 @@ void SubPageMaking::selectLyricPath()
                                                      SettingManager::GetInstance().data().defaultLyricPath,
                                                       tr("文本 (*.txt);;其他 (*.*)"));
     selectLyricPath(fileName);
+
+    btnEditTxtLyric->setVisible(true);
 }
 
 void SubPageMaking::selectOutputDir()
@@ -541,6 +557,13 @@ void SubPageMaking::loadCurrentPath()
         BesMessageBox::information( tr("提示"),tr("请先选择输出目录"));
         return;
     }
+
+    if("ncm" == pathMusic.right(pathMusic.size() - pathMusic.lastIndexOf('.') - 1).trimmed().toLower())
+    {
+        BesMessageBox::information(tr("提示"),tr("本软件无法直接播放 ncm 文件，可点击【mp3】按钮，尝试下载其 mp3"));
+        return;
+    }
+
 
     //载入歌词到歌词制作器
     if(!lyricMaker.loadRawLyric(pathLyric))
@@ -632,13 +655,27 @@ void SubPageMaking::updatePos(int pos)
     }
 }
 
+void SubPageMaking::onGuessNcmInfo()
+{
+    if(pathMusic.size() != 0)
+    {
+        btnDownloadMp3->setEnabled(false);
+        threadGuessLyricInfo.StartGuess(pathMusic, true);
+    }
+}
+
 void SubPageMaking::onGuessLyricInfo()
 {
 	if (pathMusic.size() != 0)
 	{
 		btnGuessLyricInfo->setEnabled(false);
-		threadGuessLyricInfo.StartGuess(pathMusic);
-	}
+        threadGuessLyricInfo.StartGuess(pathMusic, false);
+    }
+}
+
+void SubPageMaking::onEditCurrentRawLyric()
+{
+    QDesktopServices::openUrl(QUrl("file:///"+pathLyric, QUrl::TolerantMode));
 }
 
 void SubPageMaking::selectMusicPath(const QString& musicPath)
@@ -648,6 +685,9 @@ void SubPageMaking::selectMusicPath(const QString& musicPath)
         editSelectMusic->setText(musicPath);
         pathMusic = musicPath;
 		btnGuessLyricInfo->setVisible(true);
+
+        QString extension = musicPath.right( musicPath.size() - musicPath.lastIndexOf('.') -1);
+        btnDownloadMp3->setVisible(extension.toLower() == "ncm");       //ncm需要显示下载mp3按钮
     }
 
 }

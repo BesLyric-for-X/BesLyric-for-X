@@ -30,6 +30,9 @@ signals:
     void sig_showLrcLyric(const SONGINFO&);
     void sig_setMusicPathToMakingPage(QString musicPath);
 
+    void sig_oneDownloadStarted();
+    void sig_oneDownloadFinished();
+
 public slots:
     void OnDownloadNcmMusic(SONGINFO songInfo);
     void OnFinishedDownload(QVariant, DOWNLOAD_FINISH_STATUS);

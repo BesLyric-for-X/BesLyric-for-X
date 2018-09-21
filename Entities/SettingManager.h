@@ -26,8 +26,9 @@ public:
     bool loginAnonymously;
     bool autoCheckForUpgrade;
 
-    QString skinName;
     QString machineCode;        //存储上次获取的设备相关的唯一标志，在设备更换时，需要重置 agreeDownloadDeclaration 等设置
+    QString skinName;
+    int volume;
 
     SettingData()
     {
@@ -35,8 +36,9 @@ public:
         agreeDownloadDeclaration = false;
         loginAnonymously = false;
         autoCheckForUpgrade = true;
-        skinName = "black";
         machineCode = "";
+        skinName = "black";
+        volume = 128;           //最大值128
     }
 };
 

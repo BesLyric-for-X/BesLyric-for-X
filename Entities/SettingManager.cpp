@@ -87,6 +87,7 @@ bool SettingManager::saveSettingData()
 
         writer.writeStartElement("other");
         writer.writeTextElement("skinName",settingData.skinName);
+        writer.writeTextElement("volume",QString().number(settingData.volume));
         writer.writeEndElement();
 
         writer.writeEndElement();  // 结束子元素 </settings>
@@ -309,6 +310,10 @@ bool SettingManager::parseAll(QXmlStreamReader &reader)
                       if(strElementName == "skinName")
                       {
                           settingData.skinName = reader.readElementText();
+                      }
+                      else if(strElementName == "volume")
+                      {
+                          settingData.volume = reader.readElementText().toInt();
                       }
                   }
                   else if(reader.isEndElement()) {

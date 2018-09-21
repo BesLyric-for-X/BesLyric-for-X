@@ -1,4 +1,5 @@
 ﻿#include "musicPlayer.h"
+#include "global.h"
 #include <QDebug>
 #include <qmutex.h>
 
@@ -307,13 +308,13 @@ bool PlayThread::initDeviceAndFfmpegContext()
     //Open
     if(avformat_open_input(&pFormatCtx,url,NULL,NULL)!=0){
         printf("Couldn't open input stream.\n");
-        emit errorOccur(-1,"Couldn't open input stream.");
+        emit errorOccur(1,tr("无法打开媒体输入流"));//"Couldn't open input stream."
         return false;
     }
     // Retrieve stream information
     if(avformat_find_stream_info(pFormatCtx,NULL)<0){
         printf("Couldn't find stream information.\n");
-        emit errorOccur(-1,"Couldn't find stream information.");
+        emit errorOccur(2,tr("媒体输入流中找不到任何可播放数据")); //"Couldn't find stream information."
         return false;
     }
 
@@ -392,10 +393,9 @@ bool PlayThread::initDeviceAndFfmpegContext()
 			break;
 		}
 
-
     if(audioStream==-1){
         printf("Didn't find a audio stream.\n");
-        emit errorOccur(-1,"Didn't find a audio stream.");
+        emit errorOccur(3,tr("媒体输入流中找不到任何音频数据"));//"Didn't find a audio stream."
         return false;
     }
 
@@ -407,17 +407,16 @@ bool PlayThread::initDeviceAndFfmpegContext()
     pCodec=avcodec_find_decoder(pCodecCtx->codec_id);
     if(pCodec==NULL){
         printf("Codec not found.\n");
-        emit errorOccur(-1,"Codec not found.");
+        emit errorOccur(4,"ffmpeg模块无法找到可用解码器"); //Codec not found
         return false;
     }
 
     // Open codec
     if(avcodec_open2(pCodecCtx, pCodec,NULL)<0){
         printf("Could not open codec.\n");
-        emit errorOccur(-1,"Could not open codec.");
+        emit errorOccur(5,"ffmpeg模块无法启用解码器"); //"Could not open codec."
         return false;
     }
-
 
     //Out Audio Param
     out_channel_layout=AV_CH_LAYOUT_STEREO;
@@ -437,9 +436,10 @@ bool PlayThread::initDeviceAndFfmpegContext()
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
         const char* errorString = SDL_GetError();
         printf( "Could not initialize SDL - %s\n", errorString);
-        emit errorOccur(-1,QString("Could not initialize SDL - %s.").arg(errorString));
+        emit errorOccur(6,QString(tr("无法初始化播放设备模块 SDL - %s.")).arg(errorString)); //QString("Could not initialize SDL - %s.").arg(errorString)
         return false;
     }
+
     //SDL_AudioSpec
     wanted_spec.freq = out_sample_rate;
     wanted_spec.format = AUDIO_S16SYS;
@@ -452,7 +452,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
 
     if (SDL_OpenAudio(&wanted_spec, NULL)<0){
         printf("Can't open audio.\n");
-        emit errorOccur(-1,"Can't open audio.");
+        emit errorOccur(7,tr("播放设备模块 SDL 无法打开指定音频数据"));//"Can't open audio."
         return false;
     }
 #endif
@@ -480,7 +480,7 @@ void PlayThread::playDevice()
     SDL_PauseAudio(0);
 
     emit audioPlay();
-    emit volumeChanged(m_MS.volume);
+    //emit volumeChanged(m_MS.volume);
 }
 
 void PlayThread::pauseDevice()
@@ -673,7 +673,7 @@ void  PlayThread::fillAudio(void *udata,Uint8 *stream,int len){
 }
 //-----------------
 
-MusicPlayer::MusicPlayer(QObject* parent):QObject(parent)
+MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 {
     playThread = new PlayThread(this);
 
@@ -681,8 +681,7 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent)
     connect(playThread, &PlayThread::audioPause,[=](){emit audioPause();});
     connect(playThread, &PlayThread::audioFinish,[=](){emit audioFinish();});
     connect(playThread, &PlayThread::volumeChanged,[=](uint8_t volume){
-        emit volumeChanged(volume);
-    }
+        emit volumeChanged(volume);}
     );
     connect(playThread, &PlayThread::durationChanged,[=](qint64 duration){emit durationChanged(duration/1000);});
 
@@ -692,6 +691,12 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent)
     connect(playThread, &PlayThread::artistFound,[=](QString artist){m_artist=artist; emit artistFound(artist);});
     connect(playThread, &PlayThread::titleFound,[=](QString title){m_title=title; emit titleFound(title);});
     connect(playThread, &PlayThread::pictureFound,[=](QPixmap picture){m_picture=picture; emit pictureFound(picture);});
+
+    //发送错误信号除去弹窗提示，由于“Widgets must be created in the GUI thread” 窗口必须在UI线程创建，
+    // 所以发送异步信号 QueuedConnection；经过实际运行结果来看，还需要等待 slot 执行完再返回，所以用 BlockingQueuedConnection
+    connect(playThread, SIGNAL(errorOccur(int,QString)), this, SLOT(onErrorOccurs(int,QString)),
+            Qt::BlockingQueuedConnection);
+
 
     m_interval = 50;
     m_positionUpdateTimer.setInterval(m_interval);
@@ -757,6 +762,8 @@ void MusicPlayer::reload()
 //播放控制
 void MusicPlayer::play()
 {
+    playThread->m_MS.volume = m_volume;  //初始化声音值
+
     if (!playThread->bIsDeviceInit)
 	{
         playThread->start(QThread::Priority::HighestPriority);
@@ -824,7 +831,6 @@ void MusicPlayer::setVolume(int volume)
         volume = 0;
 
     playThread->m_MS.volume =(uint8_t)volume;
-    emit volumeChanged(volume);
 }
 
 int MusicPlayer::getVolume()
@@ -858,6 +864,11 @@ void MusicPlayer::sendPosChangedSignal()
 {
 	m_position = playThread->getCurrentTime();
     emit positionChanged(m_position);
+}
+
+void MusicPlayer::onErrorOccurs(int code, QString msg)
+{
+    emit errorOccur(code, msg);
 }
 
 

@@ -21,7 +21,7 @@ class ThreadGuessLyricInfo :public QThread
 public:
     ThreadGuessLyricInfo():m_bIsGuessing(false){}
 
-    void StartGuess(QString musicPath)
+    void StartGuess(QString musicPath, bool bGuessNcmFileName = false)
     {
         QMutexLocker locker(&mutex);
 
@@ -31,6 +31,7 @@ public:
             return;
         }
 
+        m_bGuessNcmFileName = bGuessNcmFileName;
         m_strMusicPath = musicPath;
 
         start(HighestPriority);
@@ -38,8 +39,9 @@ public:
 
 
 signals:
+    //发送出哪个信号由 m_bGuessNcmFileName 决定
     void sig_loadLyricInfoGuessResult(QString songName, QString artist);  //搜索结果发送
-
+    void sig_loadNcmInfoGuessResult(QString songName, QString artist);    //
 
 protected:
     virtual void run()
@@ -76,7 +78,12 @@ protected:
 
         if(nLastDot == -1 || nLastSlash == -1)
         {
-            emit sig_loadLyricInfoGuessResult(musicPath,"");  //没有结果，直接发送原路径出去
+            //没有结果，直接发送原路径出去
+            if(m_bGuessNcmFileName)
+                emit sig_loadNcmInfoGuessResult(musicPath,"");
+            else
+                emit sig_loadLyricInfoGuessResult(musicPath,"");
+
             return;
         }
 
@@ -131,7 +138,10 @@ protected:
             }
         }
 
-		emit sig_loadLyricInfoGuessResult(strSongName, strArtist);
+        if(m_bGuessNcmFileName)
+            emit sig_loadNcmInfoGuessResult(strSongName, strArtist);
+        else
+            emit sig_loadLyricInfoGuessResult(strSongName, strArtist);
 
         {
            QMutexLocker locker(&mutex);
@@ -302,6 +312,7 @@ protected:
 
     QMutex mutex;
     bool m_bIsGuessing;
+    bool m_bGuessNcmFileName;       //本线程用于猜测歌曲 歌词的歌名和歌手，也用来猜测 ncm 歌曲的歌名和歌手
     QString m_strMusicPath;
 };
 

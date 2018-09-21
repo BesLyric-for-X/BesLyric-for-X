@@ -39,11 +39,16 @@ public slots:
 
 private slots:
     void durationChanged(qint64);
-    void volumeChanged(int);
 
     void onSliderSongMoved(int position);
     void onSliderSongPressed();
     void onSliderSongReleased();
+
+    void volumeChanged(int);
+    void onSliderSoundReleased();
+
+    void onPlayOrPause();
+    void onErrorOccurs(int code,QString strErr);
 
 private:
     bool bInMakingMode;     //标记是否在制作模式中
