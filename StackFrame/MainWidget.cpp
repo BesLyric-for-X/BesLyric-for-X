@@ -177,6 +177,9 @@ void MainWidget::OnPlayNewMusicAndLyric(QString music, QString lrc)
     //载入歌词
     middleWidget->pagePreviewLyric->lyricViewer->setLrcLyricPath(lrc);
 
+    //修改歌曲显示名称
+    middleWidget->pagePreviewLyric->lyricViewer->setMusicPath(music);
+
     //播放歌曲
     bottomWidget->play();
 

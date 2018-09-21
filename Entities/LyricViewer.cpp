@@ -104,15 +104,23 @@ void LyricViewer::setMusicPath(QString path)
     setMusicTitle(fileinfo.baseName());     //先使用歌曲的文件的名字，来设置音乐标题，如果播放时，从歌曲中发现了标题，那么再由外界设置新标题
 
     labelPreviewSongPath->setText(path);
+    labelPreviewSongPath->setToolTip(path);
 }
 
 void LyricViewer::setLrcLyricPath(QString path)
 {
     labelPreviewLyricPath->setText(path);
+    labelPreviewLyricPath->setToolTip(path);
 
     //使用该路径初始化歌词预览面板
     if(!loadLyricFromFile(path))
-        BesMessageBox::information(tr("提示"),tr("载入lrc歌词时发生错误：")+path);
+    {
+        BesMessageBox::information(tr("提示"),tr("打开载入lrc歌词时发生错误：")+path
+                                   +"\n\n"+ tr("请注意是否歌词是否存在？"));
+
+        lrcLyrics.clear();
+        bIsLrcLyric = false;
+    }
 
     scrollLyricPanel->updateLyric(lrcLyrics, bIsLrcLyric);
 }

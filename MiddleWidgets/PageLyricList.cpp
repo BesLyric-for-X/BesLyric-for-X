@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <assert.h>
 #include "BesMessageBox.h"
+#include "SettingManager.h"
 
 PageLyricList::PageLyricList(QWidget *parent)
     : QWidget(parent),pCurrentLyricList(nullptr)
@@ -164,8 +165,8 @@ void PageLyricList::initLayout()
     //编辑歌单项
     labelLrcItemSongPath = new QLabel(widgetEditLyricItem);
     labelLrcItemLrcPath  = new QLabel(widgetEditLyricItem);
-    editLrcItemSongPath = new QLineEdit(widgetEditLyricItem);
-    editLrcItemLrcPath  = new QLineEdit(widgetEditLyricItem);
+    editLrcItemSongPath = new BesFileLineEdit(BesFileTypeMusic, widgetEditLyricItem);
+    editLrcItemLrcPath  = new BesFileLineEdit(BesFileTypeLrc ,widgetEditLyricItem);
     btnSelectLrcItemSongPath = new BesButton(widgetEditLyricItem);
     btnSelectLrcItemLrcPath  = new BesButton(widgetEditLyricItem);
     btnSaveLrcItem     = new BesButton(widgetEditLyricItem);
@@ -183,6 +184,8 @@ void PageLyricList::initLayout()
     editLrcItemLrcPath->setMaximumHeight(35);
     editLrcItemSongPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
     editLrcItemLrcPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
+    editLrcItemSongPath->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
+    editLrcItemLrcPath->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
 
     btnSelectLrcItemSongPath->setText(tr("选择"));
     btnSelectLrcItemLrcPath->setText(tr("选择"));
@@ -342,6 +345,11 @@ void PageLyricList::initConnection()
     connect(btnSaveLrcListModified,SIGNAL(clicked(bool)), this, SLOT(OnSaveListInfo()));
     connect(btnDeleteLrcList,SIGNAL(clicked(bool)), this, SLOT(OnDeleteLrcList()));
 
+    connect(editLrcItemSongPath, &BesFileLineEdit::sig_filesHaveBeenDrop,
+            [=](QList<QString> list){editLrcItemSongPath->setText(list.at(0));});
+    connect(editLrcItemLrcPath, &BesFileLineEdit::sig_filesHaveBeenDrop,
+            [=](QList<QString> list){editLrcItemLrcPath->setText(list.at(0));});
+
     //连接完后，默认选中第一项
     lyricListHistory->setCurrentRow(0); //必有一项，默认选中
 
@@ -391,7 +399,7 @@ bool PageLyricList::OnDeleteCurrentItem(bool bDeleteConformRequested)
 void PageLyricList::OnSelectSongPath()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("选择歌曲"),
-                                                      "/home",
+                                      SettingManager::GetInstance().data().defaultMusicPath,
                                                       tr("音频 (*.mp3 *.wav);;视频 (*.mp4)"));
 
     if(fileName.size() !=0)
@@ -402,7 +410,8 @@ void PageLyricList::OnSelectSongPath()
 
 void PageLyricList::OnSelectLrcPath()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("选择歌词"), "/home",
+    QString fileName = QFileDialog::getOpenFileName(this, tr("选择歌词"),
+                                     SettingManager::GetInstance().data().defaultOutputPath,
                                                       tr("文本 (*.lrc);;其他 (*.*)"));
     if(fileName.size() !=0)
     {

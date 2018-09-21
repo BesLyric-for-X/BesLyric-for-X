@@ -128,7 +128,7 @@ void SubPageDownloadLyric::initLayout()
     labelRawLyricPanelSavePath = new QLabel(widgetRawLyricBoard);
     labelRawLyricPanelSong = new QLabel(widgetRawLyricBoard);
     labelRawLyricPanelArtist = new QLabel(widgetRawLyricBoard);
-    editRawLyricPanelSavePath= new QLineEdit(widgetRawLyricBoard);
+    editRawLyricPanelSavePath= new BesFileLineEdit(BesFileTypeFloder,widgetRawLyricBoard);
     editRawLyricPanelSong= new QLineEdit(widgetRawLyricBoard);
     editRawLyricPanelArtist= new QLineEdit(widgetRawLyricBoard);
     btnRawLyricPanelSelect = new BesButton(widgetRawLyricBoard);
@@ -189,7 +189,7 @@ void SubPageDownloadLyric::initLayout()
     labelLrcLyricPanelSavePath = new QLabel(widgetLrcLyricBoard);
     labelLrcLyricPanelSong = new QLabel(widgetLrcLyricBoard);
     labelLrcLyricPanelArtist = new QLabel(widgetLrcLyricBoard);
-    editLrcLyricPanelSavePath= new QLineEdit(widgetLrcLyricBoard);
+    editLrcLyricPanelSavePath= new BesFileLineEdit(BesFileTypeFloder,widgetLrcLyricBoard);
     editLrcLyricPanelSong= new QLineEdit(widgetLrcLyricBoard);
     editLrcLyricPanelArtist= new QLineEdit(widgetLrcLyricBoard);
     btnLrcLyricPanelSelect = new BesButton(widgetLrcLyricBoard);
@@ -276,6 +276,7 @@ void SubPageDownloadLyric::initConnection()
 
     connect(btnRawLyricPanelSelect, SIGNAL(clicked(bool)),this, SLOT(OnSelectRawLyricSavePath()));
     connect(btnRawLyricPanelSave, SIGNAL(clicked(bool)),this, SLOT(OnSaveRawLyric()));
+
 }
 
 void SubPageDownloadLyric::OnSearchInProgram()

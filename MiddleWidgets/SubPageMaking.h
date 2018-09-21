@@ -96,14 +96,16 @@ public:
     QLabel*         labelSelectOutputDir;
 
     BesFileLineEdit*  editSelectMusic;
-    QLineEdit*      editSelectLyric;
-    QLineEdit*      editSelectOutputDir;
+    BesFileLineEdit*  editSelectLyric;
+    BesFileLineEdit*  editSelectOutputDir;
 
     BesButton*    btnSelectMusic;
     BesButton*    btnSelectLyric;
     BesButton*    btnSelectOutputDir;
 
+    BesButton*    btnDownloadMp3;
     BesButton*    btnGuessLyricInfo;
+    BesButton*    btnEditTxtLyric;
 
     QLabel*         labelTip;
     QLabel*         labelTipUp;

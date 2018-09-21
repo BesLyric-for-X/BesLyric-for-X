@@ -10,6 +10,7 @@
 #include "list/BesList.h"
 #include "LyricListManager.h"
 #include "table/BesLListTableView.h"
+#include "BesFileLineEdit.h"
 
 class PageLyricList : public QWidget
 {
@@ -83,8 +84,8 @@ public:
     //编辑歌单项
     QLabel* labelLrcItemSongPath;
     QLabel* labelLrcItemLrcPath;
-    QLineEdit* editLrcItemSongPath;
-    QLineEdit* editLrcItemLrcPath;
+    BesFileLineEdit* editLrcItemSongPath;
+    BesFileLineEdit* editLrcItemLrcPath;
     BesButton* btnSelectLrcItemSongPath;
     BesButton* btnSelectLrcItemLrcPath;
 

@@ -58,8 +58,8 @@ void SubPageMaking::initLayout()
     labelSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     editSelectMusic = new BesFileLineEdit(BesEditFileType::BesFileTypeMusic,this);
-    editSelectLyric = new QLineEdit(this);
-    editSelectOutputDir = new QLineEdit(this);
+    editSelectLyric = new BesFileLineEdit(BesEditFileType::BesFileTypeTxt, this);
+    editSelectOutputDir = new BesFileLineEdit(BesEditFileType::BesFileTypeFloder,this);
     editSelectMusic->setFocusPolicy(Qt::NoFocus);
     editSelectLyric->setFocusPolicy(Qt::NoFocus);
     editSelectOutputDir->setFocusPolicy(Qt::NoFocus);
@@ -69,9 +69,9 @@ void SubPageMaking::initLayout()
     editSelectMusic->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSelectLyric->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSelectOutputDir->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    editSelectMusic->setPlaceholderText(tr("点击选择文件文件 或 拖放文件到这里"));
-    editSelectLyric->setPlaceholderText(tr("点击选择文件文件 或 拖放文件到这里"));
-    editSelectOutputDir->setPlaceholderText(tr("点击选择文件文件 或 拖放文件到这里"));
+    editSelectMusic->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
+    editSelectLyric->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
+    editSelectOutputDir->setPlaceholderText(tr("点击选择文件夹 或 拖放文件夹到这里"));
 
     btnSelectMusic = new BesButton(this);
     btnSelectLyric = new BesButton(this);
@@ -94,15 +94,33 @@ void SubPageMaking::initLayout()
     btnGuessLyricInfo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	btnGuessLyricInfo->setVisible(false);
 
+    btnDownloadMp3= new BesButton(this);
+    btnDownloadMp3->setText(tr("mp3"));
+    btnDownloadMp3->setToolTip(tr("本软件无法直接播放ncm，可点此尝试下载其 mp3"));
+    btnDownloadMp3->setMinimumSize(60,28);
+    btnDownloadMp3->setMaximumSize(60,28);
+    btnDownloadMp3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    btnEditTxtLyric= new BesButton(this);
+    btnEditTxtLyric->setText(tr("编辑"));
+    btnEditTxtLyric->setToolTip(tr("发现歌词出错时，可点击此直接编辑，然后“载入最新”"));
+    btnEditTxtLyric->setMinimumSize(60,28);
+    btnEditTxtLyric->setMaximumSize(60,28);
+    btnEditTxtLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+
+
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     QHBoxLayout* hLayout3 = new QHBoxLayout();
     hLayout1->addWidget(labelSelectMusic);
     hLayout1->addWidget(editSelectMusic);
+    hLayout1->addWidget(btnDownloadMp3);
     hLayout1->addWidget(btnGuessLyricInfo);
     hLayout1->addWidget(btnSelectMusic);
     hLayout2->addWidget(labelSelectLyric);
     hLayout2->addWidget(editSelectLyric);
+    hLayout2->addWidget(btnEditTxtLyric);
     hLayout2->addWidget(btnSelectLyric);
     hLayout3->addWidget(labelSelectOutputDir);
     hLayout3->addWidget(editSelectOutputDir);
@@ -344,6 +362,10 @@ void SubPageMaking::initConnection()
 
     connect(editSelectMusic, &BesFileLineEdit::sig_filesHaveBeenDrop,
             [=](QList<QString> list){selectMusicPath(list.at(0));});
+    connect(editSelectLyric, &BesFileLineEdit::sig_filesHaveBeenDrop,
+            [=](QList<QString> list){selectLyricPath(list.at(0));});
+    connect(editSelectOutputDir, &BesFileLineEdit::sig_filesHaveBeenDrop,
+            [=](QList<QString> list){selectOutputPath(list.at(0));});
 }
 
 //推上一行

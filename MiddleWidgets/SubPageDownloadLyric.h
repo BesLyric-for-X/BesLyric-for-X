@@ -11,6 +11,7 @@
 #include <QTextEdit>
 #include "LyricSearcherFactory/threadsearchlyric.h"
 #include "table/BesLrcTableView.h"
+#include "BesFileLineEdit.h"
 
 class SubPageDownloadLyric : public QWidget
 {
@@ -72,7 +73,7 @@ public:
     QLabel* labelRawLyricPanelSavePath;
     QLabel* labelRawLyricPanelSong;
     QLabel* labelRawLyricPanelArtist;
-    QLineEdit* editRawLyricPanelSavePath;
+    BesFileLineEdit* editRawLyricPanelSavePath;
     QLineEdit* editRawLyricPanelSong;
     QLineEdit* editRawLyricPanelArtist;
     BesButton* btnRawLyricPanelSelect;
@@ -82,7 +83,7 @@ public:
     QLabel* labelLrcLyricPanelSavePath;
     QLabel* labelLrcLyricPanelSong;
     QLabel* labelLrcLyricPanelArtist;
-    QLineEdit* editLrcLyricPanelSavePath;
+    BesFileLineEdit* editLrcLyricPanelSavePath;
     QLineEdit* editLrcLyricPanelSong;
     QLineEdit* editLrcLyricPanelArtist;
     BesButton* btnLrcLyricPanelSelect;
