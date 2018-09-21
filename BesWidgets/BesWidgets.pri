@@ -3,6 +3,7 @@ HEADERS+=\
     $$PWD/BesFramelessWidget.h \
     $$PWD/BesShadowWidget.h \
     $$PWD/BesButton.h \
+    $$PWD/BesFileLineEdit.h \
     $$PWD/BesMessageBox.h \
     $$PWD/BesShadowDialog.h \
     $$PWD/BesFramelessDialog.h\

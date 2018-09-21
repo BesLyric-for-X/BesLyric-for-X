@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QLineEdit>
+#include "BesFileLineEdit.h"
 
 #include "BesButton.h"
 #include "LyricMaker.h"
@@ -94,7 +95,7 @@ public:
     QLabel*         labelSelectLyric;
     QLabel*         labelSelectOutputDir;
 
-    QLineEdit*      editSelectMusic;
+    BesFileLineEdit*  editSelectMusic;
     QLineEdit*      editSelectLyric;
     QLineEdit*      editSelectOutputDir;
 

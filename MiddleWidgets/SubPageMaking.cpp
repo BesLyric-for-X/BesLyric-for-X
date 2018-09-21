@@ -57,7 +57,7 @@ void SubPageMaking::initLayout()
     labelSelectLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editSelectMusic = new QLineEdit(this);
+    editSelectMusic = new BesFileLineEdit(BesEditFileType::BesFileTypeMusic,this);
     editSelectLyric = new QLineEdit(this);
     editSelectOutputDir = new QLineEdit(this);
     editSelectMusic->setFocusPolicy(Qt::NoFocus);
@@ -341,6 +341,9 @@ void SubPageMaking::initConnection()
     connect(btnOpenResult,SIGNAL(clicked(bool)),this,SLOT(openResult()));
 
 	connect(btnGuessLyricInfo, SIGNAL(clicked(bool)), this, SLOT(onGuessLyricInfo()));
+
+    connect(editSelectMusic, &BesFileLineEdit::sig_filesHaveBeenDrop,
+            [=](QList<QString> list){selectMusicPath(list.at(0));});
 }
 
 //推上一行
