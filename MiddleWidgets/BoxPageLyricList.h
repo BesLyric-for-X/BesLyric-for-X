@@ -21,6 +21,9 @@ public slots:
 
     void setToDefaultPic();
 
+public:
+    void setFinalSkinName(QString skinName);
+
 protected:
 
     void mouseMoveEvent(QMouseEvent *event)
@@ -29,6 +32,8 @@ protected:
     }
 
     virtual void resizeEvent(QResizeEvent *event);
+
+
 
 public:
     QWidget* widgetMainLyricList;

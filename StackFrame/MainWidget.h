@@ -35,6 +35,9 @@ public slots:
     // 不过 cpu 占用过高可能是 消息太多导致)
     void musicPositionChanged(int);
 
+    //当前歌曲播放结束,准备播放下一首歌
+    void onAudioTheadFinished();
+
 public:
     TopWidget*      topWidget;
     MiddleWidget*   middleWidget;

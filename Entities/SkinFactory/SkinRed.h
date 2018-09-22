@@ -39,8 +39,10 @@ protected:
         playBorderSize             =0;
         btnSoundImage              =":/resource/image/btn_close_normal_white.png";
         btnSoundImageHover         =":/resource/image/btn_close_press_white.png";
-        btnPlayModeImage           =":/resource/image/btn_close_normal_white.png";
-        btnPlayModeImageHover      =":/resource/image/btn_close_press_white.png";
+        btnPlayModeSingleNormal     =":/resource/image/play_mode_single_normal_white.png";
+        btnPlayModeSingleHover      =":/resource/image/play_mode_single_hover_white.png";
+        btnPlayModeSingleCycleNormal=":/resource/image/play_mode_single_cycle_normal_black.png";
+        btnPlayModeSingleCycleHover =":/resource/image/play_mode_single_cycle_hover_black.png";
         btnLyricImage              =":/resource/image/btn_close_normal_white.png";
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";

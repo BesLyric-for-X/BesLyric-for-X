@@ -29,6 +29,9 @@ public slots:
     void onLoadNcmGuess(QString strSong, QString strArtist);
 
 public:
+    void setFinalSkinName(QString);                     //设置最终使用的皮肤名
+
+public:
     QWidget*                leftBoardMainPage;
 
     BesButton*              btnMakingLyric;

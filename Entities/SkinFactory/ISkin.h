@@ -470,38 +470,74 @@ private:
 "               }"
 
                /* 播放栏其他按钮 */
-"               QPushButton#btnSound{"
+"               QPushButton#btnSound:!checked{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: 22px; height:22px;"
+"                   width: 26px; height:26;"
 "                   background-image:url(\""+btnSoundImage+"\");"
 "                   background-repeat:no-repeat;"
 "               }"
-"               QPushButton#btnSound:hover{"
+"               QPushButton#btnSound:!checked:hover{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: 22px; height:22px;"
+"                   width: 26px; height:26px;"
 "                   background-image:url(\""+btnSoundImageHover+"\");"
-"                   background-repeat:no-repeat;"
+                "                   background-repeat:no-repeat;"
 "               }"
-"               QPushButton#btnPlayMode{"
+"               QPushButton#btnSound:checked{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: 22px; height:22px;"
-"                   background-image:url(\""+btnPlayModeImage+"\");"
-"                   background-repeat:no-repeat;"
+"                   width: 26px; height:26px;"
+"                   background-image:url(\""+btnSoundMuteImage+"\");"
+                "                   background-repeat:no-repeat;"
 "               }"
-"               QPushButton#btnPlayMode:hover{"
+"               QPushButton#btnSound:checked:hover{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: 22px; height:22px;"
-"                   background-image:url(\""+btnPlayModeImageHover+"\");"
+"                   width: 26px; height:26px;"
+"                   background-image:url(\""+btnSoundMuteImageHover+"\");"
+                "                   background-repeat:no-repeat;"
+"               }"
+
+
+
+"               QPushButton#btnPlayModeSingle{"
+"                   border: 0px;border-radius:0px;"
+"                   background-color:rgba(0, 0, 0, 0);"
+"                   padding: 0px;margin: 0px;"
+"                   width: 25px; height:25px;"
+"                   background-image:url(\""+btnPlayModeSingleNormal+"\");"
 "                   background-repeat:no-repeat;"
 "               }"
+"               QPushButton#btnPlayModeSingle:hover{"
+"                   border: 0px;border-radius:0px;"
+"                   background-color:rgba(0, 0, 0, 0);"
+"                   padding: 0px;margin: 0px;"
+"                   width: 25px; height:25px;"
+"                   background-image:url(\""+btnPlayModeSingleHover+"\");"
+"                   background-repeat:no-repeat;"
+"               }"
+"               QPushButton#btnPlayModeSingleCycle{"
+"                   border: 0px;border-radius:0px;"
+"                   background-color:rgba(0, 0, 0, 0);"
+"                   padding: 0px;margin: 0px;"
+"                   width: 25px; height:25px;"
+"                   background-image:url(\""+btnPlayModeSingleCycleNormal+"\");"
+"                   background-repeat:no-repeat;"
+"               }"
+"               QPushButton#btnPlayModeSingleCycle:hover{"
+"                   border: 0px;border-radius:0px;"
+"                   background-color:rgba(0, 0, 0, 0);"
+"                   padding: 0px;margin: 0px;"
+"                   width: 25px; height:25px;"
+"                   background-image:url(\""+btnPlayModeSingleCycleHover+"\");"
+"                   background-repeat:no-repeat;"
+"               }"
+
 "               QPushButton#btnDesktopLyric{"
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
@@ -525,33 +561,20 @@ private:
 "                   border:0px;"
 "                   width: 180px;"
 "                   height:40px;"
-"                   padding:0px;"
+"                   padding-left:18px;"
 "                   margin: 0px;"
+                    "text-align:left;"
 "                   border-radius: 0px;"
 "                   border-left: 5px solid rgba(0, 0, 0, 0);"
 "                   border-style:solid;"
 "               }"
 "               QPushButton#btnMakingLyric:hover, QPushButton#btnDownloadSong:hover, QPushButton#btnDownloadLyric:hover{"
 "                   background-color:rgba(0, 0, 0, 0);"
-"                   border:0px;"
-"                   width: 180px;"
-"                   height:40px;"
-"                   padding:0px;"
-"                   margin: 0px;"
-"                   border-radius: 0px;"
 "                   border-left: 5px solid rgba(0, 0, 0, 0);"
-"                   border-style:solid;"
 "               }"
 "               QPushButton#btnMakingLyric:checked, QPushButton#btnDownloadSong:checked, QPushButton#btnDownloadLyric:checked{"
 "                   background-color:"+itemSelectBackground+";"
-"                   border:0px;"
-"                   width: 180px;"
-"                   height:40px;"
-"                   padding:0px;"
-"                   margin: 0px;"
-"                   border-radius: 0px;"
 "                   border-left: 5px solid "+btnTabLeftBoderColor+";"
-"                   border-style:solid;"
 "               }"
 
                 /* 皮肤盒中的按钮 */
@@ -1065,10 +1088,16 @@ private:
         playBorderColor            ="#666666                                     ";
         playBorderHoverColor       ="#888888                                     ";
         playBorderSize             =1;
-        btnSoundImage              =":/resource/image/btn_close_normal_white.png";
-        btnSoundImageHover         =":/resource/image/btn_close_press_white.png";
-        btnPlayModeImage           =":/resource/image/btn_close_normal_white.png";
-        btnPlayModeImageHover      =":/resource/image/btn_close_press_white.png";
+
+        btnSoundImage              =":/resource/image/sound_normal_black.png";
+        btnSoundImageHover         =":/resource/image/sound_hover_black.png";
+        btnSoundMuteImage          =":/resource/image/sound_mute_normal_black.png";
+        btnSoundMuteImageHover     =":/resource/image/sound_mute_hover_black.png";
+        btnPlayModeSingleNormal     =":/resource/image/play_mode_single_normal_white.png";
+        btnPlayModeSingleHover      =":/resource/image/play_mode_single_hover_white.png";
+        btnPlayModeSingleCycleNormal=":/resource/image/play_mode_single_cycle_normal_black.png";
+        btnPlayModeSingleCycleHover =":/resource/image/play_mode_single_cycle_hover_black.png";
+
         btnLyricImage              =":/resource/image/btn_close_normal_white.png";
         btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
         btnTabLeftBoderColor       ="#bb0033                                     ";
@@ -1110,10 +1139,16 @@ protected:
     QString playBorderColor;            //#666666
     QString playBorderHoverColor;       //#888888
     int     playBorderSize;             //1px;
-    QString btnSoundImage;              //:/resource/image/btn_close_normal_white.png
-    QString btnSoundImageHover;         //:/resource/image/btn_close_press_white.png
-    QString btnPlayModeImage;           //:/resource/image/btn_close_normal_white.png
-    QString btnPlayModeImageHover;      //:/resource/image/btn_close_press_white.png
+
+    QString btnSoundImage;
+    QString btnSoundImageHover;
+    QString btnSoundMuteImage;
+    QString btnSoundMuteImageHover;
+    QString btnPlayModeSingleNormal;
+    QString btnPlayModeSingleHover;
+    QString btnPlayModeSingleCycleNormal;
+    QString btnPlayModeSingleCycleHover;
+
     QString btnLyricImage;              //:/resource/image/btn_close_normal_white.png
     QString btnLyricImageHover;         //:/resource/image/btn_close_press_white.png
     QString btnTabLeftBoderColor;       //#bb0033

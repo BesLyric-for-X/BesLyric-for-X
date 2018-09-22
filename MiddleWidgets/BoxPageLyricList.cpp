@@ -61,3 +61,11 @@ void BoxPageLyricList::setToDefaultPic()
 {
     extendButton->SetToDefaultPixmap();
 }
+
+void BoxPageLyricList::setFinalSkinName(QString skinName)
+{
+    if(skinName == "black")
+        extendButton->SetPixmap(QPixmap(":/resource/image/box_lyric_list_black.png"));
+    else
+        extendButton->SetPixmap(QPixmap(":/resource/image/box_lyric_list_white.png"));
+}

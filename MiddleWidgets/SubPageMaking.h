@@ -23,7 +23,6 @@ public:
     void initLayout();
     void initConnection();
 
-
     void markOneLine();     //推上一行
     void markEmptyLine();   //空出一行
     void backBy5Second();   //回退5秒
@@ -31,7 +30,6 @@ public:
 
 private:
     void updateLinesText(); //更新当前行内容的显示
-
 
 signals:
     void onReloadMusic(QString musicPath);

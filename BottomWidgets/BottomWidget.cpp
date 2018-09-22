@@ -53,14 +53,23 @@ void BottomWidget::initLayout()
     sliderSound->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     btnSound = new BesButton(bottomWidgetContainer);
-    btnPlayMode = new BesButton(bottomWidgetContainer);
+    btnPlayModeSingle = new BesButton(bottomWidgetContainer);
+    btnPlayModeSingleCycle = new BesButton(bottomWidgetContainer);
     btnDesktopLyric = new BesButton(bottomWidgetContainer);
     btnSound->setObjectName("btnSound");
-    btnPlayMode->setObjectName("btnPlayMode");
+    btnPlayModeSingle->setObjectName("btnPlayModeSingle");
+    btnPlayModeSingleCycle->setObjectName("btnPlayModeSingleCycle");
     btnDesktopLyric->setObjectName("btnDesktopLyric");
     btnSound->setFocusPolicy(Qt::NoFocus);
-    btnPlayMode->setFocusPolicy(Qt::NoFocus);
+    btnPlayModeSingle->setFocusPolicy(Qt::NoFocus);
+    btnPlayModeSingleCycle->setFocusPolicy(Qt::NoFocus);
     btnDesktopLyric->setFocusPolicy(Qt::NoFocus);
+    btnDesktopLyric->setVisible(false);
+
+    btnPlayModeSingle->setToolTip(tr("当前播放模式为【单曲播放】，点击切换为 【单曲循环】"));
+    btnPlayModeSingleCycle->setToolTip(tr("当前播放模式为【单曲循环】，点击切换为 【单曲播放】"));
+
+    btnSound->setCheckable(true);
 
     QHBoxLayout* hLayout = new QHBoxLayout(bottomWidgetContainer);
     hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
@@ -69,14 +78,18 @@ void BottomWidget::initLayout()
     hLayout->addWidget(btnPlayAndPause);
     hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnNextSong);
-    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(25,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelTimeCurrent);
     hLayout->addWidget(sliderSong);
     hLayout->addWidget(labelTimeEnding);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnSound);
     hLayout->addWidget(sliderSound);
-    hLayout->addWidget(btnPlayMode);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addWidget(btnPlayModeSingle);
+    hLayout->addWidget(btnPlayModeSingleCycle);
     hLayout->addWidget(btnDesktopLyric);
+    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     QVBoxLayout* vLayoutContainer = new QVBoxLayout(this);
     vLayoutContainer->setMargin(0);
@@ -100,21 +113,29 @@ void BottomWidget::initEntity()
 
 void BottomWidget::initConnection()
 {
+    connect(btnPlayAndPause, SIGNAL(clicked(bool)), this, SLOT(onPlayOrPause()));
+
     connect(sliderSong,SIGNAL(sliderPressed()),this, SLOT(onSliderSongPressed()));
     connect(sliderSong,SIGNAL(sliderMoved(int)),this, SLOT(onSliderSongMoved(int)));
     connect(sliderSong,SIGNAL(sliderReleased()),this, SLOT(onSliderSongReleased()));
 
+    connect(btnSound,SIGNAL(toggled(bool)),this,SLOT(onSoundToggle(bool)));
     connect(sliderSound,SIGNAL(valueChanged(int)),musicPlayer,SLOT(setVolume(int)));
+    connect(sliderSound,SIGNAL(valueChanged(int)),this,SLOT(onSliderSoundChanged(int)));
+    connect(sliderSound,SIGNAL(sliderPressed()),this, SLOT(onSliderSoundPressed()));
     connect(sliderSound,SIGNAL(sliderReleased()),this, SLOT(onSliderSoundReleased()));
 
+    connect(btnPlayModeSingle, SIGNAL(clicked(bool)),this, SLOT(onModeSingleNext()));
+    connect(btnPlayModeSingleCycle, SIGNAL(clicked(bool)),this, SLOT(onModeSingleCycleNext()));
+
     connect(musicPlayer, SIGNAL(durationChanged(qint64)),this,SLOT(durationChanged(qint64)));
-    connect(musicPlayer,SIGNAL(volumeChanged(int)),this,SLOT(volumeChanged(int)));
-
-    connect(btnPlayAndPause, SIGNAL(clicked(bool)), this, SLOT(onPlayOrPause()));
-
     connect(musicPlayer, SIGNAL(errorOccur(int,QString)),this,SLOT(onErrorOccurs(int,QString)));
 
     sliderSound->setValue(SettingManager::GetInstance().data().volume);
+    nVolumeBeforeMute = sliderSound->value();
+    bSliderSoundPress = false;
+
+    setCurrentPlayMode(SettingManager::GetInstance().data().playMode);
 }
 
 void  BottomWidget::reloadMusic(QString musicPath)
@@ -178,7 +199,7 @@ void BottomWidget::stop()
     {
         musicPlayer->stop();
         setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_play.png\");}");
-     }
+    }
 }
 
 void BottomWidget::seek(quint64 pos)
@@ -212,6 +233,13 @@ void BottomWidget::exitMakingMode()
 
 }
 
+void BottomWidget::onPlayOrPause()
+{
+    if(musicPlayer->state() == MusicPlayer::PlayingState)
+        pause();
+    else
+        play();
+}
 
 void BottomWidget::durationChanged(qint64 duration)
 {
@@ -231,7 +259,7 @@ void BottomWidget::positionChanged(int position)
 {
     if(!AdjustingPos)
     {
-        int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
+        int pecentOfThousand = musicPlayer->duration() == 0? 0: int(1.0 * position / musicPlayer->duration() * 1000);
         sliderSong->setValue(pecentOfThousand);
     }
 
@@ -245,6 +273,21 @@ void BottomWidget::positionChanged(int position)
 
     labelTimeCurrent->setText(timeLabel);
 
+}
+
+void BottomWidget::setCurrentPlayMode(int mode)
+{
+    //切换按钮状态
+    if(mode == 0)
+    {
+        btnPlayModeSingle->setVisible(true);
+        btnPlayModeSingleCycle->setVisible(false);
+    }
+    else // == 1
+    {
+        btnPlayModeSingle->setVisible(false);
+        btnPlayModeSingleCycle->setVisible(true);
+    }
 }
 
 void BottomWidget::onSliderSongMoved(int position)
@@ -272,9 +315,36 @@ void BottomWidget::onSliderSongReleased()
     musicPlayer->seek(posAdjust);
 }
 
-void BottomWidget::volumeChanged(int volume)
+void BottomWidget::onSoundToggle(bool mute)
 {
-    sliderSound->setValue(volume);
+    if(bSliderSoundPress)   //拖动声音时，不响应
+        return;
+
+    if(mute)
+    {
+        nVolumeBeforeMute = sliderSound->value();
+        sliderSound->setValue(0);
+    }
+    else
+    {
+        musicPlayer->setVolume(SettingManager::GetInstance().data().volume);
+        sliderSound->setValue(nVolumeBeforeMute);
+    }
+
+    SettingManager::GetInstance().data().isMute = mute;
+    SettingManager::GetInstance().saveSettingData();
+}
+
+void BottomWidget::onSliderSoundChanged(int volume)
+{
+    btnSound->setChecked(volume == 0);
+
+    //值发送改变立刻响应改变声音按钮，但是不立刻保存，在 onSliderSoundReleased 时再保存
+}
+
+void BottomWidget::onSliderSoundPressed()
+{
+    bSliderSoundPress = true;
 }
 
 void BottomWidget::onSliderSoundReleased()
@@ -282,17 +352,32 @@ void BottomWidget::onSliderSoundReleased()
     //每次结束音量的改变，需要即时保存
     SettingManager::GetInstance().data().volume = sliderSound->value();
 
+    if(SettingManager::GetInstance().data().isMute != (sliderSound->value() == 0))
+    {
+        SettingManager::GetInstance().data().isMute = (sliderSound->value() == 0);
+    }
+
     SettingManager::GetInstance().saveSettingData();  //出错不报提示 //TODOTODO 考虑是否和配置页面配置分开储存
+
+    bSliderSoundPress = false;
 }
 
-
-void BottomWidget::onPlayOrPause()
+void BottomWidget::onModeSingleNext()
 {
-    if(musicPlayer->state() == MusicPlayer::PlayingState)
-        pause();
-    else
-        play();
+    setCurrentPlayMode(1);
+
+    SettingManager::GetInstance().data().playMode = 1;
+    SettingManager::GetInstance().saveSettingData();
 }
+
+void BottomWidget::onModeSingleCycleNext()
+{
+    setCurrentPlayMode(0);
+    SettingManager::GetInstance().data().playMode = 0;
+    SettingManager::GetInstance().saveSettingData();
+}
+
+
 
 void BottomWidget::onErrorOccurs(int code, QString strErr)
 {

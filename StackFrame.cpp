@@ -169,6 +169,13 @@ void StackFrame::SetSpecialSkin(QString skinName)
     if(addItemWidget)
         addItemWidget->setFinalSkinName(skinName);
 
+    if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pageMain)
+        mainWidget->middleWidget->pageMain->setFinalSkinName(skinName);
+
+    if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pageMain
+            && mainWidget->middleWidget->pageMain->boxPageLyricList)
+         mainWidget->middleWidget->pageMain->boxPageLyricList->setFinalSkinName(skinName);
+
     if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pagePreviewLyric)
         mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
 

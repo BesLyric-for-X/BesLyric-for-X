@@ -88,6 +88,8 @@ bool SettingManager::saveSettingData()
         writer.writeStartElement("other");
         writer.writeTextElement("skinName",settingData.skinName);
         writer.writeTextElement("volume",QString().number(settingData.volume));
+        writer.writeTextElement("isMute",QString().number(settingData.isMute?1:0));
+        writer.writeTextElement("playMode",QString().number(settingData.playMode));
         writer.writeEndElement();
 
         writer.writeEndElement();  // 结束子元素 </settings>
@@ -314,6 +316,14 @@ bool SettingManager::parseAll(QXmlStreamReader &reader)
                       else if(strElementName == "volume")
                       {
                           settingData.volume = reader.readElementText().toInt();
+                      }
+                      else if(strElementName == "isMute")
+                      {
+                          settingData.isMute = reader.readElementText().toInt()== 1;
+                      }
+                      else if(strElementName == "playMode")
+                      {
+                          settingData.playMode = reader.readElementText().toInt();
                       }
                   }
                   else if(reader.isEndElement()) {

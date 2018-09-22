@@ -524,8 +524,6 @@ void SubPageMaking::selectLyricPath()
                                                      SettingManager::GetInstance().data().defaultLyricPath,
                                                       tr("文本 (*.txt);;其他 (*.*)"));
     selectLyricPath(fileName);
-
-    btnEditTxtLyric->setVisible(true);
 }
 
 void SubPageMaking::selectOutputDir()
@@ -580,6 +578,10 @@ void SubPageMaking::loadCurrentPath()
 
     pathLoaded = true;
 
+
+    SettingManager::GetInstance().data().flagStopAutoPlaying = 1; //音乐结束后，会自动按播放模式播放，为了防止
+                                                                  //在制作歌词操作导致音乐停止而自动播放，该标志置1
+                                                                  //相关逻辑全局搜索：【flag_play_mode】
     emit onReloadMusic(pathMusic); 
 
     pathMusicLoaded = pathMusic;
@@ -622,6 +624,9 @@ void SubPageMaking::remaking()
     {
         isMaking = false;  //必须先置为 false ，因为音乐的停止会触发 finishMaking 操作
 
+        SettingManager::GetInstance().data().flagStopAutoPlaying = 1; //音乐结束后，会自动按播放模式播放，为了防止
+                                                                      //在制作歌词操作导致音乐停止而自动播放，该标志置1
+                                                                      //相关逻辑全局搜索：【flag_play_mode】
         emit onStopMusic();
 
         emit onExitMakingMode();
@@ -698,6 +703,8 @@ void SubPageMaking::selectLyricPath(const QString& lyricPath)
     {
         editSelectLyric->setText(lyricPath);
         pathLyric = lyricPath;
+
+        btnEditTxtLyric->setVisible(true);
     }
 }
 

@@ -79,5 +79,56 @@
         <file>resource/image/btn_collaps_hover_white.png</file>
         <file>resource/image/btn_collaps_normal_white.png</file>
         <file>resource/image/default_list_cover.png</file>
+        <file>resource/image/box_lyric_list_black.png</file>
+        <file>resource/image/box_lyric_list_white.png</file>
+        <file>resource/image/checkbox_checked.png</file>
+        <file>resource/image/checkbox_unchecked.png</file>
+        <file>resource/image/delete_list_item_hover_black.png</file>
+        <file>resource/image/delete_list_item_hover_white.png</file>
+        <file>resource/image/delete_list_item_normal_black.png</file>
+        <file>resource/image/delete_list_item_normal_white.png</file>
+        <file>resource/image/download_lyric_black.png</file>
+        <file>resource/image/download_lyric_white.png</file>
+        <file>resource/image/download_music_black.png</file>
+        <file>resource/image/download_music_item_hover_black.png</file>
+        <file>resource/image/download_music_item_hover_white.png</file>
+        <file>resource/image/download_music_item_normal_black.png</file>
+        <file>resource/image/download_music_item_normal_white.png</file>
+        <file>resource/image/download_music_white.png</file>
+        <file>resource/image/edit_list_info_hover_black.png</file>
+        <file>resource/image/edit_list_info_hover_white.png</file>
+        <file>resource/image/edit_list_info_normal_black.png</file>
+        <file>resource/image/edit_list_info_normal_white.png</file>
+        <file>resource/image/history_list_black.png</file>
+        <file>resource/image/history_list_white.png</file>
+        <file>resource/image/listen_music_hover_black.png</file>
+        <file>resource/image/listen_music_hover_white.png</file>
+        <file>resource/image/listen_music_normal_black.png</file>
+        <file>resource/image/listen_music_normal_white.png</file>
+        <file>resource/image/lyric_list_icon_black.png</file>
+        <file>resource/image/lyric_list_icon_white.png</file>
+        <file>resource/image/maker_black.png</file>
+        <file>resource/image/maker_white.png</file>
+        <file>resource/image/play_mode_single_cycle_hover_black.png</file>
+        <file>resource/image/play_mode_single_cycle_hover_white.png</file>
+        <file>resource/image/play_mode_single_cycle_normal_black.png</file>
+        <file>resource/image/play_mode_single_cycle_normal_white.png</file>
+        <file>resource/image/play_mode_single_hover_black.png</file>
+        <file>resource/image/play_mode_single_hover_white.png</file>
+        <file>resource/image/play_mode_single_normal.png</file>
+        <file>resource/image/play_mode_single_normal_black.png</file>
+        <file>resource/image/play_mode_single_normal_white.png</file>
+        <file>resource/image/sound_hover_black.png</file>
+        <file>resource/image/sound_hover_white.png</file>
+        <file>resource/image/sound_mute_hover_black.png</file>
+        <file>resource/image/sound_mute_hover_white.png</file>
+        <file>resource/image/sound_mute_normal_black.png</file>
+        <file>resource/image/sound_mute_normal_white.png</file>
+        <file>resource/image/sound_normal_black.png</file>
+        <file>resource/image/sound_normal_white.png</file>
+        <file>resource/image/view_music_hover_black.png</file>
+        <file>resource/image/view_music_hover_white.png</file>
+        <file>resource/image/view_music_normal_black.png</file>
+        <file>resource/image/view_music_normal_white.png</file>
     </qresource>
 </RCC>

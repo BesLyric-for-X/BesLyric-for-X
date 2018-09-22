@@ -28,9 +28,12 @@ void PageMain::initLayout()
     leftBoardMainPage->setObjectName("leftBoardMainPage");
     leftBoardMainPage->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
-    btnMakingLyric = new BesButton(leftBoardMainPage);
-    btnDownloadSong = new BesButton(leftBoardMainPage);
-    btnDownloadLyric = new BesButton(leftBoardMainPage);
+    btnMakingLyric = new BesButton( QIcon(":/resource/image/maker_black.png"),
+                                    tr("  制作歌词"),leftBoardMainPage);
+    btnDownloadSong = new BesButton(QIcon(":/resource/image/download_music_black.png"),
+                                    tr("  下载歌曲"),leftBoardMainPage);
+    btnDownloadLyric = new BesButton(QIcon(":/resource/image/download_lyric_black.png"),
+                                    tr("  下载歌词"),leftBoardMainPage);
 
     btnMakingLyric->setCheckable(true);     btnMakingLyric->setChecked(true);
     btnDownloadSong->setCheckable(true);
@@ -44,9 +47,9 @@ void PageMain::initLayout()
     btnDownloadSong->setObjectName("btnDownloadSong");
     btnDownloadLyric->setObjectName("btnDownloadLyric");
 
-    btnMakingLyric->setText(tr("制作歌词"));
-    btnDownloadSong->setText(tr("下载歌曲"));
-    btnDownloadLyric->setText(tr("下载歌词"));
+    btnMakingLyric->setFocusPolicy(Qt::NoFocus);
+    btnDownloadSong->setFocusPolicy(Qt::NoFocus);
+    btnDownloadLyric->setFocusPolicy(Qt::NoFocus);
 
     boxPageLyricList = new BoxPageLyricList(leftBoardMainPage);
     boxPagePreviewLyric = new BoxPagePreviewLyric(leftBoardMainPage);
@@ -156,5 +159,22 @@ void PageMain::onLoadNcmGuess(QString strSong, QString strArtist)
 
     //重新启用按钮
     subPageMaking->btnDownloadMp3->setEnabled(true);
+}
+
+void PageMain::setFinalSkinName(QString skinName)
+{
+    if(skinName == "black")
+    {
+        btnMakingLyric->setIcon(QIcon(":/resource/image/maker_black.png"));
+        btnDownloadSong->setIcon(QIcon(":/resource/image/download_music_black.png"));
+        btnDownloadLyric->setIcon(QIcon(":/resource/image/download_lyric_black.png"));
+    }
+    else
+    {
+        btnMakingLyric->setIcon(QIcon(":/resource/image/maker_white.png"));
+        btnDownloadSong->setIcon(QIcon(":/resource/image/download_music_white.png"));
+        btnDownloadLyric->setIcon(QIcon(":/resource/image/download_lyric_white.png"));
+    }
+
 }
 

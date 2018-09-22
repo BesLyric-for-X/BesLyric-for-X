@@ -23,7 +23,7 @@ void _millisecondSleep(uint msecond)
 static bool logAudio = false;
 
 
-QMutex g_threadMutex;		//保证线程 Run 内初始化队列 和 销毁队列等操作不同时进行
+QMutex uniqueThreadMutex;		//保证线程 Run 内初始化队列 和 销毁队列等操作不同时进行
 
 /////////////////////////////////////////////////
 /* 包队列相关操作 */
@@ -140,7 +140,6 @@ void destroy_queue_context(PacketQueue* q)
 
 //////////////////////////////////////////////
 
-
 int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 {
     static AVFrame *pframe=NULL;        //一帧
@@ -245,14 +244,13 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 }
 
 
-
 //////////////////////////////////////////////
-
 
 
 void PlayThread::run()
 {
-    g_threadMutex.lock();       //保证 SDL 播放设备互斥访问;
+	AGSStatusMutex.lock();		//保证	AGSStatus 状态 某些访问操作 的原子性
+	uniqueThreadMutex.lock();   //保证线程不能同时进来同时使用播放设备，实现 SDL 播放设备互斥访问;
 
     ResetToInitAll();           //重置以初始化所有状态
 
@@ -265,7 +263,8 @@ void PlayThread::run()
     {
         //释放所有分配的内存，解锁
         ReleaseAll();
-        g_threadMutex.unlock();
+		uniqueThreadMutex.unlock();
+		AGSStatusMutex.unlock();		
         return;
     }
 
@@ -275,7 +274,61 @@ void PlayThread::run()
 
     //释放所有分配的内存，解锁
     ReleaseAll();
-	g_threadMutex.unlock();
+	uniqueThreadMutex.unlock();
+}
+
+void PlayThread::setAGStatus(AudioGenStatus status)
+{
+	AGSStatusMutex.lock();		//保证	AGSStatus 状态 某些访问操作 的原子性
+	AGStatus = status;
+	AGSStatusMutex.unlock();
+}
+
+int PlayThread::getVolume() 
+{ 
+	return (int)m_MS.volume;
+}
+void PlayThread::setVolume(int value)
+{
+	m_MS.volume = (uint8_t)value;
+}
+
+int PlayThread::getMsDuration()				//获得毫秒为度量的总长度
+{
+	if (pFormatCtx == nullptr || !bIsDeviceInit)
+		return 0;
+	else
+		return pFormatCtx->duration / 1000;
+}
+
+
+int  PlayThread::getCurrentTime() 
+{ 
+	return static_cast<int>(m_MS.audio_clock); 
+}
+
+bool PlayThread::getIsDeviceInit() 
+{ 
+	return bIsDeviceInit; 
+}//实现互斥访问 isDeviceInit 的接口
+
+void PlayThread::setMusicPath(QString path)
+{
+	musicPath = path;
+}
+
+
+//获得音频产生方式状态
+AudioGenStatus PlayThread::getAGStatus()
+{
+	return AGStatus;
+}
+
+
+void  PlayThread::seekToPos(quint64 pos)
+{
+	millisecondToSeek = pos; 
+	AGStatus = AGS_SEEK;
 }
 
 //尝试初始化播放设备 和 ffmpeg 上下文
@@ -494,6 +547,9 @@ void PlayThread::pauseDevice()
 void PlayThread::generateAudioDataLoop()
 {
     AGStatus = AGS_PLAYING;
+	AGSStatusMutex.unlock();		//从线程启动到 这里设置为 AGS_PLAYING 之间，与 setAGStatus 中的逻辑 应该是互斥的，
+									//否则可能启动了线程，还没有在这里设置 AGS_PLAYING， 却同时被想要结束线程者先设置 AGS_FINISH
+									//导致外界设置的 AGS_FINISH 被 AGS_PLAYING 替代而导致无法预期的逻辑
 
     AVPacket packet;
 
@@ -706,7 +762,9 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 }
 
 MusicPlayer::~MusicPlayer() {
-    playThread->AGStatus = AGS_FINISH; //置结束位，并等待线程退出才结束，否则 playThread 的释放会导致访问异常
+
+    playThread->setAGStatus(AGS_FINISH); //置结束位，并等待线程退出才结束，否则 playThread 的释放会导致访问异常
+
     while (playThread->isRunning())
         _millisecondSleep(5);
 }
@@ -714,8 +772,8 @@ MusicPlayer::~MusicPlayer() {
 
 void MusicPlayer::setMusicPath(QString path)
 {
-    playThread->musicPath = musicPath = path;
-
+	musicPath = path;
+	playThread->setMusicPath(path);
 }
 
 QString MusicPlayer::getMusicPath()
@@ -762,9 +820,9 @@ void MusicPlayer::reload()
 //播放控制
 void MusicPlayer::play()
 {
-    playThread->m_MS.volume = m_volume;  //初始化声音值
+    playThread->setVolume(m_volume);  //初始化声音值
 
-    if (!playThread->bIsDeviceInit)
+    if (!playThread->getIsDeviceInit())
 	{
         playThread->start(QThread::Priority::HighestPriority);
 	}
@@ -784,7 +842,7 @@ void MusicPlayer::pause()
 
 void MusicPlayer::stop()
 {
-	playThread->AGStatus = AGS_FINISH;
+	playThread->setAGStatus( AGS_FINISH );
 
     if(m_positionUpdateTimer.isActive())
     {
@@ -795,6 +853,8 @@ void MusicPlayer::stop()
     //停止音乐必须保证线程真的退出(否则 playThread->bIsDeviceInit 可能判断成立，而实际线程还没退出，导致下一次 播放 playThread->playDevice() 没能及时起作用)
     while(playThread->isRunning())
         _millisecondSleep(10); //等待结束
+
+	emit sig_playThreadFinished();
 }
 
 //跳到时间点播放（单位 毫秒）
@@ -805,8 +865,7 @@ void MusicPlayer::seek(quint64 pos)
     if(pos > total)
         pos = total;
 
-    playThread->millisecondToSeek = pos;
-    playThread->AGStatus= AGS_SEEK;
+	playThread->seekToPos(pos);
 }
 
 //往后跳（单位 毫秒）
@@ -830,21 +889,18 @@ void MusicPlayer::setVolume(int volume)
     if(volume < 0)
         volume = 0;
 
-    playThread->m_MS.volume =(uint8_t)volume;
+    playThread->setVolume(volume);
 }
 
 int MusicPlayer::getVolume()
 {
-    return (int)playThread->m_MS.volume;
+    return playThread->getVolume();
 }
 
 //获得当总时长（单位 毫秒）
 quint64 MusicPlayer::duration()
 {
-    if(playThread && (playThread->pFormatCtx == nullptr || !playThread->bIsDeviceInit))
-        return 0;
-    else
-        return playThread->pFormatCtx->duration/1000;
+	return playThread->getMsDuration();
 }
 
 //获得当总位置（单位 毫秒）
@@ -884,7 +940,12 @@ MusicPlayer::Status MusicPlayer::state()
         break;
     case SDL_AUDIO_STOPPED:
     default:
-        return StoppedState;
+
+		if (playThread->isRunning())  //实际上，deviceStatus 并不能完全表示播放线程已经结束
+			return PlayingState;	  //还需要播放线程正在退出，这里才认为是播放结束
+		else
+	        return StoppedState;
+
         break;
     }
 }

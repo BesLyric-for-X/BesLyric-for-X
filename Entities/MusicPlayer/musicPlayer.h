@@ -11,6 +11,7 @@
 #include <QThread>
 #include <QPixmap>
 #include <QTimer>
+#include <QMutex>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -111,13 +112,28 @@ typedef struct{
 //播放音乐使用的线程
 class PlayThread: public QThread
 {
-    friend class MusicPlayer;
     Q_OBJECT
 public:
     PlayThread(QObject* parent = nullptr):QThread(parent) {bIsDeviceInit = false;}
 
 protected:
     virtual void run();
+
+public:
+	void setAGStatus(AudioGenStatus status);	//设置音频获取方式的状态，结束播放时需要设置 AGS_FINISH 状态来退出播放线程中的循环
+	AudioGenStatus getAGStatus();				//获得音频产生方式状态
+
+	int getVolume();
+	void setVolume(int value);
+
+	int getMsDuration();//获得毫秒为度量的总长度	
+	int getCurrentTime(); //获得当前毫秒时间
+
+	bool getIsDeviceInit();//实现互斥访问 isDeviceInit 的接口
+
+	void setMusicPath(QString path);
+
+	void seekToPos(quint64 pos);
 
 signals:
     void audioPlay();               //播放
@@ -134,6 +150,14 @@ signals:
 
     void threadDone();              //线程结束
 
+
+public:
+	void playDevice();                  //启动播放设备
+
+	void pauseDevice();                 //暂停播放设备
+
+	SDL_AudioStatus GetDeviceStatus();  //获得设备状态
+
 private:
     //SDL 模块需要的回调函数，用于填充需要的音频数据
     static void fillAudio(void *udata,Uint8 *stream,int len);
@@ -142,21 +166,12 @@ private:
 
     bool initDeviceAndFfmpegContext();  //尝试初始化播放设备 和 ffmpeg 上下文
 
-    void playDevice();                  //启动播放设备
-
-    void pauseDevice();                 //暂停播放设备
-
     void generateAudioDataLoop();       //生产音频数据的循环
 
     void clearContextAndCloseDevice();  //清空上下文并关闭设备
 
-    SDL_AudioStatus GetDeviceStatus();  //获得设备状态
-
     void ResetToInitAll();              //重置以初始化所有状态
-    void ReleaseAll();                  //释放所有可能分配的内存
-
-private:
-    bool getIsDeviceInit();             //实现互斥访问 isDeviceInit 的接口
+    void ReleaseAll();                  //释放所有可能分配的内存  
 
 private:
 
@@ -190,9 +205,6 @@ private:
     /*duration with now playing the media */
     inline qint64 getDuration(){ if(m_MS.fct)return m_MS.fct->duration;return 0;}
 
-    /*get current media time  millisecond*/
-    inline int getCurrentTime(){return static_cast<int>(m_MS.audio_clock);}
-
 
     mediaState m_MS;                    //保存音频相关的上下文状态
 
@@ -208,6 +220,8 @@ private:
     AudioGenStatus AGStatus;            //音频产生方式状态
     bool bIsDeviceInit;                 //设备是否已经初始化
     uint64_t millisecondToSeek;         //定位的 毫秒数）
+
+	QMutex AGSStatusMutex;				//保证	AGSStatus 状态 某些访问操作 的原子性
 };
 
 
@@ -253,6 +267,7 @@ signals:
     //      emit errorOccur(6,QString(tr("无法初始化播放设备模块 SDL - %s.")).arg(errorString));
     //      emit errorOccur(7,tr("播放设备模块 SDL 无法打开指定音频数据"));
 
+	void sig_playThreadFinished();	//播放线程完全停止退出
 
     void albumFound(QString);       //发现信息
     void artistFound(QString);
