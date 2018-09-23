@@ -36,7 +36,7 @@ public slots:
     void musicPositionChanged(int);
 
     //当前歌曲播放结束,准备播放下一首歌
-    void onAudioTheadFinished();
+    void onAudioTheadFinished(bool isEndWithForce);
 
 public:
     TopWidget*      topWidget;

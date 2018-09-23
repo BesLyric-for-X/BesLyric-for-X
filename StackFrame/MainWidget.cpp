@@ -126,15 +126,15 @@ void MainWidget::initConnection()
                                             middleWidget->pagePreviewLyric, SLOT(playPhonagraph()));
     connect(bottomWidget->musicPlayer, SIGNAL(audioPause()),
                                             middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
-    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish()),
+    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
                                             middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
 
-    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish()),
+    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
                                             middleWidget->pageMain->subPageMaking, SLOT(finishMaking()));
 
 
-	connect(bottomWidget->musicPlayer, SIGNAL(sig_playThreadFinished()),
-											this, SLOT(onAudioTheadFinished()));  //这里放在 finishMaking 前执行
+    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
+                                            this, SLOT(onAudioTheadFinished(bool)));  //这里放在 finishMaking 前执行
 }
 
 
@@ -176,10 +176,6 @@ void MainWidget::OnPlayNewMusicAndLyric(QString music, QString lrc)
         BesMessageBox::information(tr("提示"),tr("制作歌词过程中，不能播放其他音乐"));
         return;
     }
-
-    //所有非自动播放结束导致的歌曲结束操作前，都需要 flagStopAutoPlaying 置 1防止自动播发行为，导致的程序错误
-    //相关逻辑全局搜索：【flag_play_mode】
-    //SettingManager::GetInstance().data().flagStopAutoPlaying = 1;
 
     //重载入音乐
     bottomWidget->reloadMusic(music);
@@ -250,35 +246,22 @@ void MainWidget::musicPositionChanged(int pos)
         middleWidget->pagePreviewLyric->lyricViewer->scrollLyricPanel->lyricPanel->higthLineLyricAtPos(pos);
 }
 
-void MainWidget::onAudioTheadFinished()
+void MainWidget::onAudioTheadFinished(bool isEndWithForce)
 {
     if(middleWidget->pageMain->subPageMaking->isMaking)
         return; // 制作歌词模式，永远只播放一首歌
 
-    //相关逻辑全局搜索：【flag_play_mode】
-    //【特别注意】以下的逻辑为自动播放下一首的逻辑，这里处理的情况仅仅是自动播放结束的情况。
-    // 由于这里 播放下一首需要保证上一首的线程完全退出再播放
-    // 所以会调用到 bottomWidget->stop(); 一直到线程结束后返回。
-    // 然而，所有用户界面主动直接触发的播放，由于结束了上一首歌触发本函数，在本函数执行之前都有可能已经结束了歌曲，并重新执行了下一首的播放
-    // 这个时候 本函数调用的 bottomWidget->stop(); 尝试结束的就不是本来预期的自动播放结束的歌曲，而是接下来要播放的歌曲
-    // 进而会导致 卡死在 bottomWidget->stop() 中，而且这种逻辑本身就是不合理的，所以，所有用户主动触发的播放操作，都需要
-    // 置 SettingManager::GetInstance().data().flagStopAutoPlaying = 1，避免这种情况
-
-    bool bStopNextPlay = SettingManager::GetInstance().data().flagStopAutoPlaying == 1;
-    SettingManager::GetInstance().data().flagStopAutoPlaying = 0; //每次访问后都重置该标志
-    if(bStopNextPlay)
+    if(isEndWithForce) //对于非自然结束的歌曲，不用考虑下一首
         return;
 
     int nPlayMode = SettingManager::GetInstance().data().playMode;
     if(nPlayMode == 0)  //单曲播放模式，也不继续播放
         return;
 
-
     if(nPlayMode == 1) //单曲循环模式，直接重新播放
     {
-        //bottomWidget->stop();
         //播放歌曲
-        //bottomWidget->play();
+        bottomWidget->play();
     }
 }
 

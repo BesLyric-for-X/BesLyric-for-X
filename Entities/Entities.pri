@@ -23,6 +23,7 @@ HEADERS+=\
     $$PWD/LyricListManager.h\
     $$PWD/SettingManager.h\
     $$PWD/ThreadGuessLyricInfo.h\
+    $$PWD/MusicPlayerController.h\
 
 
 
@@ -36,6 +37,9 @@ SOURCES+=\
     $$PWD/LrcProcessor.cpp\
     $$PWD/LyricListManager.cpp\
     $$PWD/SettingManager.cpp\
+    $$PWD/MusicPlayerController.cpp\
+
+
 
 
 INCLUDEPATH +=$$PWD MusicPlayer

@@ -14,6 +14,8 @@
 class LyricListItem
 {
 public:
+    LyricListItem(){}
+    LyricListItem(QString song, QString lyric):song(song),lyric(lyric){}
     QString song;
     QString lyric;
 };

@@ -138,7 +138,7 @@ public:
 signals:
     void audioPlay();               //播放
     void audioPause();              //暂停
-    void audioFinish();
+    void audioFinish(bool isEndByForce);
     void volumeChanged(uint8_t);    //音量发生改变
     void durationChanged(qint64);   //总长发生改变（单位 微秒 10e-6）
     void errorOccur(int errorCode, QString errorMessage);
@@ -147,8 +147,6 @@ signals:
     void artistFound(QString);
     void titleFound(QString);
     void pictureFound(QPixmap);
-
-    void threadDone();              //线程结束
 
 
 public:
@@ -216,6 +214,7 @@ private:
 
     //过程控制数据
 private:
+    bool isEndByForce;                  //是否是被强制指定退出的，相对的情况是自然结束退出
 
     AudioGenStatus AGStatus;            //音频产生方式状态
     bool bIsDeviceInit;                 //设备是否已经初始化
@@ -251,12 +250,12 @@ public:
     QPixmap getPicture();
 
 signals:
-    void audioPlay();               //播放
-    void audioPause();              //暂停
-    void audioFinish();             //播放完毕
-    void durationChanged(qint64);   //总长发生改变（单位 毫秒）
-    void positionChanged(int);   //位置发生改变（单位 毫秒）
-    void volumeChanged(int);        //音量大小发生改变，范围 0-128
+    void audioPlay();                       //播放
+    void audioPause();                      //暂停
+    void audioFinish(bool isEndByForce );   //播放完毕
+    void durationChanged(qint64);           //总长发生改变（单位 毫秒）
+    void positionChanged(int);              //位置发生改变（单位 毫秒）
+    void volumeChanged(int);                //音量大小发生改变，范围 0-128
     void errorOccur(int errorCode, QString msg);   //发生错误
 
     //      emit errorOccur(1,tr("无法打开媒体输入流"));
@@ -314,6 +313,8 @@ private:
 
     PlayThread* playThread;
 
+    QMutex audioFinishedToThreadExitMutex;	//保证音频结束到线程结束之间，播放操作不能进行
+    bool bIsLock;
 };
 
 #endif // MUSIC_PLAYER_H

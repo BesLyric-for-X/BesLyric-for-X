@@ -262,6 +262,7 @@ void PlayThread::run()
     else
     {
         //释放所有分配的内存，解锁
+        isEndByForce = false;
         ReleaseAll();
 		uniqueThreadMutex.unlock();
 		AGSStatusMutex.unlock();		
@@ -281,6 +282,8 @@ void PlayThread::setAGStatus(AudioGenStatus status)
 {
 	AGSStatusMutex.lock();		//保证	AGSStatus 状态 某些访问操作 的原子性
 	AGStatus = status;
+    if(AGStatus == AGS_FINISH)
+        isEndByForce = true;
 	AGSStatusMutex.unlock();
 }
 
@@ -579,6 +582,7 @@ void PlayThread::generateAudioDataLoop()
                 {
                     qDebug() << "ending reached";
                     AGStatus = AGS_FINISH;
+                    isEndByForce = false;
                     break;
                 }
             }
@@ -682,7 +686,7 @@ void PlayThread::ResetToInitAll()
 //释放所有可能分配的内存
 void PlayThread::ReleaseAll()
 {
-    emit audioFinish();		 //音频播放结束信号
+    emit audioFinish(isEndByForce);		 //音频播放结束信号
     emit durationChanged(0); //播放结束，总长重置为 0
 
     clearContextAndCloseDevice();           //重置播放器上下文，并关闭设备
@@ -735,7 +739,17 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
     connect(playThread, &PlayThread::audioPlay,[=](){emit audioPlay();});
     connect(playThread, &PlayThread::audioPause,[=](){emit audioPause();});
-    connect(playThread, &PlayThread::audioFinish,[=](){emit audioFinish();});
+    connect(playThread, &PlayThread::audioFinish,[=](bool isEndByForce){
+        bIsLock = true;
+        audioFinishedToThreadExitMutex.lock();
+        emit audioFinish(isEndByForce);});
+    connect(playThread, &PlayThread::finished,[=](){
+        if(bIsLock)
+        {
+            audioFinishedToThreadExitMutex.unlock();
+            bIsLock = false;
+        }
+    });
     connect(playThread, &PlayThread::volumeChanged,[=](uint8_t volume){
         emit volumeChanged(volume);}
     );
@@ -759,6 +773,8 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
     connect(&m_positionUpdateTimer,SIGNAL(timeout()),this, SLOT(sendPosChangedSignal() ));
 
     m_position = 0;
+
+    bIsLock = false;
 }
 
 MusicPlayer::~MusicPlayer() {
@@ -810,6 +826,7 @@ void MusicPlayer::reload()
     while(playThread->isRunning())
         _millisecondSleep(10); //等待结束
 
+
     play();
 
     if(!m_positionUpdateTimer.isActive())
@@ -820,17 +837,21 @@ void MusicPlayer::reload()
 //播放控制
 void MusicPlayer::play()
 {
+
     playThread->setVolume(m_volume);  //初始化声音值
 
+    audioFinishedToThreadExitMutex.lock();
     if (!playThread->getIsDeviceInit())
 	{
         playThread->start(QThread::Priority::HighestPriority);
 	}
     else
         playThread->playDevice();
+    audioFinishedToThreadExitMutex.unlock();
 
     if(!m_positionUpdateTimer.isActive())
         m_positionUpdateTimer.start();
+
 }
 
 void MusicPlayer::pause()
@@ -854,7 +875,12 @@ void MusicPlayer::stop()
     while(playThread->isRunning())
         _millisecondSleep(10); //等待结束
 
-	emit sig_playThreadFinished();
+    if(bIsLock)
+    {
+        audioFinishedToThreadExitMutex.unlock();
+        bIsLock = false;
+    }
+    //emit sig_playThreadFinished();
 }
 
 //跳到时间点播放（单位 毫秒）

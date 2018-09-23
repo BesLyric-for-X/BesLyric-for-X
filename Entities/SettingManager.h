@@ -32,11 +32,10 @@ public:
     QString skinName;
     int volume;                 //音量
     bool isMute;                //是否静音
-    int playMode;               //播放模式 0 单曲 播放 1 单曲循环
+    int playMode;               //播放模式 【0 单曲播放】 【1 单曲循环】 【2 随机播放】【3 顺序播放】【4 列表循环】
 
     //运行时全局变量，不进行文件读写
-    int flagStopAutoPlaying;    //用于在制作歌词时，阻止音频结束后的任何自动播放，当 flag = 1 时，将阻止任何自动播放
-                                //相关逻辑全局搜索：【flag_play_mode】
+    //...
 
     SettingData()
     {
@@ -50,7 +49,6 @@ public:
         isMute = false;
         playMode = 0;
 
-        flagStopAutoPlaying = 0;
     }
 };
 
