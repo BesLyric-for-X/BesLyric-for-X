@@ -167,17 +167,11 @@ void PagePreviewLyric::AlbumImageChanged(QPixmap newPixmap)
 
 void PagePreviewLyric::setToDefaultAlbumImage()
 {
-    AlbumImageChanged(QPixmap(":/resource/image/AlbumCover1.jpg"));
+    //不要每次都计算了，直接使用预定义的图片
+    //AlbumImageChanged(QPixmap(":/resource/image/AlbumCover1.jpg"));
 
-//    //两张默认封面来回交替设置
-//    static bool flag = true;
-
-//    if(flag)
-//        AlbumImageChanged(QPixmap(":/resource/image/AlbumCover1.jpg"));
-//    else
-//        AlbumImageChanged(QPixmap(":/resource/image/AlbumCover2.jpg"));
-
-//    flag = !flag;
+    phonagraph->setAlbumCover(QPixmap(":/resource/image/AlbumCover1.jpg"));
+    setNewBackgroundPixmap(QPixmap(":/resource/image/default_preview_background.png"));
 }
 
 

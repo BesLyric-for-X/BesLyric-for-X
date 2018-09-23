@@ -26,6 +26,8 @@ public:
 
     void resizeEvent(QResizeEvent* event);
 
+    void setFinalSkinName(QString skinName);
+
 public slots:
     void OnSettingUnitPanelPosChanged(int pos, int pageStep, int nScrollMax);  //响应设置面板的滚动，在单元改变时，重画项目高亮
 
@@ -40,7 +42,6 @@ private:
 
     int nCurrentIndex;
 
-
     int nRight;
     int nTop;
     int nStep;
@@ -49,6 +50,8 @@ private:
     int textHeight;
 
     QFontMetrics* fontMetrics;
+
+    QString pureColorString;
 };
 
 #endif // SuNavigator_H

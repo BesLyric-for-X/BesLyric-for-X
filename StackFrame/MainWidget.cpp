@@ -57,6 +57,9 @@ void MainWidget::initConnection()
             middleWidget->switchPage(2,0);
         if(middleWidget->currentPage == 4)
             middleWidget->switchPage(4,0);
+
+        //自动切换到3个子页面的制作歌词页面
+        middleWidget->pageMain->btnMakingLyric->setChecked(true);
     });
 
     connect(topWidget->btnSetting, &QPushButton::clicked, [=](){
@@ -80,12 +83,7 @@ void MainWidget::initConnection()
                                                  this, SLOT(onUnloadLyricFromPreviewPage()));
 
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                 middleWidget->pagePreviewLyric, SLOT(setToDefaultAlbumImage()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                 middleWidget->pagePreviewLyric->lyricViewer, SLOT(setMusicPath(QString)));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                 middleWidget->pageMain->boxPagePreviewLyric, SLOT(setToDefaultPic()));
-
+                                                 middleWidget, SLOT(onReloadMusic(QString)));
 
     connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
                                                         bottomWidget, SLOT(reloadMusic(QString)));
@@ -107,7 +105,8 @@ void MainWidget::initConnection()
 
     //歌词单页面
     connect(middleWidget->pageLyricList->tableLrcList,&BesLListTableView::sig_playSongAndLyric,
-                    [=](){
+                    [=](QString musicPath){
+                            middleWidget->onReloadMusic(musicPath);
                             middleWidget->pageMain->subPageMaking->btnStartMaking->setEnabled(false);
                     }); //重新载入了音乐，就不能直接点击【开始制作】了
     connect(middleWidget->pageLyricList->tableLrcList,SIGNAL(sig_playSongAndLyric(QString,QString)),
@@ -117,7 +116,10 @@ void MainWidget::initConnection()
     connect(bottomWidget->musicPlayer, SIGNAL(positionChanged(int)),this, SLOT(musicPositionChanged(int)));
 
     connect(bottomWidget->musicPlayer, SIGNAL(titleFound(QString)),
-                                            middleWidget->pagePreviewLyric->lyricViewer, SLOT(setMusicTitle(QString)));
+                                            middleWidget, SLOT(onSetMusicTitle(QString)));
+    connect(bottomWidget->musicPlayer, SIGNAL(artistFound(QString)),
+                                            middleWidget, SLOT(onSetMusicArtist(QString)));
+
     connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
                                             middleWidget->pageMain->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
     connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
@@ -130,11 +132,10 @@ void MainWidget::initConnection()
                                             middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
 
     connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
+                                            this, SLOT(onAudioFinished(bool)));  //这里放在 finishMaking 前执行
+    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
                                             middleWidget->pageMain->subPageMaking, SLOT(finishMaking()));
 
-
-    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
-                                            this, SLOT(onAudioTheadFinished(bool)));  //这里放在 finishMaking 前执行
 }
 
 
@@ -246,7 +247,7 @@ void MainWidget::musicPositionChanged(int pos)
         middleWidget->pagePreviewLyric->lyricViewer->scrollLyricPanel->lyricPanel->higthLineLyricAtPos(pos);
 }
 
-void MainWidget::onAudioTheadFinished(bool isEndWithForce)
+void MainWidget::onAudioFinished(bool isEndWithForce)
 {
     if(middleWidget->pageMain->subPageMaking->isMaking)
         return; // 制作歌词模式，永远只播放一首歌

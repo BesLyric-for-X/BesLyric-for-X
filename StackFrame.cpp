@@ -9,21 +9,24 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     pApp = pApplication;
     this->setMouseTracking(true);
 
-    //先初始化设置（由于没有读取皮肤设置，先设置一个默认的皮肤）
+    //先初始化设置（由于没有读取皮肤设置，先设置一个默认的皮肤，好在出错弹框时有一个默认皮肤）【第1次设置】
     SetSkin("black");
     initSetting();
 
     QString skinName = SettingManager::GetInstance().data().skinName;
 
-    //先设置基本的皮肤样式，再初始化控件，这样在出错弹框提示时，样式能够起作用
-    SetSkin(skinName);
-
     setBorderMain(8);
     initLayout();
     initConnection();
 
-    //再设置特殊的皮肤，这一步需要初始化好控件，所以放在 initLayout 之后
-    SetSpecialSkin(skinName);
+    //再设置特殊的皮肤，这一步需要初始化好控件，所以放在 initLayout 之后 【第2次设置】
+	//同时，指定 bFirstInit 为 true, 以用于初始化 skinBoxWidget 中的所有控件皮肤
+    SetSpecialSkin(skinName, true);
+
+	//由于 skinBoxWidget 中，改变初始化控件 滑动条Slider改变值会触发 signalSetCustomSkin ,在6中默认皮肤时，其发送的颜色是不准的
+	//		为了能够使用 "black" "red" 等默认皮肤，再设置一次 【第3次设置】
+	//全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
+	SetSkin(skinName);
 
     //初始化实体类
     initEntity();
@@ -80,6 +83,10 @@ void StackFrame::initConnection()
     // 这里后连接，所以前面纯颜色的设置不影响这里的效果 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
     connect(skinBoxWidget->btnBlack, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
     connect(skinBoxWidget->btnRed, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPink, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnBlue, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnGreen, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnGold, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
 
     connect(skinBoxWidget->btnPureColor1, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
     connect(skinBoxWidget->btnPureColor2, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
@@ -154,30 +161,37 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 }
 
 
-void StackFrame::SetSkin(QString skinName)
+void StackFrame::SetSkin(QString skinName, bool bFirstInit)
 {
     AppHelper::SetStyle(pApp, skinName);
 
-    SetSpecialSkin(skinName);
+    SetSpecialSkin(skinName, bFirstInit);
+
+    BesMessageBox::setIsBlackTheme(skinName == "black");
 }
 
-void StackFrame::SetSpecialSkin(QString skinName)
+void StackFrame::SetSpecialSkin(QString skinName ,bool bFirstInit)
 {
     if(skinBoxWidget)
-        skinBoxWidget->setFinalSkinName(skinName);
+        skinBoxWidget->setFinalSkinName(skinName, bFirstInit);
 
     if(addItemWidget)
         addItemWidget->setFinalSkinName(skinName);
 
-    if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pageMain)
+    if(mainWidget)
+    {
         mainWidget->middleWidget->pageMain->setFinalSkinName(skinName);
 
-    if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pageMain
-            && mainWidget->middleWidget->pageMain->boxPageLyricList)
-         mainWidget->middleWidget->pageMain->boxPageLyricList->setFinalSkinName(skinName);
+        mainWidget->middleWidget->pageMain->boxPageLyricList->setFinalSkinName(skinName);
 
-    if(mainWidget && mainWidget->middleWidget && mainWidget->middleWidget->pagePreviewLyric)
         mainWidget->middleWidget->pagePreviewLyric->setWheterToUseBlackMask( skinName == "black");
+
+        {
+        mainWidget->middleWidget->pageLyricList->lyricListHistory->setFinalSkinName( skinName);
+        mainWidget->middleWidget->pageLyricList->lyricListCreated->setFinalSkinName( skinName);
+        }
+        mainWidget->middleWidget->pageSetting->settingWidget->settingLeftNavigator->setFinalSkinName(skinName);
+    }
 
     emit onFinalSkinNameChanged(skinName);
 }

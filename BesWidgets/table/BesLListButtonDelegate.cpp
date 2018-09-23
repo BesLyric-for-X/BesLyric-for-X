@@ -14,18 +14,16 @@
 
 BesLListButtonDelegate::BesLListButtonDelegate(QObject *parent) :
     QStyledItemDelegate(parent),
-  m_pBtnPreviewSong(new BesButton()),
-  m_pBtnListenSong(new BesButton()),
-  m_pBtnDownloadSong(new BesButton()),
+  m_pBtnDeleteListItem(new BesButton()),
+  m_pBtnEditListItem(new BesButton()),
   m_nSpacing(5),
   m_nWidth(25),
   m_nHeight(25)
 {
     // 设置按钮正常、划过、按下样式
 
-    m_pBtnPreviewSong->setObjectName("m_pBtnPreviewSong");
-    m_pBtnListenSong->setObjectName("m_pBtnListenSong");
-    m_pBtnDownloadSong->setObjectName("m_pBtnDownloadSong");
+    m_pBtnDeleteListItem->setObjectName("m_pBtnDeleteListItem");
+    m_pBtnEditListItem->setObjectName("m_pBtnEditListItem");
 
     m_list << QStringLiteral("删除项")<< QStringLiteral("编辑项");
 }
@@ -104,9 +102,7 @@ void BesLListButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
             if( i ==0 || i ==1 || bShowDownloadButton)
             {
-                pWidget = (i == 0) ? m_pBtnPreviewSong.data() :
-                                     ((i == 1) ? m_pBtnListenSong.data() :
-                                      m_pBtnDownloadSong.data());
+                pWidget = (i == 0) ? m_pBtnDeleteListItem.data() :m_pBtnEditListItem.data() ;
 
                 pWidget->style()->drawControl(QStyle::CE_PushButton, &button, painter, pWidget);
             }

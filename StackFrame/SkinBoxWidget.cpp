@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QSpacerItem>
 #include <QPixmap>
+#include "SettingManager.h"
 
 SkinBoxWidget::SkinBoxWidget(QWidget *parent)
     : BesShadowWidget(parent),bLastSelectPage(1)
@@ -100,18 +101,18 @@ void SkinBoxWidget::initLayout()
     themeContainer->setLayout(themeGridLayout);                 //主题页面
 
     //12种预选纯色
-    btnPureColor1 = new ButtonPureColor(pureColorContainer ,"#ff5c8a");
-    btnPureColor2 = new ButtonPureColor(pureColorContainer ,"#ff7a9e");
-    btnPureColor3 = new ButtonPureColor(pureColorContainer ,"#fe76c8");
-    btnPureColor4 = new ButtonPureColor(pureColorContainer ,"#717ff9");
-    btnPureColor5 = new ButtonPureColor(pureColorContainer ,"#4791eb");
-    btnPureColor6 = new ButtonPureColor(pureColorContainer ,"#39afea");
-    btnPureColor7 = new ButtonPureColor(pureColorContainer ,"#2bb669");
-    btnPureColor8 = new ButtonPureColor(pureColorContainer ,"#6acc19");
-    btnPureColor9 = new ButtonPureColor(pureColorContainer ,"#e2ab12");
-    btnPureColor10 = new ButtonPureColor(pureColorContainer,"#ff8f57");
-    btnPureColor11 = new ButtonPureColor(pureColorContainer,"#fd726d");
-    btnPureColor12 = new ButtonPureColor(pureColorContainer,"#fd544e");
+    btnPureColor1 = new ButtonPureColor(pureColorContainer ,pureColur1  );
+    btnPureColor2 = new ButtonPureColor(pureColorContainer ,pureColur2  );
+    btnPureColor3 = new ButtonPureColor(pureColorContainer ,pureColur3  );
+    btnPureColor4 = new ButtonPureColor(pureColorContainer ,pureColur4  );
+    btnPureColor5 = new ButtonPureColor(pureColorContainer ,pureColur5  );
+    btnPureColor6 = new ButtonPureColor(pureColorContainer ,pureColur6  );
+    btnPureColor7 = new ButtonPureColor(pureColorContainer ,pureColur7  );
+    btnPureColor8 = new ButtonPureColor(pureColorContainer ,pureColur8  );
+    btnPureColor9 = new ButtonPureColor(pureColorContainer ,pureColur9  );
+    btnPureColor10 = new ButtonPureColor(pureColorContainer,pureColur10 );
+    btnPureColor11 = new ButtonPureColor(pureColorContainer,pureColur11 );
+    btnPureColor12 = new ButtonPureColor(pureColorContainer,pureColur12 );
 
     btnPureColor1 ->setObjectName("btnPureColor1");
     btnPureColor2 ->setObjectName("btnPureColor2");
@@ -271,8 +272,6 @@ void SkinBoxWidget::initConnection()
     connect(btnPureColor11,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
     connect(btnPureColor12,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
 
-
-
     connect(btnCustomizeColor,&QPushButton::clicked,[=](){markToPos(true,48 + 61 *0, 274);bLastSelectPage = 2;});
 
     connect(SliderHue, SIGNAL(valueChanged(int)),this,SLOT(initLightnessGrooveColorByHue(int)));
@@ -360,32 +359,39 @@ void SkinBoxWidget::markToPos(bool bFront, int x, int y)
 }
 
  //设置最终使用的皮肤名
-void SkinBoxWidget::setFinalSkinName(QString skinName)
+void SkinBoxWidget::setFinalSkinName(QString skinName, bool bFirstInit)
 {
     finalSkinName = skinName;
+
+    if(bFirstInit) //如果是初次初始化，需要自动定位标志，自动改变自定义颜色滚动条等
+    {
+        autoMarkToPosBySkinName(skinName);
+
+		initLightnessGrooveColorByHue(SliderHue->value());		//初次进入，初始化 亮度条样式
+    }
 }
 
  //仅仅通过皮肤名，改变slider.皮肤名是 预定义的6种主题颜色，以及#xxxxxx 字符串
-void SkinBoxWidget::changeSliderValueBySkinName(QString skinName)
+void SkinBoxWidget::changeSliderValueBySkinName(QString skinName, bool bFirstInit)
 {
     QString colorString;
 
     if(skinName.contains("#"))
         colorString = skinName;
     else if(skinName == "black")
-        colorString = "#222222";
+        colorString = themColorBlack;
     else if(skinName == "red")
-        colorString = "#c62f2f";
+        colorString = themColorRed;
     else if(skinName == "pink")
-        colorString = "#fa7aa7";
+        colorString = themColorPink;
     else if(skinName == "blue")
-        colorString = "#44aaf8";
+        colorString = themColorBlue;
     else if(skinName == "green")
-        colorString = "#3bba7d";
+        colorString = themColorGreen;
     else if(skinName == "gold")
-        colorString = "#faac62";
+        colorString = themColorGold;
     else
-        colorString = "#222222";
+        colorString = themColorBlack;
 
     QColor color(colorString);
 
@@ -394,6 +400,13 @@ void SkinBoxWidget::changeSliderValueBySkinName(QString skinName)
 
     SliderHue->setValue(h);
     SliderLightness->setValue(l);
+
+    if(!bFirstInit)//初次不用保存
+    {
+        //所有用户改变的皮肤操作都会经过这里，在这里保存设置
+        SettingManager::GetInstance().data().skinName = skinName;
+        SettingManager::GetInstance().saveSettingData();
+    }
 }
 
 
@@ -411,6 +424,37 @@ void SkinBoxWidget::initLightnessGrooveColorByHue(int hueValue)
     QString colorStr = QString("qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb(%1,%2,%3), stop:1 rgb(%4,%5,%6))").arg(r1).arg(g1).arg(b1).arg(r2).arg(g2).arg(b2);
     SliderLightness->setStyleSheet("QSlider#SliderLightness::groove:horizontal {"
                                    "background:"+ colorStr+ " ; }");
+}
+
+void SkinBoxWidget::autoMarkToPosBySkinName(QString skinName)
+{
+    if(skinName == "black"){markToPos(true,110+ 121*0 ,155); bLastSelectPage = 1;}
+    else if(skinName == "red")  {markToPos(true,110+ 121*1 ,155); bLastSelectPage = 1;}
+    else if(skinName == "pink") {markToPos(true,110+ 121*2 ,155);bLastSelectPage = 1;}
+    else if(skinName == "blue") {markToPos(true,110+ 121*0 ,155+122);bLastSelectPage = 1;}
+    else if(skinName == "green"){markToPos(true,110+ 121*1 ,155+122);bLastSelectPage = 1;}
+    else if(skinName == "gold") {markToPos(true,110+ 121*2 ,155+122);bLastSelectPage = 1;}
+    else if(skinName == pureColur1  ){markToPos(true, 48 + 61 *0, 98); bLastSelectPage = 2;}
+    else if(skinName == pureColur2  ){markToPos(true, 48 + 61 *1, 98); bLastSelectPage = 2;}
+    else if(skinName == pureColur3  ){markToPos(true, 48 + 61 *2, 98);bLastSelectPage = 2;}
+    else if(skinName == pureColur4  ){markToPos(true, 48 + 61 *3, 98);bLastSelectPage = 2;}
+    else if(skinName == pureColur5  ){markToPos(true, 48 + 61 *4, 98);bLastSelectPage = 2;}
+    else if(skinName == pureColur6  ){markToPos(true, 48 + 61 *5, 98);bLastSelectPage = 2;}
+    else if(skinName == pureColur7  ){markToPos(true, 48 + 61 *0, 98+ 61); bLastSelectPage = 2;}
+    else if(skinName == pureColur8  ){markToPos(true, 48 + 61 *1, 98+ 61); bLastSelectPage = 2;}
+    else if(skinName == pureColur9  ){markToPos(true, 48 + 61 *2, 98+ 61);bLastSelectPage = 2;}
+    else if(skinName == pureColur10 ){markToPos(true,48 + 61 *3, 98+ 61);bLastSelectPage = 2;}
+    else if(skinName == pureColur11 ){markToPos(true,48 + 61 *4, 98+ 61);bLastSelectPage = 2;}
+    else if(skinName == pureColur12 ){markToPos(true,48 + 61 *5, 98+ 61);bLastSelectPage = 2;}
+    else {markToPos(true,48 + 61 *0, 274);bLastSelectPage = 2;}
+
+
+    if(!(skinName == "black" || skinName == "red" || skinName == "pink" ||
+            skinName == "blue" || skinName == "green" || skinName == "gold"))
+        markToPos(false,0,0);
+
+    //初始化滑动条
+    changeSliderValueBySkinName(skinName, true);
 }
 
 void SkinBoxWidget::paintEvent(QPaintEvent *event)

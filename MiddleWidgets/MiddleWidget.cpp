@@ -163,6 +163,35 @@ void MiddleWidget::geometryAnimationFinish()
     nRuningAnimationCount--;
 }
 
+void MiddleWidget::onReloadMusic(QString musicFileNamePath)
+{
+    QFileInfo fileinfo(musicFileNamePath);
+    onSetMusicTitle(fileinfo.baseName());
+    onSetMusicArtist("");                   //重载时，歌手未知
+
+    pagePreviewLyric->setToDefaultAlbumImage();
+
+    pagePreviewLyric->lyricViewer->setMusicPath(musicFileNamePath);
+
+    pageMain->boxPagePreviewLyric->setToDefaultPic();
+}
+
+void MiddleWidget::onSetMusicTitle(QString title)
+{
+    pagePreviewLyric->lyricViewer->setMusicTitle(title);
+    pageMain->boxPagePreviewLyric->onSetSongTitle(title);
+}
+
+void MiddleWidget::onSetMusicArtist(QString artist)
+{
+    pageMain->boxPagePreviewLyric->onSetSongArtist(artist);
+}
+
+void MiddleWidget::onSetMusicAlbum(QString album)
+{
+
+}
+
 
 void MiddleWidget::resizeEvent(QResizeEvent *event)
 {

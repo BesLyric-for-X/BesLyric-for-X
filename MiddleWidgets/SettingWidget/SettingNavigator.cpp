@@ -1,6 +1,7 @@
 ﻿#include "SettingNavigator.h"
 #include <QPainter>
 #include <QPixmap>
+#include "SkinBoxWidget.h"
 
 SuNavigator::SuNavigator(QVector<ISettingUnit*>& settingUnits, QWidget *parent)
     : QWidget(parent), pSettings(&settingUnits)
@@ -27,6 +28,8 @@ void SuNavigator::initEntity()
     textHeight = 26;
 
     fontMetrics = nullptr;
+
+    pureColorString = "#b82525"; //红色默认
 }
 
 void SuNavigator::initLayout()
@@ -66,7 +69,7 @@ void SuNavigator::paintEvent(QPaintEvent *event)
     //再画当前节点 红点高亮
 
     QPoint pt = QPoint(this->width() - nRight, nTop + nCurrentIndex * nStep);
-    p.setBrush(QColor("#b82525"));            //画刷颜色
+    p.setBrush(QColor(pureColorString));            //画刷颜色
     p.drawEllipse(pt, nR, nR);
 
     QColor colorText;
@@ -75,7 +78,7 @@ void SuNavigator::paintEvent(QPaintEvent *event)
     for(int i =0; i < pSettings->size() ; i++)
     {
         if( i == nCurrentIndex)
-            colorText = QColor("#b82525");
+            colorText = QColor(pureColorString);
         else
             colorText = QColor("#828385");
 
@@ -122,6 +125,28 @@ void SuNavigator::resizeEvent(QResizeEvent *event)
     }
 
     QWidget::resizeEvent(event);
+}
+
+void SuNavigator::setFinalSkinName(QString skinName)
+{
+    if(skinName.contains('#'))
+    {
+        pureColorString = skinName;
+        return;
+    }
+
+    if(skinName == "black" || skinName == "red")
+        pureColorString = "#b82525"; //红色
+    else if(skinName == "pink")
+        pureColorString = themColorPink;
+    else if(skinName == "blue")
+        pureColorString = themColorBlue;
+    else if(skinName == "green")
+        pureColorString = themColorGreen;
+    else if(skinName == "gold")
+        pureColorString = themColorGold;
+    else
+        pureColorString = "#b82525"; //红色默认
 }
 
 void SuNavigator::OnSettingUnitPanelPosChanged(int pos, int pageStep, int nScrollMax)

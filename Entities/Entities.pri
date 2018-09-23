@@ -24,6 +24,10 @@ HEADERS+=\
     $$PWD/SettingManager.h\
     $$PWD/ThreadGuessLyricInfo.h\
     $$PWD/MusicPlayerController.h\
+    $$PWD/SkinFactory/SkinBlue.h \
+    $$PWD/SkinFactory/SkinGold.h \
+    $$PWD/SkinFactory/SkinGreen.h \
+    $$PWD/SkinFactory/SkinPink.h
 
 
 

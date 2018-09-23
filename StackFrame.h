@@ -39,8 +39,8 @@ protected:
 
 public slots:
 
-    void SetSkin(QString skinName);
-    void SetSpecialSkin(QString skinName);  //有一些样式无法实现的效果，放在这里应用
+    void SetSkin(QString skinName, bool bFirstInit = false);
+    void SetSpecialSkin(QString skinName, bool bFirstInit = false);  //有一些样式无法实现的效果，放在这里应用
 
     void toggleMaxRestoreStatus();          //切换最大化和恢复2个状态
     void toggleSkinBox();                   //显示或隐藏皮肤盒

@@ -69,6 +69,27 @@ private:
     bool        m_bHover;
 };
 
+static QString pureColur1  = "#ff5c8a";
+static QString pureColur2  = "#ff7a9e";
+static QString pureColur3  = "#fe76c8";
+static QString pureColur4  = "#717ff9";
+static QString pureColur5  = "#4791eb";
+static QString pureColur6  = "#39afea";
+static QString pureColur7  = "#2bb669";
+static QString pureColur8  = "#6acc19";
+static QString pureColur9  = "#e2ab12";
+static QString pureColur10 = "#ff8f57";
+static QString pureColur11 = "#fd726d";
+static QString pureColur12 = "#fd544e";
+
+static QString themColorBlack = "#222222";
+static QString themColorRed = "#c62f2f";
+static QString themColorPink = "#fa7aa7";
+static QString themColorBlue = "#44aaf8";
+static QString themColorGreen = "#3bba7d";
+static QString themColorGold = "#faac62";
+
+
 class ButtonPureColor: public BesButton
 {
     Q_OBJECT
@@ -128,14 +149,17 @@ public:
     void swithToPage(int nIndex);
     void markToPos(bool bFront, int x, int y);
 
-    void setFinalSkinName(QString);                     //设置最终使用的皮肤名
+    void setFinalSkinName(QString skinName,bool bFirstInit);     //设置最终使用的皮肤名
 
 signals:
     void signalSetCustomSkin(QString colorString);
 
 public slots:
-    void changeSliderValueBySkinName(QString);          //仅仅通过皮肤名，改变slider.皮肤名是 预定义的6种主题颜色，以及#xxxxxx 字符串
+    void changeSliderValueBySkinName(QString, bool bFirstInit = false);   //仅仅通过皮肤名，改变slider.皮肤名是 预定义的6种主题颜色，以及#xxxxxx 字符串
     void initLightnessGrooveColorByHue(int hueValue);   //基于指定色调 hueValue， 设置亮度颜色
+
+private:
+    void autoMarkToPosBySkinName(QString);  //根据皮肤名，自动改变标记的位置
 
 protected:
     virtual void paintEvent(QPaintEvent *);

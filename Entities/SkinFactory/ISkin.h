@@ -1,6 +1,7 @@
 ﻿#ifndef ISKIN_H
 #define ISKIN_H
 #include <QString>
+#include "SkinBoxWidget.h"
 
 class ISkin
 {
@@ -24,6 +25,8 @@ public:
         cssContent += GetQTabWidgetCss();
         cssContent += GetQTableWidgetCss();
         cssContent += GetQListWidgetCss();
+        cssContent += GetQCheckBoxCss();
+
         return cssContent;
     }
 
@@ -81,7 +84,7 @@ private:
 
         "QWidget#widgetMessageBoxContainer"
         "{"
-           "border: 1px solid #3b3a3d;"
+           "border: 5px solid #3b3a3d;"
         "}"
 
         "QWidget#widgetMessageTop"
@@ -681,75 +684,99 @@ private:
                 "    background:"+blueButtonColorHover+";"
                 "}"
 
-
-
                 //搜索歌曲列表按钮
                 "QPushButton#m_pBtnPreviewSong{"
                       "border: none; "
                       "background-color: transparent; "
-                      "image:url(:/resource/image/btn_download_normal);"
+                      "image:url("+ imgViewMusicNormal +");"
                 "}"
                  "QPushButton#m_pBtnPreviewSong:hover{"
-                      "image:url(:/resource/image/btn_download_hover);"
+                      "image:url("+ imgViewMusicHover +");"
                   "} "
                  "QPushButton#m_pBtnPreviewSong:pressed {"
-                      "image:url(:/resource/image/btn_download_hover);"
+                      "image:url("+ imgViewMusicHover +");"
                  "}"
 
 
                 "QPushButton#m_pBtnListenSong{"
                       "border: none; "
                       "background-color: transparent; "
-                      "image:url(:/resource/image/btn_download_normal);"
+                      "image:url("+ imgListenMusicNormal +");"
                 "}"
                  "QPushButton#m_pBtnListenSong:hover{"
-                      "image:url(:/resource/image/btn_download_hover);"
+                      "image:url("+ imgListenMusicHover +");"
                   "} "
                  "QPushButton#m_pBtnListenSong:pressed {"
-                      "image:url(:/resource/image/btn_download_hover);"
+                      "image:url("+ imgListenMusicHover +");"
                  "}"
+
+                //歌词单列表按钮
+                "QPushButton#m_pBtnDeleteListItem{"
+                      "border: none; "
+                      "background-color: transparent; "
+                      "image:url("+ imgDeleteListItemNormal +");"
+                "}"
+                 "QPushButton#m_pBtnDeleteListItem:hover{"
+                      "image:url("+ imgDeleteListItemHover +");"
+                  "} "
+                 "QPushButton#m_pBtnDeleteListItem:pressed {"
+                      "image:url("+ imgDeleteListItemHover +");"
+                 "}"
+
+
+                "QPushButton#m_pBtnEditListItem{"
+                      "border: none; "
+                      "background-color: transparent; "
+                      "image:url("+ imgEditListItemNormal +");"
+                "}"
+                 "QPushButton#m_pBtnEditListItem:hover{"
+                      "image:url("+ imgEditListItemHover +");"
+                  "} "
+                 "QPushButton#m_pBtnEditListItem:pressed {"
+                      "image:url("+ imgEditListItemHover +");"
+                 "}"
+
 
 
                 "QPushButton#m_pBtnDownloadSong{"
                       "border: none; "
                       "background-color: transparent; "
-                      "image:url(:/resource/image/btn_download_normal);"
+                      "image:url("+ imgDownloadMusicNormal +");"
                 "}"
                  "QPushButton#m_pBtnDownloadSong:hover{"
-                      "image:url(:/resource/image/btn_download_hover);"
+                      "image:url("+ imgDownloadMusicHover +");"
                   "} "
                  "QPushButton#m_pBtnDownloadSong:pressed {"
-                      "image:url(:/resource/image/btn_download_hover);"
+                      "image:url("+ imgDownloadMusicHover +");"
                  "}"
 
 
                 //歌词列表按钮
 
-
                 "QPushButton#btnAddItem, QPushButton#btnToggleList{"
-                "border: none; "
-                "background-color: transparent; "
+                    "border: none; "
+                    "background-color: transparent; "
                      "width:24px; height:24px;"
                 "}"
 
                 "QPushButton#btnAddItem{"
-                      "image:url(:/resource/image/add_list_normal_white);"
+                      "image:url("+imgAddListNormal+");"
                 "}"
                 "QPushButton#btnAddItem:hover{"
-                      "image:url(:/resource/image/add_list_hover_white);"
+                      "image:url("+imgAddListHover+");"
                 "}"
 
                 "QPushButton#btnToggleList{"
-                      "image:url(:/resource/image/btn_expand_normal_white);"
+                      "image:url("+imgToggleListNormal+");"
                 "}"
                 "QPushButton#btnToggleList:hover{"
-                      "image:url(:/resource/image/btn_expand_hover_white);"
+                      "image:url("+imgToggleListHover+");"
                 "}"
                 "QPushButton#btnToggleList:checked{"
-                      "image:url(:/resource/image/btn_collaps_normal_white);"
+                      "image:url("+imgToggleListCheckedNormal+");"
                 "}"
                 "QPushButton#btnToggleList:checked:hover{"
-                      "image:url(:/resource/image/btn_collaps_hover_white);"
+                      "image:url("+imgToggleListCheckedHover+");"
                 "}"
               ;
 
@@ -1049,9 +1076,30 @@ private:
         return str;
     }
 
+    QString GetQCheckBoxCss()
+    {
+        QString str = ""
+          "  QCheckBox::indicator:unchecked {"
+          "    image: url("+checkbox_unchecked+");"
+          "}"
+          "QCheckBox::indicator:checked {"
+          "    image: url("+checkbox_checked+");"
+          "}"
 
+        ;
+        return str;
+    }
+
+    ///////////////////////////////////////////////////////////
+protected:
 
     void setDefaultParameter()
+    {
+        setBlackThemeBaseParameter();
+    }
+
+    //设置黑色主题基本参数
+    void setBlackThemeBaseParameter()
     {
         //容器相关
         topContainerBgImage        =":/resource/image/top_background_black.png";
@@ -1070,6 +1118,7 @@ private:
         fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
         DeepLabelColor             ="#ffffff";
+        titleColor                 ="#ffffff                                     ";
         defaultButtonColorNormal    ="#909090";
         defaultButtonColorHover     ="#f0f0f0";
         defaultButtonBgColorNormal ="rgba(100, 100, 100, 100)";
@@ -1079,6 +1128,10 @@ private:
 
         blueButtonColorNormal       ="#2e4e7e";
         blueButtonColorHover        ="#3a6098";
+        blueButtonColorDisabled      ="#2e4e7eee";
+
+        blueButtonColorNormal       ="#0c73c2";
+        blueButtonColorHover        ="#1167a8";
         blueButtonColorDisabled      ="#2e4e7eee";
 
 
@@ -1104,6 +1157,26 @@ private:
 
         btnPackbackToBoxImg         =":/resource/image/btn_pack_back_to_box_black.png";
 
+
+        //特殊按钮样式
+        imgViewMusicNormal          =":/resource/image/view_music_normal_black";
+        imgViewMusicHover           =":/resource/image/view_music_hover_black";
+        imgListenMusicNormal        =":/resource/image/listen_music_normal_black";
+        imgListenMusicHover         =":/resource/image/listen_music_hover_black";
+        imgDownloadMusicNormal      =":/resource/image/download_music_item_normal_black";
+        imgDownloadMusicHover       =":/resource/image/download_music_item_hover_black";
+        imgDeleteListItemNormal     =":/resource/image/delete_list_item_normal_black";
+        imgDeleteListItemHover      =":/resource/image/delete_list_item_hover_black";
+        imgEditListItemNormal       =":/resource/image/edit_list_info_normal_black";
+        imgEditListItemHover        =":/resource/image/edit_list_info_hover_black";
+
+        imgAddListNormal      =":/resource/image/add_list_normal_black";
+        imgAddListHover       =":/resource/image/add_list_hover_black";
+        imgToggleListNormal         =":/resource/image/btn_expand_normal_black";
+        imgToggleListHover          =":/resource/image/btn_expand_hover_black";
+        imgToggleListCheckedNormal  =":/resource/image/btn_collaps_normal_black";
+        imgToggleListCheckedHover   =":/resource/image/btn_collaps_hover_black";
+
         //QList
         listItemNormalColor        ="#c0c0c0";
 
@@ -1111,10 +1184,103 @@ private:
         baseColor                 ="#CC0033";
         baseColorLighter          ="#ff3344";
 
+        //QCheckBox
+        checkbox_unchecked      =":/resource/image/checkbox_unchecked_black.png";
+        checkbox_checked        =":/resource/image/checkbox_checked_black.png";
+
         //其他
         itemSelectBackground       ="rgba(175, 175, 175, 55)";
         editBackground             =" rgba(222, 222, 222,35)";
     }
+
+    //设置其他主题基本参数
+    void setWhiteThemeBaseParameter()
+    {
+        //容器相关
+        topContainerBgImage        ="";
+        topContainerBgColor        ="#c62f2f";
+        leftboardBgColor           ="#f5f5f7                                     ";
+        leftboardBorderColor       ="rgba(33, 33, 33, 33)                        ";
+        bottomContainerColor       ="#f6f6f8                                     ";
+        bottomContainerBorderColor ="rgba(33, 33, 33, 33)                        ";
+        subPageContainerColor      ="rgb(250, 250, 250)        ";
+        PopWindowBgColor           ="#2d2f33                                     ";
+
+        MessageBoxBgColor           ="#fafafa";
+        MessageBoxBottomColor       ="#f5f5f7";
+
+        //label、button 相关
+        fontFamily                 ="Microsoft YaHei                             ";
+        defautlLabelColor          ="#111111                                     ";
+        DeepLabelColor             ="#000000";
+        titleColor                 ="#ffffff                                     ";
+        defaultButtonColorNormal    ="#202020";
+        defaultButtonColorHover     ="#000000";
+        defaultButtonBgColorNormal ="rgba(255, 255, 255, 200)";
+        defaultButtonBgColorHover ="rgba(240, 240, 240, 200)";
+        defaultButtonDisableColor  ="#bbbbbb";
+        defaultButtonDisableBgColor="rgba(250, 250, 250, 220)";
+
+        blueButtonColorNormal       ="#0c73c2";
+        blueButtonColorHover        ="#1167a8";
+        blueButtonColorDisabled      ="#2e4e7eee";
+
+        titleColor                 ="#ffffff                                     ";
+        playBgColor                ="#e83c3c                                     ";
+        playHoverColor             ="#c62f2f                                     ";
+        playBorderColor            ="#666666                                     ";
+        playBorderHoverColor       ="#888888                                     ";
+        playBorderSize             =0;
+
+        btnSoundImage              =":/resource/image/sound_normal_white.png";
+        btnSoundImageHover         =":/resource/image/sound_hover_white.png";
+        btnSoundMuteImage          =":/resource/image/sound_mute_normal_white.png";
+        btnSoundMuteImageHover     =":/resource/image/sound_mute_hover_white.png";
+        btnPlayModeSingleNormal     =":/resource/image/play_mode_single_normal_black.png";
+        btnPlayModeSingleHover      =":/resource/image/play_mode_single_hover_black.png";
+        btnPlayModeSingleCycleNormal=":/resource/image/play_mode_single_cycle_normal_white.png";
+        btnPlayModeSingleCycleHover =":/resource/image/play_mode_single_cycle_hover_white.png";
+
+        btnLyricImage              =":/resource/image/btn_close_normal_white.png";
+        btnLyricImageHover         =":/resource/image/btn_close_press_white.png";
+        btnTabLeftBoderColor       ="#bb0033                                     ";
+
+        btnPackbackToBoxImg       =":/resource/image/btn_pack_back_to_box_white.png";
+
+        //特殊按钮样式
+        imgViewMusicNormal          =":/resource/image/view_music_normal_white";
+        imgViewMusicHover           =":/resource/image/view_music_hover_white";
+        imgListenMusicNormal        =":/resource/image/listen_music_normal_white";
+        imgListenMusicHover         =":/resource/image/listen_music_hover_white";
+        imgDownloadMusicNormal      =":/resource/image/download_music_item_normal_white";
+        imgDownloadMusicHover       =":/resource/image/download_music_item_hover_white";
+        imgDeleteListItemNormal     =":/resource/image/delete_list_item_normal_white";
+        imgDeleteListItemHover      =":/resource/image/delete_list_item_hover_white";
+        imgEditListItemNormal       =":/resource/image/edit_list_info_normal_white";
+        imgEditListItemHover        =":/resource/image/edit_list_info_hover_white";
+
+        imgAddListNormal      =":/resource/image/add_list_normal_white";
+        imgAddListHover       =":/resource/image/add_list_hover_white";
+        imgToggleListNormal         =":/resource/image/btn_expand_normal_white";
+        imgToggleListHover          =":/resource/image/btn_expand_hover_white";
+        imgToggleListCheckedNormal  =":/resource/image/btn_collaps_normal_white";
+        imgToggleListCheckedHover   =":/resource/image/btn_collaps_hover_white";
+
+        //QList
+        listItemNormalColor        ="#444444";
+
+        //QSlider
+        baseColor                 ="#CC0033";
+        baseColorLighter          ="#ff3344";
+
+        //QCheckBox
+        checkbox_unchecked      =":/resource/image/checkbox_unchecked_white.png";
+        checkbox_checked        =":/resource/image/checkbox_checked_white.png";
+
+        //其他
+        editBackground            = "white";
+    }
+
 
 protected:
                                         //默认值参考
@@ -1166,6 +1332,27 @@ protected:
 
     QString btnPackbackToBoxImg;        //":/resource/image/btn_pack_back_to_box_black.png"
 
+    //特殊按钮样式
+    QString imgViewMusicNormal;
+    QString imgViewMusicHover;
+    QString imgListenMusicNormal;
+    QString imgListenMusicHover;
+    QString imgDownloadMusicNormal;
+    QString imgDownloadMusicHover;
+
+    QString imgDeleteListItemNormal;
+    QString imgDeleteListItemHover;
+    QString imgEditListItemNormal;
+    QString imgEditListItemHover;
+
+    QString imgAddListNormal;
+    QString imgAddListHover;
+    QString imgToggleListNormal;
+    QString imgToggleListHover;
+    QString imgToggleListCheckedNormal;
+    QString imgToggleListCheckedHover;
+
+
     //QList
     QString listItemNormalColor;     //#c0c0c0
 
@@ -1173,9 +1360,52 @@ protected:
     QString baseColor;                  //#CC0033
     QString baseColorLighter;           //#ff3344
 
+    //QCheckBox
+    QString checkbox_unchecked;
+    QString checkbox_checked;
+
     //其他
     QString itemSelectBackground;
     QString editBackground;
+
+
+    //纯色动态配色值
+protected:
+
+    void initPureColor(QString colorStr)
+    {
+        colorString = colorStr;
+
+        colorLighter = colorString;
+        for(auto& ch: colorLighter)   //将所有16进制位在可以自增1的时候自增1，变亮一些
+        {
+            if(ch == '#')
+                continue;
+
+            if(ch == '9')
+                ch = 'a';
+
+            if(ch != 'f')
+            {
+                ch = char(ch.unicode()+1);
+            }
+        }
+    }
+
+    void setPureColor()
+    {
+        btnTabLeftBoderColor       =colorString;
+        topContainerBgColor        =colorString;
+        playBgColor                =colorLighter;
+        playHoverColor             =colorString;
+
+        //QSlider
+        baseColor                 =colorString;
+        baseColorLighter          =colorLighter;
+    }
+
+    QString colorString;        //主题颜色对应字符串
+    QString colorLighter;       //比主题颜色稍微轻一点的颜色
 };
 
 #endif // ISKIN_H

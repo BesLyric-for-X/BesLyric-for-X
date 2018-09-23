@@ -35,8 +35,8 @@ public slots:
     // 不过 cpu 占用过高可能是 消息太多导致)
     void musicPositionChanged(int);
 
-    //当前歌曲播放结束,准备播放下一首歌
-    void onAudioTheadFinished(bool isEndWithForce);
+    //当前歌曲播放结束,准备播放下一首歌(播放模式的临时实现，后面将使用 MusicPlayerController 替换)
+    void onAudioFinished(bool isEndWithForce);
 
 public:
     TopWidget*      topWidget;

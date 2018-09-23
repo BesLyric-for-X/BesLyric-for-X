@@ -35,6 +35,9 @@ void BottomWidget::initLayout()
     btnPlayAndPause->setFocusPolicy(Qt::NoFocus);
     btnNextSong->setFocusPolicy(Qt::NoFocus);
 
+    btnPreSong->setVisible(false);
+    btnNextSong->setVisible(false);
+
     labelTimeCurrent = new QLabel(bottomWidgetContainer);
     labelTimeEnding = new QLabel(bottomWidgetContainer);
     labelTimeCurrent->setText("00:00");

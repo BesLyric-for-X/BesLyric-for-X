@@ -65,6 +65,9 @@ public slots:
 
     void setToDefaultPic();
 
+    void onSetSongTitle(QString title);
+    void onSetSongArtist(QString artist);
+
 protected:
 
     void mouseMoveEvent(QMouseEvent *event)
@@ -77,7 +80,11 @@ protected:
 public:
     QWidget* widgetMainPreviewLyric;
     ExtendButton* extendButton;
+    QLabel* labelTitle;
+    QLabel* labelArtist;
 
+    QString songTitle;
+    QString songArtist;
 };
 
 #endif // BOXPAGEPREVIEWLYRIC_H

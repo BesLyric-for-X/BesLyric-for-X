@@ -25,6 +25,7 @@ void TopWidget::initLayout()
     btnIcon->setIconSize(QSize(150,30));
     btnIcon->setObjectName("btnIcon");
     btnIcon->setFocusPolicy(Qt::NoFocus);
+    btnIcon->setToolTip(tr("返回制作歌词主页"));
 
     labelTitle = new QLabel(topWidgetContainer);
     labelTitle->setText("一款专门制作网易云滚动歌词的软件");

@@ -18,7 +18,6 @@
         <file>resource/css/black.css</file>
         <file>resource/image/add_list_hover_black.png</file>
         <file>resource/image/add_list_hover_white.png</file>
-        <file>resource/image/add_list_nomal_black.png</file>
         <file>resource/image/box_indicator_black.png</file>
         <file>resource/image/box_indicator_white.png</file>
         <file>resource/image/btn_close_normal_white.png</file>
@@ -81,8 +80,6 @@
         <file>resource/image/default_list_cover.png</file>
         <file>resource/image/box_lyric_list_black.png</file>
         <file>resource/image/box_lyric_list_white.png</file>
-        <file>resource/image/checkbox_checked.png</file>
-        <file>resource/image/checkbox_unchecked.png</file>
         <file>resource/image/delete_list_item_hover_black.png</file>
         <file>resource/image/delete_list_item_hover_white.png</file>
         <file>resource/image/delete_list_item_normal_black.png</file>
@@ -130,5 +127,12 @@
         <file>resource/image/view_music_hover_white.png</file>
         <file>resource/image/view_music_normal_black.png</file>
         <file>resource/image/view_music_normal_white.png</file>
+        <file>resource/image/add_list_normal_black.png</file>
+        <file>resource/image/checkbox_checked_black.png</file>
+        <file>resource/image/checkbox_checked_white.png</file>
+        <file>resource/image/checkbox_unchecked_black.png</file>
+        <file>resource/image/checkbox_unchecked_white.png</file>
+        <file>resource/image/icon_music_black.png</file>
+        <file>resource/image/icon_question_black.png</file>
     </qresource>
 </RCC>

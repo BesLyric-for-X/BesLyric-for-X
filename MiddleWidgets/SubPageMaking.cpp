@@ -658,7 +658,8 @@ void SubPageMaking::onGuessNcmInfo()
     if(pathMusic.size() != 0)
     {
         btnDownloadMp3->setEnabled(false);
-        threadGuessLyricInfo.StartGuess(pathMusic, true);
+        if(!threadGuessLyricInfo.StartGuess(pathMusic, true))
+            btnDownloadMp3->setEnabled(true);
     }
 }
 
@@ -667,7 +668,8 @@ void SubPageMaking::onGuessLyricInfo()
 	if (pathMusic.size() != 0)
 	{
 		btnGuessLyricInfo->setEnabled(false);
-        threadGuessLyricInfo.StartGuess(pathMusic, false);
+        if(!threadGuessLyricInfo.StartGuess(pathMusic, false))
+            btnGuessLyricInfo->setEnabled(true);
     }
 }
 

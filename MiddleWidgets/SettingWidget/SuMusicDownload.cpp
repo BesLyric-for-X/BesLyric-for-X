@@ -134,7 +134,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
                "<a style='color:#666666;' href='http://www.ipcenter.fudan.edu.cn/_upload/article/9f/2b/8b7f82004392ac29f4974f7590e0/ce326ff7-6d52-4fbc-a7c6-59eb89867e9d.pdf'>《信息网络传播权保护条例》</a>"
                "</p>"
 
-
+                "<p style=\"text-align:right;color:#666666;\">by 开发者 <a href=\"https://www.cnblogs.com/BensonLaur/\" target=\"_blank\" style=\"color:#666666;\">BensonLaur</a></p>"
 
                "<p style=\"line-height:150%;text-align:center;\">对于以上说明，您是否表示 理解并同意？	</p>"),
                       tr("是"), tr("否"), false, true)

@@ -30,6 +30,11 @@ public slots:
     void switchPage(int from, int to);
     void geometryAnimationFinish();
 
+    void onReloadMusic(QString musicFileNamePath);
+    void onSetMusicTitle(QString title);
+    void onSetMusicArtist(QString artist);
+    void onSetMusicAlbum(QString album);
+
 protected:
     virtual void resizeEvent(QResizeEvent *event);
 

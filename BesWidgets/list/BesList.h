@@ -23,6 +23,8 @@ public:
     LyricList* getCurrentItemData();
 
     void reloadAllItemText();
+
+    void setFinalSkinName(QString skinName);
 signals:
     void sig_listDataChanged();
 

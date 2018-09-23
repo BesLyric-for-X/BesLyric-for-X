@@ -242,11 +242,13 @@ void PageLyricList::initLayout()
     labelModifyListCoverRect->setMinimumSize(245,245);
     labelModifyListCoverRect->setMaximumSize(245,245);
     labelModifyListCoverRect->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    labelModifyListCoverRect->setVisible(false);
 
     btnModifyListCover->setMinimumSize(120,35);
     btnModifyListCover->setMaximumSize(120,35);
     btnModifyListCover->setText(tr("编辑封面"));
     btnModifyListCover->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    btnModifyListCover->setVisible(false);
 
     btnDeleteLrcList  = new BesButton(widgetEditListInfo);
     btnSaveLrcListModified  = new BesButton(widgetEditListInfo);

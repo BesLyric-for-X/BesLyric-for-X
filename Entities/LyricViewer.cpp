@@ -96,13 +96,11 @@ bool LyricViewer::isLrcLyric()
 void LyricViewer::setMusicTitle(QString title)
 {
     labelPreviewTitle->setText(title);
+    labelPreviewTitle->setToolTip(title);
 }
 
 void LyricViewer::setMusicPath(QString path)
 {
-    QFileInfo fileinfo(path);
-    setMusicTitle(fileinfo.baseName());     //先使用歌曲的文件的名字，来设置音乐标题，如果播放时，从歌曲中发现了标题，那么再由外界设置新标题
-
     labelPreviewSongPath->setText(path);
     labelPreviewSongPath->setToolTip(path);
 }

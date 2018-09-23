@@ -32,6 +32,11 @@ void BesList::addItem(QString item, bool bConstructNewData)
 	LyricList lyricList;
 	lyricList.name = item;
 
+    QString imageName = ":/resource/image/lyric_list_icon_black.png";
+
+    if(item == tr("制作记录") || item==tr("历史记录"))
+        imageName = ":/resource/image/history_list_white.png";
+
 	if (bConstructNewData)
 	{
 		pLyricLists->push_back(lyricList);
@@ -42,9 +47,8 @@ void BesList::addItem(QString item, bool bConstructNewData)
 	}
 
     QListWidgetItem *pItem = new QListWidgetItem(this);
-    pItem->setIcon(QIcon(":/resource/image/btn_setting_press_white.png"));
+    pItem->setIcon(QIcon(imageName));
     pItem->setText(lyricList.name);
-
 }
 
 void BesList::deleteCurrentItem()
@@ -115,6 +119,41 @@ void BesList::reloadAllItemText()
     for(int i = 0; i< pLyricLists->size(); i++)
     {
         this->item(i)->setText(pLyricLists->at(i).name);
+    }
+}
+
+void BesList::setFinalSkinName(QString skinName)
+{
+    if(skinName == "black")
+    {
+        for(int i = 0; i < this->count(); i++)
+        {
+            QString text = item(i)->data(Qt::DisplayRole).toString();
+
+            QString imageName;
+            if(text == tr("制作记录") || text==tr("历史记录"))
+                imageName = ":/resource/image/history_list_white.png";
+            else
+                imageName = ":/resource/image/lyric_list_icon_black.png";
+
+            item(i)->setIcon(QIcon(imageName));
+        }
+    }
+    else
+    {
+
+        for(int i = 0; i < this->count(); i++)
+        {
+            QString text = item(i)->data(Qt::DisplayRole).toString();
+
+            QString imageName;
+            if(text == tr("制作记录") || text==tr("历史记录"))
+                imageName = ":/resource/image/history_list_black.png";
+            else
+                imageName = ":/resource/image/lyric_list_icon_white.png";
+
+            item(i)->setIcon(QIcon(imageName));
+        }
     }
 }
 

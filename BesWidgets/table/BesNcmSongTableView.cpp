@@ -57,14 +57,16 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
     if(!SettingManager::GetInstance().data().agreeDownloadDeclaration
             || SettingManager::GetInstance().data().musicDowloadPath.size() == 0)
     {
-        BesMessageBox::information(tr("提示"),tr("请先在 “设置 -> 歌曲下载” 下 “选择” 歌曲下载目录"));
+        BesMessageBox::information(tr("提示"),tr("请稍等一下，在下载音乐之前，还需做点事情~")
+                                   +"\n\n"
+                                   + tr("请点击右上角设置按钮，在 “歌曲下载” 下 “选择” 一个歌曲下载目录"));
         return;
     }
 
     QFile file(SettingManager::GetInstance().data().musicDowloadPath);
     if(!file.exists())
     {
-        BesMessageBox::information(tr("提示"),tr("设置的路径无效，请先在 “设置 -> 歌曲下载” 下 “选择” 歌曲下载目录"));
+        BesMessageBox::information(tr("提示"),tr("设置的路径无效，请点击右上角设置按钮，在 “歌曲下载” 下 “选择” 一个歌曲下载目录"));
         return;
     }
 

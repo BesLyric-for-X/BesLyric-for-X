@@ -21,20 +21,21 @@ class ThreadGuessLyricInfo :public QThread
 public:
     ThreadGuessLyricInfo():m_bIsGuessing(false){}
 
-    void StartGuess(QString musicPath, bool bGuessNcmFileName = false)
+    bool StartGuess(QString musicPath, bool bGuessNcmFileName = false)
     {
         QMutexLocker locker(&mutex);
 
         if(m_bIsGuessing)
         {
-            BesMessageBox::information(tr("等待提示"),tr("正在分析歌曲信息当中....."));
-            return;
+            BesMessageBox::information(tr("等待提示"),tr("模块正在使用中，请稍后操作 :)"));
+            return false;
         }
 
         m_bGuessNcmFileName = bGuessNcmFileName;
         m_strMusicPath = musicPath;
 
         start(HighestPriority);
+        return true;
     }
 
 

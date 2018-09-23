@@ -25,9 +25,8 @@ public slots:
 
 private:
     QPoint m_mousePoint;  // 鼠标位置
-    QScopedPointer<BesButton> m_pBtnPreviewSong;
-    QScopedPointer<BesButton> m_pBtnListenSong;
-    QScopedPointer<BesButton> m_pBtnDownloadSong;
+    QScopedPointer<BesButton> m_pBtnDeleteListItem;
+    QScopedPointer<BesButton> m_pBtnEditListItem;
     QStringList m_list;
     int m_nSpacing;  // 按钮之间的间距
      int m_nWidth;  // 按钮宽度
