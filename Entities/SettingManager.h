@@ -66,6 +66,10 @@ public:
 
     SettingData& data();
 
+public:
+
+    static QString MakeSureBaseDataPathAvailable();
+
 private:
     SettingManager(){}
 

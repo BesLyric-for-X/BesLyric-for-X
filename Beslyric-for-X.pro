@@ -52,6 +52,7 @@ HEADERS  += \
     Define/Define.h\
     Define/Enum.h\
     Define/Struct.h\
+    Define/Static.h\
     global.h \
     StackFrame.h \
     MyApplication.h

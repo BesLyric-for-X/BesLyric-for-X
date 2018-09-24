@@ -8,6 +8,9 @@
 #include "AddLyricItemWidget.h"
 #include "BesTransparentLayer.h"
 
+#include "ThreadLogin.h"
+#include "ThreadCheckUpdate.h"
+
 /*
  *   StackFrame 程序的主控件类，使用 Qstacklayout 布局
  *   包含程序的主体功能控件 和 最外层的“悬浮控件”（如皮肤盒等）
@@ -50,6 +53,7 @@ public slots:
     bool bringMainToTop();                  //将主程序控件提到最前(生效则返回true)
 
 
+    void onUpdateResultFound(CheckUpgradeResult);
 public:
     bool                    isMainOnTop;            //标记当期主体控件是否在最顶层
     MainWidget*             mainWidget;             //程序的主体功能控件
@@ -63,6 +67,12 @@ public:
     int addItemWidgetTop;
 
     QApplication*           pApp;
+
+
+private:
+    //登录记录
+    ThreadLogin login;
+    ThreadCheckUpdate checkUpdate;
 };
 
 #endif // STACKFRAME_H

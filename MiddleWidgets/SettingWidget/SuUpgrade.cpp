@@ -1,4 +1,5 @@
 ﻿#include <global.h>
+#include <Define/Static.h>
 #include "SuUpgrade.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -40,19 +41,22 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     labelCurrentVersionTip = new QLabel(SettingUnitContainer);
     labelCurrentVersion    = new QLabel(SettingUnitContainer);
     labelCurrentVersionTip->setText("当前版本号：");
-    labelCurrentVersionTip->setMinimumSize(100,30);
-    labelCurrentVersionTip->setMaximumSize(100,30);
-    labelCurrentVersion->setMinimumSize(100,30);
-    labelCurrentVersion->setMaximumSize(100,30);
+    labelCurrentVersionTip->setMinimumSize(80,30);
+    labelCurrentVersionTip->setMaximumSize(80,30);
+    labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    labelCurrentVersion->setMinimumSize(50,30);
+    labelCurrentVersion->setMaximumSize(50,30);
+    labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelCurrentVersionTip->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
     labelCurrentVersion->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
+    labelCurrentVersion->setText(VERSION_NUMBER);
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     hLayout2->addWidget(checkboxAutoUpgrade);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
-    hLayout2->addWidget(labelCurrentVersion);
+    hLayout2->addSpacerItem(new QSpacerItem(120,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(labelCurrentVersionTip);
-    hLayout2->addSpacerItem(new QSpacerItem(20,40,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addWidget(labelCurrentVersion);
+    hLayout2->addSpacerItem(new QSpacerItem(10,40,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(btnCheckUpgrade);
     hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
@@ -79,5 +83,51 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
         }
     });
 
+    connect(&threadCheck, SIGNAL(sig_haveCheckResult(CheckUpgradeResult)), this,
+            SLOT(onShowCheckResult(CheckUpgradeResult)));
+
+    connect(btnCheckUpgrade, SIGNAL(clicked(bool)),this, SLOT(onCheckUpgrade()));
+
     return SettingUnitContainer;
+}
+
+void SuUpgrade::onCheckUpgrade()
+{
+    threadCheck.checkForUpdate(false, QThread::HighestPriority);
+}
+
+void SuUpgrade::onShowCheckResult(CheckUpgradeResult result)
+{
+    QString strUpdate;
+
+    switch(result.nResult)
+    {
+    case -1:
+        BesMessageBox::information(tr("提示"),tr("无法连接网络"));
+        break;
+    case 0:
+        BesMessageBox::information(tr("提示"),tr("服务端数据出错"));
+        break;
+    case 1:
+        BesMessageBox::information(tr("提示"),tr("当前版本已是最新版本"));
+        break;
+    case 2:
+
+        if(result.infoList.size() == 0)
+            strUpdate = "没有具体的更新信息";
+        else
+        {
+            strUpdate += "<p>";
+            for(auto line: result.infoList)
+            {
+                strUpdate += line;
+                strUpdate += "<br/>";
+            }
+            strUpdate += "</p>";
+        }
+
+        BesMessageBox::information(tr("有新版本") + result.versionNum, strUpdate);
+        break;
+    }
+
 }

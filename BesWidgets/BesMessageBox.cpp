@@ -45,6 +45,7 @@ int BesMessageBox::information(const QString &title, const QString &text, bool b
     besMessageBox->labelMessageTitle->setText(title);
     besMessageBox->labelMessageContent->setText(text);
     besMessageBox->labelMessageContent->setWordWrap(bWordWrap);
+    besMessageBox->labelMessageContent->setOpenExternalLinks(true);
     besMessageBox->btnCancel->setVisible(false);
     besMessageBox->exec();
 

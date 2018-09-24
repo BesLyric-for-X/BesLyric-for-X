@@ -108,6 +108,25 @@ SettingData &SettingManager::data()
     return settingData;
 }
 
+QString SettingManager::SettingManager::MakeSureBaseDataPathAvailable()
+{
+    QString StrDataDir = QCoreApplication::applicationDirPath() + "/data";
+
+    //如果settings 目录不存在则创建目录
+    QDir DataDir(StrDataDir);
+    if(!DataDir.exists())
+    {
+        if(!DataDir.mkpath(StrDataDir))
+        {
+            BesMessageBox::information(tr("提示"),tr("无法为配置创建目录")+":" + StrDataDir);
+            return "";
+        }
+    }
+
+    //得到目标路径
+    return StrDataDir;
+}
+
 
 void SettingManager::loadFromDataDir()
 {
@@ -123,11 +142,11 @@ void SettingManager::loadFromDataDir()
     else //存在，读取配置
     {
         if (!LoadSettingData(path))
-		{
+        {
             BesMessageBox::information(tr("提示"), tr("载入设置失败")
-                     + " : \n\n" + path + "\n\n"+ "将自动为您重建默认设置 :)");
+                                       + " : \n\n" + path + "\n\n"+ "将自动为您重建默认设置 :)");
 
-			//自动重写
+            //自动重写
             if (!saveSettingData())
                 BesMessageBox::information(tr("提示"), tr("尝试创建默认设置失败 :("));
 		}

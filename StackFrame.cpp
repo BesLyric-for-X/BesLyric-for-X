@@ -105,10 +105,24 @@ void StackFrame::initConnection()
 
     connect(this,SIGNAL(onFinalSkinNameChanged(QString)),
             this->mainWidget->middleWidget->pagePreviewLyric->lyricViewer, SLOT(skinNameChanged(QString)));
-}
+
+
+   }
 
 void StackFrame::initEntity()
 {
+    qRegisterMetaType<CheckUpgradeResult>("CheckUpgradeResult");
+
+    connect(&checkUpdate,SIGNAL(sig_haveCheckResult(CheckUpgradeResult)),this,SLOT(onUpdateResultFound(CheckUpgradeResult)));
+
+    //登录记录
+    login.SendLogin();
+
+    if(SettingManager::GetInstance().data().autoCheckForUpgrade)
+    {
+        //静默(未找到更新时静默)检测升级
+        checkUpdate.checkForUpdate(true, QThread::NormalPriority);
+    }
 
 }
 
@@ -282,5 +296,26 @@ bool StackFrame::bringMainToTop()
     }
 
     return false;
+}
+
+void StackFrame::onUpdateResultFound(CheckUpgradeResult result)
+{
+
+    QString strUpdate;
+    if(result.infoList.size() == 0)
+        strUpdate = "没有具体的更新信息";
+    else
+    {
+        strUpdate += "<p>";
+        for(auto line: result.infoList)
+        {
+            strUpdate += line;
+            strUpdate += "<br/>";
+        }
+        strUpdate += "</p>";
+    }
+
+    BesMessageBox::information(tr("有新版本  ") + result.versionNum, strUpdate);
+
 }
 

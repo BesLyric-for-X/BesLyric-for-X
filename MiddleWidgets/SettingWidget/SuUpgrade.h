@@ -6,13 +6,19 @@
 #include <QCheckBox>
 #include "BesButton.h"
 #include "ISettingUnit.h"
+#include "ThreadCheckUpdate.h"
 
 class SuUpgrade: public ISettingUnit
 {
+    Q_OBJECT
 public:
     virtual QString getName() override;
     virtual int getUnitHeight() override;
     virtual QWidget* getUnitWidget(QWidget* parent) override;
+
+public slots:
+    void onCheckUpgrade();
+    void onShowCheckResult(CheckUpgradeResult result);
 
 public:
     QWidget* SettingUnitContainer;
@@ -24,6 +30,9 @@ public:
 
     QLabel*  labelCurrentVersionTip;
     QLabel*  labelCurrentVersion;
+
+private:
+    ThreadCheckUpdate threadCheck;
 };
 
 #endif // SuUpgrade_H

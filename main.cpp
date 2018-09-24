@@ -10,39 +10,26 @@
 
 #include <LyricListManager.h>
 
+
 void test()
 {
-//    QSharedPointer<ISearcher> searcher = CLyricSearcherFactory::CreateSearcher(SEARCH_FROM::SF_NETEASE);
 
-//    QVector<LyricInfo> info;
-//    if(!searcher->SearchLyric("我们的歌","王力宏",info))
-//    {
-//        qDebug()<< searcher->GetLastResult();
-//    }
-//    else
-//    {
-//        qDebug()<< "success" <<searcher->GetLastResult();
-//    }
-
-    //LyricListData data = LyricListManager::GetInstance().getLyricListData();
 
 }
 //------------------- test ----------------------
 
 
-
 int main(int argc, char *argv[])
 {
     MyApplication app(argc, argv);
-    StackFrame MainFrameWidget(&app);
 
+    StackFrame MainFrameWidget(&app);
     app.SetMakingLyricNotifyWidget(MainFrameWidget.mainWidget);
     app.SetStackFrame(&MainFrameWidget);
-
     MainFrameWidget.show();
 
-
     //test();
+
 
     return app.exec();
 }

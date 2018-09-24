@@ -27,7 +27,9 @@ HEADERS+=\
     $$PWD/SkinFactory/SkinBlue.h \
     $$PWD/SkinFactory/SkinGold.h \
     $$PWD/SkinFactory/SkinGreen.h \
-    $$PWD/SkinFactory/SkinPink.h
+    $$PWD/SkinFactory/SkinPink.h\
+    $$PWD/ThreadLogin.h\
+    $$PWD/ThreadCheckUpdate.h
 
 
 
