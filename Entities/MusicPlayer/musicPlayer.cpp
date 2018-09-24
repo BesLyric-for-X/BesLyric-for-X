@@ -839,7 +839,6 @@ void MusicPlayer::reload()
 //播放控制
 void MusicPlayer::play()
 {
-
     playThread->setVolume(m_volume);  //初始化声音值
 
     audioFinishedToThreadExitMutex.lock();
@@ -918,6 +917,8 @@ void MusicPlayer::setVolume(int volume)
 
     if(volume < 0)
         volume = 0;
+
+    m_volume = volume;
 
     playThread->setVolume(volume);
 }

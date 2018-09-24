@@ -102,7 +102,7 @@ typedef struct{
 		fct = nullptr;
 		audioq.clear();
 		audio_clock = 0;
-        volume = 128;
+        //volume = 20;  音量由外界负责设置，这里不能每次播放都重置
         playThread = nullptr;
 	}
 
