@@ -63,7 +63,7 @@ protected:
 
                 if(bRet == false)
                 {
-                    //可能没网络，或网络异常，也可能读取文件失败
+                    //可能没网络，或网络异常
                     //等待5秒再检测
                     nLeftCheckCount--;
                     sleep(5);

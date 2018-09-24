@@ -69,9 +69,9 @@ public:
     bool bIsLrcLyric;
     bool bIsNeteaseLrcFormat;
 
-private:
-	bool m_bDealOffset;						/* 表示是否处理LRC文件中的时间偏移 */
-	
-    int		m_nOffset;                      /* 时间偏移量，为正数表示整体提前 */
+//private:
+//	bool m_bDealOffset;						/* 表示是否处理LRC文件中的时间偏移 */
+//    int		m_nOffset;                      /* 时间偏移量，为正数表示整体提前 */
+
 };
 

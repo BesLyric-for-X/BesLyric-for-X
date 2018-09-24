@@ -121,7 +121,7 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
             {
                 SettingManager::GetInstance().data().defaultMusicPath = backup;
                 labelDefaultPathMusic->setText(backup);
-                BesMessageBox::information(tr("提示"),tr("保存失败"));
+                BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
             }
         }
     });
@@ -142,7 +142,7 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
             {
                 SettingManager::GetInstance().data().defaultLyricPath = backup;
                 labelDefaultPathLyric->setText(backup);
-                BesMessageBox::information(tr("提示"),tr("保存失败"));
+                BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
             }
         }
     });
@@ -163,7 +163,7 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
             {
                 SettingManager::GetInstance().data().defaultOutputPath = backup;
                 labelDefaultPathOutput->setText(backup);
-                BesMessageBox::information(tr("提示"),tr("保存失败"));
+                BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
             }
         }
     });

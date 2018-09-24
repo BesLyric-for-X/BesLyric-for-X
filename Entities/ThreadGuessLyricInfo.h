@@ -195,11 +195,11 @@ protected:
                 if(nSize <= 3 || (nSize-3)%2!=0) //这里标签大小大于3时才有内容，且只处理去除bom头后还剩下偶数个
                     continue;
 
-                char szBom[3];
-                char* pszTitle = new char[nSize-3];
+//                char szBom[3];
+//                char* pszTitle = new char[nSize-3];
 
-                memcpy(szBom, pFileData+i+4+6, 3);
-                memcpy(pszTitle, pFileData+i+4+9, nSize-3);
+//                memcpy(szBom, pFileData+i+4+6, 3);
+//                memcpy(pszTitle, pFileData+i+4+9, nSize-3);
 
                 //if(szBom[0] == 0x01 && szBom[1] == 0xff && szBom[2] == 0xfe){}
 
@@ -208,7 +208,7 @@ protected:
                 byteArray.setRawData(pFileData+i+4+6+1,nSize-1);
                 songName = UnicodeReader::ReadUnicodeString(byteArray);
 
-                delete pszTitle;
+//                delete pszTitle[];
                 nGetCount++;
             }
             else if(pFileData[i] == 'T' && pFileData[i+1] == 'P' && pFileData[i+2] == 'E' && pFileData[i+3] == '1')//作者
@@ -223,11 +223,11 @@ protected:
                 if(nSize <= 3 || (nSize-3)%2!=0) //这里标签大小大于3时才有内容，且只处理去除bom头后还剩下偶数个
                     continue;
 
-                char szBom[3];
-                char* pszArtist = new char[nSize-3];
+//                char szBom[3];
+//                char* pszArtist = new char[nSize-3];
 
-                memcpy(szBom, pFileData+i+4+6, 3);
-                memcpy(pszArtist, pFileData+i+4+9, nSize-3);
+//                memcpy(szBom, pFileData+i+4+6, 3);
+//                memcpy(pszArtist, pFileData+i+4+9, nSize-3);
 
                 //if(szBom[0] == 0x01 && szBom[1] == 0xff && szBom[2] == 0xfe){}
 
@@ -236,7 +236,7 @@ protected:
                 byteArray.setRawData(pFileData+i+4+6+1,nSize-1);
                 strArtist = UnicodeReader::ReadUnicodeString(byteArray);
 
-                delete pszArtist;
+//                delete pszArtist[];
                 nGetCount++;
             }
         }

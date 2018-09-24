@@ -100,7 +100,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
             {
                 SettingManager::GetInstance().data().musicDowloadPath = backup;
                 labelMusicDownloadPath->setText(backup);
-                BesMessageBox::information(tr("提示"),tr("保存失败"));
+                BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
             }
         }
     });
@@ -112,6 +112,14 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
         bool agree = false;
         if(checkboxMusicDownload->isChecked())
         {
+
+            QString lineHeight = "line-height:150%;";
+
+//mac 平台样式实现效果不同，必须为 100%，否则会有超出部分看不到
+#ifdef Q_OS_MAC
+            lineHeight = "line-height:100%;";
+#endif
+
             int nCount = 0;
             while(true)
             {
@@ -120,15 +128,15 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 
             if( QMessageBox::StandardButton::Ok ==
             BesMessageBox::question(tr("《BesLyric 音乐下载声明》"),
-            tr("<p style=\"line-height:150%;\">亲爱的 Beslyric 用户，感谢使用 Beslyric, 请花费您宝贵的【1分钟】阅读本说明：\n</p>"
-               "<p style=\"line-height:150%;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            tr("<p style=\"%1\">亲爱的 Beslyric 用户，感谢使用 Beslyric, 请花费您宝贵的【1分钟】阅读本说明：\n</p>"
+               "<p style=\"%2\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                "本软件为 <a style='color:#666666;' href='https://blog.csdn.net/testcs_dn/article/details/37722355'>自由开源</a> 软件，是一款专门制作网易云音乐滚动歌词的软件。正是由于你们的默默支持，才使得本软件不断朝着“上手简单、功能实用”的目标发展更新，为广大网易云音乐爱好者提供一个良好的歌词制作体验。\n</p>"
-               "<p style=\"line-height:150%;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+               "<p style=\"%3\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                "需要告诉你的是，从本软件下载的音乐，仅仅是以 方便用户制作歌词 为目的。音乐作品是音乐人辛勤劳动的成果，对正版音乐的支持，能够鼓励优秀的音乐人继续进行音乐创作，促进音乐生态良好地运作，最终使 音乐人 和 您 从中受益。</p>"
-               "<p style=\"line-height:150%;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+               "<p style=\"%4\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                "如果您喜欢音乐人作品，请到拥有其版权的平台购买音乐，感谢您为音乐所做的付出！\n</p>"
 
-               "<p style=\"line-height:150%;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+               "<p style=\"%5\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                "如需了解版权相关内容，可参考&nbsp;&nbsp;"
                "<a style='color:#666666;' href='http://www.ipcenter.fudan.edu.cn/5530/list.htm'>《版权法》</a>&nbsp;&nbsp;"
                "<a style='color:#666666;' href='http://www.ipcenter.fudan.edu.cn/_upload/article/9f/2b/8b7f82004392ac29f4974f7590e0/ce326ff7-6d52-4fbc-a7c6-59eb89867e9d.pdf'>《信息网络传播权保护条例》</a>"
@@ -136,7 +144,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 
                 "<p style=\"text-align:right;color:#666666;\">by 开发者 <a href=\"https://www.cnblogs.com/BensonLaur/\" target=\"_blank\" style=\"color:#666666;\">BensonLaur</a></p>"
 
-               "<p style=\"line-height:150%;text-align:center;\">对于以上说明，您是否表示 理解并同意？	</p>"),
+               "<p style=\"%6text-align:center;\">对于以上说明，您是否表示 理解并同意？	</p>").arg(lineHeight).arg(lineHeight).arg(lineHeight).arg(lineHeight).arg(lineHeight).arg(lineHeight),
                       tr("是"), tr("否"), false, true)
                     )
             {
@@ -194,7 +202,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
             {
                 SettingManager::GetInstance().data().agreeDownloadDeclaration = checkBackup;
                 checkboxMusicDownload->setChecked(checkBackup);
-                BesMessageBox::information(tr("提示"),tr("本次设置保存失败"));
+                BesMessageBox::information(tr("提示"),tr("本次设置保存失败，可能是程序没有写权限"));
             }
             else
             {

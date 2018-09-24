@@ -112,7 +112,7 @@ void LyricListManager::loadFromDataDir()
         }
 
         if(!saveLyricListData(listData))
-			BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败"));
+            BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败，可能是程序没有写权限"));
     }
     else //存在，读取配置
     {
@@ -130,7 +130,7 @@ void LyricListManager::loadFromDataDir()
 
 			//自动重写
 			if (!saveLyricListData(listData))
-				BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败 :("));
+                BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败，可能是程序没有写权限 :("));
 		}
     }
 

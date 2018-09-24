@@ -19,13 +19,13 @@ void SettingManager::loadSettingData()
     if(!QFile::exists(path))  //不存在，自动创建设置并保存
     {
         if(!saveSettingData())
-            BesMessageBox::information(tr("提示"), tr("尝试创建默认设置失败"));
+            BesMessageBox::information(tr("提示"), tr("尝试创建默认设置失败，可能是程序没有写权限"));
     }
     else //存在，读取配置
     {
         if (!LoadSettingData(path))
         {
-            BesMessageBox::information(tr("提示"), tr("载入设置失败")
+            BesMessageBox::information(tr("提示"), tr("载入设置失败，可能是程序没有写权限")
                      + " : \n\n" + path + "\n\n"+ "将自动为您重建默认设置 :)");
 
             //自动重写
@@ -148,7 +148,7 @@ void SettingManager::loadFromDataDir()
 
             //自动重写
             if (!saveSettingData())
-                BesMessageBox::information(tr("提示"), tr("尝试创建默认设置失败 :("));
+                BesMessageBox::information(tr("提示"), tr("尝试创建默认设置失败 ，可能是程序没有写权限:("));
 		}
     }
 

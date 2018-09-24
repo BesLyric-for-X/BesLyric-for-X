@@ -204,7 +204,7 @@ private:
             "color:"+DeepLabelColor+";"
             "font-size:18px;"
             "font-weight:bold;"
-            "margin:5px;"
+            "margin:0px;"
         "}"
 
          "QLabel#labelMessageContent{"

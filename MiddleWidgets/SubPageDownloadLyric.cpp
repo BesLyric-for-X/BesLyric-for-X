@@ -422,7 +422,8 @@ void SubPageDownloadLyric::OnSaveRawLyric()
         QFile fileOut(fileName);
         if (! fileOut.open(QFile::WriteOnly | QFile::Truncate))
         {
-            BesMessageBox::information(tr("失败提示"), tr("无法保存文件:")+ fileName);
+            BesMessageBox::information(tr("失败提示"), tr("无法保存文件:")+ fileName
+                                       +"\n\n可能是程序没有写权限");
             return;
         }
 
@@ -492,7 +493,8 @@ void SubPageDownloadLyric::OnSavectLrcLyric()
         QFile fileOut(fileName);
         if (! fileOut.open(QFile::WriteOnly | QFile::Truncate))
         {
-            BesMessageBox::information(tr("失败提示"), tr("无法保存文件:")+ fileName);
+            BesMessageBox::information(tr("失败提示"), tr("无法保存文件:")+ fileName
+                                       +"\n\n可能是程序没有写权限");
             return;
         }
 

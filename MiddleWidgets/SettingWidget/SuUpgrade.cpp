@@ -79,7 +79,7 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
         {
             SettingManager::GetInstance().data().autoCheckForUpgrade = backup;
             checkboxAutoUpgrade->setChecked(backup);
-            BesMessageBox::information(tr("提示"),tr("保存失败"));
+            BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
         }
     });
 
