@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <QDesktopServices>
+#include <QUrl>
 
 QString SuDonation::getName()
 {
@@ -89,5 +91,16 @@ QWidget *SuDonation::getUnitWidget(QWidget *parent)
     vLayout->addLayout(vLayoutText);
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
+
+    connect(btnDownloadWindow, SIGNAL(clicked(bool)),this, SLOT(onDownloadProgram()));
+    connect(btnDownloadLinux, SIGNAL(clicked(bool)),this, SLOT(onDownloadProgram()));
+    connect(btnDownloadMac, SIGNAL(clicked(bool)),this, SLOT(onDownloadProgram()));
+
     return SettingUnitContainer;
+}
+
+void SuDonation::onDownloadProgram()
+{
+    QString strLink = "https://www.cnblogs.com/BensonLaur/p/9695769.html#title2";
+    QDesktopServices::openUrl(QUrl(strLink));
 }

@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSpacerItem>
+#include <Define/Static.h>
 
 QString SuSoftware::getName()
 {
@@ -37,7 +38,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     label3->setObjectName("labelSettingHighColor");
     label4->setObjectName("labelSettingHighColor");
 
-    label1->setText(tr("本软件 名称：BesLyric （Beslyric-for-X）"));
+    label1->setText(tr("本软件 名称：BesLyric ") + " ( "+VERSION_NAME + " )");
 
     label2->setText(tr("<p style='line-height:130%'>本软件 试图提供给用户一个 上手简单、功能实用的 滚动歌词制作软件，为广大网易云音乐爱好者提供一个良好的歌词制作体验</p>"));
 

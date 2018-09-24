@@ -9,10 +9,14 @@
 
 class SuDonation: public ISettingUnit
 {
+    Q_OBJECT
 public:
     virtual QString getName() override;
     virtual int getUnitHeight() override;
     virtual QWidget* getUnitWidget(QWidget* parent) override;
+
+public slots:
+    void onDownloadProgram();
 
 public:
     QWidget* SettingUnitContainer;
