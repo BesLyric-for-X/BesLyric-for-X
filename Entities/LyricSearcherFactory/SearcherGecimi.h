@@ -30,9 +30,11 @@
 class SearcherGecimi: public ISearcher, public QObject
 {
 public:
+    virtual ~SearcherGecimi(){}
+
 	//搜索歌词
     virtual bool SearchLyric(QString strSong, QString strArtist, QVector<LyricInfo>& vecLyricInfo);
-    
+
 private:
 	//从 去链接中下载歌词文件，并获得具体信息置于 vecLyricInfo 中
     void GetLyricInfoFromLinks(QVector<QString>& vecLyricLink, QVector<LyricInfo>& vecLyricInfo);

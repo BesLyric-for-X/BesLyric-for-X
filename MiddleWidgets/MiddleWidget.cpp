@@ -189,7 +189,7 @@ void MiddleWidget::onSetMusicArtist(QString artist)
 
 void MiddleWidget::onSetMusicAlbum(QString album)
 {
-
+    Q_UNUSED(album)
 }
 
 

@@ -9,7 +9,7 @@
 #include <QTabWidget>
 #include <QListWidget>
 #include <QTextEdit>
-#include "LyricSearcherFactory/threadsearchlyric.h"
+#include "LyricSearcherFactory/ThreadSearchLyric.h"
 #include "table/BesLrcTableView.h"
 #include "BesFileLineEdit.h"
 

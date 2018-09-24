@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <QString>
-#include <Qurl>
+#include <QUrl>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>

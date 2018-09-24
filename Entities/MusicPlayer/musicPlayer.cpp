@@ -283,7 +283,9 @@ void PlayThread::setAGStatus(AudioGenStatus status)
 	AGSStatusMutex.lock();		//保证	AGSStatus 状态 某些访问操作 的原子性
 	AGStatus = status;
     if(AGStatus == AGS_FINISH)
+    {
         isEndByForce = true;
+    }
 	AGSStatusMutex.unlock();
 }
 
@@ -889,7 +891,9 @@ void MusicPlayer::seek(quint64 pos)
     //先获得总长
     quint64 total = duration();
     if(pos > total)
+    {
         pos = total;
+    }
 
 	playThread->seekToPos(pos);
 }

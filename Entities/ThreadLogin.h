@@ -99,15 +99,11 @@ protected:
 
         QStringList matchedList;  //所有匹配的地址列表
 
-        int textPos = 0; //非标签文本开始的位置
-
         //尝试匹配时间标签
         int pos = 0;
         while ((pos = rx.indexIn(buffer, pos)) != -1) {
             matchedList << rx.cap(1);
             pos += rx.matchedLength();
-
-            textPos = pos;
         }
 
         if(matchedList.size() == 0)

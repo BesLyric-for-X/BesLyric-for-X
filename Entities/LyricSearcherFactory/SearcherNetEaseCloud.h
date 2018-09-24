@@ -31,6 +31,8 @@
 class SearcherNetEaseCloud: public ISearcher,public QObject
 {
 public:
+    virtual ~SearcherNetEaseCloud(){}
+
 	//搜索歌词
     virtual bool SearchLyric(QString strSong, QString strArtist, QVector<LyricInfo>& vecLyricInfo);
 

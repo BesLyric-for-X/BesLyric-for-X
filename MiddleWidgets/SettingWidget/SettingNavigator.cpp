@@ -91,7 +91,8 @@ void SuNavigator::paintEvent(QPaintEvent *event)
 
 void SuNavigator::mouseMoveEvent(QMouseEvent *event)
 {
-    int index = getPointInRect(event->pos());
+    QPoint pos = event->pos();
+    int index = getPointInRect(pos);
 
     if(index != -1)
         setCursor(QCursor(Qt::PointingHandCursor));
@@ -101,7 +102,8 @@ void SuNavigator::mouseMoveEvent(QMouseEvent *event)
 
 void SuNavigator::mousePressEvent(QMouseEvent *event)
 {
-    int index = getPointInRect(event->pos());
+    QPoint pos = event->pos();
+    int index = getPointInRect(pos);
     if(index != -1)
         emit sig_scrollToSettingUnit(index);
 }

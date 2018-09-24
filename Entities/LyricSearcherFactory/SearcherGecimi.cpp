@@ -38,9 +38,13 @@ bool SearcherGecimi::SearchLyric(QString strSong, QString strArtist, QVector<Lyr
     GetLyricInfoFromLinks(vecLyricLink, vecLyricInfo);
 
     if(vecLyricLink.size() > vecLyricInfo.size())
+    {
         m_strLastResult.sprintf("共查询到%d条数据，成功下载%d条数据",vecLyricLink.size(),vecLyricInfo.size());
+    }
     else
+    {
         m_strLastResult.sprintf("成功下载询到的%d条数据",vecLyricInfo.size());
+    }
 
 	return true;
 }
@@ -131,7 +135,9 @@ bool SearcherGecimi::GetLyricLinkFromJson(QString strLyricJson, QVector<QString>
         }
     }
     else
+    {
         return false;
+    }
 
 	return true;
 }

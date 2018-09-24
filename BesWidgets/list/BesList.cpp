@@ -27,7 +27,9 @@ void BesList::setLyricLists(QVector<LyricList> &lyricLists)
 void BesList::addItem(QString item, bool bConstructNewData)
 {
     if(pLyricLists==nullptr)
+    {
         return;
+    }
 
 	LyricList lyricList;
 	lyricList.name = item;
@@ -35,7 +37,9 @@ void BesList::addItem(QString item, bool bConstructNewData)
     QString imageName = ":/resource/image/lyric_list_icon_black.png";
 
     if(item == tr("制作记录") || item==tr("历史记录"))
+    {
         imageName = ":/resource/image/history_list_white.png";
+    }
 
 	if (bConstructNewData)
 	{
@@ -58,7 +62,9 @@ void BesList::deleteCurrentItem()
 
     int index = this->currentRow();
     if(index == -1)
+    {
         return;
+    }
 
 	pLyricLists->removeAt(index);
 
@@ -75,7 +81,9 @@ void BesList::deleteCurrentItem()
 void BesList::removeAll()
 {
     if(pLyricLists==nullptr)
+    {
         return;
+    }
 
 	pLyricLists->clear();
 
@@ -85,7 +93,9 @@ void BesList::removeAll()
 void BesList::moveRow(int from, int to)
 {
     if(pLyricLists==nullptr)
+    {
         return;
+    }
 
 	LyricList item = pLyricLists->at(from);
 	pLyricLists->removeAt(from);

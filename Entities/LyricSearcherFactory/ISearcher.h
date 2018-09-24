@@ -43,6 +43,7 @@ public:
         return  m_strLastResult;
 	}
 
+    virtual ~ISearcher(){}
 protected:
     QString m_strLastResult;
 };
