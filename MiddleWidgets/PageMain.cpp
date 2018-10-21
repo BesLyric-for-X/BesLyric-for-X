@@ -2,6 +2,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "global.h"
+#include "BesScaleUtil.h"
 
 PageMain::PageMain(QWidget *parent)
     : QWidget(parent)
@@ -56,11 +57,11 @@ void PageMain::initLayout()
     boxPageLyricList->setObjectName("boxPageLyricList");
     boxPagePreviewLyric->setObjectName("boxPagePreviewLyric");
 
-    boxPageLyricList->setMinimumSize(100,55+10);
-    boxPageLyricList->setMaximumSize(300,55+10);
+    boxPageLyricList->setMinimumSize(100* BesScaleUtil::scale(),(55+10)* BesScaleUtil::scale());
+    boxPageLyricList->setMaximumSize(300* BesScaleUtil::scale(),(55+10)* BesScaleUtil::scale());
     boxPageLyricList->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    boxPagePreviewLyric->setMinimumSize(100,55+10);
-    boxPagePreviewLyric->setMaximumSize(300,55+10);
+    boxPagePreviewLyric->setMinimumSize(100* BesScaleUtil::scale(),(55+10)* BesScaleUtil::scale());
+    boxPagePreviewLyric->setMaximumSize(300* BesScaleUtil::scale(),(55+10)* BesScaleUtil::scale());
     boxPagePreviewLyric->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     subPageContainer = new QWidget(this);

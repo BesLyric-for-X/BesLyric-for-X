@@ -1,9 +1,9 @@
 ﻿#include "Phonograph.h"
 #include <QPainter>
-
+#include "BesScaleUtil.h"
 
 Phonograph::Phonograph(QWidget* parent):QWidget(parent),
-    YoffsetOfDisk(76),
+    YoffsetOfDisk(76 * BesScaleUtil::scale()),
     maxAngleOfArm(36),
     currentDiskAngle(0),
     currentArmAngle(0),
@@ -145,10 +145,10 @@ void Phonograph::initPaintingData(bool firstTime)
 {
    if(firstTime)
    {
-        albumWidth = 400;
-        albumHeight = 400;
-        toneArmWidth = 200;
-        toneArmHeight = 100;
+        albumWidth = 400 * BesScaleUtil::scale();
+        albumHeight = 400 * BesScaleUtil::scale();
+        toneArmWidth = 200 * BesScaleUtil::scale();
+        toneArmHeight = 100 * BesScaleUtil::scale();
 
         picDisk = disk.scaled(albumWidth, albumHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 

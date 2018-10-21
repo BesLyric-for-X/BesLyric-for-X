@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QSpacerItem>
 #include "BesMessageBox.h"
+#include "BesScaleUtil.h"
 
 QString SuUpgrade::getName()
 {
@@ -13,7 +14,7 @@ QString SuUpgrade::getName()
 
 int SuUpgrade::getUnitHeight()
 {
-   return 240;
+   return 240* BesScaleUtil::mscale();
 }
 
 QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
@@ -27,25 +28,25 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     checkboxAutoUpgrade = new QCheckBox(SettingUnitContainer);
     checkboxAutoUpgrade->setText(tr("自动检测新版本并提示"));
 
     btnCheckUpgrade = new BesButton(SettingUnitContainer);
     btnCheckUpgrade->setText(tr("检测更新"));
-    btnCheckUpgrade->setMinimumSize(80,30);
-    btnCheckUpgrade->setMaximumSize(80,30);
+    btnCheckUpgrade->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnCheckUpgrade->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     btnCheckUpgrade->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
 
     labelCurrentVersionTip = new QLabel(SettingUnitContainer);
     labelCurrentVersion    = new QLabel(SettingUnitContainer);
     labelCurrentVersionTip->setText("当前版本号：");
-    labelCurrentVersionTip->setMinimumSize(80,30);
-    labelCurrentVersionTip->setMaximumSize(80,30);
+    labelCurrentVersionTip->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelCurrentVersionTip->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-    labelCurrentVersion->setMinimumSize(50,30);
-    labelCurrentVersion->setMaximumSize(50,30);
+    labelCurrentVersion->setMinimumSize(50* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelCurrentVersion->setMaximumSize(50* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelCurrentVersionTip->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
     labelCurrentVersion->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
@@ -53,18 +54,18 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     hLayout2->addWidget(checkboxAutoUpgrade);
-    hLayout2->addSpacerItem(new QSpacerItem(120,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(120* BesScaleUtil::mscale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(labelCurrentVersionTip);
     hLayout2->addWidget(labelCurrentVersion);
-    hLayout2->addSpacerItem(new QSpacerItem(10,40,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(10* BesScaleUtil::mscale(),40* BesScaleUtil::mscale(),QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(btnCheckUpgrade);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
-    vLayout->setSpacing(15);
+    vLayout->setSpacing(15* BesScaleUtil::mscale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
-    vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     checkboxAutoUpgrade->setChecked(SettingManager::GetInstance().data().autoCheckForUpgrade);
 

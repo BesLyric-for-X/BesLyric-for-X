@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QDateTime>
 #include "BesMessageBox.h"
+#include "BesScaleUtil.h"
 
 QString SuMusicDownload::getName()
 {
@@ -14,7 +15,7 @@ QString SuMusicDownload::getName()
 
 int SuMusicDownload::getUnitHeight()
 {
-   return 230;
+   return 230* BesScaleUtil::mscale();
 }
 
 QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
@@ -28,7 +29,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     btnSelectMusicDownloadPath = new BesButton(SettingUnitContainer);
     labelMusicDownloadPathTip = new QLabel(SettingUnitContainer);
@@ -37,14 +38,14 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
     btnSelectMusicDownloadPath->setText(tr("选择"));
     labelMusicDownloadPathTip->setText(tr("歌曲下载目录："));
 
-    btnSelectMusicDownloadPath->setMinimumSize(80,30);
-    btnSelectMusicDownloadPath->setMaximumSize(80,30);
+    btnSelectMusicDownloadPath->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnSelectMusicDownloadPath->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     btnSelectMusicDownloadPath->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    labelMusicDownloadPathTip->setMinimumSize(120,30);
-    labelMusicDownloadPathTip->setMaximumSize(120,30);
+    labelMusicDownloadPathTip->setMinimumSize(120* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelMusicDownloadPathTip->setMaximumSize(120* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     labelMusicDownloadPathTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    labelMusicDownloadPath->setMinimumHeight(30);
-    labelMusicDownloadPath->setMaximumHeight(30);
+    labelMusicDownloadPath->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelMusicDownloadPath->setMaximumHeight(30* BesScaleUtil::mscale());
     labelMusicDownloadPath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     checkboxMusicDownload = new QCheckBox(SettingUnitContainer);
@@ -57,15 +58,15 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout3 = new QHBoxLayout();
     hLayout3->addWidget(checkboxMusicDownload);
-    hLayout3->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::MinimumExpanding ,QSizePolicy::Fixed));
+    hLayout3->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20, QSizePolicy::MinimumExpanding ,QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
     vLayout->setSpacing(15);
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
-    vLayout->addSpacerItem(new QSpacerItem(20,15, QSizePolicy::Fixed ,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(20,15* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::Fixed));
     vLayout->addLayout(hLayout3);
-    vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     //如果不同意下载声明，下载路径置空
     if(!SettingManager::GetInstance().data().agreeDownloadDeclaration)

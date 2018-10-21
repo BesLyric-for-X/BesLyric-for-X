@@ -1,5 +1,6 @@
 ﻿#include "TopWidget.h"
 #include <QHBoxLayout>
+#include "BesScaleUtil.h"
 
 TopWidget::TopWidget(QWidget *parent)
     : QWidget(parent)
@@ -61,15 +62,15 @@ void TopWidget::initLayout()
 
     QHBoxLayout*    hLayout = new QHBoxLayout(topWidgetContainer);
     hLayout->addWidget(btnIcon);
-    hLayout->addSpacerItem(new QSpacerItem(60,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(60 * BesScaleUtil::scale(),25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelTitle);
-    hLayout->addSpacerItem(new QSpacerItem(23,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(23 * BesScaleUtil::scale(),25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout->addWidget(btnSkinBox);
-    hLayout->addSpacerItem(new QSpacerItem(23,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(23 * BesScaleUtil::scale(),25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnSetting);
-    hLayout->addSpacerItem(new QSpacerItem(16,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(16 * BesScaleUtil::scale(),25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(labelSepHeader);
-    hLayout->addSpacerItem(new QSpacerItem(15,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(15 * BesScaleUtil::scale(),25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout->addWidget(btnMini);
     hLayout->addWidget(btnMax);
     hLayout->addWidget(btnRestore);

@@ -10,6 +10,7 @@
 #include <assert.h>
 #include "BesMessageBox.h"
 #include "SettingManager.h"
+#include "BesScaleUtil.h"
 
 PageLyricList::PageLyricList(QWidget *parent)
     : QWidget(parent),pCurrentLyricList(nullptr)
@@ -64,14 +65,17 @@ void PageLyricList::initLayout()
 
     //表头
     headerListCreated = new BesListHeader("创建的歌词单",true,true,lyriclistLeftPanel);
-    headerListCreated->setMaximumHeight(36);
-    headerListCreated->setMinimumHeight(36);
-    headerListCreated->setMinimumWidth(50);
-    headerListCreated->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    headerListCreated->setMaximumHeight(36 * BesScaleUtil::scale());
+    headerListCreated->setMinimumHeight(36 * BesScaleUtil::scale());
+    headerListCreated->setMinimumWidth(250* BesScaleUtil::scale());
+    headerListCreated->setMaximumWidth(250* BesScaleUtil::scale());
+    headerListCreated->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     //列表
     lyricListCreated = new BesList(lyriclistLeftPanel);
-    lyricListCreated->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+    lyricListCreated->setMinimumWidth(250* BesScaleUtil::scale());
+    lyricListCreated->setMaximumWidth(250* BesScaleUtil::scale());
+    lyricListCreated->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     lyricListCreated->setFocusPolicy(Qt::NoFocus);
     lyricListCreated->setDragDropMode(QListView::DragDropMode::InternalMove);
     lyricListCreated->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
@@ -80,15 +84,15 @@ void PageLyricList::initLayout()
 
     //左侧控件布局
     vListLayout->setMargin(0);
-    vListLayout->addSpacerItem(new QSpacerItem(20,10,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    vListLayout->addSpacerItem(new QSpacerItem(20,10* BesScaleUtil::scale(),QSizePolicy::Fixed, QSizePolicy::Fixed));
     vListLayout->addWidget(lyricListHistory);
     vListLayout->addWidget(headerListCreated);
     vListLayout->addWidget(lyricListCreated);
-    vListLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
+    vListLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(),QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
 
     scrollAreaLeft = new QScrollArea(pageLyricListContainer);
-    scrollAreaLeft->setMinimumWidth(250);
-    scrollAreaLeft->setMaximumWidth(250);
+    scrollAreaLeft->setMinimumWidth(250* BesScaleUtil::scale());
+    scrollAreaLeft->setMaximumWidth(250* BesScaleUtil::scale());
     scrollAreaLeft->setWidgetResizable(true);
     scrollAreaLeft->setWidget(lyriclistLeftPanel);
     scrollAreaLeft->setObjectName("scrollAreaLeftList");
@@ -99,11 +103,14 @@ void PageLyricList::initLayout()
     //右侧控件
     labelListCoverRect = new QLabel(lyriclistRightPanel);
     labelListCoverRect->setObjectName("labelListCoverRect");
-    labelListCoverRect->setPixmap(QPixmap(":/resource/image/default_list_cover.png"));
-    labelListCoverRect->setMinimumSize(245,245);
-    labelListCoverRect->setMaximumSize(245,245);
+    labelListCoverRect->setMinimumSize(245* BesScaleUtil::scale(),245* BesScaleUtil::scale());
+    labelListCoverRect->setMaximumSize(245* BesScaleUtil::scale(),245* BesScaleUtil::scale());
     labelListCoverRect->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+    QPixmap pixmapCover(":/resource/image/default_list_cover.png");
+    QPixmap pixmapCoverScaled = pixmapCover.scaled(245* BesScaleUtil::scale(), 245* BesScaleUtil::scale(),
+                                           Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    labelListCoverRect->setPixmap(pixmapCoverScaled);
 
     widgetListInfoRight = new QWidget(lyriclistRightPanel);
 
@@ -116,8 +123,8 @@ void PageLyricList::initLayout()
     labelLyricListRedMark->setText("歌词单");
     labelListInfoTitle->setText(tr("歌词单标题"));
     labelLyricListRedMark->setAlignment(Qt::AlignCenter);
-    labelLyricListRedMark->setMinimumSize(60,26);
-    labelLyricListRedMark->setMaximumSize(60,26);
+    labelLyricListRedMark->setMinimumSize(BesScaleUtil::fontSizeScale(60),BesScaleUtil::fontSizeScale(26));
+    labelLyricListRedMark->setMaximumSize(BesScaleUtil::fontSizeScale(60),BesScaleUtil::fontSizeScale(26));
     labelLyricListRedMark->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelListInfoTitle->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
 
@@ -132,17 +139,17 @@ void PageLyricList::initLayout()
 
     QVBoxLayout* vLayoutListInfo = new QVBoxLayout();
     vLayoutListInfo->addLayout(hLayoutListInfo);
-    vLayoutListInfo->addSpacerItem(new QSpacerItem(20,200,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    vLayoutListInfo->addSpacerItem(new QSpacerItem(20,200* BesScaleUtil::scale(),QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
-    widgetListInfoRight->setMinimumHeight(250);
-    widgetListInfoRight->setMaximumHeight(250);
+    widgetListInfoRight->setMinimumHeight(250* BesScaleUtil::scale());
+    widgetListInfoRight->setMaximumHeight(250* BesScaleUtil::scale());
     widgetListInfoRight->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     QHBoxLayout* hLayoutTop = new QHBoxLayout();
     hLayoutTop->addWidget(labelListCoverRect);
     hLayoutTop->addLayout(vLayoutListInfo);
-    hLayoutTop->setSpacing(25);
-    hLayoutTop->setMargin(30);
+    hLayoutTop->setSpacing(25* BesScaleUtil::scale());
+    hLayoutTop->setMargin(30* BesScaleUtil::scale());
 
     tabpageLyricList = new  QTabWidget(pageLyricListContainer);
 
@@ -178,10 +185,10 @@ void PageLyricList::initLayout()
     labelLrcItemLrcPath->setText(tr("歌词路径"));
     editLrcItemSongPath->setFocusPolicy(Qt::NoFocus);
     editLrcItemLrcPath->setFocusPolicy(Qt::NoFocus);
-    editLrcItemSongPath->setMinimumHeight(35);
-    editLrcItemSongPath->setMaximumHeight(35);
-    editLrcItemLrcPath->setMinimumHeight(35);
-    editLrcItemLrcPath->setMaximumHeight(35);
+    editLrcItemSongPath->setMinimumHeight(35* BesScaleUtil::mscale());
+    editLrcItemSongPath->setMaximumHeight(35* BesScaleUtil::mscale());
+    editLrcItemLrcPath->setMinimumHeight(35* BesScaleUtil::mscale());
+    editLrcItemLrcPath->setMaximumHeight(35* BesScaleUtil::mscale());
     editLrcItemSongPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
     editLrcItemLrcPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
     editLrcItemSongPath->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
@@ -191,14 +198,14 @@ void PageLyricList::initLayout()
     btnSelectLrcItemLrcPath->setText(tr("选择"));
     btnSaveLrcItem->setText("保存");
     btnCreateLrcItem->setText("新建");
-    btnSelectLrcItemSongPath->setMinimumWidth(80);
-    btnSelectLrcItemSongPath->setMaximumWidth(120);
-    btnSelectLrcItemLrcPath->setMinimumWidth(80);
-    btnSelectLrcItemLrcPath->setMaximumWidth(120);
-    btnSaveLrcItem->setMinimumSize(80,35);
-    btnSaveLrcItem->setMaximumSize(80,35);
-    btnCreateLrcItem->setMinimumSize(80,35);
-    btnCreateLrcItem->setMaximumSize(80,35);
+    btnSelectLrcItemSongPath->setMinimumWidth(80* BesScaleUtil::scale());
+    btnSelectLrcItemSongPath->setMaximumWidth(120* BesScaleUtil::scale());
+    btnSelectLrcItemLrcPath->setMinimumWidth(80* BesScaleUtil::scale());
+    btnSelectLrcItemLrcPath->setMaximumWidth(120* BesScaleUtil::scale());
+    btnSaveLrcItem->setMinimumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnSaveLrcItem->setMaximumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnCreateLrcItem->setMinimumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnCreateLrcItem->setMaximumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
 
     QHBoxLayout* hEditItemSong = new QHBoxLayout();
     hEditItemSong->addWidget(labelLrcItemSongPath);
@@ -211,16 +218,16 @@ void PageLyricList::initLayout()
     hEditItemLrc->addWidget(btnSelectLrcItemLrcPath);
 
     QHBoxLayout* hEditItemSave = new QHBoxLayout();
-    hEditItemSave->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hEditItemSave->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     hEditItemSave->addWidget(btnSaveLrcItem);
     hEditItemSave->addWidget(btnCreateLrcItem);
 
     QVBoxLayout* hEditItem = new QVBoxLayout(widgetEditLyricItem);
     hEditItem->addLayout(hEditItemSong);
     hEditItem->addLayout(hEditItemLrc);
-    hEditItem->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hEditItem->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hEditItem->addLayout(hEditItemSave);
-    hEditItem->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
+    hEditItem->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding));
 
     //编辑歌词单信息
     labelModifyLrcListName = new QLabel(widgetEditListInfo);
@@ -229,23 +236,26 @@ void PageLyricList::initLayout()
     btnModifyListCover = new BesButton(widgetEditListInfo);
 
     labelModifyLrcListName->setText(tr("歌词单名:"));
-    labelModifyLrcListName->setMinimumSize(80,30);
-    labelModifyLrcListName->setMaximumSize(80,30);
+    labelModifyLrcListName->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelModifyLrcListName->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
     labelModifyLrcListName->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editModifyLrcListName->setMinimumHeight(35);
-    editModifyLrcListName->setMaximumHeight(35);
+    editModifyLrcListName->setMinimumHeight(35* BesScaleUtil::mscale());
+    editModifyLrcListName->setMaximumHeight(35* BesScaleUtil::mscale());
     editModifyLrcListName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     labelModifyListCoverRect->setObjectName("labelModifyListCoverRect");
-    labelModifyListCoverRect->setPixmap(QPixmap(":/resource/image/default_list_cover.png"));
-    labelModifyListCoverRect->setMinimumSize(245,245);
-    labelModifyListCoverRect->setMaximumSize(245,245);
+    QPixmap pixmapCover2(":/resource/image/default_list_cover.png");
+    QPixmap pixmapCoverScaled2 = pixmapCover2.scaled(245* BesScaleUtil::scale(), 245* BesScaleUtil::scale(),
+                                           Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    labelModifyListCoverRect->setPixmap(pixmapCoverScaled2);
+    labelModifyListCoverRect->setMinimumSize(245* BesScaleUtil::scale(),245* BesScaleUtil::scale());
+    labelModifyListCoverRect->setMaximumSize(245* BesScaleUtil::scale(),245* BesScaleUtil::scale());
     labelModifyListCoverRect->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelModifyListCoverRect->setVisible(false);
 
-    btnModifyListCover->setMinimumSize(120,35);
-    btnModifyListCover->setMaximumSize(120,35);
+    btnModifyListCover->setMinimumSize(120* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnModifyListCover->setMaximumSize(120* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
     btnModifyListCover->setText(tr("编辑封面"));
     btnModifyListCover->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnModifyListCover->setVisible(false);
@@ -257,10 +267,10 @@ void PageLyricList::initLayout()
 
     btnDeleteLrcList->setText(tr("删除整个歌词单"));
     btnSaveLrcListModified->setText(tr("保存"));
-    btnDeleteLrcList->setMinimumSize(160,35);
-    btnDeleteLrcList->setMaximumSize(160,35);
-    btnSaveLrcListModified->setMinimumSize(100,35);
-    btnSaveLrcListModified->setMaximumSize(100,35);
+    btnDeleteLrcList->setMinimumSize(160* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnDeleteLrcList->setMaximumSize(160* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnSaveLrcListModified->setMinimumSize(100* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnSaveLrcListModified->setMaximumSize(100* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
     btnDeleteLrcList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSaveLrcListModified->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -271,22 +281,22 @@ void PageLyricList::initLayout()
     QHBoxLayout* hModifyListButtons = new QHBoxLayout();
     hModifyListButtons->addWidget(btnDeleteLrcList);
     hModifyListButtons->addWidget(btnSaveLrcListModified);
-    hModifyListButtons->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed ));
+    hModifyListButtons->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed ));
     hModifyListButtons->addWidget(btnModifyListCover);
 
     QVBoxLayout* vModifyListInfoLeft = new QVBoxLayout();
     vModifyListInfoLeft->addLayout(hModifyListName);
-    vModifyListInfoLeft->addSpacerItem(new QSpacerItem(20,100,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding ));
+    vModifyListInfoLeft->addSpacerItem(new QSpacerItem(20,100* BesScaleUtil::scale(),QSizePolicy::Fixed, QSizePolicy::MinimumExpanding ));
     vModifyListInfoLeft->addLayout(hModifyListButtons);
 
     QHBoxLayout* hModifyListTop = new QHBoxLayout();
     hModifyListTop->addLayout(vModifyListInfoLeft);
     hModifyListTop->addWidget(labelModifyListCoverRect);
-    hModifyListTop->setSpacing(15);
+    hModifyListTop->setSpacing(15* BesScaleUtil::scale());
 
     QVBoxLayout* vModifyListInfo = new QVBoxLayout(widgetEditListInfo);
     vModifyListInfo->addLayout(hModifyListTop);
-    vModifyListInfo->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::MinimumExpanding ));
+    vModifyListInfo->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(),QSizePolicy::Fixed, QSizePolicy::MinimumExpanding ));
 
     //整体布局
     QHBoxLayout* hMainLayout = new QHBoxLayout(pageLyricListContainer);

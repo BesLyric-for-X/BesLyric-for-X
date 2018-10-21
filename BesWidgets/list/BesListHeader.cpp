@@ -2,6 +2,7 @@
 #include "BesListHeader.h"
 #include <QHBoxLayout>
 #include <QSpacerItem>
+#include "BesScaleUtil.h"
 
 BesListHeader::BesListHeader(QWidget *parent):
     QWidget(parent),labelListHeaderTitle(nullptr), showAddButton(false),showToggleButton(true)
@@ -48,15 +49,19 @@ void BesListHeader::initLayout()
     btnAddItem->setObjectName("btnAddItem");
     btnToggleList->setObjectName("btnToggleList");
 
+//    labelListHeaderTitle->setMinimumSize(100* BesScaleUtil::scale(),30);
+//    labelListHeaderTitle->setMaximumSize(100* BesScaleUtil::scale(),30);
+//    labelListHeaderTitle->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
     btnToggleList->setCheckable(true);
     btnToggleList->setChecked(false);
 
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-    hLayout->addSpacerItem(new QSpacerItem(15,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(15* BesScaleUtil::scale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout->addWidget(labelListHeaderTitle);
-    hLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
     hLayout->addWidget(btnAddItem);
     hLayout->addWidget(btnToggleList);
 

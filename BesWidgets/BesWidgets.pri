@@ -18,7 +18,8 @@ HEADERS+=\
     $$PWD/table/BesLListTableView.h\
     $$PWD/list/BesListHeader.h\
     $$PWD/list/BesList.h\
-    $$PWD/BesTransparentLayer.h\
+    $$PWD/BesTransparentLayer.h \
+    $$PWD/BesScaleUtil.h
 
 
 SOURCES+=\

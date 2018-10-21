@@ -2,6 +2,7 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include "BesScaleUtil.h"
 
 SubPageDownloadSong::SubPageDownloadSong(QWidget *parent)
     : QWidget(parent), nCurrentDownloadCount(0)
@@ -28,10 +29,10 @@ void SubPageDownloadSong::initLayout()
     //搜索按钮
     labelSearchNcmSong = new QLabel(this);
     labelSearchNcmArtist = new QLabel(this);
-    labelSearchNcmSong->setMinimumSize(120,30);
-    labelSearchNcmArtist->setMinimumSize(120,30);
-    labelSearchNcmSong->setMaximumSize(150,30);
-    labelSearchNcmArtist->setMaximumSize(150,30);
+    labelSearchNcmSong->setMinimumSize(120*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    labelSearchNcmArtist->setMinimumSize(120*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    labelSearchNcmSong->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    labelSearchNcmArtist->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
     labelSearchNcmSong->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchNcmArtist->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchNcmSong->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -43,18 +44,18 @@ void SubPageDownloadSong::initLayout()
     editSearchNcmArtist = new QLineEdit(this);
     editSearchNcmSong->setPlaceholderText(tr("必填"));
     editSearchNcmArtist->setPlaceholderText(tr("选填"));
-    editSearchNcmSong->setMinimumSize(200,30);
-    editSearchNcmArtist->setMinimumSize(200,30);
-    editSearchNcmSong->setMaximumSize(300,30);
-    editSearchNcmArtist->setMaximumSize(300,30);
+    editSearchNcmSong->setMinimumSize(200*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    editSearchNcmArtist->setMinimumSize(200*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    editSearchNcmSong->setMaximumSize(300*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    editSearchNcmArtist->setMaximumSize(300*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
     editSearchNcmSong->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSearchNcmArtist->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     btnSearchNcmSong  = new BesButton(this);
     btnSearchNcmSong->setObjectName("btnSearchNcmSong");
     btnSearchNcmSong->setText(tr("搜索"));
-    btnSearchNcmSong->setMinimumSize(150,30);
-    btnSearchNcmSong->setMaximumSize(150,30);
+    btnSearchNcmSong->setMinimumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    btnSearchNcmSong->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
     btnSearchNcmSong->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
@@ -62,10 +63,10 @@ void SubPageDownloadSong::initLayout()
     hLayout1->addWidget(labelSearchNcmSong);
     hLayout1->addWidget(editSearchNcmSong);
     hLayout1->addWidget(btnSearchNcmSong);
-    hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20*BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
     hLayout2->addWidget(labelSearchNcmArtist);
     hLayout2->addWidget(editSearchNcmArtist);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20*BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
 
     //搜索结果提示
     labelNcmSongResultTip1= new QLabel(this);
@@ -73,11 +74,11 @@ void SubPageDownloadSong::initLayout()
     labelNcmSongResultTip3= new QLabel(this);
     labelNcmSongResultTip4= new QLabel(this);
     labelNcmSongResultTip5= new QLabel(this);
-    labelNcmSongResultTip1->setMinimumHeight(30);
-    labelNcmSongResultTip2->setMinimumHeight(30);
-    labelNcmSongResultTip3->setMinimumHeight(30);
-    labelNcmSongResultTip4->setMinimumHeight(30);
-    labelNcmSongResultTip5->setMinimumHeight(30);
+    labelNcmSongResultTip1->setMinimumHeight(30*BesScaleUtil::mscale());
+    labelNcmSongResultTip2->setMinimumHeight(30*BesScaleUtil::mscale());
+    labelNcmSongResultTip3->setMinimumHeight(30*BesScaleUtil::mscale());
+    labelNcmSongResultTip4->setMinimumHeight(30*BesScaleUtil::mscale());
+    labelNcmSongResultTip5->setMinimumHeight(30*BesScaleUtil::mscale());
     labelNcmSongResultTip1->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelNcmSongResultTip2->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelNcmSongResultTip3->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
@@ -92,13 +93,13 @@ void SubPageDownloadSong::initLayout()
     labelNcmSongResultTip5->setText(tr("找到15条歌曲记录。"));
     showTipLabel(false);
     QHBoxLayout* hLayout3 = new QHBoxLayout();
-    hLayout3->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    hLayout3->addSpacerItem(new QSpacerItem(20*BesScaleUtil::scale(),20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
     hLayout3->addWidget(labelNcmSongResultTip1);
     hLayout3->addWidget(labelNcmSongResultTip2);
     hLayout3->addWidget(labelNcmSongResultTip3);
     hLayout3->addWidget(labelNcmSongResultTip4);
     hLayout3->addWidget(labelNcmSongResultTip5);
-    hLayout3->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
+    hLayout3->addSpacerItem(new QSpacerItem(20*BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
 
     //搜索结果
     tableNcmSongSearch = new BesNcmSongTableView(this);
@@ -113,12 +114,12 @@ void SubPageDownloadSong::initLayout()
     tabpageNcmSongResult->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
     vMainLayour->addWidget(labelTitleSearchSong);
-    vMainLayour->addSpacerItem(new QSpacerItem(20,10,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    vMainLayour->addSpacerItem(new QSpacerItem(20,10*BesScaleUtil::scale(),QSizePolicy::Fixed,  QSizePolicy::Fixed));
     vMainLayour->addLayout(hLayout1);
     vMainLayour->addLayout(hLayout2);
-    vMainLayour->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    vMainLayour->addSpacerItem(new QSpacerItem(20,20*BesScaleUtil::scale(),QSizePolicy::Fixed,  QSizePolicy::Fixed));
     vMainLayour->addLayout(hLayout3);
-    vMainLayour->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    vMainLayour->addSpacerItem(new QSpacerItem(20,20*BesScaleUtil::scale(),QSizePolicy::Fixed,  QSizePolicy::Fixed));
     vMainLayour->addWidget(tabpageNcmSongResult);
 }
 

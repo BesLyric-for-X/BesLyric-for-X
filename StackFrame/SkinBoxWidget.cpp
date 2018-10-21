@@ -6,6 +6,7 @@
 #include <QSpacerItem>
 #include <QPixmap>
 #include "SettingManager.h"
+#include "BesScaleUtil.h"
 
 SkinBoxWidget::SkinBoxWidget(QWidget *parent)
     : BesShadowWidget(parent),bLastSelectPage(1)
@@ -62,18 +63,19 @@ void SkinBoxWidget::initLayout()
     btnGreen = new ButtonTheme(themeContainer, new QImage(":/resource/image/green.png"),"green",tr("清新绿"),QColor("#5dc78a"));
     btnGold = new ButtonTheme(themeContainer, new QImage(":/resource/image/gold.png"),"gold",tr("土豪金"),QColor("#faac62"));
 
-    btnBlack->setMinimumSize(116,116);
-    btnBlack->setMaximumSize(116,116);
-    btnRed->setMinimumSize(116,116);
-    btnRed->setMaximumSize(116,116);
-    btnPink->setMinimumSize(116,116);
-    btnPink->setMaximumSize(116,116);
-    btnBlue->setMinimumSize(116,116);
-    btnBlue->setMaximumSize(116,116);
-    btnGreen->setMinimumSize(116,116);
-    btnGreen->setMaximumSize(116,116);
-    btnGold->setMinimumSize(116,116);
-    btnGold->setMaximumSize(116,116);
+    int size1 = 116 * BesScaleUtil::mscale();
+    btnBlack->setMinimumSize(size1,size1);
+    btnBlack->setMaximumSize(size1,size1);
+    btnRed->setMinimumSize(size1,size1);
+    btnRed->setMaximumSize(size1,size1);
+    btnPink->setMinimumSize(size1,size1);
+    btnPink->setMaximumSize(size1,size1);
+    btnBlue->setMinimumSize(size1,size1);
+    btnBlue->setMaximumSize(size1,size1);
+    btnGreen->setMinimumSize(size1,size1);
+    btnGreen->setMaximumSize(size1,size1);
+    btnGold->setMinimumSize(size1,size1);
+    btnGold->setMaximumSize(size1,size1);
     btnBlack->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnRed->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnPink->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -89,7 +91,8 @@ void SkinBoxWidget::initLayout()
     btnGold->setObjectName("btnGold");
 
     QGridLayout* themeGridLayout = new QGridLayout();
-    themeGridLayout->setContentsMargins(12,8,12,18);
+    themeGridLayout->setContentsMargins(12* BesScaleUtil::mscale(),8* BesScaleUtil::mscale(),
+                                        12* BesScaleUtil::mscale(),18* BesScaleUtil::mscale());
     themeGridLayout->setSpacing(6);
     themeGridLayout->addWidget(btnBlack,0,0);
     themeGridLayout->addWidget(btnRed,0,1);
@@ -127,18 +130,19 @@ void SkinBoxWidget::initLayout()
     btnPureColor11->setObjectName("btnPureColor11");
     btnPureColor12->setObjectName("btnPureColor12");
 
-    btnPureColor1->setMinimumSize(55,55);
-    btnPureColor2->setMinimumSize(55,55);
-    btnPureColor3->setMinimumSize(55,55);
-    btnPureColor4->setMinimumSize(55,55);
-    btnPureColor5->setMinimumSize(55,55);
-    btnPureColor6->setMinimumSize(55,55);
-    btnPureColor7->setMinimumSize(55,55);
-    btnPureColor8->setMinimumSize(55,55);
-    btnPureColor9->setMinimumSize(55,55);
-    btnPureColor10->setMinimumSize(55,55);
-    btnPureColor11->setMinimumSize(55,55);
-    btnPureColor12->setMinimumSize(55,55);
+    int size2 = 55 * BesScaleUtil::mscale();
+    btnPureColor1->setMinimumSize(size2,size2);
+    btnPureColor2->setMinimumSize(size2,size2);
+    btnPureColor3->setMinimumSize(size2,size2);
+    btnPureColor4->setMinimumSize(size2,size2);
+    btnPureColor5->setMinimumSize(size2,size2);
+    btnPureColor6->setMinimumSize(size2,size2);
+    btnPureColor7->setMinimumSize(size2,size2);
+    btnPureColor8->setMinimumSize(size2,size2);
+    btnPureColor9->setMinimumSize(size2,size2);
+    btnPureColor10->setMinimumSize(size2,size2);
+    btnPureColor11->setMinimumSize(size2,size2);
+    btnPureColor12->setMinimumSize(size2,size2);
 
     btnPureColor1->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnPureColor2->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -173,8 +177,8 @@ void SkinBoxWidget::initLayout()
     SliderLightness=  new QSlider(pureColorContainer);
 
     labelCustomizeColor->setText(tr("自定义颜色"));
-    btnCustomizeColor->setMinimumSize(55,55);
-    btnCustomizeColor->setMaximumSize(55,55);
+    btnCustomizeColor->setMinimumSize(size2,size2);
+    btnCustomizeColor->setMaximumSize(size2,size2);
     btnCustomizeColor->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnCustomizeColor->setObjectName("btnCustomizeColor");
 
@@ -186,26 +190,28 @@ void SkinBoxWidget::initLayout()
     SliderHue->setObjectName("SliderHue");
     SliderLightness->setObjectName("SliderLightness");
 
-    SliderHue->setMinimumHeight(25);
-    SliderLightness->setMinimumHeight(25);
+    SliderHue->setMinimumHeight(25* BesScaleUtil::mscale());
+    SliderLightness->setMinimumHeight(25* BesScaleUtil::mscale());
     SliderHue->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     SliderLightness->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     QVBoxLayout * vSliderLayout = new QVBoxLayout();
-    vSliderLayout->setSpacing(10);
+    vSliderLayout->setSpacing(10* BesScaleUtil::mscale());
     vSliderLayout->addWidget(SliderHue);
     vSliderLayout->addWidget(SliderLightness);
 
     QHBoxLayout * hCustomizeColorLayout = new QHBoxLayout();
-    hCustomizeColorLayout->setSpacing(12);
+    hCustomizeColorLayout->setSpacing(12* BesScaleUtil::mscale());
     hCustomizeColorLayout->addWidget(btnCustomizeColor);
     hCustomizeColorLayout->addLayout(vSliderLayout);
 
     QVBoxLayout * vPureColorLayout = new QVBoxLayout();     //纯色页面整体布局
     vPureColorLayout->addLayout(pureColorGridLayout);
-    vPureColorLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vPureColorLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(),
+                                                    QSizePolicy::Fixed,QSizePolicy::Fixed));
     vPureColorLayout->addWidget(labelCustomizeColor);
     vPureColorLayout->addLayout(hCustomizeColorLayout);
-    vPureColorLayout->addSpacerItem(new QSpacerItem(20,8, QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vPureColorLayout->addSpacerItem(new QSpacerItem(20,8* BesScaleUtil::mscale(),
+                                                    QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     pureColorContainer->setLayout(vPureColorLayout);                 //纯色页面
 
@@ -216,8 +222,8 @@ void SkinBoxWidget::initLayout()
     skinStack->setCurrentIndex(0);
 
     QVBoxLayout* vMainLayout = new QVBoxLayout(mainLayer);
-    vMainLayout->setMargin(2);
-    vMainLayout->setSpacing(5);
+    vMainLayout->setMargin(2* BesScaleUtil::mscale());
+    vMainLayout->setSpacing(5* BesScaleUtil::mscale());
     vMainLayout->addLayout(layoutButtons);
     vMainLayout->addLayout(skinStack);
 }
@@ -230,25 +236,25 @@ void SkinBoxWidget::initConnection()
     connect(btnTheme,&QPushButton::clicked,[=](){swithToPage(1);});
     connect(btnPureColor,&QPushButton::clicked,[=](){swithToPage(2);});
 
-    connect(btnBlack,&QPushButton::clicked,[=](){   markToPos(true,110+ 121*0 ,155); bLastSelectPage = 1;});
-    connect(btnRed,&QPushButton::clicked,[=](){     markToPos(true,110+ 121*1 ,155); bLastSelectPage = 1;});
-    connect(btnPink,&QPushButton::clicked,[=](){    markToPos(true,110+ 121*2 ,155);bLastSelectPage = 1;});
-    connect(btnBlue,&QPushButton::clicked,[=](){    markToPos(true,110+ 121*0 ,155+122);bLastSelectPage = 1;});
-    connect(btnGreen,&QPushButton::clicked,[=](){   markToPos(true,110+ 121*1 ,155+122);bLastSelectPage = 1;});
-    connect(btnGold,&QPushButton::clicked,[=](){    markToPos(true,110+ 121*2 ,155+122);bLastSelectPage = 1;});
+    connect(btnBlack,&QPushButton::clicked,[=](){   markToPos(true,(110+ 121*0)* BesScaleUtil::mscale() ,(155)* BesScaleUtil::mscale()); bLastSelectPage = 1;});
+    connect(btnRed,&QPushButton::clicked,[=](){     markToPos(true,(110+ 121*1)* BesScaleUtil::mscale() ,(155)* BesScaleUtil::mscale()); bLastSelectPage = 1;});
+    connect(btnPink,&QPushButton::clicked,[=](){    markToPos(true,(110+ 121*2)* BesScaleUtil::mscale() ,(155)* BesScaleUtil::mscale());bLastSelectPage = 1;});
+    connect(btnBlue,&QPushButton::clicked,[=](){    markToPos(true,(110+ 121*0)* BesScaleUtil::mscale() ,(155+122)* BesScaleUtil::mscale());bLastSelectPage = 1;});
+    connect(btnGreen,&QPushButton::clicked,[=](){   markToPos(true,(110+ 121*1)* BesScaleUtil::mscale() ,(155+122)* BesScaleUtil::mscale());bLastSelectPage = 1;});
+    connect(btnGold,&QPushButton::clicked,[=](){    markToPos(true,(110+ 121*2)* BesScaleUtil::mscale() ,(155+122)* BesScaleUtil::mscale());bLastSelectPage = 1;});
 
-    connect(btnPureColor1,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *0, 98); bLastSelectPage = 2;});
-    connect(btnPureColor2,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *1, 98); bLastSelectPage = 2;});
-    connect(btnPureColor3,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *2, 98);bLastSelectPage = 2;});
-    connect(btnPureColor4,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *3, 98);bLastSelectPage = 2;});
-    connect(btnPureColor5,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *4, 98);bLastSelectPage = 2;});
-    connect(btnPureColor6,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *5, 98);bLastSelectPage = 2;});
-    connect(btnPureColor7,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *0, 98+ 61); bLastSelectPage = 2;});
-    connect(btnPureColor8,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *1, 98+ 61); bLastSelectPage = 2;});
-    connect(btnPureColor9,&QPushButton::clicked,[=](){markToPos(true, 48 + 61 *2, 98+ 61);bLastSelectPage = 2;});
-    connect(btnPureColor10,&QPushButton::clicked,[=](){markToPos(true,48 + 61 *3, 98+ 61);bLastSelectPage = 2;});
-    connect(btnPureColor11,&QPushButton::clicked,[=](){markToPos(true,48 + 61 *4, 98+ 61);bLastSelectPage = 2;});
-    connect(btnPureColor12,&QPushButton::clicked,[=](){markToPos(true,48 + 61 *5, 98+ 61);bLastSelectPage = 2;});
+    connect(btnPureColor1,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *0)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale()); bLastSelectPage = 2;});
+    connect(btnPureColor2,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *1)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale()); bLastSelectPage = 2;});
+    connect(btnPureColor3,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *2)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor4,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *3)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor5,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *4)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor6,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *5)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor7,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *0)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale()); bLastSelectPage = 2;});
+    connect(btnPureColor8,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *1)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale()); bLastSelectPage = 2;});
+    connect(btnPureColor9,&QPushButton::clicked,[=](){markToPos(true, (48 + 61 *2)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor10,&QPushButton::clicked,[=](){markToPos(true,(48 + 61 *3)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor11,&QPushButton::clicked,[=](){markToPos(true,(48 + 61 *4)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;});
+    connect(btnPureColor12,&QPushButton::clicked,[=](){markToPos(true,(48 + 61 *5)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;});
 
     //注意：onSkinClick 这里有2处会触发皮肤的变换，一处是这里改变slider触发了纯颜色皮肤设置；另一处是在 StackFrame 中
     // 这里先连接，所以不会影响后面再次设置的自定义皮肤 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
@@ -272,7 +278,7 @@ void SkinBoxWidget::initConnection()
     connect(btnPureColor11,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
     connect(btnPureColor12,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
 
-    connect(btnCustomizeColor,&QPushButton::clicked,[=](){markToPos(true,48 + 61 *0, 274);bLastSelectPage = 2;});
+    connect(btnCustomizeColor,&QPushButton::clicked,[=](){markToPos(true,(48 + 61 *0)* BesScaleUtil::mscale(), 274* BesScaleUtil::mscale());bLastSelectPage = 2;});
 
     connect(SliderHue, SIGNAL(valueChanged(int)),this,SLOT(initLightnessGrooveColorByHue(int)));
     connect(SliderHue, &QSlider::valueChanged,[=](){signalToCustomSkin();});
@@ -428,25 +434,25 @@ void SkinBoxWidget::initLightnessGrooveColorByHue(int hueValue)
 
 void SkinBoxWidget::autoMarkToPosBySkinName(QString skinName)
 {
-    if(skinName == "black"){markToPos(true,110+ 121*0 ,155); bLastSelectPage = 1;}
-    else if(skinName == "red")  {markToPos(true,110+ 121*1 ,155); bLastSelectPage = 1;}
-    else if(skinName == "pink") {markToPos(true,110+ 121*2 ,155);bLastSelectPage = 1;}
-    else if(skinName == "blue") {markToPos(true,110+ 121*0 ,155+122);bLastSelectPage = 1;}
-    else if(skinName == "green"){markToPos(true,110+ 121*1 ,155+122);bLastSelectPage = 1;}
-    else if(skinName == "gold") {markToPos(true,110+ 121*2 ,155+122);bLastSelectPage = 1;}
-    else if(skinName == pureColur1  ){markToPos(true, 48 + 61 *0, 98); bLastSelectPage = 2;}
-    else if(skinName == pureColur2  ){markToPos(true, 48 + 61 *1, 98); bLastSelectPage = 2;}
-    else if(skinName == pureColur3  ){markToPos(true, 48 + 61 *2, 98);bLastSelectPage = 2;}
-    else if(skinName == pureColur4  ){markToPos(true, 48 + 61 *3, 98);bLastSelectPage = 2;}
-    else if(skinName == pureColur5  ){markToPos(true, 48 + 61 *4, 98);bLastSelectPage = 2;}
-    else if(skinName == pureColur6  ){markToPos(true, 48 + 61 *5, 98);bLastSelectPage = 2;}
-    else if(skinName == pureColur7  ){markToPos(true, 48 + 61 *0, 98+ 61); bLastSelectPage = 2;}
-    else if(skinName == pureColur8  ){markToPos(true, 48 + 61 *1, 98+ 61); bLastSelectPage = 2;}
-    else if(skinName == pureColur9  ){markToPos(true, 48 + 61 *2, 98+ 61);bLastSelectPage = 2;}
-    else if(skinName == pureColur10 ){markToPos(true,48 + 61 *3, 98+ 61);bLastSelectPage = 2;}
-    else if(skinName == pureColur11 ){markToPos(true,48 + 61 *4, 98+ 61);bLastSelectPage = 2;}
-    else if(skinName == pureColur12 ){markToPos(true,48 + 61 *5, 98+ 61);bLastSelectPage = 2;}
-    else {markToPos(true,48 + 61 *0, 274);bLastSelectPage = 2;}
+    if(skinName == "black"){markToPos(true,(110+ 121*0)* BesScaleUtil::mscale() ,155* BesScaleUtil::mscale()); bLastSelectPage = 1;}
+    else if(skinName == "red")  {markToPos(true,(110+ 121*1)* BesScaleUtil::mscale() ,155* BesScaleUtil::mscale()); bLastSelectPage = 1;}
+    else if(skinName == "pink") {markToPos(true,(110+ 121*2)* BesScaleUtil::mscale() ,155* BesScaleUtil::mscale());bLastSelectPage = 1;}
+    else if(skinName == "blue") {markToPos(true,(110+ 121*0)* BesScaleUtil::mscale() ,(155+122)* BesScaleUtil::mscale());bLastSelectPage = 1;}
+    else if(skinName == "green"){markToPos(true,(110+ 121*1)* BesScaleUtil::mscale() ,(155+122)* BesScaleUtil::mscale());bLastSelectPage = 1;}
+    else if(skinName == "gold") {markToPos(true,(110+ 121*2)* BesScaleUtil::mscale() ,(155+122)* BesScaleUtil::mscale());bLastSelectPage = 1;}
+    else if(skinName == pureColur1  ){markToPos(true, (48 + 61 *0)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale()); bLastSelectPage = 2;}
+    else if(skinName == pureColur2  ){markToPos(true, (48 + 61 *1)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale()); bLastSelectPage = 2;}
+    else if(skinName == pureColur3  ){markToPos(true, (48 + 61 *2)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur4  ){markToPos(true, (48 + 61 *3)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur5  ){markToPos(true, (48 + 61 *4)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur6  ){markToPos(true, (48 + 61 *5)* BesScaleUtil::mscale(), (98)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur7  ){markToPos(true, (48 + 61 *0)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale()); bLastSelectPage = 2;}
+    else if(skinName == pureColur8  ){markToPos(true, (48 + 61 *1)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale()); bLastSelectPage = 2;}
+    else if(skinName == pureColur9  ){markToPos(true, (48 + 61 *2)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur10 ){markToPos(true, (48 + 61 *3)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur11 ){markToPos(true, (48 + 61 *4)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else if(skinName == pureColur12 ){markToPos(true, (48 + 61 *5)* BesScaleUtil::mscale(), (98+ 61)* BesScaleUtil::mscale());bLastSelectPage = 2;}
+    else {markToPos(true,(48 + 61 *0)* BesScaleUtil::mscale(), 274* BesScaleUtil::mscale());bLastSelectPage = 2;}
 
 
     if(!(skinName == "black" || skinName == "red" || skinName == "pink" ||

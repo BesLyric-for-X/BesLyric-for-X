@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QSpacerItem>
 #include <Define/Static.h>
+#include "BesScaleUtil.h"
 
 QString SuSoftware::getName()
 {
@@ -12,7 +13,7 @@ QString SuSoftware::getName()
 
 int SuSoftware::getUnitHeight()
 {
-   return 350;
+   return 350* BesScaleUtil::mscale();
 }
 
 QWidget *SuSoftware::getUnitWidget(QWidget *parent)
@@ -26,7 +27,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QLabel* label1 = new QLabel(SettingUnitContainer);
     QLabel* label2 = new QLabel(SettingUnitContainer);
@@ -42,7 +43,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
 
     label2->setText(tr("<p style='line-height:130%'>本软件 试图提供给用户一个 上手简单、功能实用的 滚动歌词制作软件，为广大网易云音乐爱好者提供一个良好的歌词制作体验</p>"));
 
-    label3->setText(tr("本软件 详细使用说明 以及 解决常见问题 : <a style='color:#666666;' href='http://www.cnblogs.com/BensonLaur/p/6262565.html'>点击这里</a>"));
+    label3->setText(tr("本软件 详细使用说明 以及 解决常见问题 : <a style='color:#666666;' href='https://www.cnblogs.com/BensonLaur/p/9695769.html'>点击这里</a>"));
 
     label4->setText(tr("<p style='line-height:130%'>本软件 <a style='color:#666666;' href='https://blog.csdn.net/testcs_dn/article/details/37722355'>自由开源</a>"
     " ，License 为 GPL，使用跨平台框架 C++ 跨平台框架 QT 实现，对软件实现感兴趣的童鞋可以在此查看所有实现代码："
@@ -61,10 +62,10 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     vLayout1->addWidget(label4);
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
-    vLayout->setSpacing(15);
+    vLayout->setSpacing(15* BesScaleUtil::mscale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(vLayout1);
-    vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     return SettingUnitContainer;
 }

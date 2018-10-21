@@ -1,5 +1,6 @@
 ﻿#include "global.h"
 #include "BesMessageBox.h"
+#include "BesScaleUtil.h"
 
 BesMessageBox* BesMessageBox::besMessageBox = nullptr;
 
@@ -56,8 +57,8 @@ int BesMessageBox::information(const QString &title, const QString &text, bool b
 
 BesMessageBox::BesMessageBox(QWidget *parent):BesFramelessDialog(parent)
 {
-    this->setMinimumHeight(200);
-    this->setMinimumWidth(400);
+    this->setMinimumHeight(200* BesScaleUtil::mscale());
+    this->setMinimumWidth(400* BesScaleUtil::mscale());
 
     initLayout();
     initConnection();
@@ -90,11 +91,11 @@ void BesMessageBox::initLayout()
     widgetMessageMiddle->setObjectName("widgetMessageMiddle");
     widgetMessageBottom->setObjectName("widgetMessageBottom");
 
-    widgetMessageTop->setMinimumHeight(45);
+    widgetMessageTop->setMinimumHeight(45* BesScaleUtil::mscale());
     widgetMessageTop->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    widgetMessageMiddle->setMinimumHeight(100);
+    widgetMessageMiddle->setMinimumHeight(100* BesScaleUtil::mscale());
     widgetMessageMiddle->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    widgetMessageBottom->setMinimumHeight(60);
+    widgetMessageBottom->setMinimumHeight(60* BesScaleUtil::mscale());
     widgetMessageBottom->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     QVBoxLayout * vLayout = new QVBoxLayout(widgetMessageBoxContainer);
@@ -113,7 +114,7 @@ void BesMessageBox::initLayout()
     btnMessageClose->setObjectName("btnMessageClose");
 
     hHeaderLayout->addWidget(labelMessageTitle);
-    hHeaderLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Expanding, QSizePolicy::Fixed));
+    hHeaderLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
     hHeaderLayout->addWidget(btnMessageClose);
 
 
@@ -121,8 +122,8 @@ void BesMessageBox::initLayout()
 
     labelMessageIcon  = new QLabel(widgetMessageMiddle);
     labelMessageIcon->setPixmap(QPixmap(":/resource/image/icon_music_white.png"));
-    labelMessageIcon->setMinimumSize(48,48);
-    labelMessageIcon->setMargin(15);
+    labelMessageIcon->setMinimumSize(48* BesScaleUtil::mscale(),48* BesScaleUtil::mscale());
+    labelMessageIcon->setMargin(15* BesScaleUtil::mscale());
     labelMessageIcon->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     labelMessageContent = new QLabel(widgetMessageMiddle);
@@ -141,19 +142,19 @@ void BesMessageBox::initLayout()
     btnCancel->setObjectName("btnCancel");
     btnOK->setText(tr("确定"));
     btnCancel->setText(tr("取消"));
-    btnOK->setMinimumSize(75,30);
-    btnCancel->setMinimumSize(75,30);
-    btnOK->setMaximumSize(200,30);
-    btnCancel->setMaximumSize(200,30);
+    btnOK->setMinimumSize(75* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnCancel->setMinimumSize(75* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnOK->setMaximumSize(200* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnCancel->setMaximumSize(200* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     btnOK->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
     btnCancel->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 
 
-    hBottomLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Expanding, QSizePolicy::Fixed));
+    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
     hBottomLayout->addWidget(btnOK);
-    hBottomLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hBottomLayout->addWidget(btnCancel);
-    hBottomLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Expanding, QSizePolicy::Fixed));
+    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
 }
 
 void BesMessageBox::initConnection()

@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QSpacerItem>
+#include "BesScaleUtil.h"
 
 PageSetting::PageSetting(QWidget *parent)
     : QWidget(parent)
@@ -32,7 +33,7 @@ void PageSetting::initLayout()
     QVBoxLayout* vMainLayout = new QVBoxLayout(pageSettingContainer);
 
     settingTopPanel = new QWidget(pageSettingContainer);
-    settingTopPanel->setMaximumHeight(65);
+    settingTopPanel->setMaximumHeight(65 *BesScaleUtil::mscale());
     settingTopPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     settingTopPanel->setObjectName("settingTopPanel");
     settingTopPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释

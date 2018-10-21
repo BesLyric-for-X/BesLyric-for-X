@@ -149,9 +149,9 @@ void  BottomWidget::reloadMusic(QString musicPath)
     musicPlayer->setMusicPath(musicPath);
 
     if(musicPlayer->state() == MusicPlayer::PlayingState)
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_pause.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     else
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_play.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
 void BottomWidget::play()
@@ -160,7 +160,7 @@ void BottomWidget::play()
     {
         musicPlayer->play();
 
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_pause.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     }
 }
 
@@ -169,9 +169,9 @@ void BottomWidget::pause()
     musicPlayer->pause();
 
     if(musicPlayer->state() == MusicPlayer::PlayingState)
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_pause.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     else
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_play.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
 //从开头开始播放
@@ -183,7 +183,7 @@ void BottomWidget::playFromBegin()
 
         musicPlayer->seek(0);
 
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_pause.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     }
 }
 
@@ -201,7 +201,7 @@ void BottomWidget::stop()
     if(musicPlayer->state() != MusicPlayer::StoppedState )
     {
         musicPlayer->stop();
-        setStyleSheet("QPushButton#btnPlayAndPause{background-image:url(\":/resource/image/btn_play.png\");}");
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
     }
 }
 

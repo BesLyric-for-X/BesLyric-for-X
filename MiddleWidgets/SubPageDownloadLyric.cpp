@@ -11,6 +11,9 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QStandardItemModel>
+#include <QDesktopServices>
+#include <QUrl>
+#include "BesScaleUtil.h"
 
 SubPageDownloadLyric::SubPageDownloadLyric(QWidget *parent)
     : QWidget(parent)
@@ -37,10 +40,10 @@ void SubPageDownloadLyric::initLayout()
     //搜索按钮
     labelSearchLyricSong = new QLabel(this);
     labelSearchLyricArtist = new QLabel(this);
-    labelSearchLyricSong->setMinimumSize(120,30);
-    labelSearchLyricArtist->setMinimumSize(120,30);
-    labelSearchLyricSong->setMaximumSize(150,30);
-    labelSearchLyricArtist->setMaximumSize(150,30);
+    labelSearchLyricSong->setMinimumSize(120 * BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelSearchLyricArtist->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelSearchLyricSong->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelSearchLyricArtist->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
     labelSearchLyricSong->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchLyricArtist->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchLyricSong->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -52,10 +55,10 @@ void SubPageDownloadLyric::initLayout()
     editSearchLyricArtist = new QLineEdit(this);
     editSearchLyricSong->setPlaceholderText(tr("必填"));
     editSearchLyricArtist->setPlaceholderText(tr("选填"));
-    editSearchLyricSong->setMinimumSize(200,30);
-    editSearchLyricArtist->setMinimumSize(200,30);
-    editSearchLyricSong->setMaximumSize(300,30);
-    editSearchLyricArtist->setMaximumSize(300,30);
+    editSearchLyricSong->setMinimumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    editSearchLyricArtist->setMinimumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    editSearchLyricSong->setMaximumSize(300* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    editSearchLyricArtist->setMaximumSize(300* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
     editSearchLyricSong->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSearchLyricArtist->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
@@ -67,10 +70,10 @@ void SubPageDownloadLyric::initLayout()
     btnSearchByBaidu->setText(tr("百度搜索"));
     btnSearchInProgram->setFocusPolicy(Qt::NoFocus);
     btnSearchByBaidu->setFocusPolicy(Qt::NoFocus);
-    btnSearchByBaidu->setMinimumSize(150,30);
-    btnSearchInProgram->setMinimumSize(150,30);
-    btnSearchByBaidu->setMaximumSize(150,30);
-    btnSearchInProgram->setMaximumSize(150,30);
+    btnSearchByBaidu->setMinimumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnSearchInProgram->setMinimumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnSearchByBaidu->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnSearchInProgram->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
     btnSearchByBaidu->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSearchInProgram->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -79,11 +82,11 @@ void SubPageDownloadLyric::initLayout()
     hLayout1->addWidget(labelSearchLyricSong);
     hLayout1->addWidget(editSearchLyricSong);
     hLayout1->addWidget(btnSearchInProgram);
-    hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
     hLayout2->addWidget(labelSearchLyricArtist);
     hLayout2->addWidget(editSearchLyricArtist);
     hLayout2->addWidget(btnSearchByBaidu);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
 
     //搜索结果提示
     labelLyricResultTip1= new QLabel(this);
@@ -91,11 +94,11 @@ void SubPageDownloadLyric::initLayout()
     labelLyricResultTip3= new QLabel(this);
     labelLyricResultTip4= new QLabel(this);
     labelLyricResultTip5= new QLabel(this);
-    labelLyricResultTip1->setMinimumHeight(30);
-    labelLyricResultTip2->setMinimumHeight(30);
-    labelLyricResultTip3->setMinimumHeight(30);
-    labelLyricResultTip4->setMinimumHeight(30);
-    labelLyricResultTip5->setMinimumHeight(30);
+    labelLyricResultTip1->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelLyricResultTip2->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelLyricResultTip3->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelLyricResultTip4->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelLyricResultTip5->setMinimumHeight(30* BesScaleUtil::mscale());
     labelLyricResultTip1->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelLyricResultTip2->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelLyricResultTip3->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
@@ -110,13 +113,13 @@ void SubPageDownloadLyric::initLayout()
     labelLyricResultTip5->setText(tr("找到15个歌词文件。"));
     showTipLabel(false);
     QHBoxLayout* hLayout3 = new QHBoxLayout();
-    hLayout3->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    hLayout3->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
     hLayout3->addWidget(labelLyricResultTip1);
     hLayout3->addWidget(labelLyricResultTip2);
     hLayout3->addWidget(labelLyricResultTip3);
     hLayout3->addWidget(labelLyricResultTip4);
     hLayout3->addWidget(labelLyricResultTip5);
-    hLayout3->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
+    hLayout3->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,  QSizePolicy::Fixed));
 
     //搜索结果
     tableLyricSearch = new BesLrcTableView(this);
@@ -141,26 +144,26 @@ void SubPageDownloadLyric::initLayout()
     labelRawLyricPanelSavePath->setText(tr("保存路径："));
     labelRawLyricPanelSong->setText(tr("音乐："));
     labelRawLyricPanelArtist->setText(tr("歌手："));
-    labelRawLyricPanelSavePath->setMinimumSize(100,30);
-    labelRawLyricPanelSong->setMinimumSize(100,30);
-    labelRawLyricPanelArtist->setMinimumSize(100,30);
+    labelRawLyricPanelSavePath->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelRawLyricPanelSong->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelRawLyricPanelArtist->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
 
     labelRawLyricPanelSavePath->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelRawLyricPanelArtist->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelRawLyricPanelSong->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editRawLyricPanelSavePath->setMinimumHeight(30);
-    editRawLyricPanelSong->setMinimumHeight(30);
-    editRawLyricPanelArtist->setMinimumHeight(30);
-    btnRawLyricPanelSelect->setMinimumHeight(30);
-    btnRawLyricPanelSave->setMinimumHeight(30);
+    editRawLyricPanelSavePath->setMinimumHeight(30* BesScaleUtil::mscale());
+    editRawLyricPanelSong->setMinimumHeight(30* BesScaleUtil::mscale());
+    editRawLyricPanelArtist->setMinimumHeight(30* BesScaleUtil::mscale());
+    btnRawLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::mscale());
+    btnRawLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
 
     editRawLyricPanelSavePath->setFocusPolicy(Qt::NoFocus);
     editRawLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editRawLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultLyricPath);
 
-    btnRawLyricPanelSelect->setMinimumSize(80,30);
-    btnRawLyricPanelSave->setMinimumSize(120,30);
+    btnRawLyricPanelSelect->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnRawLyricPanelSave->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
     btnRawLyricPanelSelect->setText("选择");
     btnRawLyricPanelSave->setText("保存原歌词");
     btnRawLyricPanelSelect->setFocusPolicy(Qt::NoFocus);
@@ -202,19 +205,19 @@ void SubPageDownloadLyric::initLayout()
     labelLrcLyricPanelSavePath->setText(tr("保存路径："));
     labelLrcLyricPanelSong->setText(tr("音乐："));
     labelLrcLyricPanelArtist->setText(tr("歌手："));
-    labelLrcLyricPanelSavePath->setMinimumSize(100,30);
-    labelLrcLyricPanelSong->setMinimumSize(100,30);
-    labelLrcLyricPanelArtist->setMinimumSize(100,30);
+    labelLrcLyricPanelSavePath->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelLrcLyricPanelSong->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelLrcLyricPanelArtist->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
 
     labelLrcLyricPanelSavePath->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelLrcLyricPanelArtist->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelLrcLyricPanelSong->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editLrcLyricPanelSavePath->setMinimumHeight(30);
-    editLrcLyricPanelSong->setMinimumHeight(30);
-    editLrcLyricPanelArtist->setMinimumHeight(30);
-    btnLrcLyricPanelSelect->setMinimumHeight(30);
-    btnLrcLyricPanelSave->setMinimumHeight(30);
+    editLrcLyricPanelSavePath->setMinimumHeight(30* BesScaleUtil::mscale());
+    editLrcLyricPanelSong->setMinimumHeight(30* BesScaleUtil::mscale());
+    editLrcLyricPanelArtist->setMinimumHeight(30* BesScaleUtil::mscale());
+    btnLrcLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::mscale());
+    btnLrcLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
 
     editLrcLyricPanelSavePath->setFocusPolicy(Qt::NoFocus);
     editLrcLyricPanelSong->setFocusPolicy(Qt::NoFocus);
@@ -222,8 +225,8 @@ void SubPageDownloadLyric::initLayout()
     editLrcLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editLrcLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultOutputPath);
 
-    btnLrcLyricPanelSelect->setMinimumSize(80,30);
-    btnLrcLyricPanelSave->setMinimumSize(120,30);
+    btnLrcLyricPanelSelect->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnLrcLyricPanelSave->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
     btnLrcLyricPanelSelect->setText("选择");
     btnLrcLyricPanelSave->setText("保存LRC歌词");
     btnLrcLyricPanelSelect->setFocusPolicy(Qt::NoFocus);
@@ -257,12 +260,12 @@ void SubPageDownloadLyric::initLayout()
     tabpageLyricResult->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 
     vMainLayour->addWidget(labelTitleSearchLyric);
-    vMainLayour->addSpacerItem(new QSpacerItem(20,10,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    vMainLayour->addSpacerItem(new QSpacerItem(20,10* BesScaleUtil::scale(),QSizePolicy::Fixed,  QSizePolicy::Fixed));
     vMainLayour->addLayout(hLayout1);
     vMainLayour->addLayout(hLayout2);
-    vMainLayour->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    vMainLayour->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(),QSizePolicy::Fixed,  QSizePolicy::Fixed));
     vMainLayour->addLayout(hLayout3);
-    vMainLayour->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,  QSizePolicy::Fixed));
+    vMainLayour->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(),QSizePolicy::Fixed,  QSizePolicy::Fixed));
     vMainLayour->addWidget(tabpageLyricResult);
 
 }
@@ -271,6 +274,7 @@ void SubPageDownloadLyric::initConnection()
 {
     connect(&searchThread, SIGNAL(lyricResultChanged(LyricSearchResult)), this,SLOT(OnLyricResultChanged(LyricSearchResult)));
     connect(btnSearchInProgram, SIGNAL(clicked(bool)),this,SLOT(OnSearchInProgram()) );
+    connect(btnSearchByBaidu, SIGNAL(clicked(bool)),this,SLOT(OnSearchByBaidu()) );
     connect(tableLyricSearch, SIGNAL(sig_showRawLyric(LyricInfo)), this,SLOT(OnShowRawLyric(LyricInfo)));
     connect(tableLyricSearch, SIGNAL(sig_showLrcLyric(LyricInfo)), this,SLOT(OnShowLrcLyric(LyricInfo)));
 
@@ -301,6 +305,94 @@ void SubPageDownloadLyric::OnSearchInProgram()
     btnSearchInProgram->setEnabled(false);
 
     searchThread.StartSearchLyric(artist, song);
+}
+
+void SubPageDownloadLyric::OnSearchByBaidu()
+{
+    QString song = editSearchLyricSong->text().trimmed();
+    QString artist = editSearchLyricArtist->text().trimmed();
+
+    if(song.isEmpty())
+    {
+        BesMessageBox::information(tr("提示"),tr("歌曲名不能为空"));
+        return;
+    }
+
+    //将链接中的字符进行转换，以使得链接能够支持
+    /*
+    "\"单反斜杠  %5C
+    "|"      %7C
+    回车  %0D%0A
+    空格  %20
+    双引号 %22
+    "&"		%26
+    */
+    QString sMusicName = "";
+    QString sMusicArtist = "";
+    for(auto i = 0;  i < song.size(); i++)
+    {
+        switch(song.at(i).unicode())
+        {
+        case '\\':
+            sMusicName += "%5C";
+            break;
+        case '|':
+            sMusicName += "%7C";
+            break;
+        case '\n':
+            sMusicName += "%0D%0A";
+            break;
+        case ' ':
+            sMusicName += "%20";
+            break;
+        case L'"':
+            sMusicName += "%22";
+            break;
+        case L'&':
+            sMusicName += "%26";
+            break;
+        default:
+            sMusicName += song.at(i);
+        }
+    }
+
+    if(artist.size() != 0)
+    for(auto i = 0;  i < artist.size(); i++)
+    {
+        switch(artist.at(i).unicode())
+        {
+        case '\\':
+            sMusicArtist += "%5C";
+            break;
+        case '|':
+            sMusicArtist += "%7C";
+            break;
+        case '\n':
+            sMusicArtist += "%0D%0A";
+            break;
+        case ' ':
+            sMusicArtist += "%20";
+            break;
+        case '"':
+            sMusicArtist += "%22";
+            break;
+        case '&':
+            sMusicArtist += "%26";
+            break;
+        default:
+            sMusicArtist += artist.at(i);
+        }
+    }
+
+    QString strLink = "https://www.baidu.com/s?wd=%22" + sMusicName;
+
+    if(artist.size() != 0)
+        strLink += "%22%20%22" + sMusicArtist;
+
+    strLink += "%22%20%22歌词%22";
+
+    QDesktopServices::openUrl(QUrl(strLink));
+
 }
 
 

@@ -5,6 +5,7 @@
 #include <BesMessageBox.h>
 #include <QSpacerItem>
 #include "LrcProcessor.h"
+#include "BesScaleUtil.h"
 
 LyricViewer::LyricViewer(QWidget* parent):QWidget(parent)
 {
@@ -36,8 +37,8 @@ void LyricViewer::initLayout()
     labelPreviewSongTip->setText("歌曲路径:");
     labelPreviewLyricTip->setText("歌词路径:");
 
-    labelPreviewSongTip->setMaximumSize(80,30);
-    labelPreviewLyricTip->setMaximumSize(80,30);
+    labelPreviewSongTip->setMaximumSize(80,30 * BesScaleUtil::mscale());
+    labelPreviewLyricTip->setMaximumSize(80,30 * BesScaleUtil::mscale());
     labelPreviewSongTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelPreviewLyricTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -58,19 +59,19 @@ void LyricViewer::initLayout()
 
     scrollLyricPanel = new ScrollLyricPanel(this);
     scrollLyricPanel->setObjectName("scrollLyricPanel");
-    scrollLyricPanel->setMinimumSize(548,500);
-    scrollLyricPanel->setMaximumSize(548,500);
+    scrollLyricPanel->setMinimumSize(548* BesScaleUtil::scale(),500* BesScaleUtil::scale());
+    scrollLyricPanel->setMaximumSize(548* BesScaleUtil::scale(),500* BesScaleUtil::scale());
     scrollLyricPanel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
 
     QVBoxLayout *vLayout = new QVBoxLayout(this);
-    vLayout->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(10,10* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vLayout->addWidget(labelPreviewTitle);
-    vLayout->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(10,10* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vLayout->addLayout(hLayout1);
-    vLayout->addSpacerItem(new QSpacerItem(10,5,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(10,5* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vLayout->addLayout(hLayout2);
-    vLayout->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(10,10* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vLayout->addWidget(scrollLyricPanel);
 }
 

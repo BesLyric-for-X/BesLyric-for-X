@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include "AppHelper.h"
 #include "SettingManager.h"
+#include "BesScaleUtil.h"
 
 StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr),addItemWidget(nullptr)
@@ -52,8 +53,8 @@ void StackFrame::initLayout()
     skinBoxWidget = new SkinBoxWidget(this);
     addItemWidget= new AddLyricItemWidget(this);
 
-    addItemWidgetLeft = 250;
-    addItemWidgetTop = 108;
+    addItemWidgetLeft = 250 * BesScaleUtil::scale();
+    addItemWidgetTop = 108 * BesScaleUtil::scale();
 
     mainWidget->raise();
     isMainOnTop = true;
@@ -161,12 +162,14 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 
     QRect mainWidgetRect = QRect(borderMain ,borderMain,
                                  this->width()- 2*borderMain, this->height()-2*borderMain);
-    QRect skinBoxRect = QRect(this->width()-420,58,400,330);
+    QRect skinBoxRect = QRect(this->width()- 400* BesScaleUtil::mscale()- 20* BesScaleUtil::scale(),
+                              58* BesScaleUtil::scale(),
+                              400* BesScaleUtil::mscale(),330* BesScaleUtil::mscale());
 
     QRect transWidgetRect(mainWidgetRect);
-    transWidgetRect.setTop(transWidgetRect.top()+65);  //上侧标题控件不要阻挡
+    transWidgetRect.setTop(transWidgetRect.top()+65* BesScaleUtil::scale());  //上侧标题控件不要阻挡
 
-    QRect addItemWidgetRect = QRect(addItemWidgetLeft,addItemWidgetTop,350,280);
+    QRect addItemWidgetRect = QRect(addItemWidgetLeft,addItemWidgetTop,350* BesScaleUtil::scale(),280* BesScaleUtil::scale());
 
     mainWidget->setGeometry(mainWidgetRect);
     transparentLayer->setGeometry(transWidgetRect);

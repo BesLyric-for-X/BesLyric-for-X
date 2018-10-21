@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include "MusicPlayer/musicPlayer.h"
+#include "BesScaleUtil.h"
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent),topWidget(nullptr),middleWidget(nullptr),bottomWidget(nullptr)
@@ -31,12 +32,12 @@ void MainWidget::initLayout()
     middleWidget->setObjectName("middleWidget");
     bottomWidget->setObjectName("bottomWidget");
 
-    topWidget->setMinimumHeight(65);
-    topWidget->setMaximumHeight(65);
+    topWidget->setMinimumHeight(65 * BesScaleUtil::scale());
+    topWidget->setMaximumHeight(65 * BesScaleUtil::scale());
     topWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
-    bottomWidget->setMinimumHeight(65);
-    bottomWidget->setMaximumHeight(65);
+    bottomWidget->setMinimumHeight(65 * BesScaleUtil::scale());
+    bottomWidget->setMaximumHeight(65 * BesScaleUtil::scale());
     bottomWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     QVBoxLayout* vLayout = new QVBoxLayout(this);

@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include "ImageFilter.h"
+#include "BesScaleUtil.h"
 
 //参考：https://blog.csdn.net/caoshangpa/article/details/62421334
 
@@ -81,35 +82,35 @@ void PagePreviewLyric::initLayout()
     QHBoxLayout* hLayout = new QHBoxLayout(widgetMainPreview);
     hLayout->setMargin(0);
     phonagraph = new Phonograph(widgetMainPreview);
-    phonagraph->setMinimumSize(480,650);
-    phonagraph->setMaximumSize(480,650);
+    phonagraph->setMinimumSize(480 * BesScaleUtil::scale(),650* BesScaleUtil::scale());
+    phonagraph->setMaximumSize(480 * BesScaleUtil::scale(),650* BesScaleUtil::scale());
     phonagraph->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     lyricViewer = new LyricViewer(widgetMainPreview);
-    lyricViewer->setMinimumSize(550,650);
-    lyricViewer->setMaximumSize(550,650);
+    lyricViewer->setMinimumSize(550* BesScaleUtil::scale(),650* BesScaleUtil::scale());
+    lyricViewer->setMaximumSize(550* BesScaleUtil::scale(),650* BesScaleUtil::scale());
     lyricViewer->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     QVBoxLayout * rightVlayout = new QVBoxLayout();
-    rightVlayout->setMargin(20);
+    rightVlayout->setMargin(20* BesScaleUtil::scale());
     btnPackupLyricBox = new BesButton(widgetMainPreview);
     btnPackupLyricBox->setObjectName("btnPackupLyricBox");
-    btnPackupLyricBox->setMaximumSize(40,30);
+    btnPackupLyricBox->setMaximumSize(40* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnPackupLyricBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     rightVlayout->addWidget(btnPackupLyricBox);
-    rightVlayout->addSpacerItem(new QSpacerItem(50,50,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
+    rightVlayout->addSpacerItem(new QSpacerItem(50* BesScaleUtil::scale(),50* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
 
-    hLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20* BesScaleUtil::scale(),QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout->addWidget(phonagraph);
     hLayout->addWidget(lyricViewer);
     hLayout->addLayout(rightVlayout);
-    hLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20* BesScaleUtil::scale(),QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
 
 
     QVBoxLayout* layoutMain = new QVBoxLayout(this);
     layoutMain->setMargin(0);
     layoutMain->addWidget(widgetMainPreview);
-    layoutMain->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
+    layoutMain->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::MinimumExpanding));
 }
 
 void PagePreviewLyric::initEntity()

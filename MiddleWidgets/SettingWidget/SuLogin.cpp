@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QSpacerItem>
 #include "BesMessageBox.h"
+#include "BesScaleUtil.h"
 
 QString SuLogin::getName()
 {
@@ -12,7 +13,7 @@ QString SuLogin::getName()
 
 int SuLogin::getUnitHeight()
 {
-   return 150;
+   return 150* BesScaleUtil::mscale();
 }
 
 QWidget *SuLogin::getUnitWidget(QWidget *parent)
@@ -26,7 +27,7 @@ QWidget *SuLogin::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
 
     checkboxLoginAnonymously = new QCheckBox(SettingUnitContainer);
@@ -38,15 +39,15 @@ QWidget *SuLogin::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     hLayout2->addWidget(checkboxLoginAnonymously);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(linkWhatIsLoginAnonymously);
-    hLayout2->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
     vLayout->setSpacing(15);
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
-    vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     checkboxLoginAnonymously->setChecked(SettingManager::GetInstance().data().loginAnonymously);
 

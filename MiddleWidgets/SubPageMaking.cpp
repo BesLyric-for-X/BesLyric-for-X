@@ -8,6 +8,7 @@
 #include <BesShadowDialog.h>
 #include <QDesktopServices>
 #include "SettingManager.h"
+#include "BesScaleUtil.h"
 
 SubPageMaking::SubPageMaking(QWidget *parent)
     : QWidget(parent)
@@ -42,7 +43,7 @@ void SubPageMaking::initEntity()
 void SubPageMaking::initLayout()
 {
     QVBoxLayout* vLayout = new QVBoxLayout(this);
-    vLayout->setMargin(30);
+    vLayout->setMargin(30 * BesScaleUtil::scale());
 
     labelSelectMusic = new QLabel(this);
     labelSelectLyric= new QLabel(this);
@@ -50,9 +51,9 @@ void SubPageMaking::initLayout()
     labelSelectMusic->setText(tr("选择音乐："));
     labelSelectLyric->setText(tr("选择歌词："));
     labelSelectOutputDir->setText(tr("输出目录："));
-    labelSelectMusic->setMinimumSize(100,28);
-    labelSelectLyric->setMinimumSize(100,28);
-    labelSelectOutputDir->setMinimumSize(100,28);
+    labelSelectMusic->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    labelSelectLyric->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    labelSelectOutputDir->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
     labelSelectMusic->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelSelectLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -63,9 +64,9 @@ void SubPageMaking::initLayout()
     editSelectMusic->setFocusPolicy(Qt::NoFocus);
     editSelectLyric->setFocusPolicy(Qt::NoFocus);
     editSelectOutputDir->setFocusPolicy(Qt::NoFocus);
-    editSelectMusic->setMinimumHeight(28);
-    editSelectLyric->setMinimumHeight(28);
-    editSelectOutputDir->setMinimumHeight(28);
+    editSelectMusic->setMinimumHeight(28* BesScaleUtil::scale());
+    editSelectLyric->setMinimumHeight(28* BesScaleUtil::scale());
+    editSelectOutputDir->setMinimumHeight(28* BesScaleUtil::scale());
     editSelectMusic->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSelectLyric->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSelectOutputDir->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -79,9 +80,9 @@ void SubPageMaking::initLayout()
     btnSelectMusic->setText(tr("选择"));
     btnSelectLyric->setText(tr("选择"));
     btnSelectOutputDir->setText(tr("选择"));
-    btnSelectMusic->setMinimumSize(100,28);
-    btnSelectLyric->setMinimumSize(100,28);
-    btnSelectOutputDir->setMinimumSize(100,28);
+    btnSelectMusic->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnSelectLyric->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnSelectOutputDir->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
     btnSelectMusic->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSelectLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -89,24 +90,24 @@ void SubPageMaking::initLayout()
 	btnGuessLyricInfo = new BesButton(this);
     btnGuessLyricInfo->setText(tr("搜词"));
     btnGuessLyricInfo->setToolTip(tr("尽可能智能地得到歌手和歌曲名，在歌词下载页面进行搜索"));
-    btnGuessLyricInfo->setMinimumSize(60,28);
-    btnGuessLyricInfo->setMaximumSize(60,28);
+    btnGuessLyricInfo->setMinimumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnGuessLyricInfo->setMaximumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
     btnGuessLyricInfo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	btnGuessLyricInfo->setVisible(false);
 
     btnDownloadMp3= new BesButton(this);
     btnDownloadMp3->setText(tr("mp3"));
     btnDownloadMp3->setToolTip(tr("本软件无法直接播放 ncm 文件，可点此尝试下载其 mp3"));
-    btnDownloadMp3->setMinimumSize(60,28);
-    btnDownloadMp3->setMaximumSize(60,28);
+    btnDownloadMp3->setMinimumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnDownloadMp3->setMaximumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
     btnDownloadMp3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnDownloadMp3->setVisible(false);
 
     btnEditTxtLyric= new BesButton(this);
     btnEditTxtLyric->setText(tr("编辑"));
     btnEditTxtLyric->setToolTip(tr("发现歌词出错时，可点击此直接编辑，然后“载入最新”"));
-    btnEditTxtLyric->setMinimumSize(60,28);
-    btnEditTxtLyric->setMaximumSize(60,28);
+    btnEditTxtLyric->setMinimumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnEditTxtLyric->setMaximumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
     btnEditTxtLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnEditTxtLyric->setVisible(false);
 
@@ -129,7 +130,8 @@ void SubPageMaking::initLayout()
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addLayout(hLayout3);
-    vLayout->addSpacerItem(new QSpacerItem(20,30,QSizePolicy::Minimum,QSizePolicy::Minimum));
+    vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),
+                                           QSizePolicy::Minimum,QSizePolicy::Minimum));
 
     labelTip= new QLabel(this);
     labelTipUp= new QLabel(this);
@@ -144,19 +146,19 @@ void SubPageMaking::initLayout()
     labelTipSpace->setText(tr("暂停"));
     labelTipReturn->setText(tr("结束"));
 
-    labelTip->setMinimumHeight(28);
-    labelTipUp->setMinimumHeight(28);
-    labelTipEmpty->setMinimumHeight(28);
-    labelTipSpace->setMinimumHeight(28);
-    labelTipBack->setMinimumHeight(28);
-    labelTipReturn->setMinimumHeight(28);
+    labelTip->setMinimumHeight(28* BesScaleUtil::scale());
+    labelTipUp->setMinimumHeight(28* BesScaleUtil::scale());
+    labelTipEmpty->setMinimumHeight(28* BesScaleUtil::scale());
+    labelTipSpace->setMinimumHeight(28* BesScaleUtil::scale());
+    labelTipBack->setMinimumHeight(28* BesScaleUtil::scale());
+    labelTipReturn->setMinimumHeight(28* BesScaleUtil::scale());
 
-    labelTip->setMaximumWidth(150);
-    labelTipUp->setMaximumWidth(150);
-    labelTipEmpty->setMaximumWidth(150);
-    labelTipSpace->setMaximumWidth(150);
-    labelTipBack->setMaximumWidth(150);
-    labelTipReturn->setMaximumWidth(150);
+    labelTip->setMaximumWidth(150* BesScaleUtil::scale());
+    labelTipUp->setMaximumWidth(150* BesScaleUtil::scale());
+    labelTipEmpty->setMaximumWidth(150* BesScaleUtil::scale());
+    labelTipSpace->setMaximumWidth(150* BesScaleUtil::scale());
+    labelTipBack->setMaximumWidth(150* BesScaleUtil::scale());
+    labelTipReturn->setMaximumWidth(150* BesScaleUtil::scale());
 
     labelTip->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelTipUp->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -166,9 +168,9 @@ void SubPageMaking::initLayout()
 
     btnLoadLastFiles = new BesButton(this);
     btnLoadLastFiles->setText(tr("载入最新"));
-    btnLoadLastFiles->setMinimumHeight(28);
-    btnLoadLastFiles->setMinimumWidth(100);
-    btnLoadLastFiles->setMaximumWidth(200);
+    btnLoadLastFiles->setMinimumHeight(28* BesScaleUtil::scale());
+    btnLoadLastFiles->setMinimumWidth(100* BesScaleUtil::scale());
+    btnLoadLastFiles->setMaximumWidth(200* BesScaleUtil::scale());
     btnLoadLastFiles->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     QLabel *imageLabel1 = new QLabel(this);
@@ -176,11 +178,11 @@ void SubPageMaking::initLayout()
     QLabel *imageLabel3 = new QLabel(this);
     QLabel *imageLabel4 = new QLabel(this);
     QLabel *imageLabel5 = new QLabel(this);
-    imageLabel1->setMinimumHeight(28);
-    imageLabel2->setMinimumHeight(28);
-    imageLabel3->setMinimumHeight(28);
-    imageLabel4->setMinimumHeight(28);
-    imageLabel5->setMinimumHeight(28);
+    imageLabel1->setMinimumHeight(28* BesScaleUtil::scale());
+    imageLabel2->setMinimumHeight(28* BesScaleUtil::scale());
+    imageLabel3->setMinimumHeight(28* BesScaleUtil::scale());
+    imageLabel4->setMinimumHeight(28* BesScaleUtil::scale());
+    imageLabel5->setMinimumHeight(28* BesScaleUtil::scale());
 
     imageLabel1->setMaximumWidth(30);
     imageLabel2->setMaximumWidth(30);
@@ -204,28 +206,28 @@ void SubPageMaking::initLayout()
     QHBoxLayout* hLayout4_5 = new QHBoxLayout();
 
     hLayout4->addWidget(labelTip);
-    hLayout4->addSpacerItem(new QSpacerItem(10,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel1);
     hLayout4->addWidget(labelTipUp);
-    hLayout4->addSpacerItem(new QSpacerItem(10,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel2);
     hLayout4->addWidget(labelTipEmpty);
-    hLayout4->addSpacerItem(new QSpacerItem(10,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel3);
     hLayout4->addWidget(labelTipBack);
-    hLayout4->addSpacerItem(new QSpacerItem(10,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel4);
     hLayout4->addWidget(labelTipSpace);
-    hLayout4->addSpacerItem(new QSpacerItem(10,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel5);
     hLayout4->addWidget(labelTipReturn);
-    hLayout4->addSpacerItem(new QSpacerItem(20,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
-    hLayout4_5->addSpacerItem(new QSpacerItem(300,28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4_5->addSpacerItem(new QSpacerItem(300* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4_5->addWidget(btnLoadLastFiles);
     hLayout4->addLayout(hLayout4_5);
 
     vLayout->addLayout(hLayout4);
-    vLayout->addSpacerItem(new QSpacerItem(20,15,QSizePolicy::Minimum,QSizePolicy::Minimum));
+    vLayout->addSpacerItem(new QSpacerItem(20,15* BesScaleUtil::scale(),QSizePolicy::Minimum,QSizePolicy::Minimum));
 
     widgetCurrentMusicAndLyric = new QWidget(this);  //歌曲和歌词显示控件
 
@@ -235,10 +237,10 @@ void SubPageMaking::initLayout()
     labelCurrentLyric= new QLabel(widgetCurrentMusicAndLyric);
     labelCurrentMusicTip->setText(tr("当前音乐："));
     labelCurrentLyricTip->setText(tr("当前歌词："));
-    labelCurrentMusicTip->setMinimumSize(100,28);
-    labelCurrentLyricTip->setMinimumSize(100,28);
-    labelCurrentMusic->setMinimumHeight(28);
-    labelCurrentLyric->setMinimumHeight(28);
+    labelCurrentMusicTip->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    labelCurrentLyricTip->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    labelCurrentMusic->setMinimumHeight(28* BesScaleUtil::scale());
+    labelCurrentLyric->setMinimumHeight(28* BesScaleUtil::scale());
     labelCurrentMusicTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrentLyricTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrentMusic->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -265,9 +267,9 @@ void SubPageMaking::initLayout()
     labelTimeTip->setText(tr("00:00.000"));
     labelCurrenLineTip->setText(tr("当前行："));
     labelNextLineTip->setText(tr("下一行："));
-    labelTimeTip->setMinimumSize(100,28);
-    labelCurrenLineTip->setMinimumSize(100,28);
-    labelNextLineTip->setMinimumSize(100,28);
+    labelTimeTip->setMinimumSize(100,28* BesScaleUtil::mscale());
+    labelCurrenLineTip->setMinimumSize(100,28* BesScaleUtil::mscale());
+    labelNextLineTip->setMinimumSize(100,28* BesScaleUtil::mscale());
     labelTimeTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrenLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelNextLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -277,9 +279,9 @@ void SubPageMaking::initLayout()
     labelLine1= new QLabel(widgetLyricBoard);
     labelLine2= new QLabel(widgetMiddleLine);
     labelLine3= new QLabel(widgetLyricBoard);
-    labelLine1->setMinimumHeight(28);
-    labelLine2->setMinimumHeight(28);
-    labelLine3->setMinimumHeight(28);
+    labelLine1->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine2->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine3->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine2->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine3->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -290,7 +292,7 @@ void SubPageMaking::initLayout()
 
     labelCurrenLineEmptyTip = new QLabel(widgetMiddleLine);
     labelCurrenLineEmptyTip->setText(tr("空行"));
-    labelCurrenLineEmptyTip->setMinimumSize(80,25);
+    labelCurrenLineEmptyTip->setMinimumSize(80,25* BesScaleUtil::mscale());
     labelCurrenLineEmptyTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrenLineEmptyTip->setObjectName("labelCurrenLineEmptyTip");
     labelCurrenLineEmptyTip->setAlignment(Qt::AlignCenter);
@@ -313,11 +315,11 @@ void SubPageMaking::initLayout()
     hLayout10->addWidget(labelLine3);
 
     QVBoxLayout* vBoxLayout2 = new QVBoxLayout(widgetLyricBoard);
-    vBoxLayout2->addSpacerItem(new QSpacerItem(20,9,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vBoxLayout2->addLayout(hLayout8);
     vBoxLayout2->addLayout(hLayout9);
     vBoxLayout2->addLayout(hLayout10);
-    vBoxLayout2->addSpacerItem(new QSpacerItem(20,9,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     vLayout->addWidget(widgetLyricBoard);
 
@@ -329,19 +331,19 @@ void SubPageMaking::initLayout()
     btnOpenResult->setText(tr("打开生成文件"));
     btnToRemaking->setText(tr("我要重制"));
     btnStartMaking->setText(tr("开始制作"));
-    btnPreviewResult->setMinimumSize(100,28);
-    btnOpenResult->setMinimumSize(100,28);
-    btnToRemaking->setMinimumSize(100,28);
-    btnStartMaking->setMinimumSize(100,28);
+    btnPreviewResult->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnOpenResult->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnToRemaking->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
+    btnStartMaking->setMinimumSize(100* BesScaleUtil::scale(),28* BesScaleUtil::scale());
     QHBoxLayout* hLayout11 = new QHBoxLayout();
     hLayout11->addWidget(btnPreviewResult);
     hLayout11->addWidget(btnOpenResult);
-    hLayout11->addSpacerItem(new QSpacerItem(20,28,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout11->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),28* BesScaleUtil::scale(),QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout11->addWidget(btnToRemaking);
     hLayout11->addWidget(btnStartMaking);
-    vLayout->addSpacerItem(new QSpacerItem(20,30,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vLayout->addLayout(hLayout11);
-    vLayout->addSpacerItem(new QSpacerItem(20,30,QSizePolicy::Minimum,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),QSizePolicy::Minimum,QSizePolicy::MinimumExpanding));
 
 }
 

@@ -30,6 +30,7 @@ signals:
 
 public slots:
     void OnSearchInProgram();
+    void OnSearchByBaidu();
 
     void OnLyricResultChanged(LyricSearchResult result);
 

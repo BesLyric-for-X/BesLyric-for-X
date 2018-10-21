@@ -5,6 +5,7 @@
 #include <QSpacerItem>
 #include <QDesktopServices>
 #include <QUrl>
+#include "BesScaleUtil.h"
 
 QString SuDonation::getName()
 {
@@ -13,7 +14,7 @@ QString SuDonation::getName()
 
 int SuDonation::getUnitHeight()
 {
-   return 450;
+   return 450* BesScaleUtil::mscale();
 }
 
 QWidget *SuDonation::getUnitWidget(QWidget *parent)

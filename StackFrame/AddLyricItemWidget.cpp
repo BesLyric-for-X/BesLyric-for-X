@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QSpacerItem>
 #include <QPixmap>
+#include "BesScaleUtil.h"
 
 AddLyricItemWidget::AddLyricItemWidget(QWidget *parent)
     : BesShadowWidget(parent)
@@ -26,14 +27,14 @@ void AddLyricItemWidget::initLayout()
     labelAddItemNameTip = new QLabel(this);
     labelAddItemNameTip->setObjectName("labelAddItemNameTip");
     labelAddItemNameTip->setText(tr("新建歌词单"));
-    labelAddItemNameTip->setMinimumHeight(45);
-    labelAddItemNameTip->setMaximumHeight(45);
+    labelAddItemNameTip->setMinimumHeight(45* BesScaleUtil::mscale());
+    labelAddItemNameTip->setMaximumHeight(45* BesScaleUtil::mscale());
     labelAddItemNameTip->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     editAddItemName = new QLineEdit(this);
     editAddItemName->setObjectName("editAddItemName");
-    editAddItemName->setMinimumHeight(40);
-    editAddItemName->setMaximumHeight(40);
+    editAddItemName->setMinimumHeight(40* BesScaleUtil::mscale());
+    editAddItemName->setMaximumHeight(40* BesScaleUtil::mscale());
     editAddItemName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     btnAddListItem = new BesButton(this);
@@ -44,25 +45,25 @@ void AddLyricItemWidget::initLayout()
     btnCancelListItem->setObjectName("btnCancelListItem");
     btnAddListItem->setEnabled(false);
 
-    btnAddListItem->setMinimumHeight(40);
-    btnAddListItem->setMaximumHeight(40);
-    btnAddListItem->setMinimumWidth(100);
+    btnAddListItem->setMinimumHeight(40* BesScaleUtil::mscale());
+    btnAddListItem->setMaximumHeight(40* BesScaleUtil::mscale());
+    btnAddListItem->setMinimumWidth(100* BesScaleUtil::mscale());
     btnAddListItem->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    btnCancelListItem->setMinimumHeight(40);
-    btnCancelListItem->setMaximumHeight(40);
-    btnCancelListItem->setMinimumWidth(100);
+    btnCancelListItem->setMinimumHeight(40* BesScaleUtil::mscale());
+    btnCancelListItem->setMaximumHeight(40* BesScaleUtil::mscale());
+    btnCancelListItem->setMinimumWidth(100* BesScaleUtil::mscale());
     btnCancelListItem->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
 
     QHBoxLayout* hLayout = new QHBoxLayout();
-    hLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout->addWidget(btnAddListItem);
     hLayout->addWidget(btnCancelListItem);
-    hLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
 
     QVBoxLayout* vMainLayout = new QVBoxLayout(this);
-    vMainLayout->setMargin(32);
-    vMainLayout->setSpacing(25);
+    vMainLayout->setMargin(32* BesScaleUtil::mscale());
+    vMainLayout->setSpacing(25* BesScaleUtil::mscale());
     vMainLayout->addWidget(labelAddItemNameTip);
     vMainLayout->addWidget(editAddItemName);
     vMainLayout->addLayout(hLayout);

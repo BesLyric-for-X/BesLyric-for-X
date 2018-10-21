@@ -10,13 +10,13 @@
 #include <QScrollBar>
 #include <QPainter>
 #include <QLabel>
-
 #include <QPixmap>
 #include <QTimer>
-
 #include <QVector>
 #include <QPair>
 #include <QFontMetrics>
+
+#include "BesScaleUtil.h"
 
 class LyricPanel : public QWidget
 {
@@ -34,7 +34,7 @@ public:
 
     int getHeigth()
     {
-        int height = 300;
+        int height = 300* BesScaleUtil::scale();
         int actualHeight = lrcLyrics.size() * 45;
 
         return height > actualHeight ? height : actualHeight;
@@ -111,8 +111,8 @@ protected:
         QPainter painter(this);
 
         QFont font;
-        font.setPixelSize(17);
-        font.setWeight(61);
+        font.setPixelSize(BesScaleUtil::fontSizeScale(17));
+        font.setWeight(BesScaleUtil::fontSizeScale(61));
         font.setFamily("Microsoft YaHei");
         painter.setFont(font);
 
@@ -131,11 +131,12 @@ protected:
             QRect rec = fm.boundingRect( lrcLyrics.at(i).second);
 
             int height = 30;
-            if(rec.width() > 490)
+            if(rec.width() > 490* BesScaleUtil::scale())
                 height += 30;
 
             QRectF lineRect;
-            lineRect.setRect(2, (i) * 45,496,height);
+            lineRect.setRect(2, (i) * 45,
+                             496* BesScaleUtil::scale(),height* BesScaleUtil::scale());
             painter.drawText(lineRect,lrcLyrics.at(i).second);
 
         }
@@ -161,7 +162,7 @@ public:
         lyricPanel = new LyricPanel(this);
         int height = lyricPanel->getHeigth();
         lyricPanel->setObjectName("lyricPanel");
-        lyricPanel->setMinimumWidth(500);
+        lyricPanel->setMinimumWidth(500* BesScaleUtil::scale());
         lyricPanel->setMinimumHeight(height);
         lyricPanel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
