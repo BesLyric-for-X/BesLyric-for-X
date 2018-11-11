@@ -61,8 +61,8 @@ public:
             int lastLineTime = lrcLyrics.last().first;
 
             lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,""));
-            lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,"歌词贡献者：勤劳的云村村民"));
-
+            //lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,"歌词贡献者：勤劳的云村村民"));
+            //不额外添加歌词，之前添加后，引起用户误解
         }
         bIsLrcLyric = isLrcLyric;
         currentLine = -1;
@@ -116,7 +116,7 @@ protected:
         font.setFamily("Microsoft YaHei");
         painter.setFont(font);
 
-        QRect outerRect(0,0,this->width()-1,this->height()-1);
+        //QRect outerRect(0,0,this->width()-1,this->height()-1);
         //painter.fillRect(outerRect, QBrush("#00000000"));                   //绘制背景颜色
 
         for(int i = 0; i< lrcLyrics.size();i++)

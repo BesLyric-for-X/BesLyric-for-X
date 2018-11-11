@@ -56,15 +56,16 @@ QWidget *SuDonation::getUnitWidget(QWidget *parent)
     label2->setObjectName("labelSettingHighColor");
     label3->setObjectName("labelSettingHighColor");
 
-    label1->setText(tr("<p style='line-height:130%'>本软件原为 <a style='color:#666666;' href='https://www.cnblogs.com/BensonLaur/p/6262565.html'> BesLyric </a>, "
+    label1->setText(tr("<p style='line-height:130%'>如果喜欢本软件，欢迎查看 <a style='color:#666666;' href='http://www.cnblogs.com/BensonLaur/p/6262565.html#title7'>捐款页面</a></p>"));
+
+    label2->setText(tr("<p style='line-height:130%'>本软件原为 <a style='color:#666666;' href='https://www.cnblogs.com/BensonLaur/p/6262565.html'> BesLyric </a>, "
                        "自发布一年余中，在广大网友的建议和默默支持下不断发展，可惜由于开发框架限制，只能在windows下运行，效果也不是很理想。</p>"));
-    label2->setText(tr("<p style='line-height:130%'>也是在此背景下，BesLyric-for-X 应运而生，使用了跨平台框架实现，支持 Windows、Linux (Debian)、Mac Os。"
+    label3->setText(tr("<p style='line-height:130%'>也是在此背景下，BesLyric-for-X 应运而生，使用了跨平台框架实现，支持 Windows、Linux (Debian)、Mac Os。"
                        "另外，强大的应用基础框架使得实现效果更加地“网易云”，以提供更好的使用体验！</p>"));
 
-    label3->setText(tr("<p style='line-height:130%'>如果喜欢本软件，欢迎查看 <a style='color:#666666;' href='http://www.cnblogs.com/BensonLaur/p/6262565.html#title7'>捐款页面</a></p>"));
 
     label1->setOpenExternalLinks(true);
-    label3->setOpenExternalLinks(true);
+    label2->setOpenExternalLinks(true);
     label1->setWordWrap(true);
     label2->setWordWrap(true);
     label3->setWordWrap(true);
@@ -81,10 +82,10 @@ QWidget *SuDonation::getUnitWidget(QWidget *parent)
 
     QVBoxLayout* vLayoutText = new QVBoxLayout();
     vLayoutText->addWidget(label1);
-    vLayoutText->addWidget(label2);
-    vLayoutText->addLayout(hLayout2);
     vLayoutText->addSpacerItem(new QSpacerItem(20,10, QSizePolicy::Fixed ,QSizePolicy::Fixed));
+    vLayoutText->addWidget(label2);
     vLayoutText->addWidget(label3);
+    vLayoutText->addLayout(hLayout2);
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
     vLayout->setSpacing(15);
