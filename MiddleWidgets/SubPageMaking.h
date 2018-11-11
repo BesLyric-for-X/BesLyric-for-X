@@ -72,7 +72,7 @@ public:
 
 
 private:
-    void initMakingProcess(); //初始化制作歌词的过程
+    void initMakingProcess(bool updateCurrentSongLyric); //初始化制作歌词的过程
 
 public:
     bool isMaking;									//标记是否正在制作
@@ -129,11 +129,16 @@ public:
     QLabel*         labelTimeTip;
     QLabel*         labelCurrenLineTip;
     QLabel*         labelNextLineTip;
+    BesButton*      btnEditLyricMaking;
 
+    QLabel*         labelLine0;
     QLabel*         labelLine1;
     QLabel*         labelLine2;
     QLabel*         labelLine3;
+    QLabel*         labelLine4;
+    QWidget*        widgetLine0;
     QWidget*        widgetMiddleLine;
+    QWidget*        widgetLine4;
     QLabel*         labelCurrenLineEmptyTip;
 
     BesButton*    btnPreviewResult;

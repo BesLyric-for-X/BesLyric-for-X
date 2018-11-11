@@ -61,9 +61,9 @@ void SubPageMaking::initLayout()
     editSelectMusic = new BesFileLineEdit(BesEditFileType::BesFileTypeMusic,this);
     editSelectLyric = new BesFileLineEdit(BesEditFileType::BesFileTypeTxt, this);
     editSelectOutputDir = new BesFileLineEdit(BesEditFileType::BesFileTypeFloder,this);
-    editSelectMusic->setFocusPolicy(Qt::NoFocus);
-    editSelectLyric->setFocusPolicy(Qt::NoFocus);
-    editSelectOutputDir->setFocusPolicy(Qt::NoFocus);
+    editSelectMusic->setReadOnly(true);
+    editSelectLyric->setReadOnly(true);
+    editSelectOutputDir->setReadOnly(true);
     editSelectMusic->setMinimumHeight(28* BesScaleUtil::scale());
     editSelectLyric->setMinimumHeight(28* BesScaleUtil::scale());
     editSelectOutputDir->setMinimumHeight(28* BesScaleUtil::scale());
@@ -274,21 +274,31 @@ void SubPageMaking::initLayout()
     labelCurrenLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelNextLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+    widgetLine0 = new QWidget(widgetLyricBoard);
     widgetMiddleLine = new QWidget(widgetLyricBoard);
+    widgetLine4 = new QWidget(widgetLyricBoard);
 
+    labelLine0= new QLabel(widgetLine0);
     labelLine1= new QLabel(widgetLyricBoard);
     labelLine2= new QLabel(widgetMiddleLine);
     labelLine3= new QLabel(widgetLyricBoard);
+    labelLine4= new QLabel(widgetLine4);
+    labelLine0->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine1->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine2->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine3->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine4->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine0->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine2->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine3->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    labelLine4->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
+    labelLine0->setObjectName("labelLine0");
     labelLine1->setObjectName("labelLine1");
     labelLine2->setObjectName("labelLine2");
     labelLine3->setObjectName("labelLine3");
+    labelLine4->setObjectName("labelLine4");
 
     labelCurrenLineEmptyTip = new QLabel(widgetMiddleLine);
     labelCurrenLineEmptyTip->setText(tr("空行"));
@@ -298,11 +308,28 @@ void SubPageMaking::initLayout()
     labelCurrenLineEmptyTip->setAlignment(Qt::AlignCenter);
     labelCurrenLineEmptyTip->setVisible(false);
 
-
     QHBoxLayout* hLayout7 = new QHBoxLayout(widgetLyricBoard);
     hLayout7->addWidget(labelLine2);
     hLayout7->addWidget(labelCurrenLineEmptyTip);
     widgetMiddleLine->setLayout(hLayout7);
+
+    QHBoxLayout* hLayoutLine0 = new QHBoxLayout();
+    hLayoutLine0->addSpacerItem(new QSpacerItem(100,28* BesScaleUtil::mscale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayoutLine0->addWidget(labelLine0);
+    widgetLine0->setLayout(hLayoutLine0);
+
+    btnEditLyricMaking = new BesButton(widgetLine4);
+    btnEditLyricMaking->setText(tr("编辑歌词"));
+    btnEditLyricMaking->setMinimumSize(75,28* BesScaleUtil::mscale());
+    btnEditLyricMaking->setMaximumSize(75,28* BesScaleUtil::mscale());
+    btnEditLyricMaking->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+
+    QHBoxLayout* hLayoutLine4 = new QHBoxLayout();
+    hLayoutLine4->addWidget(btnEditLyricMaking);
+    hLayoutLine4->addSpacerItem(new QSpacerItem(25,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayoutLine4->addWidget(labelLine4);
+    widgetLine4->setLayout(hLayoutLine4);
+
 
     QHBoxLayout* hLayout8 = new QHBoxLayout();  //注意：布局定义属于整个父窗口
     QHBoxLayout* hLayout9 = new QHBoxLayout();
@@ -316,9 +343,11 @@ void SubPageMaking::initLayout()
 
     QVBoxLayout* vBoxLayout2 = new QVBoxLayout(widgetLyricBoard);
     vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addWidget(widgetLine0);
     vBoxLayout2->addLayout(hLayout8);
     vBoxLayout2->addLayout(hLayout9);
     vBoxLayout2->addLayout(hLayout10);
+    vBoxLayout2->addWidget(widgetLine4);
     vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     vLayout->addWidget(widgetLyricBoard);
@@ -585,7 +614,7 @@ void SubPageMaking::loadCurrentPath()
     pathMusicLoaded = pathMusic;
 
     //初始化歌词制作过程
-    initMakingProcess();
+    initMakingProcess(true);
 
     btnStartMaking->setEnabled(true);
     btnPreviewResult->setEnabled(false);
@@ -627,7 +656,7 @@ void SubPageMaking::remaking()
         emit onExitMakingMode();
 
         //初始化歌词制作过程
-        initMakingProcess();
+        initMakingProcess(false);
 
         btnToRemaking->setEnabled(false);
         btnStartMaking->setEnabled(true);
@@ -715,15 +744,18 @@ void SubPageMaking::selectOutputPath(const QString& outputPath)
 }
 
 //初始化制作歌词的过程
-void SubPageMaking::initMakingProcess()
+void SubPageMaking::initMakingProcess(bool updateCurrentSongLyric)
 {
     if(pathLoaded)
     {
         labelTimeTip->setText("00:00.000");
 
-        //更新当前选中的路径提示
-        labelCurrentMusic->setText(pathMusic);
-        labelCurrentLyric->setText(pathLyric);
+        if(updateCurrentSongLyric)
+        {
+            //更新当前选中的路径提示
+            labelCurrentMusic->setText(pathMusic);
+            labelCurrentLyric->setText(pathLyric);
+        }
 
         //获取数据填充到行上
         lyricMaker.startMaking();
