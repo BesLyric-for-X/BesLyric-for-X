@@ -556,6 +556,10 @@ void PlayThread::generateAudioDataLoop()
 									//否则可能启动了线程，还没有在这里设置 AGS_PLAYING， 却同时被想要结束线程者先设置 AGS_FINISH
 									//导致外界设置的 AGS_FINISH 被 AGS_PLAYING 替代而导致无法预期的逻辑
 
+    //[注:由于ffmpeg版本原因，ffmpeg 4.0.1 版本，在重头播放1秒多时有噪音，经试验，调用 av_seek_frame 后则会间接消除该噪音]
+    //[若 后面更改 ffmpeg版本，可尝试去掉 seekToPos(10); 看看会不会在 1秒多 出现噪音]
+    seekToPos(10);
+
     AVPacket packet;
 
     AVPacket *ppacket = nullptr;  //分配用于转换的数据包(输入)

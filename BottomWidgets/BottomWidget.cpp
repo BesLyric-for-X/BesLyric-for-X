@@ -4,6 +4,7 @@
 #include "MusicPlayer/musicPlayer.h"
 #include "BesMessageBox.h"
 #include "SettingManager.h"
+#include "BesScaleUtil.h"
 
 BottomWidget::BottomWidget(QWidget *parent)
     :QWidget(parent)
@@ -40,10 +41,14 @@ void BottomWidget::initLayout()
 
     labelTimeCurrent = new QLabel(bottomWidgetContainer);
     labelTimeEnding = new QLabel(bottomWidgetContainer);
-    labelTimeCurrent->setText("00:00");
-    labelTimeEnding->setText("00:00");
+    labelTimeCurrent->setText("00:00.000");
+    labelTimeEnding->setText("00:00.000");
     labelTimeCurrent->setObjectName("labelTimeCurrent");
     labelTimeEnding->setObjectName("labelTimeEnding");
+
+    labelTimeCurrent->setMinimumWidth(80 * BesScaleUtil::mscale());
+    labelTimeCurrent->setMaximumWidth(80 * BesScaleUtil::mscale());
+    labelTimeCurrent->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     sliderSong = new QSlider(bottomWidgetContainer);
     sliderSound= new QSlider(bottomWidgetContainer);
