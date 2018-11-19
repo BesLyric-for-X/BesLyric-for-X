@@ -101,10 +101,14 @@ void BesFramelessWidget::mouseMoveEvent(QMouseEvent *event)
                 break;
             case RIGHTTOP:
                 rMove.setWidth(gloPoint.x() - tl.x());
-                rMove.setY(gloPoint.y());
+                if(rb.y() - gloPoint.y() <= this->minimumHeight())
+                    rMove.setY(tl.y());
+                else
+                    rMove.setY(gloPoint.y());
                 break;
             case LEFTBOTTOM:
-                rMove.setX(gloPoint.x());
+                if(rb.x() - gloPoint.x() >= this->minimumWidth())
+                    rMove.setX(gloPoint.x());
                 rMove.setHeight(gloPoint.y() - tl.y());
                 break;
             case RIGHTBOTTOM:
