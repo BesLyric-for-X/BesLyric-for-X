@@ -26,6 +26,8 @@ public:
     void markOneLine();     //推上一行
     void markEmptyLine();   //空出一行
     void backBy5Second();   //回退5秒
+    void backOneLine();     //回退到上一行
+
     void playOrPause();     //暂停或开始
 
 private:

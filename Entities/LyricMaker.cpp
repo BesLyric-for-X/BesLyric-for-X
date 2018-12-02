@@ -80,13 +80,40 @@ bool LyricMaker::hasPreLrcLine()
     return true;
 }
 
+//是否有前二个LRC行
+bool LyricMaker::hasPPreLrcLine()
+{
+    if(isRawLyricEmpty())
+        return false;
+
+    if(lrcNext <= 2)
+        return false;
+
+    return true;
+}
+
  //是否有下一个原歌词行
 bool LyricMaker::hasNextRawLine()
 {
     if(isRawLyricEmpty())
         return false;
 
-    if(rawCurrent > uint(rawLines.size())-1)
+    if(rawCurrent + 1 > uint(rawLines.size()))
+        return false;
+
+    return true;
+}
+
+//是否有后一个原歌词行
+bool LyricMaker::hasNNextRawLine()
+{
+    if(isRawLyricEmpty())
+        return false;
+
+    if(rawLines.size()<2)
+        return false;
+
+    if(rawCurrent + 2 > uint(rawLines.size()))
         return false;
 
     return true;
@@ -99,6 +126,17 @@ bool LyricMaker::getPreLrcLineText(QString& line)
         return false;
 
     line = lrcLines[lrcNext-2].second;
+
+    return true;
+}
+
+//当前行为第一二行时，将返回 false
+bool LyricMaker::getPPreLrcLineText(QString& line)
+{
+    if(!hasPPreLrcLine())
+        return false;
+
+    line = lrcLines[lrcNext-3].second;
 
     return true;
 }
@@ -135,6 +173,17 @@ bool LyricMaker::getNextRawLineText(QString& line)
         return false;
 
     line = rawLines[rawCurrent];
+
+    return true;
+}
+
+//当前行为最后二行时，将返回 false
+bool LyricMaker::getNNextRawLineText(QString& line)
+{
+    if(!hasNNextRawLine())
+        return false;
+
+    line = rawLines[rawCurrent+1];
 
     return true;
 }
@@ -204,6 +253,15 @@ bool LyricMaker::stepBackToTime(quint64 time)
     rawCurrent = count;
 
     return true;
+}
+
+//获得上一行LRC歌词的时间，没有上一行时返回-1
+int LyricMaker::getLastLrcLineTime()
+{
+    if(!hasPreLrcLine())
+        return -1;
+
+    return int(lrcLines[lrcNext-2].first);
 }
 
 //结束制作

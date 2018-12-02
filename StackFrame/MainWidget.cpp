@@ -157,6 +157,10 @@ bool MainWidget::keyPress(QKeyEvent  *event)
         {
             middleWidget->pageMain->subPageMaking->backBy5Second();
         }
+        else if(event->key() == Qt::Key_Down) //回退一行
+        {
+            middleWidget->pageMain->subPageMaking->backOneLine();
+        }
         else if(event->key() == Qt::Key_Space) //暂停
         {
             middleWidget->pageMain->subPageMaking->playOrPause();

@@ -431,6 +431,24 @@ void SubPageMaking::backBy5Second()
     updateLinesText();
 }
 
+//回退到上一行
+void SubPageMaking::backOneLine()
+{
+    //尝试获取上一行已经制作的歌词
+    if(!lyricMaker.hasPreLrcLine())
+        return;
+
+    int time = lyricMaker.getLastLrcLineTime();
+
+    quint64 back = curAudioPos-time;
+    if(back < 0)
+        back = 0;
+
+    emit onSeekBackward(back);
+    lyricMaker.stepBackToTime(time);
+    updateLinesText();
+}
+
 //暂停或开始
 void SubPageMaking::playOrPause()
 {
@@ -515,7 +533,8 @@ void SubPageMaking::openResult()
 //更新当前行内容的显示
 void SubPageMaking::updateLinesText()
 {
-    QString line1, line2, line3;
+    QString line0,line1, line2, line3, line4;
+    lyricMaker.getPPreLrcLineText(line0);
     lyricMaker.getPreLrcLineText(line1);
 
     bool bRet = lyricMaker.getCurrentLrcLineText(line2);    //为了能够显示空行，先尝试获取lrc
@@ -531,10 +550,13 @@ void SubPageMaking::updateLinesText()
     }
 
     lyricMaker.getNextRawLineText(line3);
+    lyricMaker.getNNextRawLineText(line4);
 
+    labelLine0->setText(line0);
     labelLine1->setText(line1);
     labelLine2->setText(line2);
     labelLine3->setText(line3);
+    labelLine4->setText(line4);
 }
 
 
@@ -761,11 +783,15 @@ void SubPageMaking::initMakingProcess(bool updateCurrentSongLyric)
         lyricMaker.startMaking();
 
         QString firstLine;
+        QString secondLine;
         lyricMaker.getNextRawLineText(firstLine);
+        lyricMaker.getNNextRawLineText(secondLine);
 
+        labelLine0->setText("");
         labelLine1->setText("");
         labelLine2->setText("");
         labelLine3->setText(firstLine);
+        labelLine4->setText(secondLine);
         labelCurrenLineEmptyTip->setVisible(false);
     }
 }
