@@ -38,6 +38,8 @@ public slots:
     bool getNextRawLineText(QString& line);        //当前行为最后一行时，将返回 false
     bool getNNextRawLineText(QString& line);       //当前行为最后二行时，将返回 false
 
+    bool updateCurrentLineText(QString& line);      //更新当前行的歌词内容
+
     bool markCurrentRawLine(quint64 time);         //标记当前行为 time
     bool markEmptyLine(quint64 time);              //标记时间为 time 的空行
     bool stepBackToTime(quint64 time);             //回退到 time

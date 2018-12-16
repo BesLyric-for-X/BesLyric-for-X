@@ -188,6 +188,19 @@ bool LyricMaker::getNNextRawLineText(QString& line)
     return true;
 }
 
+//更新当前行的歌词内容
+bool LyricMaker::updateCurrentLineText(QString& line)
+{
+    QString text;
+    if(getCurrentLrcLineText(text))
+    {
+        lrcLines[lrcNext-1].second = line;
+        rawLines[rawCurrent-1] = line;
+    }
+    else
+        return false;  //没有当前行可更新
+}
+
 //标记当前行为 time
 bool LyricMaker::markCurrentRawLine(quint64 time)
 {
