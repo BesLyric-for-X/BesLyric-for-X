@@ -393,13 +393,12 @@ void SubPageMaking::initEntity()
     pathResultLrcLyric = "";
     isMaking = false;
     isEditing = false;
+    isBatchEditing =false;
 
     btnPreviewResult->setEnabled(false);
     btnOpenResult->setEnabled(false);
     btnToRemaking->setEnabled(false);
     btnStartMaking->setEnabled(false);
-
-    btnEditBatchLyric->setEnabled(false);
 
     editSelectOutputDir->setText(SettingManager::GetInstance().data().defaultOutputPath);
     pathOutputDir = SettingManager::GetInstance().data().defaultOutputPath;
@@ -413,6 +412,7 @@ void SubPageMaking::initConnection()
     connect(btnLoadLastFiles, SIGNAL(clicked(bool)),this,SLOT(loadCurrentPath()));
 
     connect(btnEditLyricCurrent,SIGNAL(clicked(bool)),this,SLOT(onEditCurrentLine()));
+    connect(btnEditBatchLyric,SIGNAL(clicked(bool)),this,SLOT(onEditBatchLyric()));
 
     connect(btnStartMaking, SIGNAL(clicked(bool)),this,SLOT(startMaking()));
     connect(btnToRemaking,SIGNAL(clicked(bool)),this,SLOT(remaking()));
@@ -791,10 +791,33 @@ void SubPageMaking::onEditCurrentLine()
     toggleMiddleLineEdit(true);
 }
 
-//编辑剩余所有行
-void SubPageMaking::onEditRemain()
+//批量编辑歌词
+void SubPageMaking::onEditBatchLyric()
 {
+    isBatchEditing = true;
+    playOrPause();
 
+    LyricEditorBox* lyricEditor = new LyricEditorBox(nullptr);
+
+    QVector<QString>rawLines;
+    QVector<QPair<quint64, QString>> lrcLines;
+    lyricMaker.getLyricData(rawLines,lrcLines);
+    lyricEditor->setLyricData(rawLines,lrcLines);
+
+    lyricEditor->exec();
+
+    if(lyricEditor->isResultOK())
+    {
+        //取出结果，更新当前歌词
+        lyricEditor->getLyricData(rawLines,lrcLines);
+        lyricMaker.updateLyricData(rawLines,lrcLines);
+        updateLinesText();
+    }
+
+    delete lyricEditor;
+
+    playOrPause();
+    isBatchEditing = false;
 }
 
 

@@ -11,6 +11,8 @@
 #include "LyricMaker.h"
 #include "ThreadGuessLyricInfo.h"
 
+#include "LyricEditorBox.h"
+
 class SubPageMaking : public QWidget
 {
     Q_OBJECT
@@ -67,7 +69,7 @@ public slots:
 
     void onEditCurrentRawLyric(); //直接打开文件编辑当前原歌词
     void onEditCurrentLine();     //编辑当前行
-    void onEditRemain();          //编辑剩余所有行
+    void onEditBatchLyric();      //批量编辑
 
 public:
     void selectMusicPath(const QString& musicPath);
@@ -82,6 +84,7 @@ private:
 public:
     bool isMaking;									//标记是否正在制作
     bool isEditing;                                 //标记是否正在编辑
+    bool isBatchEditing;                            //标记是否正在批量编辑
 	ThreadGuessLyricInfo	threadGuessLyricInfo;	//当前猜词用的线程
 
 private:

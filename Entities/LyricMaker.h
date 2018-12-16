@@ -49,6 +49,8 @@ public slots:
     void finishMaking();                            //结束制作
     bool isResultLrcEmpty();                        //制作结束的lrc是否为空
 
+    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
+    void updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
 private:
     QVector<QString> rawLines;                          //原始歌词
     QVector<QPair<quint64, QString>> lrcLines;          //lrc歌词

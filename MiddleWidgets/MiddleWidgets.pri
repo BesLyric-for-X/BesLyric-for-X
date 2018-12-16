@@ -11,6 +11,7 @@ HEADERS+=\
     $$PWD/SubPageDownloadLyric.h\
     $$PWD/BoxPageLyricList.h\
     $$PWD/BoxPagePreviewLyric.h\
+    $$PWD/LyricEditorBox.h\
     $$PWD/SettingWidget/SettingWidget.h\
     $$PWD/SettingWidget/SettingNavigator.h \
     $$PWD/SettingWidget/SettingScrollPanel.h\
@@ -37,6 +38,7 @@ SOURCES+=\
     $$PWD/SubPageDownloadLyric.cpp\
     $$PWD/BoxPageLyricList.cpp\
     $$PWD/BoxPagePreviewLyric.cpp\
+    $$PWD/LyricEditorBox.cpp\
     $$PWD/SettingWidget/SettingWidget.cpp\
     $$PWD/SettingWidget/SettingScrollPanel.cpp \
     $$PWD/SettingWidget/SettingNavigator.cpp\

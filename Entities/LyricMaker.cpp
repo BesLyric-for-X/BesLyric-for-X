@@ -196,6 +196,7 @@ bool LyricMaker::updateCurrentLineText(QString& line)
     {
         lrcLines[lrcNext-1].second = line;
         rawLines[rawCurrent-1] = line;
+        return true;
     }
     else
         return false;  //没有当前行可更新
@@ -302,5 +303,18 @@ void LyricMaker::finishMaking()
 bool LyricMaker::isResultLrcEmpty()
 {
     return lrcContent.size() == 0;
+}
+
+
+void LyricMaker::getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+{
+    _rawLines = rawLines;
+    _lrcLines = lrcLines;
+}
+
+void LyricMaker::updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+{
+    rawLines = _rawLines;
+    lrcLines = _lrcLines;
 }
 

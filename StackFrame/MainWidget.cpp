@@ -153,7 +153,7 @@ bool MainWidget::keyPress(QKeyEvent  *event)
                 return true;
             }
         }
-        else
+        else if(!middleWidget->pageMain->subPageMaking->isBatchEditing)
         {
             if(event->key() == Qt::Key_Up)  //推上一行
             {
