@@ -19,8 +19,11 @@ HEADERS+=\
     $$PWD/list/BesListHeader.h\
     $$PWD/list/BesList.h\
     $$PWD/BesTransparentLayer.h \
-    $$PWD/BesScaleUtil.h
-
+    $$PWD/BesScaleUtil.h\
+    $$PWD/table/FinishLrcButtonDelegate.h \
+    $$PWD/table/FinishLrcTableModel.h \
+    $$PWD/table/FinishLrcTableView.h\
+    $$PWD/BesEditDialog.h
 
 SOURCES+=\
     $$PWD/BesFramelessWidget.cpp \
@@ -40,5 +43,8 @@ SOURCES+=\
     $$PWD/list/BesListHeader.cpp\
     $$PWD/list/BesList.cpp\
     $$PWD/BesTransparentLayer.cpp\
-
+    $$PWD/table/FinishLrcButtonDelegate.cpp \
+    $$PWD/table/FinishLrcTableModel.cpp \
+    $$PWD/table/FinishLrcTableView.cpp \
+    $$PWD/BesEditDialog.cpp
 

@@ -25,28 +25,16 @@ SubPageMaking::~SubPageMaking()
 
 }
 
-void SubPageMaking::initEntity()
-{
-    pathLoaded = false;
-    pathResultLrcLyric = "";
-    isMaking = false;
-
-    btnPreviewResult->setEnabled(false);
-    btnOpenResult->setEnabled(false);
-    btnToRemaking->setEnabled(false);
-    btnStartMaking->setEnabled(false);
-
-    editSelectOutputDir->setText(SettingManager::GetInstance().data().defaultOutputPath);
-    pathOutputDir = SettingManager::GetInstance().data().defaultOutputPath;
-}
-
 void SubPageMaking::initLayout()
 {
     QVBoxLayout* vLayout = new QVBoxLayout(this);
     vLayout->setMargin(30 * BesScaleUtil::scale());
 
-    labelSelectMusic = new QLabel(this);
-    labelSelectLyric= new QLabel(this);
+    widgetMusicPath = new QWidget(this);
+    widgetLyricPath = new QWidget(this);;
+
+    labelSelectMusic = new QLabel(widgetMusicPath);
+    labelSelectLyric= new QLabel(widgetLyricPath);
     labelSelectOutputDir= new QLabel(this);
     labelSelectMusic->setText(tr("选择音乐："));
     labelSelectLyric->setText(tr("选择歌词："));
@@ -58,12 +46,12 @@ void SubPageMaking::initLayout()
     labelSelectLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editSelectMusic = new BesFileLineEdit(BesEditFileType::BesFileTypeMusic,this);
-    editSelectLyric = new BesFileLineEdit(BesEditFileType::BesFileTypeTxt, this);
+    editSelectMusic = new BesFileLineEdit(BesEditFileType::BesFileTypeMusic, widgetMusicPath);
+    editSelectLyric = new BesFileLineEdit(BesEditFileType::BesFileTypeTxt, widgetLyricPath);
     editSelectOutputDir = new BesFileLineEdit(BesEditFileType::BesFileTypeFloder,this);
-    editSelectMusic->setFocusPolicy(Qt::NoFocus);
-    editSelectLyric->setFocusPolicy(Qt::NoFocus);
-    editSelectOutputDir->setFocusPolicy(Qt::NoFocus);
+    editSelectMusic->setReadOnly(true);
+    editSelectLyric->setReadOnly(true);
+    editSelectOutputDir->setReadOnly(true);
     editSelectMusic->setMinimumHeight(28* BesScaleUtil::scale());
     editSelectLyric->setMinimumHeight(28* BesScaleUtil::scale());
     editSelectOutputDir->setMinimumHeight(28* BesScaleUtil::scale());
@@ -74,8 +62,8 @@ void SubPageMaking::initLayout()
     editSelectLyric->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
     editSelectOutputDir->setPlaceholderText(tr("点击选择文件夹 或 拖放文件夹到这里"));
 
-    btnSelectMusic = new BesButton(this);
-    btnSelectLyric = new BesButton(this);
+    btnSelectMusic = new BesButton(widgetMusicPath);
+    btnSelectLyric = new BesButton(widgetLyricPath);
     btnSelectOutputDir = new BesButton(this);
     btnSelectMusic->setText(tr("选择"));
     btnSelectLyric->setText(tr("选择"));
@@ -87,7 +75,7 @@ void SubPageMaking::initLayout()
     btnSelectLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSelectOutputDir->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-	btnGuessLyricInfo = new BesButton(this);
+    btnGuessLyricInfo = new BesButton(widgetMusicPath);
     btnGuessLyricInfo->setText(tr("搜词"));
     btnGuessLyricInfo->setToolTip(tr("尽可能智能地得到歌手和歌曲名，在歌词下载页面进行搜索"));
     btnGuessLyricInfo->setMinimumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
@@ -95,7 +83,7 @@ void SubPageMaking::initLayout()
     btnGuessLyricInfo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	btnGuessLyricInfo->setVisible(false);
 
-    btnDownloadMp3= new BesButton(this);
+    btnDownloadMp3= new BesButton(widgetMusicPath);
     btnDownloadMp3->setText(tr("mp3"));
     btnDownloadMp3->setToolTip(tr("本软件无法直接播放 ncm 文件，可点此尝试下载其 mp3"));
     btnDownloadMp3->setMinimumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
@@ -103,7 +91,7 @@ void SubPageMaking::initLayout()
     btnDownloadMp3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnDownloadMp3->setVisible(false);
 
-    btnEditTxtLyric= new BesButton(this);
+    btnEditTxtLyric= new BesButton(widgetLyricPath);
     btnEditTxtLyric->setText(tr("编辑"));
     btnEditTxtLyric->setToolTip(tr("发现歌词出错时，可点击此直接编辑，然后“载入最新”"));
     btnEditTxtLyric->setMinimumSize(60* BesScaleUtil::scale(),28* BesScaleUtil::scale());
@@ -111,9 +99,12 @@ void SubPageMaking::initLayout()
     btnEditTxtLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnEditTxtLyric->setVisible(false);
 
-    QHBoxLayout* hLayout1 = new QHBoxLayout();
-    QHBoxLayout* hLayout2 = new QHBoxLayout();
+
+    QHBoxLayout* hLayout1 = new QHBoxLayout(widgetMusicPath);
+    QHBoxLayout* hLayout2 = new QHBoxLayout(widgetLyricPath);
     QHBoxLayout* hLayout3 = new QHBoxLayout();
+    hLayout1->setMargin(0);
+    hLayout2->setMargin(0);
     hLayout1->addWidget(labelSelectMusic);
     hLayout1->addWidget(editSelectMusic);
     hLayout1->addWidget(btnDownloadMp3);
@@ -127,8 +118,8 @@ void SubPageMaking::initLayout()
     hLayout3->addWidget(editSelectOutputDir);
     hLayout3->addWidget(btnSelectOutputDir);
 
-    vLayout->addLayout(hLayout1);
-    vLayout->addLayout(hLayout2);
+    vLayout->addWidget(widgetMusicPath);
+    vLayout->addWidget(widgetLyricPath);
     vLayout->addLayout(hLayout3);
     vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),
                                            QSizePolicy::Minimum,QSizePolicy::Minimum));
@@ -274,21 +265,37 @@ void SubPageMaking::initLayout()
     labelCurrenLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelNextLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+    widgetLine0 = new QWidget(widgetLyricBoard);
     widgetMiddleLine = new QWidget(widgetLyricBoard);
+    widgetLine4 = new QWidget(widgetLyricBoard);
 
+    labelLine0= new QLabel(widgetLine0);
     labelLine1= new QLabel(widgetLyricBoard);
     labelLine2= new QLabel(widgetMiddleLine);
     labelLine3= new QLabel(widgetLyricBoard);
+    labelLine4= new QLabel(widgetLine4);
+    labelLine0->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine1->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine2->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine3->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine4->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine0->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine2->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine3->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    labelLine4->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
+    labelLine0->setObjectName("labelLine0");
     labelLine1->setObjectName("labelLine1");
     labelLine2->setObjectName("labelLine2");
     labelLine3->setObjectName("labelLine3");
+    labelLine4->setObjectName("labelLine4");
+
+    editMiddleLine = new QLineEdit(widgetMiddleLine);
+    editMiddleLine->setMinimumHeight(28* BesScaleUtil::mscale());
+    editMiddleLine->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    editMiddleLine->setObjectName("editMiddleLine");
+    editMiddleLine->setVisible(false);
 
     labelCurrenLineEmptyTip = new QLabel(widgetMiddleLine);
     labelCurrenLineEmptyTip->setText(tr("空行"));
@@ -298,11 +305,38 @@ void SubPageMaking::initLayout()
     labelCurrenLineEmptyTip->setAlignment(Qt::AlignCenter);
     labelCurrenLineEmptyTip->setVisible(false);
 
-
     QHBoxLayout* hLayout7 = new QHBoxLayout(widgetLyricBoard);
     hLayout7->addWidget(labelLine2);
+    hLayout7->addWidget(editMiddleLine);
     hLayout7->addWidget(labelCurrenLineEmptyTip);
     widgetMiddleLine->setLayout(hLayout7);
+
+    btnEditLyricCurrent = new BesButton(widgetLine0);
+    btnEditLyricCurrent->setText(tr("单行编辑"));
+    btnEditLyricCurrent->setMinimumSize(75,28* BesScaleUtil::mscale());
+    btnEditLyricCurrent->setMaximumSize(75,28* BesScaleUtil::mscale());
+    btnEditLyricCurrent->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+
+    QHBoxLayout* hLayoutLine0 = new QHBoxLayout();
+    hLayoutLine0->addWidget(btnEditLyricCurrent);
+    hLayoutLine0->addSpacerItem(new QSpacerItem(25,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayoutLine0->addWidget(labelLine0);
+    hLayoutLine0->setMargin(0);
+    widgetLine0->setLayout(hLayoutLine0);
+
+    btnEditBatchLyric = new BesButton(widgetLine4);
+    btnEditBatchLyric->setText(tr("批量编辑"));
+    btnEditBatchLyric->setMinimumSize(75,28* BesScaleUtil::mscale());
+    btnEditBatchLyric->setMaximumSize(75,28* BesScaleUtil::mscale());
+    btnEditBatchLyric->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+
+    QHBoxLayout* hLayoutLine4 = new QHBoxLayout();
+    hLayoutLine4->addWidget(btnEditBatchLyric);
+    hLayoutLine4->addSpacerItem(new QSpacerItem(25,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayoutLine4->addWidget(labelLine4);
+    hLayoutLine4->setMargin(0);
+    widgetLine4->setLayout(hLayoutLine4);
+
 
     QHBoxLayout* hLayout8 = new QHBoxLayout();  //注意：布局定义属于整个父窗口
     QHBoxLayout* hLayout9 = new QHBoxLayout();
@@ -316,9 +350,13 @@ void SubPageMaking::initLayout()
 
     QVBoxLayout* vBoxLayout2 = new QVBoxLayout(widgetLyricBoard);
     vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addWidget(widgetLine0);
+    vBoxLayout2->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
     vBoxLayout2->addLayout(hLayout8);
     vBoxLayout2->addLayout(hLayout9);
     vBoxLayout2->addLayout(hLayout10);
+    vBoxLayout2->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addWidget(widgetLine4);
     vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     vLayout->addWidget(widgetLyricBoard);
@@ -345,6 +383,25 @@ void SubPageMaking::initLayout()
     vLayout->addLayout(hLayout11);
     vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),QSizePolicy::Minimum,QSizePolicy::MinimumExpanding));
 
+    //初始状态,展开选择音乐和歌词路径
+    toggleMusicAndLyricPath(true);
+}
+
+void SubPageMaking::initEntity()
+{
+    pathLoaded = false;
+    pathResultLrcLyric = "";
+    isMaking = false;
+    isEditing = false;
+    isBatchEditing =false;
+
+    btnPreviewResult->setEnabled(false);
+    btnOpenResult->setEnabled(false);
+    btnToRemaking->setEnabled(false);
+    btnStartMaking->setEnabled(false);
+
+    editSelectOutputDir->setText(SettingManager::GetInstance().data().defaultOutputPath);
+    pathOutputDir = SettingManager::GetInstance().data().defaultOutputPath;
 }
 
 void SubPageMaking::initConnection()
@@ -353,6 +410,9 @@ void SubPageMaking::initConnection()
     connect(btnSelectLyric, SIGNAL(clicked(bool)),this,SLOT(selectLyricPath()));
     connect(btnSelectOutputDir, SIGNAL(clicked(bool)),this,SLOT(selectOutputDir()));
     connect(btnLoadLastFiles, SIGNAL(clicked(bool)),this,SLOT(loadCurrentPath()));
+
+    connect(btnEditLyricCurrent,SIGNAL(clicked(bool)),this,SLOT(onEditCurrentLine()));
+    connect(btnEditBatchLyric,SIGNAL(clicked(bool)),this,SLOT(onEditBatchLyric()));
 
     connect(btnStartMaking, SIGNAL(clicked(bool)),this,SLOT(startMaking()));
     connect(btnToRemaking,SIGNAL(clicked(bool)),this,SLOT(remaking()));
@@ -399,6 +459,24 @@ void SubPageMaking::backBy5Second()
         to = curAudioPos - 5000;
 
     lyricMaker.stepBackToTime(to);
+    updateLinesText();
+}
+
+//回退到上一行
+void SubPageMaking::backOneLine()
+{
+    //尝试获取上一行已经制作的歌词
+    if(!lyricMaker.hasPreLrcLine())
+        return;
+
+    int time = lyricMaker.getLastLrcLineTime();
+
+    quint64 back = curAudioPos-time;
+    if(back < 0)
+        back = 0;
+
+    emit onSeekBackward(back);
+    lyricMaker.stepBackToTime(time);
     updateLinesText();
 }
 
@@ -458,6 +536,22 @@ void SubPageMaking::finishMaking()
 
         emit onExitMakingMode();
 
+        //退出制作歌词状态,展开选择音乐和歌词路径
+        toggleMusicAndLyricPath(true);
+
+        //检测歌词是否发生改变，并提示是否保存回源歌词文件
+        if(lyricMaker.isLyricModified())
+        {
+            if(QMessageBox::StandardButton::Ok ==
+                    BesMessageBox::question( tr("提示"),tr("检测到原歌词可能已发生更改，是否覆盖到：")+lyricMaker.getRawLyricPath())
+                    )
+            {
+                if(lyricMaker.saveToRawLyric())
+                    BesMessageBox::information( tr("提示"),tr("歌词更改已保存到：")+lyricMaker.getRawLyricPath());
+                else
+                    BesMessageBox::information( tr("提示"),tr("保存失败，无法保存到：")+lyricMaker.getRawLyricPath());
+            }
+        }
     }
 }
 
@@ -486,26 +580,45 @@ void SubPageMaking::openResult()
 //更新当前行内容的显示
 void SubPageMaking::updateLinesText()
 {
-    QString line1, line2, line3;
+    QString line0,line1, line2, line3, line4;
+    lyricMaker.getPPreLrcLineText(line0);
     lyricMaker.getPreLrcLineText(line1);
 
     bool bRet = lyricMaker.getCurrentLrcLineText(line2);    //为了能够显示空行，先尝试获取lrc
     if(!bRet)
+    {
+        //一开始是空行，不能编辑
+        btnEditLyricCurrent->setEnabled(false);
+
         lyricMaker.getCurrentRawLineText(line2);  //一开始未制作时，lrc为空，获取失败，获取raw
+    }
     else
     {
         //获取成功，看是否为空，为空显示空行提示
         if(line2.size() == 0)
+        {
             labelCurrenLineEmptyTip->setVisible(true);
+
+            //空行不能编辑
+            btnEditLyricCurrent->setEnabled(false);
+        }
         else
+        {
             labelCurrenLineEmptyTip->setVisible(false);
+
+            //非空行能编辑
+            btnEditLyricCurrent->setEnabled(true);
+        }
     }
 
     lyricMaker.getNextRawLineText(line3);
+    lyricMaker.getNNextRawLineText(line4);
 
+    labelLine0->setText(line0);
     labelLine1->setText(line1);
     labelLine2->setText(line2);
     labelLine3->setText(line3);
+    labelLine4->setText(line4);
 }
 
 
@@ -585,7 +698,7 @@ void SubPageMaking::loadCurrentPath()
     pathMusicLoaded = pathMusic;
 
     //初始化歌词制作过程
-    initMakingProcess();
+    initMakingProcess(true);
 
     btnStartMaking->setEnabled(true);
     btnPreviewResult->setEnabled(false);
@@ -609,6 +722,9 @@ void SubPageMaking::startMaking()
         btnStartMaking->setEnabled(false);
         btnLoadLastFiles->setEnabled(false);
         btnToRemaking->setEnabled(true);
+
+        //进入制作歌词状态,不展开选择音乐和歌词路径
+        toggleMusicAndLyricPath(false);
     }
 }
 
@@ -627,11 +743,14 @@ void SubPageMaking::remaking()
         emit onExitMakingMode();
 
         //初始化歌词制作过程
-        initMakingProcess();
+        initMakingProcess(false);
 
         btnToRemaking->setEnabled(false);
         btnStartMaking->setEnabled(true);
         btnLoadLastFiles->setEnabled(true);
+
+        //退出制作歌词状态,展开选择音乐和歌词路径
+        toggleMusicAndLyricPath(true);
     }
 }
 
@@ -680,6 +799,42 @@ void SubPageMaking::onEditCurrentRawLyric()
     QDesktopServices::openUrl(QUrl("file:///"+pathLyric, QUrl::TolerantMode));
 }
 
+//编辑当前行
+void SubPageMaking::onEditCurrentLine()
+{
+    toggleMiddleLineEdit(true);
+}
+
+//批量编辑歌词
+void SubPageMaking::onEditBatchLyric()
+{
+    isBatchEditing = true;
+    playOrPause();
+
+    LyricEditorBox* lyricEditor = new LyricEditorBox(nullptr);
+
+    QVector<QString>rawLines;
+    QVector<QPair<quint64, QString>> lrcLines;
+    lyricMaker.getLyricData(rawLines,lrcLines);
+    lyricEditor->setLyricData(rawLines,lrcLines);
+
+    lyricEditor->exec();
+
+    if(lyricEditor->isResultOK())
+    {
+        //取出结果，更新当前歌词
+        lyricEditor->getLyricData(rawLines,lrcLines);
+        lyricMaker.updateLyricData(rawLines,lrcLines);
+        updateLinesText();
+    }
+
+    delete lyricEditor;
+
+    playOrPause();
+    isBatchEditing = false;
+}
+
+
 void SubPageMaking::selectMusicPath(const QString& musicPath)
 {
     if(musicPath.size() !=0)
@@ -715,25 +870,87 @@ void SubPageMaking::selectOutputPath(const QString& outputPath)
 }
 
 //初始化制作歌词的过程
-void SubPageMaking::initMakingProcess()
+void SubPageMaking::initMakingProcess(bool updateCurrentSongLyric)
 {
     if(pathLoaded)
     {
         labelTimeTip->setText("00:00.000");
 
-        //更新当前选中的路径提示
-        labelCurrentMusic->setText(pathMusic);
-        labelCurrentLyric->setText(pathLyric);
+        if(updateCurrentSongLyric)
+        {
+            //更新当前选中的路径提示
+            labelCurrentMusic->setText(pathMusic);
+            labelCurrentLyric->setText(pathLyric);
+        }
 
         //获取数据填充到行上
         lyricMaker.startMaking();
 
         QString firstLine;
+        QString secondLine;
         lyricMaker.getNextRawLineText(firstLine);
+        lyricMaker.getNNextRawLineText(secondLine);
 
+        labelLine0->setText("");
         labelLine1->setText("");
         labelLine2->setText("");
         labelLine3->setText(firstLine);
+        labelLine4->setText(secondLine);
         labelCurrenLineEmptyTip->setVisible(false);
+
+        //一开始是空行，不能编辑
+        btnEditLyricCurrent->setEnabled(false);
     }
 }
+
+//切换是否显示路径
+void SubPageMaking::toggleMusicAndLyricPath(bool bExtend)
+{
+    widgetMusicPath->setVisible(bExtend);
+    widgetLyricPath->setVisible(bExtend);
+    widgetLine0->setVisible(!bExtend);
+    widgetLine4->setVisible(!bExtend);
+}
+
+//是否切换出中间行编辑
+void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
+{
+    static QString lineBackup;
+    if(showEdit)
+    {
+        labelLine2->setVisible(false);
+        editMiddleLine->setVisible(true);
+
+        lineBackup = labelLine2->text();
+        editMiddleLine->setText(lineBackup);
+
+        btnEditLyricCurrent->setEnabled(false);
+        isEditing = true;
+    }
+    else
+    {
+        labelLine2->setVisible(true);
+        editMiddleLine->setVisible(false);
+
+        QString newLine = editMiddleLine->text().trimmed();
+        if(newLine.isEmpty())
+        {
+            labelLine2->setText(lineBackup);    //编辑单行时，编辑后歌词不能为空
+        }
+        else
+        {
+            if(newLine != lineBackup)
+            {
+                labelLine2->setText(newLine);       //保存更新当前的歌词
+                lyricMaker.updateCurrentLineText(newLine);
+            }
+        }
+
+        btnEditLyricCurrent->setEnabled(true);
+        isEditing = false;
+    }
+
+    playOrPause();
+}
+
+

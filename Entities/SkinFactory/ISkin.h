@@ -110,19 +110,19 @@ private:
            "border: 5px solid #3b3a3d;"
         "}"
 
-        "QWidget#widgetMessageTop"
+        "QWidget#widgetMessageTop, QWidget#widgetHeader"
         "{"
            " background-color:"+MessageBoxBgColor+ ";"
-           "border-bottom: 1px solid #3b3a3d;"
+           "border-bottom: 1px solid rgba(100,100,100,25%);"
         "}"
 
-        "QWidget#widgetMessageMiddle"
+        "QWidget#widgetMessageMiddle, QWidget#widgetBody"
         "{"
            " background-color:"+MessageBoxBgColor+ ";"
-           "border-bottom: 1px solid #3b3a3d;"
+           "border-bottom: 1px solid rgba(100,100,100,25%);"
         "}"
 
-        "QWidget#widgetMessageBottom"
+        "QWidget#widgetMessageBottom, QWidget#widgetFooter"
         "{"
            " background-color:"+MessageBoxBottomColor+ ";"
         "}"
@@ -153,6 +153,8 @@ private:
              " border-bottom: 1px solid rgba(150,150,150,15%);"
 //           " background-color:#000044;"
          "}"
+
+
         ;
 
         return str;
@@ -1066,6 +1068,10 @@ private:
         //"     border-left:1px solid #8faac9;"
         " }"
 
+        "QTableView#tableLyric"
+        "{"
+            "border-top: 1px solid rgba(100,100,100,25%);"
+        "}"
                 ;
         return str;
     }

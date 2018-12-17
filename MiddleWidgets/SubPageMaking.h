@@ -11,6 +11,8 @@
 #include "LyricMaker.h"
 #include "ThreadGuessLyricInfo.h"
 
+#include "LyricEditorBox.h"
+
 class SubPageMaking : public QWidget
 {
     Q_OBJECT
@@ -19,13 +21,15 @@ public:
     SubPageMaking(QWidget *parent = 0);
     ~SubPageMaking();
 
-    void initEntity();
     void initLayout();
+    void initEntity();
     void initConnection();
 
     void markOneLine();     //推上一行
     void markEmptyLine();   //空出一行
     void backBy5Second();   //回退5秒
+    void backOneLine();     //回退到上一行
+
     void playOrPause();     //暂停或开始
 
 private:
@@ -63,19 +67,24 @@ public slots:
     void onGuessNcmInfo();    //猜测ncm文件的歌曲名和歌词
 	void onGuessLyricInfo();  //猜测歌词信息
 
-    void onEditCurrentRawLyric(); //编辑当前原歌词
+    void onEditCurrentRawLyric(); //直接打开文件编辑当前原歌词
+    void onEditCurrentLine();     //编辑当前行
+    void onEditBatchLyric();      //批量编辑
 
 public:
     void selectMusicPath(const QString& musicPath);
     void selectLyricPath(const QString& lyricPath);
     void selectOutputPath(const QString& outputPath);
 
-
+    void toggleMiddleLineEdit(bool showEdit);            //是否切换出中间行编辑
 private:
-    void initMakingProcess(); //初始化制作歌词的过程
+    void initMakingProcess(bool updateCurrentSongLyric); //初始化制作歌词的过程
+    void toggleMusicAndLyricPath(bool bExtend);          //切换是否显示路径
 
 public:
     bool isMaking;									//标记是否正在制作
+    bool isEditing;                                 //标记是否正在编辑
+    bool isBatchEditing;                            //标记是否正在批量编辑
 	ThreadGuessLyricInfo	threadGuessLyricInfo;	//当前猜词用的线程
 
 private:
@@ -108,6 +117,9 @@ public:
     BesButton*    btnGuessLyricInfo;
     BesButton*    btnEditTxtLyric;
 
+    QWidget*      widgetMusicPath;
+    QWidget*      widgetLyricPath;
+
     QLabel*         labelTip;
     QLabel*         labelTipUp;
     QLabel*         labelTipEmpty;
@@ -126,14 +138,21 @@ public:
 
     QWidget*        widgetLyricBoard;
 
+    BesButton*      btnEditLyricCurrent;
     QLabel*         labelTimeTip;
     QLabel*         labelCurrenLineTip;
     QLabel*         labelNextLineTip;
+    BesButton*      btnEditBatchLyric;
 
+    QLabel*         labelLine0;
     QLabel*         labelLine1;
     QLabel*         labelLine2;
     QLabel*         labelLine3;
+    QLabel*         labelLine4;
+    QLineEdit*      editMiddleLine;
+    QWidget*        widgetLine0;
     QWidget*        widgetMiddleLine;
+    QWidget*        widgetLine4;
     QLabel*         labelCurrenLineEmptyTip;
 
     BesButton*    btnPreviewResult;

@@ -61,6 +61,7 @@ public:
             int lastLineTime = lrcLyrics.last().first;
 
             lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,""));
+            lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,""));
             //lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,"歌词贡献者：勤劳的云村村民"));
             //不额外添加歌词，之前添加后，引起用户误解
         }

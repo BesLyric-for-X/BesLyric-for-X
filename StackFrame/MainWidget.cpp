@@ -145,27 +145,42 @@ bool MainWidget::keyPress(QKeyEvent  *event)
     if( middleWidget->currentPage == 0 &&                    //在制作页面，且在制作歌词过程
             middleWidget->pageMain->subPageMaking->isMaking) //才响应以下按键
     {
-        if(event->key() == Qt::Key_Up)  //推上一行
+        if(middleWidget->pageMain->subPageMaking->isEditing)
         {
-            middleWidget->pageMain->subPageMaking->markOneLine();
+            if(event->key() == Qt::Key_Return) //结束制作
+            {
+                middleWidget->pageMain->subPageMaking->toggleMiddleLineEdit(false);
+                return true;
+            }
         }
-        else if(event->key() == Qt::Key_Right) //空出一行
+        else if(!middleWidget->pageMain->subPageMaking->isBatchEditing)
         {
-            middleWidget->pageMain->subPageMaking->markEmptyLine();
+            if(event->key() == Qt::Key_Up)  //推上一行
+            {
+                middleWidget->pageMain->subPageMaking->markOneLine();
+            }
+            else if(event->key() == Qt::Key_Right) //空出一行
+            {
+                middleWidget->pageMain->subPageMaking->markEmptyLine();
+            }
+            else if(event->key() == Qt::Key_B) //回退 5 秒
+            {
+                middleWidget->pageMain->subPageMaking->backBy5Second();
+            }
+            else if(event->key() == Qt::Key_Down) //回退一行
+            {
+                middleWidget->pageMain->subPageMaking->backOneLine();
+            }
+            else if(event->key() == Qt::Key_Space) //暂停
+            {
+                middleWidget->pageMain->subPageMaking->playOrPause();
+            }
+            else if(event->key() == Qt::Key_Return) //结束制作
+            {
+                middleWidget->pageMain->subPageMaking->finishMaking();
+            }
+            return true;
         }
-        else if(event->key() == Qt::Key_B) //回退 5 秒
-        {
-            middleWidget->pageMain->subPageMaking->backBy5Second();
-        }
-        else if(event->key() == Qt::Key_Space) //暂停
-        {
-            middleWidget->pageMain->subPageMaking->playOrPause();
-        }
-        else if(event->key() == Qt::Key_Return) //结束制作
-        {
-            middleWidget->pageMain->subPageMaking->finishMaking();
-        }
-        return true;
     }
 
     return false;

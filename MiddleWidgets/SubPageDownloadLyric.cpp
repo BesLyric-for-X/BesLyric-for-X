@@ -158,7 +158,7 @@ void SubPageDownloadLyric::initLayout()
     btnRawLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::mscale());
     btnRawLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
 
-    editRawLyricPanelSavePath->setFocusPolicy(Qt::NoFocus);
+    editRawLyricPanelSavePath->setReadOnly(true);
     editRawLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editRawLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultLyricPath);
 
@@ -219,7 +219,7 @@ void SubPageDownloadLyric::initLayout()
     btnLrcLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::mscale());
     btnLrcLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
 
-    editLrcLyricPanelSavePath->setFocusPolicy(Qt::NoFocus);
+    editLrcLyricPanelSavePath->setReadOnly(true);
     editLrcLyricPanelSong->setFocusPolicy(Qt::NoFocus);
     editLrcLyricPanelArtist->setFocusPolicy(Qt::NoFocus);
     editLrcLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);

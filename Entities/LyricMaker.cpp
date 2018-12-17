@@ -9,11 +9,14 @@
 bool LyricMaker::loadRawLyric(QString lyricPath)
 {
     rawLines.clear();
+    rawLyricPath.clear();
 
     QString content;
     UnicodeReader unicodeReader;
     if(!unicodeReader.ReadFromFile(lyricPath,content))
         return false;
+
+    rawLyricPath =lyricPath;
 
     QRegExp sepRegExp = QRegExp("\n|\r");               //linux\mac\windows 换行符号
     QStringList lineList = content.split(sepRegExp);
@@ -54,6 +57,38 @@ bool LyricMaker::saveLyrc(QString savePath)
     return true;
 }
 
+bool LyricMaker::saveToRawLyric()
+{
+    if(rawLyricPath.isEmpty())
+        return false;
+
+    //收集源歌词，保存回之前的路径
+    QFile file(rawLyricPath);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text |QIODevice::Truncate))
+    {
+        return false;
+    }
+
+    QString rawLyricContent;
+
+    for(auto &line:rawLines)
+    {
+        rawLyricContent += line;
+        rawLyricContent += "\n";
+    }
+
+    QTextStream streamFileOut(&file);
+    streamFileOut.setCodec("UTF-8");
+    streamFileOut << rawLyricContent;
+    streamFileOut.flush();
+
+    streamFileOut.setGenerateByteOrderMark(false);
+
+    file.close();
+
+    return true;
+}
+
 
 //开始制作歌词
 void LyricMaker::startMaking()
@@ -80,13 +115,40 @@ bool LyricMaker::hasPreLrcLine()
     return true;
 }
 
+//是否有前二个LRC行
+bool LyricMaker::hasPPreLrcLine()
+{
+    if(isRawLyricEmpty())
+        return false;
+
+    if(lrcNext <= 2)
+        return false;
+
+    return true;
+}
+
  //是否有下一个原歌词行
 bool LyricMaker::hasNextRawLine()
 {
     if(isRawLyricEmpty())
         return false;
 
-    if(rawCurrent > uint(rawLines.size())-1)
+    if(rawCurrent + 1 > uint(rawLines.size()))
+        return false;
+
+    return true;
+}
+
+//是否有后一个原歌词行
+bool LyricMaker::hasNNextRawLine()
+{
+    if(isRawLyricEmpty())
+        return false;
+
+    if(rawLines.size()<2)
+        return false;
+
+    if(rawCurrent + 2 > uint(rawLines.size()))
         return false;
 
     return true;
@@ -99,6 +161,17 @@ bool LyricMaker::getPreLrcLineText(QString& line)
         return false;
 
     line = lrcLines[lrcNext-2].second;
+
+    return true;
+}
+
+//当前行为第一二行时，将返回 false
+bool LyricMaker::getPPreLrcLineText(QString& line)
+{
+    if(!hasPPreLrcLine())
+        return false;
+
+    line = lrcLines[lrcNext-3].second;
 
     return true;
 }
@@ -137,6 +210,32 @@ bool LyricMaker::getNextRawLineText(QString& line)
     line = rawLines[rawCurrent];
 
     return true;
+}
+
+//当前行为最后二行时，将返回 false
+bool LyricMaker::getNNextRawLineText(QString& line)
+{
+    if(!hasNNextRawLine())
+        return false;
+
+    line = rawLines[rawCurrent+1];
+
+    return true;
+}
+
+//更新当前行的歌词内容
+bool LyricMaker::updateCurrentLineText(QString& line)
+{
+    QString text;
+    if(getCurrentLrcLineText(text))
+    {
+        isLyricChanged = true;                  //标记歌词已经发生改变
+        lrcLines[lrcNext-1].second = line;
+        rawLines[rawCurrent-1] = line;
+        return true;
+    }
+    else
+        return false;  //没有当前行可更新
 }
 
 //标记当前行为 time
@@ -206,6 +305,15 @@ bool LyricMaker::stepBackToTime(quint64 time)
     return true;
 }
 
+//获得上一行LRC歌词的时间，没有上一行时返回-1
+int LyricMaker::getLastLrcLineTime()
+{
+    if(!hasPreLrcLine())
+        return -1;
+
+    return int(lrcLines[lrcNext-2].first);
+}
+
 //结束制作
 void LyricMaker::finishMaking()
 {
@@ -231,5 +339,19 @@ void LyricMaker::finishMaking()
 bool LyricMaker::isResultLrcEmpty()
 {
     return lrcContent.size() == 0;
+}
+
+
+void LyricMaker::getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+{
+    _rawLines = rawLines;
+    _lrcLines = lrcLines;
+}
+
+void LyricMaker::updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+{
+    isLyricChanged = true;                  //标记歌词已经发生改变
+    rawLines = _rawLines;
+    lrcLines = _lrcLines;
 }
 
