@@ -9,11 +9,14 @@
 bool LyricMaker::loadRawLyric(QString lyricPath)
 {
     rawLines.clear();
+    rawLyricPath.clear();
 
     QString content;
     UnicodeReader unicodeReader;
     if(!unicodeReader.ReadFromFile(lyricPath,content))
         return false;
+
+    rawLyricPath =lyricPath;
 
     QRegExp sepRegExp = QRegExp("\n|\r");               //linux\mac\windows 换行符号
     QStringList lineList = content.split(sepRegExp);
@@ -45,6 +48,38 @@ bool LyricMaker::saveLyrc(QString savePath)
     QTextStream streamFileOut(&file);
     streamFileOut.setCodec("UTF-8");
     streamFileOut << lrcContent;
+    streamFileOut.flush();
+
+    streamFileOut.setGenerateByteOrderMark(false);
+
+    file.close();
+
+    return true;
+}
+
+bool LyricMaker::saveToRawLyric()
+{
+    if(rawLyricPath.isEmpty())
+        return false;
+
+    //收集源歌词，保存回之前的路径
+    QFile file(rawLyricPath);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text |QIODevice::Truncate))
+    {
+        return false;
+    }
+
+    QString rawLyricContent;
+
+    for(auto &line:rawLines)
+    {
+        rawLyricContent += line;
+        rawLyricContent += "\n";
+    }
+
+    QTextStream streamFileOut(&file);
+    streamFileOut.setCodec("UTF-8");
+    streamFileOut << rawLyricContent;
     streamFileOut.flush();
 
     streamFileOut.setGenerateByteOrderMark(false);
@@ -194,6 +229,7 @@ bool LyricMaker::updateCurrentLineText(QString& line)
     QString text;
     if(getCurrentLrcLineText(text))
     {
+        isLyricChanged = true;                  //标记歌词已经发生改变
         lrcLines[lrcNext-1].second = line;
         rawLines[rawCurrent-1] = line;
         return true;
@@ -314,6 +350,7 @@ void LyricMaker::getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64
 
 void LyricMaker::updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
 {
+    isLyricChanged = true;                  //标记歌词已经发生改变
     rawLines = _rawLines;
     lrcLines = _lrcLines;
 }

@@ -8,17 +8,17 @@
 #include <QDesktopWidget>
 #include <QToolTip>
 
-#define LRC_LIST_OPERATE_COLUMN 4
+#define LRC_FINISH_OPERATE_COLUMN 2
 
 FinishLrcButtonDelegate::FinishLrcButtonDelegate(QObject *parent) :
     QStyledItemDelegate(parent),
-  m_pBtnLyricRaw(new BesButton()),
-  m_pBtnLyricLrc(new BesButton()),
+  m_pBtnEditOneLyric(new BesButton()),
   m_nSpacing(5),
   m_nWidth(115),
   m_nHeight(28)
 {
-    m_list << QStringLiteral("查看原歌词") << QStringLiteral("查看LRC歌词");
+    //m_list << QStringLiteral("查看原歌词") << QStringLiteral("查看LRC歌词");
+    m_list<< QStringLiteral("编辑");
 }
 
 void FinishLrcButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -29,8 +29,8 @@ void FinishLrcButtonDelegate::paint(QPainter *painter, const QStyleOptionViewIte
             viewOption.state = viewOption.state ^ QStyle::State_HasFocus;
 
         QStyledItemDelegate::paint(painter, viewOption, index);
-
-        if (index.column() == LRC_LIST_OPERATE_COLUMN)
+        bool isEmpty = index.data().toString().isEmpty();
+        if (!isEmpty && index.column() == LRC_FINISH_OPERATE_COLUMN)
         {
             // 计算按钮显示区域
             int nCount = m_list.count();
@@ -56,14 +56,9 @@ void FinishLrcButtonDelegate::paint(QPainter *painter, const QStyleOptionViewIte
                         button.state |= QStyle::State_MouseOver;
                         //button.icon = QIcon(QString(":/Images/%1Hover").arg(m_list.at(i)));
                     }
-                    else if (m_nType == 1)
-                    {
-                        button.state |= QStyle::State_Sunken;
-                        //button.icon = QIcon(QString(":/Images/%1Pressed").arg(m_list.at(i)));
-                    }
                 }
 
-                QWidget *pWidget = (i == 0) ? m_pBtnLyricRaw.data() : m_pBtnLyricLrc.data();
+                QWidget *pWidget = m_pBtnEditOneLyric.data();
                 //QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter, pWidget);
                 pWidget->style()->drawControl(QStyle::CE_PushButton, &button, painter, pWidget);
             }
@@ -73,7 +68,10 @@ void FinishLrcButtonDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 bool FinishLrcButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     Q_UNUSED(model);
-    if (index.column() != LRC_LIST_OPERATE_COLUMN)
+
+    bool isEmpty = index.data().toString().isEmpty();
+
+    if (isEmpty || index.column() != LRC_FINISH_OPERATE_COLUMN)
             return false;
 
         m_nType = -1;
@@ -122,10 +120,7 @@ bool FinishLrcButtonDelegate::editorEvent(QEvent *event, QAbstractItemModel *mod
             // 鼠标释放
             case QEvent::MouseButtonRelease:
             {
-                if (i == 0)
-                    emit sig_showLyric(index.row(), true);
-                else
-                    emit sig_showLyric(index.row(), false);
+                emit sig_editLyric(index.row());
                 break;
             }
             default:

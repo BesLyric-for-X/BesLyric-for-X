@@ -538,6 +538,20 @@ void SubPageMaking::finishMaking()
 
         //退出制作歌词状态,展开选择音乐和歌词路径
         toggleMusicAndLyricPath(true);
+
+        //检测歌词是否发生改变，并提示是否保存回源歌词文件
+        if(lyricMaker.isLyricModified())
+        {
+            if(QMessageBox::StandardButton::Ok ==
+                    BesMessageBox::question( tr("提示"),tr("检测到原歌词可能已发生更改，是否覆盖到：")+lyricMaker.getRawLyricPath())
+                    )
+            {
+                if(lyricMaker.saveToRawLyric())
+                    BesMessageBox::information( tr("提示"),tr("歌词更改已保存到：")+lyricMaker.getRawLyricPath());
+                else
+                    BesMessageBox::information( tr("提示"),tr("保存失败，无法保存到：")+lyricMaker.getRawLyricPath());
+            }
+        }
     }
 }
 
@@ -910,7 +924,7 @@ void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
         lineBackup = labelLine2->text();
         editMiddleLine->setText(lineBackup);
 
-        btnEditLyricCurrent->setVisible(false);
+        btnEditLyricCurrent->setEnabled(false);
         isEditing = true;
     }
     else
@@ -925,11 +939,14 @@ void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
         }
         else
         {
-            labelLine2->setText(newLine);       //保存更新当前的歌词
-            lyricMaker.updateCurrentLineText(newLine);
+            if(newLine != lineBackup)
+            {
+                labelLine2->setText(newLine);       //保存更新当前的歌词
+                lyricMaker.updateCurrentLineText(newLine);
+            }
         }
 
-        btnEditLyricCurrent->setVisible(true);
+        btnEditLyricCurrent->setEnabled(true);
         isEditing = false;
     }
 

@@ -63,7 +63,8 @@ QVariant FinishLrcTableModel::data(const QModelIndex &index, int role) const
         case 1:
             return pLrcLines->at(nRow).second;
         case 2:
-            return "";
+            return pLrcLines->at(nRow).second.isEmpty()? "": " ";
+            //存储是否为空的信息,为空输出空串，否则输出空格，为了不显示出来
         default:
             return QVariant();
         }

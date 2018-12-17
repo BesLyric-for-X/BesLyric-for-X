@@ -3,6 +3,7 @@
 #include "FinishLrcTableModel.h"
 #include "FinishLrcButtonDelegate.h"
 #include <QHeaderView>
+#include <BesEditDialog.h>
 
 FinishLrcTableView::FinishLrcTableView(QWidget *parent) :
     QTableView(parent)
@@ -61,6 +62,20 @@ QVector<QString> FinishLrcTableView::getSelectedLrc()
     return vecLines;
 }
 
+void FinishLrcTableView::onEditRow(int row)
+{
+    //弹框改变已有lrc歌词内容
+    BesEditDialog besEditDialog;
+    QVector<QPair<quint64, QString>>* pLrc = m_model->getLyricLines();
+    QString text = pLrc->at(row).second;
+    besEditDialog.setText(text);
+    if(QDialog::Accepted == besEditDialog.exec())
+    {
+        //使用修改后的歌词改变原来歌词
+        (*pLrc)[row].second = besEditDialog.getText();
+    }
+}
+
 void FinishLrcTableView::iniData()
 {
     m_model = new FinishLrcTableModel();
@@ -73,10 +88,7 @@ void FinishLrcTableView::iniData()
     this->setItemDelegateForColumn(2, m_buttonDelegate);
 
     connect(m_buttonDelegate, SIGNAL(sig_rowClicked(int)),this,SLOT(selectRow(int)));
-    connect(m_buttonDelegate,&FinishLrcButtonDelegate::sig_showLyric, [=](int row, bool rawLyric){
-        if(rawLyric)emit(sig_showRawLyric(m_model->DataVector().at(row)));
-        else emit (sig_showLrcLyric(m_model->DataVector().at(row)));
-    });
+    connect(m_buttonDelegate,SIGNAL(sig_editLyric(int)),this,SLOT(onEditRow(int)));
 
     BaseInit();
 }

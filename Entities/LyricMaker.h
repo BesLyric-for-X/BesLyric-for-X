@@ -11,12 +11,19 @@ class LyricMaker:public QObject
 {
     Q_OBJECT
 public:
-    LyricMaker(QObject* parent = nullptr):QObject(parent),insertOffsetTime(0){}
+    LyricMaker(QObject* parent = nullptr):QObject(parent),insertOffsetTime(0),isLyricChanged(false){}
 
     //歌词是否为空
     bool isRawLyricEmpty();
 
     bool saveLyrc(QString savePath);
+    bool saveToRawLyric();
+
+    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
+    void updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
+
+    bool isLyricModified(){return isLyricChanged; }
+    QString getRawLyricPath(){return rawLyricPath; }
 
 public slots:
 
@@ -49,8 +56,7 @@ public slots:
     void finishMaking();                            //结束制作
     bool isResultLrcEmpty();                        //制作结束的lrc是否为空
 
-    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
-    void updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
+
 private:
     QVector<QString> rawLines;                          //原始歌词
     QVector<QPair<quint64, QString>> lrcLines;          //lrc歌词
@@ -61,6 +67,9 @@ private:
     QString lrcContent;                                 //最终得到的lrc歌词内容
 
     int insertOffsetTime;                           //插入歌词时提前偏移的时间值
+
+    bool isLyricChanged;                                //标记歌词是否发生改变过
+    QString rawLyricPath;                               //源歌词路径
 };
 
 

@@ -24,11 +24,13 @@ public:
     void setLyricData(QVector<QPair<quint64, QString>>* pLrcLines);
 
     QVector<QString> getSelectedLrc();
+
 signals:
     void sig_showRawLyric(const LyricInfo&);
     void sig_showLrcLyric(const LyricInfo&);
 
 public slots:
+    void onEditRow(int row);
 
 protected:
     void iniData();
@@ -40,7 +42,6 @@ private:
 private:
     FinishLrcTableModel *m_model;
     FinishLrcButtonDelegate *m_buttonDelegate;
-
 };
 
 #endif // FinishLrcTableView_H

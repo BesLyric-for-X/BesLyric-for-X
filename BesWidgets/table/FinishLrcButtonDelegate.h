@@ -15,15 +15,14 @@ public:
 
 signals:
     void sig_rowClicked(int row);
-    void sig_showLyric(int row, bool rawLyric);
+    void sig_editLyric(int row);
 
 public slots:
 
 
 private:
     QPoint m_mousePoint;  // 鼠标位置
-    QScopedPointer<BesButton> m_pBtnLyricRaw;
-    QScopedPointer<BesButton> m_pBtnLyricLrc;
+    QScopedPointer<BesButton> m_pBtnEditOneLyric;
     QStringList m_list;
     int m_nSpacing;  // 按钮之间的间距
      int m_nWidth;  // 按钮宽度
