@@ -9,10 +9,8 @@ public:
     //按和最大宽的比例缩放
     static float scale()
     {
-        QDesktopWidget* desktopWidget = QApplication::desktop();
-
         //获取可用桌面大小
-        QRect deskRect = desktopWidget->availableGeometry();
+        QRect deskRect = getDeskRect();
 
         //默认 1920 为 1:1， 其他分辨率按比例缩放
         if(deskRect.width() == 1920)
@@ -24,10 +22,8 @@ public:
     //按和最大宽的比例缩放，但是又不要缩放太小，取缩放前后均值
     static float mscale()
     {
-        QDesktopWidget* desktopWidget = QApplication::desktop();
-
         //获取可用桌面大小
-        QRect deskRect = desktopWidget->availableGeometry();
+        QRect deskRect = getDeskRect();
 
         //默认 1920 为 1:1， 其他分辨率按比例缩放
         if(deskRect.width()  == 1920)
@@ -43,10 +39,21 @@ public:
 
         if(sizeAfterScale != size)
         {
-            sizeAfterScale = (sizeAfterScale + size)/2 + 1;
+            sizeAfterScale = (sizeAfterScale + size)*3/4;
         }
 
         return sizeAfterScale;
+    }
+
+    static QRect getDeskRect()
+    {
+
+        QDesktopWidget* desktopWidget = QApplication::desktop();
+
+        //获取可用桌面大小
+        QRect deskRect = desktopWidget->availableGeometry();
+
+        return deskRect;
     }
 };
 

@@ -125,6 +125,7 @@ public:
     QLabel*         labelTipEmpty;
     QLabel*         labelTipSpace;
     QLabel*         labelTipBack;
+    QLabel*         labelTipDown;
     QLabel*         labelTipReturn;
 
     BesButton*    btnLoadLastFiles;

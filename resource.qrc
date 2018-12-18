@@ -134,5 +134,6 @@
         <file>resource/image/checkbox_unchecked_white.png</file>
         <file>resource/image/icon_music_black.png</file>
         <file>resource/image/icon_question_black.png</file>
+        <file>resource/image/key_down.png</file>
     </qresource>
 </RCC>

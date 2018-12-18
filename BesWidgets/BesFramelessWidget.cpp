@@ -11,6 +11,16 @@ BesFramelessWidget::BesFramelessWidget(QWidget *parent)
     SetFrameBorder(8);
 
     this->dir = NONE;
+
+    //int width = 1224 * BesScaleUtil::scale();
+    //int height = width * 800 */1224 BesScaleUtil::scale();
+    QRect deskRect = BesScaleUtil::getDeskRect();
+    if(deskRect.width() < 1920)
+    {
+        //height = (height + deskRect.height())/2;
+        //width = (width + deskRect.width())/2;
+    }
+
     this->setMinimumHeight(800 * BesScaleUtil::scale());
     this->setMinimumWidth(1224 * BesScaleUtil::scale());
     this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowSystemMenuHint|Qt::MaximizeUsingFullscreenGeometryHint );

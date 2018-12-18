@@ -61,3 +61,5 @@ DISTFILES +=
 
 RESOURCES += \
     resource.qrc
+
+RC_FILE = beslyric.rc

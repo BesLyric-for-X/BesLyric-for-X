@@ -129,11 +129,13 @@ void SubPageMaking::initLayout()
     labelTipEmpty =new QLabel(this);
     labelTipSpace= new QLabel(this);
     labelTipBack= new QLabel(this);
+    labelTipDown = new QLabel(this);
     labelTipReturn= new QLabel(this);
     labelTip->setText(tr("制作提示："));
     labelTipUp->setText(tr("推上一行"));
     labelTipEmpty->setText(tr("空出一行"));
     labelTipBack->setText(tr("回退5秒"));
+    labelTipDown->setText(tr("回退1行"));
     labelTipSpace->setText(tr("暂停"));
     labelTipReturn->setText(tr("结束"));
 
@@ -142,6 +144,7 @@ void SubPageMaking::initLayout()
     labelTipEmpty->setMinimumHeight(28* BesScaleUtil::scale());
     labelTipSpace->setMinimumHeight(28* BesScaleUtil::scale());
     labelTipBack->setMinimumHeight(28* BesScaleUtil::scale());
+    labelTipDown->setMinimumHeight(28* BesScaleUtil::scale());
     labelTipReturn->setMinimumHeight(28* BesScaleUtil::scale());
 
     labelTip->setMaximumWidth(150* BesScaleUtil::scale());
@@ -149,12 +152,14 @@ void SubPageMaking::initLayout()
     labelTipEmpty->setMaximumWidth(150* BesScaleUtil::scale());
     labelTipSpace->setMaximumWidth(150* BesScaleUtil::scale());
     labelTipBack->setMaximumWidth(150* BesScaleUtil::scale());
+    labelTipDown->setMaximumWidth(150* BesScaleUtil::scale());
     labelTipReturn->setMaximumWidth(150* BesScaleUtil::scale());
 
     labelTip->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelTipUp->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelTipSpace->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelTipBack->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    labelTipDown->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelTipReturn->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     btnLoadLastFiles = new BesButton(this);
@@ -169,29 +174,34 @@ void SubPageMaking::initLayout()
     QLabel *imageLabel3 = new QLabel(this);
     QLabel *imageLabel4 = new QLabel(this);
     QLabel *imageLabel5 = new QLabel(this);
+    QLabel *imageLabel6 = new QLabel(this);
     imageLabel1->setMinimumHeight(28* BesScaleUtil::scale());
     imageLabel2->setMinimumHeight(28* BesScaleUtil::scale());
     imageLabel3->setMinimumHeight(28* BesScaleUtil::scale());
     imageLabel4->setMinimumHeight(28* BesScaleUtil::scale());
     imageLabel5->setMinimumHeight(28* BesScaleUtil::scale());
+    imageLabel6->setMinimumHeight(28* BesScaleUtil::scale());
 
     imageLabel1->setMaximumWidth(30);
     imageLabel2->setMaximumWidth(30);
     imageLabel3->setMaximumWidth(30);
-    imageLabel4->setMaximumWidth(50);
-    imageLabel5->setMaximumWidth(30);
+    imageLabel4->setMaximumWidth(30);
+    imageLabel5->setMaximumWidth(50);
+    imageLabel6->setMaximumWidth(30);
 
     imageLabel1->setPixmap(QPixmap(":/resource/image/key_up.png"));
     imageLabel2->setPixmap(QPixmap(":/resource/image/key_right.png"));
     imageLabel3->setPixmap(QPixmap(":/resource/image/key_back.png"));
-    imageLabel4->setPixmap(QPixmap(":/resource/image/key_space.png"));
-    imageLabel5->setPixmap(QPixmap(":/resource/image/key_return.png"));
+    imageLabel4->setPixmap(QPixmap(":/resource/image/key_down.png"));
+    imageLabel5->setPixmap(QPixmap(":/resource/image/key_space.png"));
+    imageLabel6->setPixmap(QPixmap(":/resource/image/key_return.png"));
 
     imageLabel1->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     imageLabel2->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     imageLabel3->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     imageLabel4->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     imageLabel5->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    imageLabel6->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
 
     QHBoxLayout* hLayout4 = new QHBoxLayout();
     QHBoxLayout* hLayout4_5 = new QHBoxLayout();
@@ -208,12 +218,15 @@ void SubPageMaking::initLayout()
     hLayout4->addWidget(labelTipBack);
     hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel4);
-    hLayout4->addWidget(labelTipSpace);
+    hLayout4->addWidget(labelTipDown);
     hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4->addWidget(imageLabel5);
+    hLayout4->addWidget(labelTipSpace);
+    hLayout4->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4->addWidget(imageLabel6);
     hLayout4->addWidget(labelTipReturn);
     hLayout4->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
-    hLayout4_5->addSpacerItem(new QSpacerItem(300* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    hLayout4_5->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),28,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayout4_5->addWidget(btnLoadLastFiles);
     hLayout4->addLayout(hLayout4_5);
 
