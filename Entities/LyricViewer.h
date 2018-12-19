@@ -112,7 +112,7 @@ protected:
         QPainter painter(this);
 
         QFont font;
-        font.setPixelSize(BesScaleUtil::fontSizeScale(17));
+        font.setPointSize(BesScaleUtil::fontSizeScale(10));
         font.setWeight(BesScaleUtil::fontSizeScale(61));
         font.setFamily("Microsoft YaHei");
         painter.setFont(font);

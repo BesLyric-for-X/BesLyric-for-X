@@ -7,29 +7,39 @@
 class BesScaleUtil{
 public:
     //按和最大宽的比例缩放
-    static float scale()
+    static double scale()
     {
         //获取可用桌面大小
         QRect deskRect = getDeskRect();
 
-        //默认 1920 为 1:1， 其他分辨率按比例缩放
-        if(deskRect.width() == 1920)
+        //窗口本身高800px，分辨率高小于800时缩放到一个固定比例。
+        //              分辨率高大于800，小于1080的情况下不缩放
+        //              分辨率高大于1080时，按比例缩放
+
+        if(deskRect.height() < 800)
+            return 0.72;
+        else if(deskRect.height() <= 1080)
             return 1.0;
         else
-            return deskRect.width() / 1920.0;
+            return deskRect.height() / 1080.0;
     }
 
     //按和最大宽的比例缩放，但是又不要缩放太小，取缩放前后均值
-    static float mscale()
+    static double mscale()
     {
         //获取可用桌面大小
         QRect deskRect = getDeskRect();
 
-        //默认 1920 为 1:1， 其他分辨率按比例缩放
-        if(deskRect.width()  == 1920)
+        //窗口本身高800px，分辨率高小于800时缩放到一个固定比例。
+        //              分辨率高大于800，小于1080的情况下不缩放
+        //              分辨率高大于1080时，按比例缩放
+
+        if(deskRect.height() < 800)
+            return 0.72;
+        else if(deskRect.height() <= 1080)
             return 1.0;
         else
-            return (deskRect.width() + 1920.0)/2 / 1920.0;
+            return deskRect.height() / 1080.0;
     }
 
     //缩放字体大小
