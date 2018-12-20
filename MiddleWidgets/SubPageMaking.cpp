@@ -292,9 +292,9 @@ void SubPageMaking::initLayout()
     labelLine2->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine3->setMinimumHeight(28* BesScaleUtil::mscale());
     labelLine4->setMinimumHeight(28* BesScaleUtil::mscale());
-    labelLine0->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    labelLine1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    labelLine2->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    labelLine0->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    labelLine1->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    labelLine2->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelLine3->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelLine4->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
@@ -303,6 +303,31 @@ void SubPageMaking::initLayout()
     labelLine2->setObjectName("labelLine2");
     labelLine3->setObjectName("labelLine3");
     labelLine4->setObjectName("labelLine4");
+
+    labelDoneMark0 = new QLabel(widgetLine0);
+    labelDoneMark0->setMinimumSize(30,30);
+    labelDoneMark0->setMaximumSize(30,30);
+    labelDoneMark0->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    labelDoneMark0->setText("♪");
+    labelDoneMark0->setObjectName("labelDoneMark");
+
+    labelDoneMark1 = new QLabel(widgetLyricBoard);
+    labelDoneMark1->setMinimumSize(30,30);
+    labelDoneMark1->setMaximumSize(30,30);
+    labelDoneMark1->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    labelDoneMark1->setText("♪");
+    labelDoneMark1->setObjectName("labelDoneMark");
+
+    labelDoneMark2 = new QLabel(widgetLyricBoard);
+    labelDoneMark2->setMinimumSize(30,30);
+    labelDoneMark2->setMaximumSize(30,30);
+    labelDoneMark2->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    labelDoneMark2->setText("♪");
+    labelDoneMark2->setObjectName("labelDoneMark");
+
+    labelDoneMark0->setVisible(false);
+    labelDoneMark1->setVisible(false);
+    labelDoneMark2->setVisible(false);
 
     editMiddleLine = new QLineEdit(widgetMiddleLine);
     editMiddleLine->setMinimumHeight(28* BesScaleUtil::mscale());
@@ -318,9 +343,14 @@ void SubPageMaking::initLayout()
     labelCurrenLineEmptyTip->setAlignment(Qt::AlignCenter);
     labelCurrenLineEmptyTip->setVisible(false);
 
+    middleSpacer = new QSpacerItem(1,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
+    //middleSpacer->changeSize(1,25,QSizePolicy::Ignored,QSizePolicy::Fixed);
+
     QHBoxLayout* hLayout7 = new QHBoxLayout(widgetLyricBoard);
     hLayout7->addWidget(labelLine2);
+    hLayout7->addWidget(labelDoneMark2);
     hLayout7->addWidget(editMiddleLine);
+    hLayout7->addSpacerItem(middleSpacer);
     hLayout7->addWidget(labelCurrenLineEmptyTip);
     widgetMiddleLine->setLayout(hLayout7);
 
@@ -334,6 +364,8 @@ void SubPageMaking::initLayout()
     hLayoutLine0->addWidget(btnEditLyricCurrent);
     hLayoutLine0->addSpacerItem(new QSpacerItem(25,25,QSizePolicy::Fixed,QSizePolicy::Fixed));
     hLayoutLine0->addWidget(labelLine0);
+    hLayoutLine0->addWidget(labelDoneMark0);
+    hLayoutLine0->addSpacerItem(new QSpacerItem(1,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayoutLine0->setMargin(0);
     widgetLine0->setLayout(hLayoutLine0);
 
@@ -356,6 +388,8 @@ void SubPageMaking::initLayout()
     QHBoxLayout* hLayout10 = new QHBoxLayout();
     hLayout8->addWidget(labelTimeTip);
     hLayout8->addWidget(labelLine1);
+    hLayout8->addWidget(labelDoneMark1);
+    hLayout8->addSpacerItem(new QSpacerItem(1,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout9->addWidget(labelCurrenLineTip);
     hLayout9->addWidget(widgetMiddleLine);
     hLayout10->addWidget(labelNextLineTip);
@@ -626,6 +660,10 @@ void SubPageMaking::updateLinesText()
 
     lyricMaker.getNextRawLineText(line3);
     lyricMaker.getNNextRawLineText(line4);
+
+    labelDoneMark0->setVisible(line0.size()!=0);
+    labelDoneMark1->setVisible(line1.size()!=0);
+    labelDoneMark2->setVisible(line2.size()!=0);
 
     labelLine0->setText(line0);
     labelLine1->setText(line1);
@@ -911,6 +949,10 @@ void SubPageMaking::initMakingProcess(bool updateCurrentSongLyric)
         labelLine4->setText(secondLine);
         labelCurrenLineEmptyTip->setVisible(false);
 
+        labelDoneMark0->setVisible(false);
+        labelDoneMark1->setVisible(false);
+        labelDoneMark2->setVisible(false);
+
         //一开始是空行，不能编辑
         btnEditLyricCurrent->setEnabled(false);
     }
@@ -932,6 +974,8 @@ void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
     if(showEdit)
     {
         labelLine2->setVisible(false);
+        labelDoneMark2->setVisible(false);
+        middleSpacer->changeSize(1,25,QSizePolicy::Ignored,QSizePolicy::Fixed);
         editMiddleLine->setVisible(true);
 
         lineBackup = labelLine2->text();
@@ -943,6 +987,8 @@ void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
     else
     {
         labelLine2->setVisible(true);
+        labelDoneMark2->setVisible(true);
+        middleSpacer->changeSize(1,25,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
         editMiddleLine->setVisible(false);
 
         QString newLine = editMiddleLine->text().trimmed();

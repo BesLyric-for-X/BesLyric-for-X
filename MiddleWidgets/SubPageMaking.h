@@ -156,6 +156,11 @@ public:
     QWidget*        widgetLine4;
     QLabel*         labelCurrenLineEmptyTip;
 
+    QLabel*         labelDoneMark0;
+    QLabel*         labelDoneMark1;
+    QLabel*         labelDoneMark2;
+    QSpacerItem*    middleSpacer;
+
     BesButton*    btnPreviewResult;
     BesButton*    btnOpenResult;
     BesButton*    btnToRemaking;

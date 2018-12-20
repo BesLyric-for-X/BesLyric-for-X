@@ -57,7 +57,8 @@ HEADERS  += \
     StackFrame.h \
     MyApplication.h
 
-DISTFILES +=
+DISTFILES += \
+    BesLyric.rc
 
 RESOURCES += \
     resource.qrc

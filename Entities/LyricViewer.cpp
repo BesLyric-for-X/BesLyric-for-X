@@ -49,6 +49,9 @@ void LyricViewer::initLayout()
     labelPreviewSongPath->setText("无");
     labelPreviewLyricPath->setText("无");
 
+    labelPreviewSongPath->setAlignment(Qt::AlignLeft);
+    labelPreviewLyricPath->setAlignment(Qt::AlignLeft);
+
     QHBoxLayout *hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelPreviewSongTip);
     hLayout1->addWidget(labelPreviewSongPath);

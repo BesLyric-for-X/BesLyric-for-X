@@ -270,6 +270,11 @@ private:
           "margin-top:"+scaleNum(15)+"px;"
           "margin-bottom:"+scaleNum(15)+"px;"
       "}"
+
+      "QLabel#labelDoneMark{"
+          "color:"+btnTabLeftBoderColor+";"
+      "}"
+
          ;
         return str;
     }
