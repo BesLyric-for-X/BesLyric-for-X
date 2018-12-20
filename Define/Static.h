@@ -17,7 +17,7 @@ static const QString LINK_SEND_LOGIN = "http://beslyric.320.io/BesBlog/beslyric/
 
 static const QString OS_NAME = "windows";
 static const QString  LINK_VERSION_LOG= "http://files.cnblogs.com/files/BensonLaur/versionLog.zip";			//链接，指向版本日志文件
-static const QString  LINK_LAST_VERSION_INFO= "http://files.cnblogs.com/files/BensonLaur/lastVersion-windows.zip";		//链接，指向最后版本信息的文件
+static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/files/BensonLaur/lastVersion-windows.zip";		//链接，指向最后版本信息的文件
 
 #endif
 

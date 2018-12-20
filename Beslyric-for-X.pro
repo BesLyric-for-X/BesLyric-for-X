@@ -58,7 +58,8 @@ HEADERS  += \
     MyApplication.h
 
 DISTFILES += \
-    BesLyric.rc
+    BesLyric.rc \
+    version.txt
 
 RESOURCES += \
     resource.qrc
