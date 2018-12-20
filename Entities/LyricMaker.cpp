@@ -17,6 +17,7 @@ bool LyricMaker::loadRawLyric(QString lyricPath)
         return false;
 
     rawLyricPath =lyricPath;
+    isLyricChanged = false;
 
     QRegExp sepRegExp = QRegExp("\n|\r");               //linux\mac\windows 换行符号
     QStringList lineList = content.split(sepRegExp);
