@@ -1,4 +1,7 @@
-# Beslyric-for-X
+![Beslyric-for-X](resource/image/netease_cloudmusic_32px.ico) ![Release version](https://img.shields.io/badge/release-3.1.0-blue.svg)
+
+# Beslyric-for-X  
+
 Beslyric-for-X ，是原 [Beslyric](https://github.com/BensonLaur/BesLyric) 的跨平台升级版，基于QT实现。
 
 Beslyric 目的在于制作一款 操作简单、功能实用的 专门用于制作网易云音乐滚动歌词的 歌词制作软件。基于Qt实现，主打歌词制作功能，以网易云风格界面，力图为云村村民提供一个良好的歌词制作体验！
