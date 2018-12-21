@@ -31,6 +31,8 @@ public:
     QLabel*  labelCurrentVersionTip;
     QLabel*  labelCurrentVersion;
 
+    QLabel*  labelNcmBeslyricAccount;
+
 private:
     ThreadCheckUpdate threadCheck;
 };
