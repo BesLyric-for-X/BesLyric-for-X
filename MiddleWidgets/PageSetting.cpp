@@ -44,6 +44,7 @@ void PageSetting::initLayout()
     settingTitle->setText(tr("设置"));
 
     QHBoxLayout* hSettingLayout = new QHBoxLayout(settingTopPanel);
+    hSettingLayout->setMargin(10*BesScaleUtil::mscale());
     hSettingLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hSettingLayout->addWidget(settingTitle);
     hSettingLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));

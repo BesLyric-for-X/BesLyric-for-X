@@ -64,4 +64,13 @@ DISTFILES += \
 RESOURCES += \
     resource.qrc
 
-RC_FILE = beslyric.rc
+
+# windows icon and exe file infomation
+win32{
+RC_FILE = Beslyric.rc
+}
+
+# set icon under Mac Os
+macx{
+ICON = Beslyric.icns
+}

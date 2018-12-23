@@ -282,6 +282,10 @@ void SubPageMaking::initLayout()
     widgetMiddleLine = new QWidget(widgetLyricBoard);
     widgetLine4 = new QWidget(widgetLyricBoard);
 
+    widgetLine0->setMinimumHeight(30* BesScaleUtil::mscale());
+    widgetLine0->setMaximumHeight(30* BesScaleUtil::mscale());
+    widgetLine0->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+
     labelLine0= new QLabel(widgetLine0);
     labelLine1= new QLabel(widgetLyricBoard);
     labelLine2= new QLabel(widgetMiddleLine);
@@ -347,6 +351,7 @@ void SubPageMaking::initLayout()
     //middleSpacer->changeSize(1,25,QSizePolicy::Ignored,QSizePolicy::Fixed);
 
     QHBoxLayout* hLayout7 = new QHBoxLayout(widgetLyricBoard);
+    hLayout7->setMargin(0);
     hLayout7->addWidget(labelLine2);
     hLayout7->addWidget(labelDoneMark2);
     hLayout7->addWidget(editMiddleLine);
@@ -396,15 +401,15 @@ void SubPageMaking::initLayout()
     hLayout10->addWidget(labelLine3);
 
     QVBoxLayout* vBoxLayout2 = new QVBoxLayout(widgetLyricBoard);
-    vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addSpacerItem(new QSpacerItem(20,6* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vBoxLayout2->addWidget(widgetLine0);
-    vBoxLayout2->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addSpacerItem(new QSpacerItem(10,6,QSizePolicy::Fixed,QSizePolicy::Fixed));
     vBoxLayout2->addLayout(hLayout8);
     vBoxLayout2->addLayout(hLayout9);
     vBoxLayout2->addLayout(hLayout10);
-    vBoxLayout2->addSpacerItem(new QSpacerItem(10,10,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addSpacerItem(new QSpacerItem(10,6,QSizePolicy::Fixed,QSizePolicy::Fixed));
     vBoxLayout2->addWidget(widgetLine4);
-    vBoxLayout2->addSpacerItem(new QSpacerItem(20,9* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vBoxLayout2->addSpacerItem(new QSpacerItem(20,6* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     vLayout->addWidget(widgetLyricBoard);
 
@@ -426,9 +431,9 @@ void SubPageMaking::initLayout()
     hLayout11->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),28* BesScaleUtil::scale(),QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout11->addWidget(btnToRemaking);
     hLayout11->addWidget(btnStartMaking);
-    vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
+    vLayout->addSpacerItem(new QSpacerItem(20,15* BesScaleUtil::scale(),QSizePolicy::Fixed,QSizePolicy::Fixed));
     vLayout->addLayout(hLayout11);
-    vLayout->addSpacerItem(new QSpacerItem(20,30* BesScaleUtil::scale(),QSizePolicy::Minimum,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,15* BesScaleUtil::scale(),QSizePolicy::Minimum,QSizePolicy::MinimumExpanding));
 
     //初始状态,展开选择音乐和歌词路径
     toggleMusicAndLyricPath(true);
@@ -518,7 +523,7 @@ void SubPageMaking::backOneLine()
 
     int time = lyricMaker.getLastLrcLineTime();
 
-    quint64 back = curAudioPos-time;
+    int back = curAudioPos-time;
     if(back < 0)
         back = 0;
 
