@@ -32,7 +32,7 @@ MacOs:
 
 #### 开发环境
 
-IDE: QT Creator 5.7.1
+IDE: [QT Creator 5.7.1](https://download.qt.io/archive/qt/5.7/5.7.1/)  
 
 #### 开发准备
 
