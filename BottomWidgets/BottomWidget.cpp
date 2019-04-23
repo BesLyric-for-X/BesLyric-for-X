@@ -325,7 +325,9 @@ void BottomWidget::onSliderSongReleased()
     AdjustingPos = false;
     musicPlayer->seek(posAdjust);
     qDebug()<<"musicPlayer->state(): "<<musicPlayer->state();
-    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+    if(musicPlayer->state() == MusicPlayer::PlayingState){
+        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+    }
 }
 
 void BottomWidget::onSoundToggle(bool mute)
