@@ -774,8 +774,8 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
             Qt::BlockingQueuedConnection);
 
 
-    m_interval = 50;
-    m_positionUpdateTimer.setInterval(m_interval);
+//    m_interval = 50;
+//    m_positionUpdateTimer.setInterval(m_interval);
     connect(&m_positionUpdateTimer,SIGNAL(timeout()),this, SLOT(sendPosChangedSignal() ));
 
     m_position = 0;
