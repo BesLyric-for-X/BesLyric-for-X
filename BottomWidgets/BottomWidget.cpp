@@ -140,6 +140,8 @@ void BottomWidget::initConnection()
     connect(musicPlayer, SIGNAL(durationChanged(qint64)),this,SLOT(durationChanged(qint64)));
     connect(musicPlayer, SIGNAL(errorOccur(int,QString)),this,SLOT(onErrorOccurs(int,QString)));
 
+    connect(musicPlayer, SIGNAL(audioFinish(bool)),this,SLOT(onAudioFinished(bool)));
+
     sliderSound->setValue(SettingManager::GetInstance().data().volume);
     nVolumeBeforeMute = sliderSound->value();
     bSliderSoundPress = false;
@@ -322,6 +324,8 @@ void BottomWidget::onSliderSongReleased()
 
     AdjustingPos = false;
     musicPlayer->seek(posAdjust);
+    qDebug()<<"musicPlayer->state(): "<<musicPlayer->state();
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
 }
 
 void BottomWidget::onSoundToggle(bool mute)
@@ -393,6 +397,11 @@ void BottomWidget::onErrorOccurs(int code, QString strErr)
     Q_UNUSED(code)
     BesMessageBox::information(tr("提示"),
         tr("播放音频时发生错误，请尝试使用别的音频文件")+ "\n\n" + tr("出错细节:")+ strErr);
+}
+
+void BottomWidget::onAudioFinished(bool isEndWithForce)
+{
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
 
