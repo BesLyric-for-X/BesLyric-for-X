@@ -335,10 +335,6 @@ void BottomWidget::onSliderSongReleased()
 
     AdjustingPos = false;
     musicPlayer->seek(posAdjust);
-    qDebug()<<"musicPlayer->state(): "<<musicPlayer->state();
-//    if(musicPlayer->state() == MusicPlayer::PlayingState){
-//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
-//    }
 }
 
 void BottomWidget::onSoundToggle(bool mute)
@@ -417,7 +413,8 @@ void BottomWidget::onAudioFinished(bool isEndWithForce)
     setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
-void BottomWidget::onAudioPlay(){
+void BottomWidget::onAudioPlay()
+{
     qDebug()<<"void BottomWidget::onAudioPlay()";
 
     setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
