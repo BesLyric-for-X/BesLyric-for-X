@@ -600,7 +600,10 @@ void PlayThread::generateAudioDataLoop()
                AVRational aVRational = {1, 1000};
                int64_t res = av_rescale_q(millisecondToSeek ,aVRational,pFormatCtx->streams[audioStream]->time_base);
 
-               SDL_PauseAudio(1);
+//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
+//               SDL_PauseAudio(1);
+               pauseDevice();
+
                //block here
                if (av_seek_frame(m_MS.fct, audioStream, res, AVSEEK_FLAG_ANY) < 0)
                {
@@ -618,7 +621,9 @@ void PlayThread::generateAudioDataLoop()
                        packet_queue_flush(&m_MS.audioq); //清除队列
                    }
                }
-               SDL_PauseAudio(0);
+//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
+//               SDL_PauseAudio(0);
+               playDevice();
 
                 AGStatus = AGS_PLAYING;
         }
@@ -774,8 +779,8 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
             Qt::BlockingQueuedConnection);
 
 
-    m_interval = 50;
-    m_positionUpdateTimer.setInterval(m_interval);
+//    m_interval = 50;
+//    m_positionUpdateTimer.setInterval(m_interval);
     connect(&m_positionUpdateTimer,SIGNAL(timeout()),this, SLOT(sendPosChangedSignal() ));
 
     m_position = 0;
@@ -891,6 +896,11 @@ void MusicPlayer::stop()
 //跳到时间点播放（单位 毫秒）
 void MusicPlayer::seek(quint64 pos)
 {
+    if(m_positionUpdateTimer.isActive())
+    {
+        m_positionUpdateTimer.stop();
+    }
+
     //先获得总长
     quint64 total = duration();
     if(pos > total)
@@ -899,6 +909,11 @@ void MusicPlayer::seek(quint64 pos)
     }
 
 	playThread->seekToPos(pos);
+
+    if(!m_positionUpdateTimer.isActive())
+    {
+        m_positionUpdateTimer.start();
+    }
 }
 
 //往后跳（单位 毫秒）

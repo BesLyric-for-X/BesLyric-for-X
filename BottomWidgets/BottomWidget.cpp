@@ -140,6 +140,10 @@ void BottomWidget::initConnection()
     connect(musicPlayer, SIGNAL(durationChanged(qint64)),this,SLOT(durationChanged(qint64)));
     connect(musicPlayer, SIGNAL(errorOccur(int,QString)),this,SLOT(onErrorOccurs(int,QString)));
 
+    connect(musicPlayer, SIGNAL(audioFinish(bool)),this,SLOT(onAudioFinished(bool)));
+    connect(musicPlayer, SIGNAL(audioPlay()),this,SLOT(onAudioPlay()));
+    connect(musicPlayer, SIGNAL(audioPause()),this,SLOT(onAudioPause()));
+
     sliderSound->setValue(SettingManager::GetInstance().data().volume);
     nVolumeBeforeMute = sliderSound->value();
     bSliderSoundPress = false;
@@ -149,24 +153,30 @@ void BottomWidget::initConnection()
 
 void  BottomWidget::reloadMusic(QString musicPath)
 {
+    qDebug()<<"void  BottomWidget::reloadMusic(QString="<<musicPath<<")+musicPlayer->state()="<<musicPlayer->state();
+
     if(musicPlayer->state() != MusicPlayer::StoppedState )
         musicPlayer->stop();
 
     musicPlayer->setMusicPath(musicPath);
 
-    if(musicPlayer->state() == MusicPlayer::PlayingState)
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
-    else
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
+//    不要在这里设置播放控制按钮的状态，而是用MusicPlayer的信号
+//    if(musicPlayer->state() == MusicPlayer::PlayingState)
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+//    else
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
 void BottomWidget::play()
 {
+    qDebug()<<"void BottomWidget::play() musicPlayer->getMusicPath()="<<musicPlayer->getMusicPath();
+
     if(musicPlayer->getMusicPath().size() != 0)
     {
         musicPlayer->play();
 
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+//        不要在这里设置播放控制按钮的状态，而是用MusicPlayer的信号
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     }
 }
 
@@ -242,6 +252,7 @@ void BottomWidget::exitMakingMode()
 
 }
 
+//btnPlayAndPause->clicked(bool) emitted
 void BottomWidget::onPlayOrPause()
 {
     if(musicPlayer->state() == MusicPlayer::PlayingState)
@@ -266,6 +277,8 @@ void BottomWidget::durationChanged(qint64 duration)
 
 void BottomWidget::positionChanged(int position)
 {
+    qDebug()<<"void BottomWidget::positionChanged(int position="<<position<<")";
+
     if(!AdjustingPos)
     {
         int pecentOfThousand = musicPlayer->duration() == 0? 0: int(1.0 * position / musicPlayer->duration() * 1000);
@@ -393,6 +406,25 @@ void BottomWidget::onErrorOccurs(int code, QString strErr)
     Q_UNUSED(code)
     BesMessageBox::information(tr("提示"),
         tr("播放音频时发生错误，请尝试使用别的音频文件")+ "\n\n" + tr("出错细节:")+ strErr);
+}
+
+void BottomWidget::onAudioFinished(bool isEndWithForce)
+{
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
+}
+
+void BottomWidget::onAudioPlay()
+{
+    qDebug()<<"void BottomWidget::onAudioPlay()";
+
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+}
+
+void BottomWidget::onAudioPause()
+{
+    qDebug()<<"void BottomWidget::onAudioPause()";
+
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
 
