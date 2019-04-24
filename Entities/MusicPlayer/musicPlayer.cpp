@@ -891,6 +891,11 @@ void MusicPlayer::stop()
 //跳到时间点播放（单位 毫秒）
 void MusicPlayer::seek(quint64 pos)
 {
+    if(m_positionUpdateTimer.isActive())
+    {
+        m_positionUpdateTimer.stop();
+    }
+
     //先获得总长
     quint64 total = duration();
     if(pos > total)
@@ -899,6 +904,11 @@ void MusicPlayer::seek(quint64 pos)
     }
 
 	playThread->seekToPos(pos);
+
+    if(!m_positionUpdateTimer.isActive())
+    {
+        m_positionUpdateTimer.start();
+    }
 }
 
 //往后跳（单位 毫秒）

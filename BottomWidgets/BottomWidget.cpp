@@ -268,6 +268,8 @@ void BottomWidget::durationChanged(qint64 duration)
 
 void BottomWidget::positionChanged(int position)
 {
+    qDebug()<<"void BottomWidget::positionChanged(int position="<<position<<")";
+
     if(!AdjustingPos)
     {
         int pecentOfThousand = musicPlayer->duration() == 0? 0: int(1.0 * position / musicPlayer->duration() * 1000);
