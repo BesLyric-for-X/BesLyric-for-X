@@ -600,7 +600,10 @@ void PlayThread::generateAudioDataLoop()
                AVRational aVRational = {1, 1000};
                int64_t res = av_rescale_q(millisecondToSeek ,aVRational,pFormatCtx->streams[audioStream]->time_base);
 
-               SDL_PauseAudio(1);
+//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
+//               SDL_PauseAudio(1);
+               pauseDevice();
+
                //block here
                if (av_seek_frame(m_MS.fct, audioStream, res, AVSEEK_FLAG_ANY) < 0)
                {
@@ -618,7 +621,9 @@ void PlayThread::generateAudioDataLoop()
                        packet_queue_flush(&m_MS.audioq); //清除队列
                    }
                }
-               SDL_PauseAudio(0);
+//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
+//               SDL_PauseAudio(0);
+               playDevice();
 
                 AGStatus = AGS_PLAYING;
         }

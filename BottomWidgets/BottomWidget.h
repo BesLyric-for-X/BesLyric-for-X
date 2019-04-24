@@ -61,6 +61,8 @@ private slots:
 
     //
     void onAudioFinished(bool isEndWithForce);
+    void onAudioPlay();
+    void onAudioPause();
 
 private:
     bool bInMakingMode;     //标记是否在制作模式中

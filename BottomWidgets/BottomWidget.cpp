@@ -141,6 +141,8 @@ void BottomWidget::initConnection()
     connect(musicPlayer, SIGNAL(errorOccur(int,QString)),this,SLOT(onErrorOccurs(int,QString)));
 
     connect(musicPlayer, SIGNAL(audioFinish(bool)),this,SLOT(onAudioFinished(bool)));
+    connect(musicPlayer, SIGNAL(audioPlay()),this,SLOT(onAudioPlay()));
+    connect(musicPlayer, SIGNAL(audioPause()),this,SLOT(onAudioPause()));
 
     sliderSound->setValue(SettingManager::GetInstance().data().volume);
     nVolumeBeforeMute = sliderSound->value();
@@ -151,24 +153,30 @@ void BottomWidget::initConnection()
 
 void  BottomWidget::reloadMusic(QString musicPath)
 {
+    qDebug()<<"void  BottomWidget::reloadMusic(QString="<<musicPath<<")+musicPlayer->state()="<<musicPlayer->state();
+
     if(musicPlayer->state() != MusicPlayer::StoppedState )
         musicPlayer->stop();
 
     musicPlayer->setMusicPath(musicPath);
 
-    if(musicPlayer->state() == MusicPlayer::PlayingState)
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
-    else
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
+//    不要在这里设置播放控制按钮的状态，而是用MusicPlayer的信号
+//    if(musicPlayer->state() == MusicPlayer::PlayingState)
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+//    else
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
 void BottomWidget::play()
 {
+    qDebug()<<"void BottomWidget::play() musicPlayer->getMusicPath()="<<musicPlayer->getMusicPath();
+
     if(musicPlayer->getMusicPath().size() != 0)
     {
         musicPlayer->play();
 
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+//        不要在这里设置播放控制按钮的状态，而是用MusicPlayer的信号
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     }
 }
 
@@ -244,6 +252,7 @@ void BottomWidget::exitMakingMode()
 
 }
 
+//btnPlayAndPause->clicked(bool) emitted
 void BottomWidget::onPlayOrPause()
 {
     if(musicPlayer->state() == MusicPlayer::PlayingState)
@@ -327,9 +336,9 @@ void BottomWidget::onSliderSongReleased()
     AdjustingPos = false;
     musicPlayer->seek(posAdjust);
     qDebug()<<"musicPlayer->state(): "<<musicPlayer->state();
-    if(musicPlayer->state() == MusicPlayer::PlayingState){
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
-    }
+//    if(musicPlayer->state() == MusicPlayer::PlayingState){
+//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+//    }
 }
 
 void BottomWidget::onSoundToggle(bool mute)
@@ -405,6 +414,19 @@ void BottomWidget::onErrorOccurs(int code, QString strErr)
 
 void BottomWidget::onAudioFinished(bool isEndWithForce)
 {
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
+}
+
+void BottomWidget::onAudioPlay(){
+    qDebug()<<"void BottomWidget::onAudioPlay()";
+
+    setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+}
+
+void BottomWidget::onAudioPause()
+{
+    qDebug()<<"void BottomWidget::onAudioPause()";
+
     setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
