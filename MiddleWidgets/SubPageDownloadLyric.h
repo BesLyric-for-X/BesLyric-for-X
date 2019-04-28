@@ -40,7 +40,7 @@ public slots:
     void OnSelectRawLyricSavePath();
     void OnSelectLrcLyricSavePath();
     void OnSaveRawLyric();
-    void OnSavectLrcLyric();
+    void OnSaveLrcLyric();
 
 public:
     void searchLyricDirectly(const QString& artists, const QString& song);

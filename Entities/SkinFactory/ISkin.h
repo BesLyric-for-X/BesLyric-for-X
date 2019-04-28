@@ -49,6 +49,7 @@ public:
         cssContent += GetQTableWidgetCss();
         cssContent += GetQListWidgetCss();
         cssContent += GetQCheckBoxCss();
+        cssContent += GetQRadioButtonCss();
 
         return cssContent;
     }
@@ -1121,6 +1122,33 @@ private:
           "}"
 
         ;
+        return str;
+    }
+
+    QString GetQRadioButtonCss()
+    {
+        QString str = ""
+                "QRadioButton::indicator {   "
+"                   width: 14px;   "
+"                   height: 14px;   "
+                "}"
+                "QRadioButton::indicator::unchecked {"
+"                    width: 14px;"
+"                    margin-top: -5px;"
+"                    margin-bottom: -5px;"
+"                    border-radius: 7px;"
+"                    border: 1px solid rgba(100, 100, 100, 100);"
+"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 "+bottomContainerColor+", stop:0.5 "+bottomContainerColor+");"
+                "}"
+                "QRadioButton::indicator::checked {"
+"                    width: 14px;"
+"                    margin-top: -5px;"
+"                    margin-bottom: -5px;"
+"                    border-radius: 7px;"
+"                    border: 1px solid rgba(100, 100, 100, 100);"
+"                    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.25 "+baseColor+",stop:0.4 "+baseColor+", stop:0.5 "+bottomContainerColor+");"
+                "}"
+                ;
         return str;
     }
 

@@ -15,7 +15,7 @@ QString SuMusicDownload::getName()
 
 int SuMusicDownload::getUnitHeight()
 {
-   return 230* BesScaleUtil::mscale();
+   return 340* BesScaleUtil::mscale();
 }
 
 QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
@@ -51,6 +51,23 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
     checkboxMusicDownload = new QCheckBox(SettingUnitContainer);
     checkboxMusicDownload->setText(tr("我已查看并同意《 BesLyric 音乐下载声明 》 "));
 
+    labelNameFormat = new QLabel(SettingUnitContainer);
+    labelNameFormat->setText(tr("命名格式："));
+    labelNameFormat->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelNameFormat->setMaximumHeight(30* BesScaleUtil::mscale());
+    radioFormatArtistSong = new QRadioButton(tr("歌手 - 歌曲名"));
+    radioFormatSongArtist = new QRadioButton(tr("歌曲名 - 歌手"));
+    radioFormatArtistSong->setMinimumHeight(30* BesScaleUtil::mscale());
+    radioFormatArtistSong->setMaximumHeight(30* BesScaleUtil::mscale());
+    radioFormatSongArtist->setMinimumHeight(30* BesScaleUtil::mscale());
+    radioFormatSongArtist->setMaximumHeight(30* BesScaleUtil::mscale());
+    groupNameFormat = new QButtonGroup(SettingUnitContainer);
+
+    groupNameFormat->addButton(radioFormatArtistSong, ARTIST_SONG);
+    groupNameFormat->addButton(radioFormatSongArtist, SONG_ARTIST);
+    SettingManager::GetInstance().data().nameFormatStyle == NameFormatStyle::SONG_ARTIST?
+    radioFormatSongArtist->setChecked(true):radioFormatArtistSong->setChecked(true);
+
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     hLayout2->addWidget(btnSelectMusicDownloadPath);
     hLayout2->addWidget(labelMusicDownloadPathTip);
@@ -60,13 +77,24 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
     hLayout3->addWidget(checkboxMusicDownload);
     hLayout3->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20, QSizePolicy::MinimumExpanding ,QSizePolicy::Fixed));
 
+    QVBoxLayout* vLayout4 = new QVBoxLayout();
+    vLayout4->addWidget(labelNameFormat);
+    vLayout4->addWidget(radioFormatArtistSong);
+    vLayout4->addWidget(radioFormatSongArtist);
+
+    QHBoxLayout* hLayout4 = new QHBoxLayout();
+    hLayout4->addLayout(vLayout4);
+    hLayout4->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20, QSizePolicy::MinimumExpanding ,QSizePolicy::Minimum));
+
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
     vLayout->setSpacing(15);
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addSpacerItem(new QSpacerItem(20,15* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::Fixed));
     vLayout->addLayout(hLayout3);
-    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,15* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::Fixed));
+    vLayout->addLayout(hLayout4);
+    vLayout->addSpacerItem(new QSpacerItem(20,40* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     //如果不同意下载声明，下载路径置空
     if(!SettingManager::GetInstance().data().agreeDownloadDeclaration)
@@ -220,6 +248,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 
     });
 
+    connect(groupNameFormat, SIGNAL(buttonClicked(int)),this, SLOT(OnNameFormatClicked(int)));
 
     return SettingUnitContainer;
 }
@@ -344,4 +373,21 @@ QString SuMusicDownload::getTipForClickCount(int count, qint64 currentTime)
     }
 
     return strReturn;
+}
+
+
+void SuMusicDownload::OnNameFormatClicked(int radioId)
+{
+    int backup = SettingManager::GetInstance().data().nameFormatStyle;
+    SettingManager::GetInstance().data().nameFormatStyle = (NameFormatStyle)radioId;
+
+    if(!SettingManager::GetInstance().saveSettingData())
+    {
+        SettingManager::GetInstance().data().nameFormatStyle = backup;
+
+        backup == NameFormatStyle::SONG_ARTIST?
+            radioFormatSongArtist->setChecked(true):radioFormatArtistSong->setChecked(true);
+
+        BesMessageBox::information(tr("提示"),tr("本次设置保存失败，可能是程序没有写权限"));
+    }
 }

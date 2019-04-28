@@ -75,8 +75,7 @@ protected:
             }
         }
 
-        assert( nLastDot != -1 && nLastSlash != -1 && "音乐路径出错");
-
+        //assert( nLastDot != -1 && nLastSlash != -1 && "音乐路径出错");
         if(nLastDot == -1 || nLastSlash == -1)
         {
             //没有结果，直接发送原路径出去
