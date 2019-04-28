@@ -17,7 +17,7 @@ class ThreadSearchNcmMusic :public QThread
 public:
     ThreadSearchNcmMusic():m_bIsSearching(false){}
 
-    void StartSearchLyric(QString artist, QString song)
+    void StartSearchNcm(QString artist, QString song)
     {
         QMutexLocker locker(&mutex);
 

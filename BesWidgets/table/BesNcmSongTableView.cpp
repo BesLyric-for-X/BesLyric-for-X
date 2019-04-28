@@ -70,6 +70,14 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
         return;
     }
 
+    //构建本地文件路径
+    auto setting = SettingManager::GetInstance().data();
+    QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
+                            songInfo.strSong +" - "+ songInfo.strArtists
+                           :songInfo.strArtists +" - "+ songInfo.strSong;
+    QString strSavePath = setting.musicDowloadPath + '/' + localFileName + ".mp3";
+
+
     if(songInfo.nPercentage == -1) //只有从未下载过时，才尝试下载
     {
         emit sig_oneDownloadStarted();
@@ -78,8 +86,6 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
 
         QString strId = QString().number(songInfo.nID);
         QString strLink = "http://music.163.com/song/media/outer/url?id="+ strId +".mp3";
-        QString strSavePath = SettingManager::GetInstance().data().musicDowloadPath + '/'
-                +songInfo.strSong +"-"+ songInfo.strArtists + ".mp3";
 
         net.DownloadFile(strLink, strSavePath, songInfo.nID);
     }
@@ -91,9 +97,6 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
     else if(songInfo.nPercentage == 100)
     {
         //直接选择歌曲到制作页面，并自动跳转页面
-        QString strSavePath = SettingManager::GetInstance().data().musicDowloadPath + '/'
-                +songInfo.strSong +"-"+ songInfo.strArtists + ".mp3";
-
         emit sig_setMusicPathToMakingPage(strSavePath);
     }
 }

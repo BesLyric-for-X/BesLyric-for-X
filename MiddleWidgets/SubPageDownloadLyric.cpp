@@ -281,6 +281,8 @@ void SubPageDownloadLyric::initConnection()
     connect(btnRawLyricPanelSelect, SIGNAL(clicked(bool)),this, SLOT(OnSelectRawLyricSavePath()));
     connect(btnRawLyricPanelSave, SIGNAL(clicked(bool)),this, SLOT(OnSaveRawLyric()));
 
+    connect(btnLrcLyricPanelSelect, SIGNAL(clicked(bool)),this, SLOT(OnSelectLrcLyricSavePath()));
+    connect(btnLrcLyricPanelSave, SIGNAL(clicked(bool)),this, SLOT(OnSaveLrcLyric()));
 }
 
 void SubPageDownloadLyric::OnSearchInProgram()
@@ -504,8 +506,12 @@ void SubPageDownloadLyric::OnSaveRawLyric()
     if(artist.size() == 0)
         artist = "XXX";
 
-    fileName = editRawLyricPanelSavePath->text() + "/"
-            + song + " - " + artist + ".txt";
+    //构建本地文件路径
+    auto setting = SettingManager::GetInstance().data();
+    QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
+                            song +" - "+ artist
+                           :artist +" - "+ song;
+    fileName = editRawLyricPanelSavePath->text() + "/" + localFileName + ".txt";
 
     //提示是否保存到路径
     if(QMessageBox::StandardButton::Ok ==
@@ -536,7 +542,7 @@ void SubPageDownloadLyric::OnSaveRawLyric()
     }
 }
 
-void SubPageDownloadLyric::OnSavectLrcLyric()
+void SubPageDownloadLyric::OnSaveLrcLyric()
 {
     //检查保存路径和是否有要保存的内容
     if(editLrcLyricPanelSavePath->text().size() == 0)
@@ -575,8 +581,12 @@ void SubPageDownloadLyric::OnSavectLrcLyric()
     if(artist.size() == 0)
         artist = "XXX";
 
-    fileName = editLrcLyricPanelSavePath->text() + "/"
-            + song + " - " + artist + ".lrc";
+    //构建本地文件路径
+    auto setting = SettingManager::GetInstance().data();
+    QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
+                            song +" - "+ artist
+                           :artist +" - "+ song;
+    fileName = editLrcLyricPanelSavePath->text() + "/" + localFileName + ".lrc";
 
     //提示是否保存到路径
     if(QMessageBox::StandardButton::Ok ==

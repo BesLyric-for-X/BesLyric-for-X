@@ -11,6 +11,11 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+enum NameFormatStyle{
+    ARTIST_SONG = 0,
+    SONG_ARTIST = 1
+};
+
 class SettingData
 {
 public:
@@ -26,6 +31,8 @@ public:
 
     bool loginAnonymously;
     bool autoCheckForUpgrade;
+
+    int nameFormatStyle;
 
     //程序运行过程用户操作保存
     QString machineCode;        //存储上次获取的设备相关的唯一标志，在设备更换时，需要重置 agreeDownloadDeclaration 等设置
@@ -43,6 +50,8 @@ public:
         agreeDownloadDeclaration = false;
         loginAnonymously = false;
         autoCheckForUpgrade = true;
+        nameFormatStyle = ARTIST_SONG;
+
         machineCode = "";
         skinName = "black";
         volume = 128;           //最大值128

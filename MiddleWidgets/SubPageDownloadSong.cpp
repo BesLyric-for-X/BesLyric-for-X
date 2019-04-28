@@ -169,7 +169,7 @@ void SubPageDownloadSong::OnSearchSong()
     labelNcmSongResultTip5->setText(tr("正在搜索中..."));
     btnSearchNcmSong->setEnabled(false);
 
-    searchThread.StartSearchLyric(artist, song);
+    searchThread.StartSearchNcm(artist, song);
 }
 
 void SubPageDownloadSong::OnSongResultChanged(LyricSearchResult result)

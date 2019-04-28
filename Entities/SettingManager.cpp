@@ -73,6 +73,7 @@ bool SettingManager::saveSettingData()
         writer.writeStartElement("musicDownload");
         writer.writeTextElement("path",settingData.musicDowloadPath);
         writer.writeTextElement("agreeDeclaration",QString().number(settingData.agreeDownloadDeclaration ? 1:0));
+        writer.writeTextElement("nameFormatStyle",QString().number((int)settingData.nameFormatStyle));
         writer.writeEndElement();
 
 
@@ -268,6 +269,10 @@ bool SettingManager::parseAll(QXmlStreamReader &reader)
                       else if (strElementName == "agreeDeclaration")
                       {
                           settingData.agreeDownloadDeclaration = reader.readElementText().toInt() == 1;
+                      }
+                      else if(strElementName == "nameFormatStyle")
+                      {
+                          settingData.nameFormatStyle = (NameFormatStyle)reader.readElementText().toInt();
                       }
                   }
                   else if(reader.isEndElement()) {
