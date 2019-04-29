@@ -276,6 +276,7 @@ signals:
 public slots:
     //播放控制
     void reload();                   //stop() 并 play();
+    void playAndPause();
     void play();
     void pause();
     void stop();

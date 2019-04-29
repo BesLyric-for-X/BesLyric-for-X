@@ -151,6 +151,8 @@ void BottomWidget::initConnection()
     setCurrentPlayMode(SettingManager::GetInstance().data().playMode);
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)) emitted
+//void MainWidget::OnPlayNewMusicAndLyric(QString music, QString lrc) invoked
 void  BottomWidget::reloadMusic(QString musicPath)
 {
     qDebug()<<"void  BottomWidget::reloadMusic(QString="<<musicPath<<")+musicPlayer->state()="<<musicPlayer->state();
@@ -159,14 +161,11 @@ void  BottomWidget::reloadMusic(QString musicPath)
         musicPlayer->stop();
 
     musicPlayer->setMusicPath(musicPath);
-
-//    不要在这里设置播放控制按钮的状态，而是用MusicPlayer的信号
-//    if(musicPlayer->state() == MusicPlayer::PlayingState)
-//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
-//    else
-//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
+//void MainWidget::OnPlayNewMusicAndLyric(QString music, QString lrc) invoked
+//void MainWidget::onLoadLrcLyricAndSwitchToPreview(QString lycLyricPath) invoked
+//void MainWidget::onAudioFinished(bool isEndWithForce) invoked
 void BottomWidget::play()
 {
     qDebug()<<"void BottomWidget::play() musicPlayer->getMusicPath()="<<musicPlayer->getMusicPath();
@@ -174,22 +173,16 @@ void BottomWidget::play()
     if(musicPlayer->getMusicPath().size() != 0)
     {
         musicPlayer->play();
-
-//        不要在这里设置播放控制按钮的状态，而是用MusicPlayer的信号
-//        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
     }
 }
 
+//uncalled
 void BottomWidget::pause()
 {
     musicPlayer->pause();
-
-    if(musicPlayer->state() == MusicPlayer::PlayingState)
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
-    else
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onStartMaking()) emitted
 //从开头开始播放
 void BottomWidget::playFromBegin()
 {
@@ -198,53 +191,57 @@ void BottomWidget::playFromBegin()
         musicPlayer->play();
 
         musicPlayer->seek(0);
-
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
+//        当前，seek后一定会开始播放，这里可能需要改。
     }
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onPlayOrPauseMusic()) emitted
 //自动判断播放还是暂停
 void BottomWidget::autoPlayOrPause()
 {
-    if(musicPlayer->state() == MusicPlayer::PlayingState)
-        pause();
-    else
-        play();
+    musicPlayer->playAndPause();
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onStopMusic()) emitted
 void BottomWidget::stop()
 {
+    qDebug()<<"void BottomWidget::stop()";
+
     if(musicPlayer->state() != MusicPlayer::StoppedState )
     {
         musicPlayer->stop();
-        setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
     }
 }
 
+//uncalled
 void BottomWidget::seek(quint64 pos)
 {
      if(musicPlayer->state() != MusicPlayer::StoppedState )
          musicPlayer->seek(pos);
 }
 
+//uncalled
 void BottomWidget::seekForward(quint64 step)
 {
     if(musicPlayer->state() != MusicPlayer::StoppedState )
         musicPlayer->forwordSeek(step);
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onSeekBackward(quint64)) emitted
 void BottomWidget::seekBackward(quint64 step)
 {
     if(musicPlayer->state() != MusicPlayer::StoppedState )
         musicPlayer->backwardSeek(step);
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onEnterMakingMode()) emitted
 //进入制作模式
 void BottomWidget::enterMakingMode()
 {
     bInMakingMode = true;
 }
 
+//middleWidget->pageMain->subPageMaking,SIGNAL(onExitMakingMode()) emitted
 //退出制作模式
 void BottomWidget::exitMakingMode()
 {
@@ -255,12 +252,10 @@ void BottomWidget::exitMakingMode()
 //btnPlayAndPause->clicked(bool) emitted
 void BottomWidget::onPlayOrPause()
 {
-    if(musicPlayer->state() == MusicPlayer::PlayingState)
-        pause();
-    else
-        play();
+    musicPlayer->playAndPause();
 }
 
+//musicPlayer, SIGNAL(durationChanged(qint64)) emitted
 void BottomWidget::durationChanged(qint64 duration)
 {
     int ms = duration % 1000;
@@ -275,9 +270,10 @@ void BottomWidget::durationChanged(qint64 duration)
 
 }
 
+//void MainWidget::musicPositionChanged(int pos) invoked
 void BottomWidget::positionChanged(int position)
 {
-    qDebug()<<"void BottomWidget::positionChanged(int position="<<position<<")";
+    qDebug()<<"void BottomWidget::positionChanged(int position="<<position<<") sliderSong->value()="<<sliderSong->value();
 
     if(!AdjustingPos)
     {
@@ -314,27 +310,48 @@ void BottomWidget::setCurrentPlayMode(int mode)
 
 void BottomWidget::onSliderSongMoved(int position)
 {
-    if(bInMakingMode)
-        return;
+    qDebug()<<"void BottomWidget::onSliderSongMoved(int position="<<position<<")";
 
-    posAdjust = musicPlayer->duration() * position / 1000;
+    if(AdjustingPos){
+        posAdjust = musicPlayer->duration() * position / 1000;
+//        如果不需要拖动sliderSong时CurrentTimeLabel也改变，可以把posAdjust的计算放到onSliderSongReleased()中，position改为sliderSong->value()
+
+//        positionChanged(posAdjust);
+//        想要拖动sliderSong时CurrentTimeLabel也改变
+//        暂时没有实现
+    }
+    else{
+        sliderSong->setValue(sliderSongOriginalPos);//sliderSong回到原来的位置
+//        制作时，按住或拖动sliderSong会使其不移动，这需要改
+    }
 }
 
 void BottomWidget::onSliderSongPressed()
 {
-    if(bInMakingMode)
-        return ;
+    qDebug()<<"void BottomWidget::onSliderSongPressed() sliderSong->value()="<<sliderSong->value()<<" musicPlayer->state()="<<musicPlayer->state();
+
+    sliderSongOriginalPos = sliderSong->value();//记录当前值，准备与最终值比较
+
+    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
+        return ; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
+    }
 
     AdjustingPos = true;
 }
 
 void BottomWidget::onSliderSongReleased()
 {
-    if(bInMakingMode)
-        return ;
+    qDebug()<<"void BottomWidget::onSliderSongReleased() sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
-    AdjustingPos = false;
-    musicPlayer->seek(posAdjust);
+    if(AdjustingPos){
+        if(sliderSong->value() != sliderSongOriginalPos){
+            //sliderSong.value精度不够，让一段时间均落在同一个value值中。
+            //低精度并不影响定位，但如果最终并没有改变位置，那就可能由于onSliderSongMoved()计算的posAdjust精度不够而发生偏移；
+
+            musicPlayer->seek(posAdjust);
+        }
+        AdjustingPos = false;
+    }
 }
 
 void BottomWidget::onSoundToggle(bool mute)
@@ -410,6 +427,8 @@ void BottomWidget::onErrorOccurs(int code, QString strErr)
 
 void BottomWidget::onAudioFinished(bool isEndWithForce)
 {
+    qDebug()<<"void BottomWidget::onAudioFinished(bool isEndWithForce="<<isEndWithForce<<")";
+
     setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
 }
 
