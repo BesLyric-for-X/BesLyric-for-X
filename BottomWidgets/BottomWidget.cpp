@@ -273,25 +273,19 @@ void BottomWidget::durationChanged(qint64 duration)
 //void MainWidget::musicPositionChanged(int pos) invoked
 void BottomWidget::positionChanged(int position)
 {
-    qDebug()<<"void BottomWidget::positionChanged(int position="<<position<<") sliderSong->value()="<<sliderSong->value();
-
     if(!AdjustingPos)
     {
+        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
+        qDebug()<<"BottomWidget::positionChanged => audioOriginalPos="<<audioOriginalPos<<" sliderSong->value()="<<sliderSong->value();
+
         int pecentOfThousand = musicPlayer->duration() == 0? 0: int(1.0 * position / musicPlayer->duration() * 1000);
         sliderSong->setValue(pecentOfThousand);
+
+        showPosition(position);
     }
-
-    int ms = position % 1000;
-    position = position/1000;
-    int s = position % 60;
-    int m = position/60;
-
-    QString timeLabel;
-    timeLabel.sprintf("%.2d:%.2d.%.3d",m, s, ms);
-
-    labelTimeCurrent->setText(timeLabel);
-
 }
+
+
 
 void BottomWidget::setCurrentPlayMode(int mode)
 {
@@ -314,15 +308,11 @@ void BottomWidget::onSliderSongMoved(int position)
 
     if(AdjustingPos){
         posAdjust = musicPlayer->duration() * position / 1000;
-//        如果不需要拖动sliderSong时CurrentTimeLabel也改变，可以把posAdjust的计算放到onSliderSongReleased()中，position改为sliderSong->value()
-
-//        positionChanged(posAdjust);
-//        想要拖动sliderSong时CurrentTimeLabel也改变
-//        暂时没有实现
+        showPosition(posAdjust);
     }
     else{
-        sliderSong->setValue(sliderSongOriginalPos);//sliderSong回到原来的位置
-//        制作时，按住或拖动sliderSong会使其不移动，这需要改
+        //制作歌词时，AdjustingPos始终为 false, positionChanged 会一直更新进度条，
+        //此时，用户按下拖动，也无需处理了
     }
 }
 
@@ -330,13 +320,12 @@ void BottomWidget::onSliderSongPressed()
 {
     qDebug()<<"void BottomWidget::onSliderSongPressed() sliderSong->value()="<<sliderSong->value()<<" musicPlayer->state()="<<musicPlayer->state();
 
-    sliderSongOriginalPos = sliderSong->value();//记录当前值，准备与最终值比较
-
     if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
         return ; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
     }
 
     AdjustingPos = true;
+    posAdjust = -1; // -1 标记表示还没有任何拖动
 }
 
 void BottomWidget::onSliderSongReleased()
@@ -344,12 +333,11 @@ void BottomWidget::onSliderSongReleased()
     qDebug()<<"void BottomWidget::onSliderSongReleased() sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
     if(AdjustingPos){
-        if(sliderSong->value() != sliderSongOriginalPos){
-            //sliderSong.value精度不够，让一段时间均落在同一个value值中。
-            //低精度并不影响定位，但如果最终并没有改变位置，那就可能由于onSliderSongMoved()计算的posAdjust精度不够而发生偏移；
-
+        if(posAdjust == -1)
+            musicPlayer->seek(audioOriginalPos);
+        else
             musicPlayer->seek(posAdjust);
-        }
+
         AdjustingPos = false;
     }
 }
@@ -444,6 +432,19 @@ void BottomWidget::onAudioPause()
     qDebug()<<"void BottomWidget::onAudioPause()";
 
     setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_play.png\");}");
+}
+
+void BottomWidget::showPosition(int position)
+{
+    int ms = position % 1000;
+    position = position/1000;
+    int s = position % 60;
+    int m = position/60;
+
+    QString timeLabel;
+    timeLabel.sprintf("%.2d:%.2d.%.3d",m, s, ms);
+
+    labelTimeCurrent->setText(timeLabel);
 }
 
 
