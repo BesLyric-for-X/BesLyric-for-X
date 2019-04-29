@@ -65,6 +65,9 @@ private slots:
     void onAudioPause();
 
 private:
+    void showPosition(int position);  //预览位置，在调整拖动时使用
+
+private:
     bool bInMakingMode;     //标记是否在制作模式中
 
     int nVolumeBeforeMute;  //静音前的音量
@@ -93,7 +96,7 @@ private:
     bool AdjustingPos;
     quint64 posAdjust;
 
-    int sliderSongOriginalPos; //sliderSong被按下时的位置
+    int audioOriginalPos; //音频被按下时的位置（为了记录下精确地时间，记录音频位置，之前记录slider位置精度不够会导致偏移）
 };
 
 #endif // BOTTOMWIDGET_H
