@@ -748,13 +748,25 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 {
     playThread = new PlayThread(this);
 
-    connect(playThread, &PlayThread::audioPlay,[=](){emit audioPlay();});
-    connect(playThread, &PlayThread::audioPause,[=](){emit audioPause();});
+    connect(playThread, &PlayThread::audioPlay,[=](){
+        qDebug()<<"&PlayThread::audioPlay bIsLock="<<bIsLock;
+
+        emit audioPlay();
+    });
+    connect(playThread, &PlayThread::audioPause,[=](){
+        qDebug()<<"&PlayThread::audioPause bIsLock="<<bIsLock;
+
+        emit audioPause();
+    });
     connect(playThread, &PlayThread::audioFinish,[=](bool isEndByForce){
+        qDebug()<<"&PlayThread::audioFinish bIsLock="<<bIsLock;
+
         bIsLock = true;
         audioFinishedToThreadExitMutex.lock();
         emit audioFinish(isEndByForce);});
     connect(playThread, &PlayThread::finished,[=](){
+        qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
+
         if(bIsLock)
         {
             audioFinishedToThreadExitMutex.unlock();
@@ -845,9 +857,25 @@ void MusicPlayer::reload()
 }
 
 
+void MusicPlayer::playAndPause(){
+    qDebug()<<"void MusicPlayer::playAndPause() bIsLock="<<bIsLock;
+
+    if(getMusicPath().size() != 0){
+        if(state()==PlayingState){
+            pause();
+        }else{
+            play();
+        }
+        // StoppedState
+    }
+}
+
+
 //播放控制
 void MusicPlayer::play()
 {
+    qDebug()<<"void MusicPlayer::play() bIsLock="<<bIsLock;
+
     playThread->setVolume(m_volume);  //初始化声音值
 
     audioFinishedToThreadExitMutex.lock();
@@ -866,13 +894,20 @@ void MusicPlayer::play()
 
 void MusicPlayer::pause()
 {
-    if(state() == PlayingState)
+    qDebug()<<"void MusicPlayer::pause() bIsLock="<<bIsLock;
+
+    if(state() == PlayingState){
         playThread->pauseDevice();
 
+        if(m_positionUpdateTimer.isActive())
+            m_positionUpdateTimer.stop();
+    }
 }
 
 void MusicPlayer::stop()
 {
+    qDebug()<<"void MusicPlayer::stop() bIsLock="<<bIsLock;
+
 	playThread->setAGStatus( AGS_FINISH );
 
     if(m_positionUpdateTimer.isActive())
@@ -910,7 +945,7 @@ void MusicPlayer::seek(quint64 pos)
 
 	playThread->seekToPos(pos);
 
-    if(!m_positionUpdateTimer.isActive())
+    if(!m_positionUpdateTimer.isActive())//之后是否需要添加：暂停时seek后继续暂停
     {
         m_positionUpdateTimer.start();
     }

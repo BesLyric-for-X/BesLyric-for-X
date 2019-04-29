@@ -92,6 +92,8 @@ private:
 
     bool AdjustingPos;
     quint64 posAdjust;
+
+    int sliderSongOriginalPos; //sliderSong被按下时的位置
 };
 
 #endif // BOTTOMWIDGET_H
