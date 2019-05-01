@@ -697,10 +697,10 @@ void PlayThread::ResetToInitAll()
 //释放所有可能分配的内存
 void PlayThread::ReleaseAll()
 {
-    emit audioFinish(isEndByForce);		 //音频播放结束信号
-    emit durationChanged(0); //播放结束，总长重置为 0
+    emit audioFinish(isEndByForce);		//音频播放结束信号
+    emit durationChanged(0);            //播放结束，总长重置为 0
 
-    clearContextAndCloseDevice();           //重置播放器上下文，并关闭设备
+    clearContextAndCloseDevice();       //重置播放器上下文，并关闭设备
 
     destroy_queue_context(&m_MS.audioq);
 
@@ -763,7 +763,16 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
         bIsLock = true;
         audioFinishedToThreadExitMutex.lock();
-        emit audioFinish(isEndByForce);});
+        emit audioFinish(isEndByForce);
+
+        //音频结束有2种情况，一种是自然结束(isEndByForce=false);另一种(isEndByForce=true)是调用 playThread->setAGStatus(AGS_FINISH);（MusicPlayer::stop()中调用）
+        //后者在 MusicPlayer::stop() 停止了定时器，这里处理前一种情况下的定时器
+        if(false == isEndByForce)
+            m_positionUpdateTimer.stop();
+
+        //音频结束，时间归0
+        emit positionChanged(0);
+    });
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
@@ -908,7 +917,7 @@ void MusicPlayer::stop()
 {
     qDebug()<<"void MusicPlayer::stop() bIsLock="<<bIsLock;
 
-	playThread->setAGStatus( AGS_FINISH );
+    playThread->setAGStatus(AGS_FINISH);
 
     if(m_positionUpdateTimer.isActive())
     {
@@ -1003,7 +1012,7 @@ void MusicPlayer::setNotifyInterval(int msec)
 
 void MusicPlayer::sendPosChangedSignal()
 {
-	m_position = playThread->getCurrentTime();
+    m_position = playThread->getCurrentTime();
     emit positionChanged(m_position);
 }
 
