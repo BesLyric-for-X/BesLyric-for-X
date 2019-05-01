@@ -11,6 +11,7 @@
 #include "LyricListManager.h"
 #include "table/BesLListTableView.h"
 #include "BesFileLineEdit.h"
+#include "BoxPagePreviewLyric.h"
 
 class PageLyricList : public QWidget
 {
@@ -64,7 +65,11 @@ public:
     BesList *lyricListHistory;
     BesListHeader* headerListCreated;
     BesList *lyricListCreated;
+    QWidget * lyricListContainer;
+
     QScrollArea* scrollAreaLeft;
+
+    BoxPagePreviewLyric*    boxPagePreviewLyric;
 
     //右侧控件
     QLabel *labelListCoverRect;

@@ -124,6 +124,8 @@ void MainWidget::initConnection()
     connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
                                             middleWidget->pageMain->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
     connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
+                                            middleWidget->pageLyricList->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
+    connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
                                             middleWidget->pagePreviewLyric, SLOT(AlbumImageChanged(QPixmap)));
     connect(bottomWidget->musicPlayer, SIGNAL(audioPlay()),
                                             middleWidget->pagePreviewLyric, SLOT(playPhonagraph()));

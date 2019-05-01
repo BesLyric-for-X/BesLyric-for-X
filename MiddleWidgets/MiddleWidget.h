@@ -54,6 +54,9 @@ public:
     QPropertyAnimation  animationSettingExtend;
 
     int nRuningAnimationCount;
+
+private:
+    bool previewFromLyricListPage = false;               //为了区别预览页面触发来源，以便从预览页面返回时回到原来的页面
 };
 
 #endif // TOPWIDGET_H

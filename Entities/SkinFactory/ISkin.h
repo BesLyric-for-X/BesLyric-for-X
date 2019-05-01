@@ -141,10 +141,8 @@ private:
            "background-color:rgba(0,0,0,0%);"
            "padding:"+scaleNum(20)+"px;"
          "}"
-
-        "QWidget#lyriclistLeftPanel{"
-//           "border: 1px solid #ff0000;"
-//           " background-color:#ff0000;"
+        "QWidget#lyricListContainer{"
+           " background-color:transparent;"
         "}"
         "QWidget#SettingUnitContainer{"
         "border-bottom: 1px solid rgba(150,150,150,15%);"

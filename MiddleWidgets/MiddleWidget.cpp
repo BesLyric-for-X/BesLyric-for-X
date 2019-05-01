@@ -29,10 +29,21 @@ void MiddleWidget::initLayout()
 void MiddleWidget::initConnection()
 {
     connect(pageMain->boxPagePreviewLyric->extendButton, &QPushButton::clicked, [=](){
-        switchPage(0,1); });
+        switchPage(0,1);
+        previewFromLyricListPage = false;
+    });
+
+    connect(pageLyricList->boxPagePreviewLyric->extendButton, &QPushButton::clicked, [=](){
+        switchPage(2,0);
+        switchPage(0,1);
+        previewFromLyricListPage = true;
+    });
 
     connect(pagePreviewLyric->btnPackupLyricBox, &QPushButton::clicked,[=](){
-        switchPage(1,0); });
+        switchPage(1,0);
+        if(previewFromLyricListPage)
+            switchPage(0,2);
+    });
 
     connect(pageMain->boxPageLyricList->extendButton, &QPushButton::clicked, [=](){
         switchPage(0,2); });
@@ -174,17 +185,20 @@ void MiddleWidget::onReloadMusic(QString musicFileNamePath)
     pagePreviewLyric->lyricViewer->setMusicPath(musicFileNamePath);
 
     pageMain->boxPagePreviewLyric->setToDefaultPic();
+    pageLyricList->boxPagePreviewLyric->setToDefaultPic();
 }
 
 void MiddleWidget::onSetMusicTitle(QString title)
 {
     pagePreviewLyric->lyricViewer->setMusicTitle(title);
     pageMain->boxPagePreviewLyric->onSetSongTitle(title);
+    pageLyricList->boxPagePreviewLyric->onSetSongTitle(title);
 }
 
 void MiddleWidget::onSetMusicArtist(QString artist)
 {
     pageMain->boxPagePreviewLyric->onSetSongArtist(artist);
+    pageLyricList->boxPagePreviewLyric->onSetSongArtist(artist);
 }
 
 void MiddleWidget::onSetMusicAlbum(QString album)
