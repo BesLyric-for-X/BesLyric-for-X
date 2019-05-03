@@ -40,10 +40,8 @@ void SettingWidget::initLayout()
 
 void SettingWidget::initConnection()
 {
-    connect(settingLeftNavigator, SIGNAL(sig_scrollToSettingUnit(int)),
-            settingScrollPanel, SLOT(OnScrollToIndex(int)));
+    connect(settingLeftNavigator, &SuNavigator::sig_scrollToSettingUnit, settingScrollPanel, &SuScrollPanel::OnScrollToIndex);
 
-    connect(settingScrollPanel, SIGNAL(sig_scrollPosChanged(int,int,int)),
-            settingLeftNavigator, SLOT(OnSettingUnitPanelPosChanged(int,int,int)));
+    connect(settingScrollPanel, &SuScrollPanel::sig_scrollPosChanged, settingLeftNavigator, &SuNavigator::OnSettingUnitPanelPosChanged);
 
 }

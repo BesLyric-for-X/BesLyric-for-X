@@ -10,7 +10,7 @@ bool NetworkAccess::DownloadFile(const QString strUrl, const QString strSaveAs, 
     info.data = data;
 
     if (downloadQueue.isEmpty())
-        QTimer::singleShot(0, this, SLOT(startNextDownload()));
+        QTimer::singleShot(0, this, &NetworkAccess::startNextDownload);
 
     downloadQueue.enqueue(info);
 
@@ -36,8 +36,8 @@ bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &strSaveBuf
     QNetworkAccessManager manager;
     QNetworkReply *reply= manager.get(request);
     QEventLoop loop;
-    connect(reply,SIGNAL(finished()),&loop,SLOT(quit()));
-    connect(reply,SIGNAL(error(QNetworkReply::NetworkError)), &loop,SLOT(quit()));
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), &loop, &QEventLoop::quit);
     loop.exec();
 
     bool bRet = false;
@@ -61,8 +61,8 @@ bool NetworkAccess::SyncDownloadStringPost(const QString strUrl, QString &strSav
     QNetworkAccessManager manager;
     QNetworkReply *reply= manager.post(request,queryData);
     QEventLoop loop;
-    connect(reply,SIGNAL(finished()),&loop,SLOT(quit()));
-    connect(reply,SIGNAL(error(QNetworkReply::NetworkError)), &loop,SLOT(quit()));
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), &loop, &QEventLoop::quit);
     loop.exec();
 
     bool bRet = false;
@@ -142,12 +142,9 @@ void NetworkAccess::startNextDownload()
 
     QNetworkRequest request(QUrl(downloadInfo.strUrl));
     currentDownload = manager.get(request);
-    connect(currentDownload, SIGNAL(downloadProgress(qint64,qint64)),
-            SLOT(downloadProgress(qint64,qint64)));
-    connect(currentDownload, SIGNAL(finished()),
-            SLOT(downloadFinished()));
-    connect(currentDownload, SIGNAL(readyRead()),
-            SLOT(downloadReadyRead()));
+    connect(currentDownload, &QNetworkReply::downloadProgress, this, &NetworkAccess::downloadProgress);
+    connect(currentDownload, &QNetworkReply::finished, this, &NetworkAccess::downloadFinished);
+    connect(currentDownload, &QNetworkReply::readyRead, this, &NetworkAccess::downloadReadyRead);
 
     // prepare the output
     qDebug()<< "Downloading ... "<< downloadInfo.strUrl;

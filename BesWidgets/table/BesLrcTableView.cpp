@@ -41,7 +41,7 @@ void BesLrcTableView::iniData()
     m_buttonDelegate = new BesLrcButtonDelegate(this);
     this->setItemDelegateForColumn(4, m_buttonDelegate);
 
-    connect(m_buttonDelegate, SIGNAL(sig_rowClicked(int)),this,SLOT(selectRow(int)));
+    connect(m_buttonDelegate, &BesLrcButtonDelegate::sig_rowClicked, this, &BesLrcTableView::selectRow);
     connect(m_buttonDelegate,&BesLrcButtonDelegate::sig_showLyric, [=](int row, bool rawLyric){
         if(rawLyric)emit(sig_showRawLyric(m_model->DataVector().at(row)));
         else emit (sig_showLrcLyric(m_model->DataVector().at(row)));

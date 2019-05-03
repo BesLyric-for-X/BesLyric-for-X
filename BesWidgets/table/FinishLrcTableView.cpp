@@ -87,8 +87,8 @@ void FinishLrcTableView::iniData()
     m_buttonDelegate = new FinishLrcButtonDelegate(this);
     this->setItemDelegateForColumn(2, m_buttonDelegate);
 
-    connect(m_buttonDelegate, SIGNAL(sig_rowClicked(int)),this,SLOT(selectRow(int)));
-    connect(m_buttonDelegate,SIGNAL(sig_editLyric(int)),this,SLOT(onEditRow(int)));
+    connect(m_buttonDelegate, &FinishLrcButtonDelegate::sig_rowClicked, this, &FinishLrcTableView::selectRow);
+    connect(m_buttonDelegate, &FinishLrcButtonDelegate::sig_editLyric, this, &FinishLrcTableView::onEditRow);
 
     BaseInit();
 }

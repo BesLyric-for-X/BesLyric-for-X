@@ -125,11 +125,11 @@ void SubPageDownloadSong::initLayout()
 
 void SubPageDownloadSong::initConnection()
 {
-     connect(&searchThread, SIGNAL(songResultChanged(LyricSearchResult)), this,SLOT(OnSongResultChanged(LyricSearchResult)));
-     connect(btnSearchNcmSong, SIGNAL(clicked(bool)),this,SLOT(OnSearchSong()) );
+     connect(&searchThread, &ThreadSearchNcmMusic::songResultChanged, this, &SubPageDownloadSong::OnSongResultChanged);
+     connect(btnSearchNcmSong, &BesButton::clicked, this, &SubPageDownloadSong::OnSearchSong);
 
-     connect(tableNcmSongSearch,SIGNAL(sig_oneDownloadStarted()),this,SLOT(onStartOneDownload()));
-     connect(tableNcmSongSearch,SIGNAL(sig_oneDownloadFinished()),this,SLOT(onFinishOneDownload()));
+     connect(tableNcmSongSearch, &BesNcmSongTableView::sig_oneDownloadStarted, this, &SubPageDownloadSong::onStartOneDownload);
+     connect(tableNcmSongSearch, &BesNcmSongTableView::sig_oneDownloadFinished, this, &SubPageDownloadSong::onFinishOneDownload);
 }
 
 void SubPageDownloadSong::searchNcmDirectly(const QString &artists, const QString &song)

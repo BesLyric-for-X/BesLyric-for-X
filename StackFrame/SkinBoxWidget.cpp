@@ -258,29 +258,29 @@ void SkinBoxWidget::initConnection()
 
     //注意：onSkinClick 这里有2处会触发皮肤的变换，一处是这里改变slider触发了纯颜色皮肤设置；另一处是在 StackFrame 中
     // 这里先连接，所以不会影响后面再次设置的自定义皮肤 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
-    connect(btnBlack,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnRed,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPink,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnBlue,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnGreen,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnGold,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
+    connect(btnBlack, &ButtonTheme::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnRed, &ButtonTheme::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPink, &ButtonTheme::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnBlue, &ButtonTheme::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnGreen, &ButtonTheme::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnGold, &ButtonTheme::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
 
-    connect(btnPureColor1,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor2,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor3,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor4,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor5,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor6,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor7,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor8,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor9,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor10,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor11,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
-    connect(btnPureColor12,SIGNAL(onSkinClick(QString)),this,SLOT(changeSliderValueBySkinName(QString)));
+    connect(btnPureColor1, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor2, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor3, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor4, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor5, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor6, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor7, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor8, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor9, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor10, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor11, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
+    connect(btnPureColor12, &ButtonPureColor::onSkinClick, [=](QString name) {changeSliderValueBySkinName(name); });
 
     connect(btnCustomizeColor,&QPushButton::clicked,[=](){markToPos(true,(48 + 61 *0)* BesScaleUtil::mscale(), 274* BesScaleUtil::mscale());bLastSelectPage = 2;});
 
-    connect(SliderHue, SIGNAL(valueChanged(int)),this,SLOT(initLightnessGrooveColorByHue(int)));
+    connect(SliderHue, &QSlider::valueChanged, this, &SkinBoxWidget::initLightnessGrooveColorByHue);
     connect(SliderHue, &QSlider::valueChanged,[=](){signalToCustomSkin();});
     connect(SliderLightness, &QSlider::valueChanged,[=](){signalToCustomSkin();});
 }

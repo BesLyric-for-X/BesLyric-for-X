@@ -122,27 +122,27 @@ void BottomWidget::initEntity()
 
 void BottomWidget::initConnection()
 {
-    connect(btnPlayAndPause, SIGNAL(clicked(bool)), this, SLOT(onPlayOrPause()));
+    connect(btnPlayAndPause, &BesButton::clicked, this, &BottomWidget::onPlayOrPause);
 
-    connect(sliderSong,SIGNAL(sliderPressed()),this, SLOT(onSliderSongPressed()));
-    connect(sliderSong,SIGNAL(sliderMoved(int)),this, SLOT(onSliderSongMoved(int)));
-    connect(sliderSong,SIGNAL(sliderReleased()),this, SLOT(onSliderSongReleased()));
+    connect(sliderSong, &QSlider::sliderPressed, this, &BottomWidget::onSliderSongPressed);
+    connect(sliderSong, &QSlider::sliderMoved, this, &BottomWidget::onSliderSongMoved);
+    connect(sliderSong, &QSlider::sliderReleased, this, &BottomWidget::onSliderSongReleased);
 
-    connect(btnSound,SIGNAL(toggled(bool)),this,SLOT(onSoundToggle(bool)));
-    connect(sliderSound,SIGNAL(valueChanged(int)),musicPlayer,SLOT(setVolume(int)));
-    connect(sliderSound,SIGNAL(valueChanged(int)),this,SLOT(onSliderSoundChanged(int)));
-    connect(sliderSound,SIGNAL(sliderPressed()),this, SLOT(onSliderSoundPressed()));
-    connect(sliderSound,SIGNAL(sliderReleased()),this, SLOT(onSliderSoundReleased()));
+    connect(btnSound, &BesButton::toggled, this, &BottomWidget::onSoundToggle);
+    connect(sliderSound, &QSlider::valueChanged, musicPlayer, &MusicPlayer::setVolume);
+    connect(sliderSound, &QSlider::valueChanged, this, &BottomWidget::onSliderSoundChanged);
+    connect(sliderSound, &QSlider::sliderPressed, this, &BottomWidget::onSliderSoundPressed);
+    connect(sliderSound, &QSlider::sliderReleased, this, &BottomWidget::onSliderSoundReleased);
 
-    connect(btnPlayModeSingle, SIGNAL(clicked(bool)),this, SLOT(onModeSingleNext()));
-    connect(btnPlayModeSingleCycle, SIGNAL(clicked(bool)),this, SLOT(onModeSingleCycleNext()));
+    connect(btnPlayModeSingle, &BesButton::clicked, this, &BottomWidget::onModeSingleNext);
+    connect(btnPlayModeSingleCycle, &BesButton::clicked, this, &BottomWidget::onModeSingleCycleNext);
 
-    connect(musicPlayer, SIGNAL(durationChanged(qint64)),this,SLOT(durationChanged(qint64)));
-    connect(musicPlayer, SIGNAL(errorOccur(int,QString)),this,SLOT(onErrorOccurs(int,QString)));
+    connect(musicPlayer, &MusicPlayer::durationChanged, this, &BottomWidget::durationChanged);
+    connect(musicPlayer, &MusicPlayer::errorOccur, this, &BottomWidget::onErrorOccurs);
 
-    connect(musicPlayer, SIGNAL(audioFinish(bool)),this,SLOT(onAudioFinished(bool)));
-    connect(musicPlayer, SIGNAL(audioPlay()),this,SLOT(onAudioPlay()));
-    connect(musicPlayer, SIGNAL(audioPause()),this,SLOT(onAudioPause()));
+    connect(musicPlayer, &MusicPlayer::audioFinish, this, &BottomWidget::onAudioFinished);
+    connect(musicPlayer, &MusicPlayer::audioPlay, this, &BottomWidget::onAudioPlay);
+    connect(musicPlayer, &MusicPlayer::audioPause, this, &BottomWidget::onAudioPause);
 
     sliderSound->setValue(SettingManager::GetInstance().data().volume);
     nVolumeBeforeMute = sliderSound->value();

@@ -19,8 +19,8 @@ Phonograph::Phonograph(QWidget* parent):QWidget(parent),
     timerDisk->setInterval(33);                 //人眼能分辨的每秒帧率一般在24-30帧
     timerArm->setInterval(25);
 
-    connect(timerDisk,SIGNAL(timeout()),this,SLOT(updateAngleOfDisk()));
-    connect(timerArm,SIGNAL(timeout()),this,SLOT(updateAngleOfArm()));
+    connect(timerDisk, &QTimer::timeout, this, &Phonograph::updateAngleOfDisk);
+    connect(timerArm, &QTimer::timeout, this, &Phonograph::updateAngleOfArm);
 
     initPaintingData(true);
 }
