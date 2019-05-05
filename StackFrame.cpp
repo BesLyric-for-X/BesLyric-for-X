@@ -63,50 +63,47 @@ void StackFrame::initLayout()
 
 void StackFrame::initConnection()
 {
-    connect(mainWidget->topWidget, SIGNAL(OnDoubleClick()),this, SLOT(toggleMaxRestoreStatus()));
+    connect(mainWidget->topWidget, &TopWidget::OnDoubleClick, this, &StackFrame::toggleMaxRestoreStatus);
 
-    connect(mainWidget->topWidget->btnMax, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
-    connect(mainWidget->topWidget->btnRestore, SIGNAL(clicked(bool)), this, SLOT(toggleMaxRestoreStatus()));
+    connect(mainWidget->topWidget->btnMax, &BesButton::clicked, this, &StackFrame::toggleMaxRestoreStatus);
+    connect(mainWidget->topWidget->btnRestore, &BesButton::clicked, this, &StackFrame::toggleMaxRestoreStatus);
 
-    connect(mainWidget->topWidget->btnSkinBox, SIGNAL(clicked(bool)), this, SLOT(toggleSkinBox()));
-    connect(mainWidget->middleWidget->pageLyricList->headerListCreated,SIGNAL(sig_addButtonClicked())
-            ,this,SLOT(toggleAddItemWidget()));
+    connect(mainWidget->topWidget->btnSkinBox, &BesButton::clicked, this, &StackFrame::toggleSkinBox);
+    connect(mainWidget->middleWidget->pageLyricList->headerListCreated, &BesListHeader::sig_addButtonClicked, this, &StackFrame::toggleAddItemWidget);
 
-    connect(mainWidget->topWidget->btnMini, SIGNAL(clicked(bool)), this, SLOT(showMinimized()));
-    connect(mainWidget->topWidget->btnClose, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(mainWidget->topWidget->btnMini, &BesButton::clicked, this, &StackFrame::showMinimized);
+    connect(mainWidget->topWidget->btnClose, &BesButton::clicked, this, &StackFrame::close);
 
-    connect(transparentLayer,SIGNAL(sig_layerPressed()),this,SLOT(bringMainToTop()));
+    connect(transparentLayer, &BesTransparentLayer::sig_layerPressed, this, &StackFrame::bringMainToTop);
 
-    connect(addItemWidget,SIGNAL(sig_toggleAddWidget()),this,SLOT(bringMainToTop()));
-    connect(addItemWidget,SIGNAL(sig_addListItem(QString)),
-            mainWidget->middleWidget->pageLyricList, SLOT(OnAddNewListItem(QString)));
+    connect(addItemWidget, &AddLyricItemWidget::sig_toggleAddWidget, this, &StackFrame::bringMainToTop);
+    connect(addItemWidget, &AddLyricItemWidget::sig_addListItem, mainWidget->middleWidget->pageLyricList, &PageLyricList::OnAddNewListItem);
     
     //注意：onSkinClick 这里有2处会触发皮肤的变换，一处是在这里；另一处是这里改变 SkinBoxWidget 触发了纯颜色皮肤设置
     // 这里后连接，所以前面纯颜色的设置不影响这里的效果 ：全局搜索【FLAG_SETTING_SKIN】查看相关逻辑
-    connect(skinBoxWidget->btnBlack, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnRed, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPink, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnBlue, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnGreen, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnGold, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnBlack, &ButtonTheme::onSkinClick, [=](QString skinName) { SetSkin(skinName); });
+    connect(skinBoxWidget->btnRed, &ButtonTheme::onSkinClick, [=](QString skinName) { SetSkin(skinName); });
+    connect(skinBoxWidget->btnPink, &ButtonTheme::onSkinClick, [=](QString skinName) { SetSkin(skinName); });
+    connect(skinBoxWidget->btnBlue, &ButtonTheme::onSkinClick, [=](QString skinName) { SetSkin(skinName); });
+    connect(skinBoxWidget->btnGreen, &ButtonTheme::onSkinClick, [=](QString skinName) { SetSkin(skinName); });
+    connect(skinBoxWidget->btnGold, &ButtonTheme::onSkinClick, [=](QString skinName) { SetSkin(skinName); });
 
-    connect(skinBoxWidget->btnPureColor1, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor2, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor3, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor4, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor5, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor6, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor7, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor8, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor9, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor10, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor11, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
-    connect(skinBoxWidget->btnPureColor12, SIGNAL(onSkinClick(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget->btnPureColor1, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor2, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor3, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor4, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor5, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor6, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor7, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor8, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor9, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor10, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor11, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
+    connect(skinBoxWidget->btnPureColor12, &ButtonPureColor::onSkinClick, [=](QString skinName) {SetSkin(skinName); });
 
-    connect(skinBoxWidget, SIGNAL(signalSetCustomSkin(QString)),this,SLOT(SetSkin(QString)));
+    connect(skinBoxWidget, &SkinBoxWidget::signalSetCustomSkin, [=](QString skinName) {SetSkin(skinName); });
 
-    connect(this,SIGNAL(onFinalSkinNameChanged(QString)),
-            this->mainWidget->middleWidget->pagePreviewLyric->lyricViewer, SLOT(skinNameChanged(QString)));
+    connect(this, &StackFrame::onFinalSkinNameChanged, mainWidget->middleWidget->pagePreviewLyric->lyricViewer, &LyricViewer::skinNameChanged);
 
 
    }
@@ -115,7 +112,7 @@ void StackFrame::initEntity()
 {
     qRegisterMetaType<CheckUpgradeResult>("CheckUpgradeResult");
 
-    connect(&checkUpdate,SIGNAL(sig_haveCheckResult(CheckUpgradeResult)),this,SLOT(onUpdateResultFound(CheckUpgradeResult)));
+    connect(&checkUpdate, &ThreadCheckUpdate::sig_haveCheckResult, this, &StackFrame::onUpdateResultFound);
 
     //登录记录
     login.SendLogin();

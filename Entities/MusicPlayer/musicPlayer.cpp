@@ -796,13 +796,12 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
     //发送错误信号除去弹窗提示，由于“Widgets must be created in the GUI thread” 窗口必须在UI线程创建，
     // 所以发送异步信号 QueuedConnection；经过实际运行结果来看，还需要等待 slot 执行完再返回，所以用 BlockingQueuedConnection
-    connect(playThread, SIGNAL(errorOccur(int,QString)), this, SLOT(onErrorOccurs(int,QString)),
-            Qt::BlockingQueuedConnection);
+    connect(playThread, &PlayThread::errorOccur, this, &MusicPlayer::onErrorOccurs, Qt::BlockingQueuedConnection);
 
 
 //    m_interval = 50;
 //    m_positionUpdateTimer.setInterval(m_interval);
-    connect(&m_positionUpdateTimer,SIGNAL(timeout()),this, SLOT(sendPosChangedSignal() ));
+    connect(&m_positionUpdateTimer, &QTimer::timeout, this, &MusicPlayer::sendPosChangedSignal);
 
     m_position = 0;
 

@@ -80,29 +80,19 @@ void MainWidget::initConnection()
         middleWidget->switchPage(2,0);});
 
     //制作歌词页面信号响应
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                 this, SLOT(onUnloadLyricFromPreviewPage()));
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onReloadMusic, this, &MainWidget::onUnloadLyricFromPreviewPage);
 
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                 middleWidget, SLOT(onReloadMusic(QString)));
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onReloadMusic, middleWidget, &MiddleWidget::onReloadMusic);
 
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onReloadMusic(QString)),
-                                                        bottomWidget, SLOT(reloadMusic(QString)));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onStartMaking()),
-                                                        bottomWidget, SLOT(playFromBegin()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onSeekBackward(quint64)),
-                                                        bottomWidget, SLOT(seekBackward(quint64)));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onPlayOrPauseMusic()),
-                                                        bottomWidget, SLOT(autoPlayOrPause()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onStopMusic()),
-                                                        bottomWidget, SLOT(stop()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(loadLrcLyricAndSwitchToPreview(QString))
-                                                        ,this, SLOT(onLoadLrcLyricAndSwitchToPreview(QString)));
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onReloadMusic, bottomWidget, &BottomWidget::reloadMusic);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onStartMaking, bottomWidget, &BottomWidget::playFromBegin);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onSeekBackward, bottomWidget, &BottomWidget::seekBackward);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onPlayOrPauseMusic, bottomWidget, &BottomWidget::autoPlayOrPause);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onStopMusic, bottomWidget, &BottomWidget::stop);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::loadLrcLyricAndSwitchToPreview, this, &MainWidget::onLoadLrcLyricAndSwitchToPreview);
 
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onEnterMakingMode())
-                                                        ,bottomWidget, SLOT(enterMakingMode()));
-    connect(middleWidget->pageMain->subPageMaking,SIGNAL(onExitMakingMode())
-                                                        ,bottomWidget, SLOT(exitMakingMode()));
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onEnterMakingMode, bottomWidget, &BottomWidget::enterMakingMode);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onExitMakingMode, bottomWidget, &BottomWidget::exitMakingMode);
 
     //歌词单页面
     connect(middleWidget->pageLyricList->tableLrcList,&BesLListTableView::sig_playSongAndLyric,
@@ -110,34 +100,23 @@ void MainWidget::initConnection()
                             middleWidget->onReloadMusic(musicPath);
                             middleWidget->pageMain->subPageMaking->btnStartMaking->setEnabled(false);
                     }); //重新载入了音乐，就不能直接点击【开始制作】了
-    connect(middleWidget->pageLyricList->tableLrcList,SIGNAL(sig_playSongAndLyric(QString,QString)),
-            this,SLOT(OnPlayNewMusicAndLyric(QString,QString)));
+    connect(middleWidget->pageLyricList->tableLrcList, &BesLListTableView::sig_playSongAndLyric, this, &MainWidget::OnPlayNewMusicAndLyric);
 
     //底部播放器信号响应
-    connect(bottomWidget->musicPlayer, SIGNAL(positionChanged(int)),this, SLOT(musicPositionChanged(int)));
+    connect(bottomWidget->musicPlayer, &MusicPlayer::positionChanged, this, &MainWidget::musicPositionChanged);
 
-    connect(bottomWidget->musicPlayer, SIGNAL(titleFound(QString)),
-                                            middleWidget, SLOT(onSetMusicTitle(QString)));
-    connect(bottomWidget->musicPlayer, SIGNAL(artistFound(QString)),
-                                            middleWidget, SLOT(onSetMusicArtist(QString)));
+    connect(bottomWidget->musicPlayer, &MusicPlayer::titleFound, middleWidget, &MiddleWidget::onSetMusicTitle);
+    connect(bottomWidget->musicPlayer, &MusicPlayer::artistFound, middleWidget, &MiddleWidget::onSetMusicArtist);
 
-    connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
-                                            middleWidget->pageMain->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
-    connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
-                                            middleWidget->pageLyricList->boxPagePreviewLyric, SLOT(changePic(QPixmap)));
-    connect(bottomWidget->musicPlayer, SIGNAL(pictureFound(QPixmap)),
-                                            middleWidget->pagePreviewLyric, SLOT(AlbumImageChanged(QPixmap)));
-    connect(bottomWidget->musicPlayer, SIGNAL(audioPlay()),
-                                            middleWidget->pagePreviewLyric, SLOT(playPhonagraph()));
-    connect(bottomWidget->musicPlayer, SIGNAL(audioPause()),
-                                            middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
-    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
-                                            middleWidget->pagePreviewLyric, SLOT(stopPhonagraph()));
+    connect(bottomWidget->musicPlayer, &MusicPlayer::pictureFound, middleWidget->pageMain->boxPagePreviewLyric, &BoxPagePreviewLyric::changePic);
+    connect(bottomWidget->musicPlayer, &MusicPlayer::pictureFound, middleWidget->pageLyricList->boxPagePreviewLyric, &BoxPagePreviewLyric::changePic);
+    connect(bottomWidget->musicPlayer, &MusicPlayer::pictureFound, middleWidget->pagePreviewLyric, &PagePreviewLyric::AlbumImageChanged);
+    connect(bottomWidget->musicPlayer, &MusicPlayer::audioPlay, middleWidget->pagePreviewLyric, &PagePreviewLyric::playPhonagraph);
+    connect(bottomWidget->musicPlayer, &MusicPlayer::audioPause, middleWidget->pagePreviewLyric, &PagePreviewLyric::stopPhonagraph);
+    connect(bottomWidget->musicPlayer, &MusicPlayer::audioFinish, middleWidget->pagePreviewLyric, &PagePreviewLyric::stopPhonagraph);
 
-    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
-                                            this, SLOT(onAudioFinished(bool)));  //这里放在 finishMaking 前执行
-    connect(bottomWidget->musicPlayer, SIGNAL(audioFinish(bool)),
-                                            middleWidget->pageMain->subPageMaking, SLOT(finishMaking()));
+    connect(bottomWidget->musicPlayer, &MusicPlayer::audioFinish, this, &MainWidget::onAudioFinished);  //这里放在 finishMaking 前执行
+    connect(bottomWidget->musicPlayer, &MusicPlayer::audioFinish, middleWidget->pageMain->subPageMaking, &SubPageMaking::finishMaking);
 
 }
 

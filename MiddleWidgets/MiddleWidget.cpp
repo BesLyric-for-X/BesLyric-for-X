@@ -51,12 +51,11 @@ void MiddleWidget::initConnection()
 //    connect(boxPageLyricList->btnPackupLyricBox, &QPushButton::clicked,[=](){
 //        switchPage(2,0); });
 
-    connect(&animationPreviewExtend, SIGNAL(finished()), this, SLOT(geometryAnimationFinish()) );
-    connect(&animationLrcListExtend, SIGNAL(finished()), this, SLOT(geometryAnimationFinish()) );
-    connect(&animationSettingExtend, SIGNAL(finished()), this, SLOT(geometryAnimationFinish()) );
+    connect(&animationPreviewExtend, &QPropertyAnimation::finished, this, &MiddleWidget::geometryAnimationFinish);
+    connect(&animationLrcListExtend, &QPropertyAnimation::finished, this, &MiddleWidget::geometryAnimationFinish);
+    connect(&animationSettingExtend, &QPropertyAnimation::finished, this, &MiddleWidget::geometryAnimationFinish);
 
-    connect(pageMain->subPageMaking, SIGNAL(sig_addToMakingHistory(QString,QString)),
-            pageLyricList, SLOT(OnAddToMakingHistory(QString,QString)));
+    connect(pageMain->subPageMaking, &SubPageMaking::sig_addToMakingHistory, pageLyricList, &PageLyricList::OnAddToMakingHistory);
    }
 
 

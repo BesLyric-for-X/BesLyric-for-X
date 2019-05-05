@@ -100,7 +100,7 @@ void BesEditDialog::initLayout()
 
 void BesEditDialog::initConnection()
 {
-    connect(editAddItemName,SIGNAL(textChanged(QString)),this, SLOT(OnTextChanged(QString)));
+    connect(editAddItemName, &QLineEdit::textChanged, this, &BesEditDialog::OnTextChanged);
 
     connect(btnOK, &QPushButton::clicked,[=](){this->accept();});
     connect(btnCancel, &QPushButton::clicked,[=](){this->reject();});

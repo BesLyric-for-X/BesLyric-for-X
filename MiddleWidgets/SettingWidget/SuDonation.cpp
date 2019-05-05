@@ -94,9 +94,9 @@ QWidget *SuDonation::getUnitWidget(QWidget *parent)
     vLayout->addSpacerItem(new QSpacerItem(20,20, QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
 
-    connect(btnDownloadWindow, SIGNAL(clicked(bool)),this, SLOT(onDownloadProgram()));
-    connect(btnDownloadLinux, SIGNAL(clicked(bool)),this, SLOT(onDownloadProgram()));
-    connect(btnDownloadMac, SIGNAL(clicked(bool)),this, SLOT(onDownloadProgram()));
+    connect(btnDownloadWindow, &BesButton::clicked, this, &SuDonation::onDownloadProgram);
+    connect(btnDownloadLinux, &BesButton::clicked, this, &SuDonation::onDownloadProgram);
+    connect(btnDownloadMac, &BesButton::clicked, this, &SuDonation::onDownloadProgram);
 
     return SettingUnitContainer;
 }

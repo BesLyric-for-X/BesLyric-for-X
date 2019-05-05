@@ -209,7 +209,7 @@ public:
             scrollToTargetPos();
         });
 
-        connect(scrollTimer, SIGNAL(timeout()), this, SLOT(srcollTimerTimeout()));
+        connect(scrollTimer, &QTimer::timeout, this, &ScrollLyricPanel::srcollTimerTimeout);
     }
 
     void updateLyric(QVector<QPair<int, QString>> lyrics, bool isLrcLyric)

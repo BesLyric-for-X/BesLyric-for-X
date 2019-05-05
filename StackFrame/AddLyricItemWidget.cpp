@@ -71,7 +71,7 @@ void AddLyricItemWidget::initLayout()
 
 void AddLyricItemWidget::initConnection()
 {
-    connect(editAddItemName,SIGNAL(textChanged(QString)),this, SLOT(OnTextChanged(QString)));
+    connect(editAddItemName, &QLineEdit::textChanged, this, &AddLyricItemWidget::OnTextChanged);
 
     connect(btnCancelListItem ,&QPushButton::clicked,[=](){ emit sig_toggleAddWidget();});
     connect(btnAddListItem,&QPushButton::clicked,[=](){

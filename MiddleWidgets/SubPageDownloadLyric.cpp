@@ -272,17 +272,17 @@ void SubPageDownloadLyric::initLayout()
 
 void SubPageDownloadLyric::initConnection()
 {
-    connect(&searchThread, SIGNAL(lyricResultChanged(LyricSearchResult)), this,SLOT(OnLyricResultChanged(LyricSearchResult)));
-    connect(btnSearchInProgram, SIGNAL(clicked(bool)),this,SLOT(OnSearchInProgram()) );
-    connect(btnSearchByBaidu, SIGNAL(clicked(bool)),this,SLOT(OnSearchByBaidu()) );
-    connect(tableLyricSearch, SIGNAL(sig_showRawLyric(LyricInfo)), this,SLOT(OnShowRawLyric(LyricInfo)));
-    connect(tableLyricSearch, SIGNAL(sig_showLrcLyric(LyricInfo)), this,SLOT(OnShowLrcLyric(LyricInfo)));
+    connect(&searchThread, &ThreadSearchLyric::lyricResultChanged, this, &SubPageDownloadLyric::OnLyricResultChanged);
+    connect(btnSearchInProgram, &BesButton::clicked, this, &SubPageDownloadLyric::OnSearchInProgram);
+    connect(btnSearchByBaidu, &BesButton::clicked, this, &SubPageDownloadLyric::OnSearchByBaidu);
+    connect(tableLyricSearch, &BesLrcTableView::sig_showRawLyric, this, &SubPageDownloadLyric::OnShowRawLyric);
+    connect(tableLyricSearch, &BesLrcTableView::sig_showLrcLyric, this, &SubPageDownloadLyric::OnShowLrcLyric);
 
-    connect(btnRawLyricPanelSelect, SIGNAL(clicked(bool)),this, SLOT(OnSelectRawLyricSavePath()));
-    connect(btnRawLyricPanelSave, SIGNAL(clicked(bool)),this, SLOT(OnSaveRawLyric()));
+    connect(btnRawLyricPanelSelect, &BesButton::clicked, this, &SubPageDownloadLyric::OnSelectRawLyricSavePath);
+    connect(btnRawLyricPanelSave, &BesButton::clicked, this, &SubPageDownloadLyric::OnSaveRawLyric);
 
-    connect(btnLrcLyricPanelSelect, SIGNAL(clicked(bool)),this, SLOT(OnSelectLrcLyricSavePath()));
-    connect(btnLrcLyricPanelSave, SIGNAL(clicked(bool)),this, SLOT(OnSaveLrcLyric()));
+    connect(btnLrcLyricPanelSelect, &BesButton::clicked, this, &SubPageDownloadLyric::OnSelectLrcLyricSavePath);
+    connect(btnLrcLyricPanelSave, &BesButton::clicked, this, &SubPageDownloadLyric::OnSaveLrcLyric);
 }
 
 void SubPageDownloadLyric::OnSearchInProgram()

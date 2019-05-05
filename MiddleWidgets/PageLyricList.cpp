@@ -358,26 +358,24 @@ void PageLyricList::initConnection()
         }
     });
 
-    connect(lyricListCreated,SIGNAL(sig_listDataChanged()),
-            this, SLOT(OnSaveLyricListData()));
+    connect(lyricListCreated, &BesList::sig_listDataChanged, this, &PageLyricList::OnSaveLyricListData);
 
 
     QAbstractItemModel* model = lyricListCreated->model();
-    connect(model,SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-                        this,SLOT(OnRowsMoved(QModelIndex,int,int,QModelIndex,int)));
+    connect(model, &QAbstractItemModel::rowsMoved, [=](const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row) {OnRowsMoved(parent, start, end, destination, row, QPrivateSignal()); });
 
 
     //连接按钮动作
-    connect(btnSelectLrcItemSongPath,SIGNAL(clicked(bool)),SLOT(OnSelectSongPath()));
-    connect(btnSelectLrcItemLrcPath,SIGNAL(clicked(bool)),SLOT(OnSelectLrcPath()));
-    connect(btnSaveLrcItem,SIGNAL(clicked(bool)),SLOT(OnSaveLrcListItem()));
-    connect(btnCreateLrcItem,SIGNAL(clicked(bool)),SLOT(OnCreateLrcListItem()));
+    connect(btnSelectLrcItemSongPath, &BesButton::clicked, this, &PageLyricList::OnSelectSongPath);
+    connect(btnSelectLrcItemLrcPath, &BesButton::clicked, this, &PageLyricList::OnSelectLrcPath);
+    connect(btnSaveLrcItem, &BesButton::clicked, this, &PageLyricList::OnSaveLrcListItem);
+    connect(btnCreateLrcItem, &BesButton::clicked, this, &PageLyricList::OnCreateLrcListItem);
 
-    connect(tableLrcList,SIGNAL(sig_deleteItem(int)),this,SLOT(OnDeleteListItem(int)));
-    connect(tableLrcList,SIGNAL(sig_editItem(int)),this,SLOT(OnEditListItem(int)));
+    connect(tableLrcList, &BesLListTableView::sig_deleteItem, this, &PageLyricList::OnDeleteListItem);
+    connect(tableLrcList, &BesLListTableView::sig_editItem, this, &PageLyricList::OnEditListItem);
 
-    connect(btnSaveLrcListModified,SIGNAL(clicked(bool)), this, SLOT(OnSaveListInfo()));
-    connect(btnDeleteLrcList,SIGNAL(clicked(bool)), this, SLOT(OnDeleteLrcList()));
+    connect(btnSaveLrcListModified, &BesButton::clicked, this, &PageLyricList::OnSaveListInfo);
+    connect(btnDeleteLrcList, &BesButton::clicked, this, &PageLyricList::OnDeleteLrcList);
 
     connect(editLrcItemSongPath, &BesFileLineEdit::sig_filesHaveBeenDrop,
             [=](QList<QString> list){editLrcItemSongPath->setText(list.at(0));});

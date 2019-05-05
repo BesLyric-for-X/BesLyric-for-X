@@ -179,5 +179,5 @@ void SuScrollPanel::initConnection()
         emit sig_scrollPosChanged(value, nPageStep, nScrollMax);
     });
 
-    connect(scrollTimer,SIGNAL(timeout()), this, SLOT(OnSrcollTimerTimeout()));
+    connect(scrollTimer, &QTimer::timeout, this, &SuScrollPanel::OnSrcollTimerTimeout);
 }

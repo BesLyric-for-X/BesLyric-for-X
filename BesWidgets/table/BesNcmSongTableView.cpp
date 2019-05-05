@@ -154,7 +154,7 @@ void BesNcmSongTableView::initEntity()
 
 void BesNcmSongTableView::initConnection()
 {
-    connect(m_buttonDelegate, SIGNAL(sig_rowClicked(int)),this,SLOT(selectRow(int)));
+    connect(m_buttonDelegate, &BesNcmSongButtonDelegate::sig_rowClicked, this, &BesNcmSongTableView::selectRow);
     connect(m_buttonDelegate,&BesNcmSongButtonDelegate::sig_preview_ncm_song, [=](int row){
        QString strLink = "http://music.163.com/#/song?id=" + QString().number(m_model->DataVector().at(row).nID);
        QDesktopServices::openUrl(QUrl(strLink));
@@ -169,10 +169,8 @@ void BesNcmSongTableView::initConnection()
     connect(m_buttonDelegate, &BesNcmSongButtonDelegate::sig_setMusicPathToMakingPage, [=](QString musicPath)
             {emit sig_setMusicPathToMakingPage(musicPath);});
 
-    connect(&net, SIGNAL(sig_finishDownload(QVariant,DOWNLOAD_FINISH_STATUS)),
-            this, SLOT(OnFinishedDownload(QVariant,DOWNLOAD_FINISH_STATUS)));
-    connect(&net,SIGNAL(sig_progressChanged(QString,int,QVariant)),
-            this,SLOT(OnProgressChanged(QString,int,QVariant)));
+    connect(&net, &NetworkAccess::sig_finishDownload, this, &BesNcmSongTableView::OnFinishedDownload);
+    connect(&net, &NetworkAccess::sig_progressChanged, this, &BesNcmSongTableView::OnProgressChanged);
 
 }
 

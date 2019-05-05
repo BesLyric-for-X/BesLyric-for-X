@@ -458,24 +458,24 @@ void SubPageMaking::initEntity()
 
 void SubPageMaking::initConnection()
 {
-    connect(btnSelectMusic, SIGNAL(clicked(bool)),this,SLOT(selectMusicPath()));
-    connect(btnSelectLyric, SIGNAL(clicked(bool)),this,SLOT(selectLyricPath()));
-    connect(btnSelectOutputDir, SIGNAL(clicked(bool)),this,SLOT(selectOutputDir()));
-    connect(btnLoadLastFiles, SIGNAL(clicked(bool)),this,SLOT(loadCurrentPath()));
+    connect(btnSelectMusic, &BesButton::clicked, this, QOverload<>::of(&SubPageMaking::selectMusicPath));
+    connect(btnSelectLyric, &BesButton::clicked, this, QOverload<>::of(&SubPageMaking::selectLyricPath));
+    connect(btnSelectOutputDir, &BesButton::clicked, this, &SubPageMaking::selectOutputDir);
+    connect(btnLoadLastFiles, &BesButton::clicked, this, &SubPageMaking::loadCurrentPath);
 
-    connect(btnEditLyricCurrent,SIGNAL(clicked(bool)),this,SLOT(onEditCurrentLine()));
-    connect(btnEditBatchLyric,SIGNAL(clicked(bool)),this,SLOT(onEditBatchLyric()));
+    connect(btnEditLyricCurrent, &BesButton::clicked, this, &SubPageMaking::onEditCurrentLine);
+    connect(btnEditBatchLyric, &BesButton::clicked, this, &SubPageMaking::onEditBatchLyric);
 
-    connect(btnStartMaking, SIGNAL(clicked(bool)),this,SLOT(startMaking()));
-    connect(btnToRemaking,SIGNAL(clicked(bool)),this,SLOT(remaking()));
+    connect(btnStartMaking, &BesButton::clicked, this, &SubPageMaking::startMaking);
+    connect(btnToRemaking, &BesButton::clicked, this, &SubPageMaking::remaking);
 
-    connect(btnPreviewResult,SIGNAL(clicked(bool)),this,SLOT(previewResult()));
-    connect(btnOpenResult,SIGNAL(clicked(bool)),this,SLOT(openResult()));
+    connect(btnPreviewResult, &BesButton::clicked, this, &SubPageMaking::previewResult);
+    connect(btnOpenResult, &BesButton::clicked, this, &SubPageMaking::openResult);
 
-    connect(btnGuessLyricInfo, SIGNAL(clicked(bool)), this, SLOT(onGuessLyricInfo()));
-    connect(btnDownloadMp3, SIGNAL(clicked(bool)), this, SLOT(onGuessNcmInfo()));
+    connect(btnGuessLyricInfo, &BesButton::clicked, this, &SubPageMaking::onGuessLyricInfo);
+    connect(btnDownloadMp3, &BesButton::clicked, this, &SubPageMaking::onGuessNcmInfo);
 
-    connect(btnEditTxtLyric, SIGNAL(clicked(bool)), this,SLOT(onEditCurrentRawLyric()));
+    connect(btnEditTxtLyric, &BesButton::clicked, this, &SubPageMaking::onEditCurrentRawLyric);
 
     connect(editSelectMusic, &BesFileLineEdit::sig_filesHaveBeenDrop,
             [=](QList<QString> list){selectMusicPath(list.at(0));});

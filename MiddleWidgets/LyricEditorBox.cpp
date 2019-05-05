@@ -149,8 +149,8 @@ void LyricEditorBox::initConnection()
     connect(btnOK, &QPushButton::clicked,[=](){this->accept();btnResult= QMessageBox::StandardButton::Ok;});
     connect(btnCancel, &QPushButton::clicked,[=](){this->accept();btnResult= QMessageBox::StandardButton::Cancel;});
 
-    connect(btnCopySelected,SIGNAL(clicked(bool)),this,SLOT(onCopySelected()));
-    connect(btnPastSelected,SIGNAL(clicked(bool)),this,SLOT(onPastSelected()));
+    connect(btnCopySelected, &BesButton::clicked, this, &LyricEditorBox::onCopySelected);
+    connect(btnPastSelected, &BesButton::clicked, this, &LyricEditorBox::onPastSelected);
 
 }
 

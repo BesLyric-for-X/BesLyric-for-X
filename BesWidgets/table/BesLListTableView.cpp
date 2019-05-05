@@ -66,7 +66,7 @@ void BesLListTableView::initEntity()
 
 void BesLListTableView::initConnection()
 {
-    connect(m_buttonDelegate, SIGNAL(sig_rowClicked(int)),this,SLOT(selectRow(int)));
+    connect(m_buttonDelegate, &BesLListButtonDelegate::sig_rowClicked, this, &BesLListTableView::selectRow);
     connect(m_buttonDelegate,&BesLListButtonDelegate::sig_deleteItem, [=](int row){
         emit sig_deleteItem(row);
     });

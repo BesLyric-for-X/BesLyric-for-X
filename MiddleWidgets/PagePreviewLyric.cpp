@@ -127,7 +127,7 @@ void PagePreviewLyric::initEntity()
 
 void PagePreviewLyric::initConnection()
 {
-    connect(calPicThread,SIGNAL(ready(QPixmap)),this,SLOT(setNewBackgroundPixmap(QPixmap)));
+    connect(calPicThread, &ThreadCalcBackgroundImage::ready, this, &PagePreviewLyric::setNewBackgroundPixmap);
 }
 
 void PagePreviewLyric::finishInit()

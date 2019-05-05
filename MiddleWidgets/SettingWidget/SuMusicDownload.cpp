@@ -248,7 +248,7 @@ QWidget *SuMusicDownload::getUnitWidget(QWidget *parent)
 
     });
 
-    connect(groupNameFormat, SIGNAL(buttonClicked(int)),this, SLOT(OnNameFormatClicked(int)));
+    connect(groupNameFormat, QOverload<int>::of(&QButtonGroup::buttonClicked), this, &SuMusicDownload::OnNameFormatClicked);
 
     return SettingUnitContainer;
 }

@@ -108,17 +108,13 @@ void PageMain::initConnection()
     connect(btnDownloadLyric,&QPushButton::toggled, [=](bool checked)
     {if(checked)subpageStackedLayout->setCurrentIndex(2);});
 
-    connect(subPageDownloadLyric,SIGNAL(sig_autoSelectRawLyric(const QString&)),this,
-            SLOT(onAutoSelectRawLyric(const QString&)));
+    connect(subPageDownloadLyric, &SubPageDownloadLyric::sig_autoSelectRawLyric, this, &PageMain::onAutoSelectRawLyric);
 
-    connect(subPageDownloadSong->tableNcmSongSearch,SIGNAL(sig_setMusicPathToMakingPage(QString)),
-            this,SLOT(onAutoSelectMusic(QString)));
+    connect(subPageDownloadSong->tableNcmSongSearch, &BesNcmSongTableView::sig_setMusicPathToMakingPage, this, &PageMain::onAutoSelectMusic);
 
 
-    connect(&subPageMaking->threadGuessLyricInfo,SIGNAL(sig_loadLyricInfoGuessResult(QString,QString)),
-            this, SLOT(onLoadLyricGuess(QString,QString)));
-    connect(&subPageMaking->threadGuessLyricInfo,SIGNAL(sig_loadNcmInfoGuessResult(QString,QString)),
-            this, SLOT(onLoadNcmGuess(QString,QString)));
+    connect(&subPageMaking->threadGuessLyricInfo, &ThreadGuessLyricInfo::sig_loadLyricInfoGuessResult, this, &PageMain::onLoadLyricGuess);
+    connect(&subPageMaking->threadGuessLyricInfo, &ThreadGuessLyricInfo::sig_loadNcmInfoGuessResult, this, &PageMain::onLoadNcmGuess);
 
 }
 

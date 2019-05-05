@@ -91,11 +91,10 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
             BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
         }
     });
+    
+    connect(&threadCheck, &ThreadCheckUpdate::sig_haveCheckResult, this, &SuUpgrade::onShowCheckResult);
 
-    connect(&threadCheck, SIGNAL(sig_haveCheckResult(CheckUpgradeResult)), this,
-            SLOT(onShowCheckResult(CheckUpgradeResult)));
-
-    connect(btnCheckUpgrade, SIGNAL(clicked(bool)),this, SLOT(onCheckUpgrade()));
+    connect(btnCheckUpgrade, &BesButton::clicked, this, &SuUpgrade::onCheckUpgrade);
 
     return SettingUnitContainer;
 }
