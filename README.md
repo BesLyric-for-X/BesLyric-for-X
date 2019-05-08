@@ -2,7 +2,7 @@
 
 [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/zh_CN)
 [![Release version](https://img.shields.io/badge/release-3.1.0-blue.svg?style=flat-square)](https://github.com/BensonLaur/Beslyric-for-X/releases)
-[![Gitter](https://badges.gitter.im/Beslyric-for-X/community.svg?style=flat-square)](https://gitter.im/Beslyric-for-X/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://img.shields.io/badge/chat-on%20gitter-4fb999.svg?style=flat-square)](https://gitter.im/Beslyric-for-X/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # Beslyric-for-X  
 
