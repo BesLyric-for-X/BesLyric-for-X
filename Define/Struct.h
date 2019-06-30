@@ -12,7 +12,7 @@ typedef struct _SONG_INFO{
     int nTime;          //毫秒时间
 
     //用于显示歌曲列表时附加信息（下载状态）
-    int nPercentage;             //当前下载百分比(-1 用于表示从未下载，-2 表示网络文件无效）
+    int nPercentage;             //当前下载百分比(-1 用于表示从未下载，-2 表示网络文件无效, -3 表示网络连接错误，-4 表示本地存储失败）
 } SONGINFO;
 
 

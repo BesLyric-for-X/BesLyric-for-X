@@ -7,9 +7,9 @@
 #include <QMutexLocker>
 #include <QMutex>
 
-#include "LyricSearcherFactory.h"
+#include "LyricSearcherFactory/ISearcher.h"
+#include "LyricSearcherFactory/LyricSearcherFactory.h"
 #include "BesMessageBox.h"
-#include "ISearcher.h"
 
 class ThreadSearchLyric :public QThread
 {

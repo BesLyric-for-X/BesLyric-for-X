@@ -375,32 +375,29 @@ bool PlayThread::initDeviceAndFfmpegContext()
         emit errorOccur(2,tr("媒体输入流中找不到任何可播放数据")); //"Couldn't find stream information."
         return false;
     }
-
     //读取专辑等头文字信息
     //读取metadata中所有的tag
     AVDictionaryEntry *tag = NULL;
-//    while ((tag = av_dict_get(pFormatCtx->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))){
-//       printf("[Tag:%s , Value: %s]\n", tag->key, tag->value);
-//    }
+    while ((tag = av_dict_get(pFormatCtx->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))){
+       QString key = tag->key;
+       QString value =  tag->value;
+       qDebug() << key << ":" << value;
 
-    tag = av_dict_get(pFormatCtx->metadata, "album", tag, AV_DICT_MATCH_CASE);
-    if(tag)
-    {
-        album = tag->value;
-        emit albumFound(album);
-    }
-    tag = av_dict_get(pFormatCtx->metadata, "title", tag, AV_DICT_MATCH_CASE);
-    if(tag)
-    {
-         title = tag->value;
-        emit titleFound(title);
-    }
-
-    tag = av_dict_get(pFormatCtx->metadata, "artist", tag, AV_DICT_MATCH_CASE);
-    if(tag)
-    {
-         artist = tag->value;
-        emit artistFound(artist);
+       if(key == "album")
+       {
+           album = tag->value;
+           emit albumFound(album.trimmed());
+       }
+       else if(key == "title")
+       {
+           title = tag->value;
+           emit titleFound(title.trimmed());
+       }
+       else if(key == "artist")
+       {
+           artist = tag->value;
+           emit artistFound(artist.trimmed());
+       }
     }
 
 	if (strcmp(pFormatCtx->iformat->name, "wav") == 0 || strcmp(pFormatCtx->iformat->name, "mp3") == 0)

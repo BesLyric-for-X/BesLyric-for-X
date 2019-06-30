@@ -7,7 +7,7 @@
 #include <QMutexLocker>
 #include <QMutex>
 
-#include "SearcherNetEaseCloud.h"
+#include "LyricSearcherFactory/SearcherNetEaseCloud.h"
 #include "BesMessageBox.h"
 
 class ThreadSearchNcmMusic :public QThread

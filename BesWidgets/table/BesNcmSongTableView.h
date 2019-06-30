@@ -6,10 +6,10 @@
 #include "BesNcmSongTableView.h"
 #include "BesNcmSongButtonDelegate.h"
 #include "NetAccess.h"
+#include "Thread/ThreadConvertMp3.h"
 
 #include <QTableView>
 #include <QVector>
-
 
 class BesNcmSongTableView : public QTableView
 {
@@ -38,6 +38,7 @@ public slots:
     void OnFinishedDownload(QVariant, DOWNLOAD_FINISH_STATUS);
     void OnProgressChanged(QString speed, int percentage, QVariant data);
 
+    void OnFinishConversion(int ncmId);
 
 protected:
     void initEntity();
@@ -55,6 +56,7 @@ private:
     BesNcmSongTableModel *m_model;
     BesNcmSongButtonDelegate *m_buttonDelegate;
     NetworkAccess net;
+    ThreadConvertMp3 mp3Converter;
 };
 
 #endif // BES_NCM_SONG_TABLEVIEW_H

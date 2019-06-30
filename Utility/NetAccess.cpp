@@ -17,7 +17,7 @@ bool NetworkAccess::DownloadFile(const QString strUrl, const QString strSaveAs, 
     return true;
 }
 
-bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &strSaveBuffer, QUrlQuery query)
+bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &target, QUrlQuery query,bool targetIsFile)
 {
     QUrl url(strUrl);
     if(!query.isEmpty())
@@ -44,7 +44,24 @@ bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &strSaveBuf
     if(reply->error()==QNetworkReply::NoError)
     {
         QByteArray byte=reply->readAll();
-        strSaveBuffer = QString(byte);
+        if(targetIsFile)
+        {
+            //存在target指定的文件中
+            QFile file;
+            file.setFileName(target);
+            if (!file.open(QIODevice::WriteOnly)) {
+                qDebug() << "Problem opening save file "<< target  << " for download "<< strUrl;
+
+                return false;
+            }
+            else
+            {
+                file.write(byte);
+                file.close();
+            }
+        }
+        else
+            target = QString(byte);
         bRet = true;
     }
     reply->deleteLater();
@@ -135,6 +152,7 @@ void NetworkAccess::startNextDownload()
 
         DownloadInfo info = downloadQueue.dequeue();
         emit(sig_fileOpenErrorWhenSave(info.data));
+        emit sig_finishDownload(info.data,DOWNLOAD_FINISH_STATUS::LOCAL_STORAGE_FAIL );
 
         startNextDownload();
         return;                 // skip this download
@@ -196,6 +214,7 @@ void NetworkAccess::downloadFinished()
         bDeleteFile = true;
         fileToDelete = info.strSaveFilePath;
         emit sig_netErrorWhenDownload(info.data);
+        emit sig_finishDownload(info.data,DOWNLOAD_FINISH_STATUS::NET_WORK_ERROR );
     } else {
 
         int statusCode = currentDownload->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();

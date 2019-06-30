@@ -13,7 +13,9 @@
 
 enum DOWNLOAD_FINISH_STATUS{
     NORMAL,
-    NETEASE_MUSIC_NOT_FOUND
+    NETEASE_MUSIC_NOT_FOUND,
+    NET_WORK_ERROR,             //网络连接错误
+    LOCAL_STORAGE_FAIL,         //本地存储失败
 };
 
 class DownloadInfo
@@ -41,7 +43,8 @@ public:
 
 
     /* get 请求下载，下载完成后才返回 */
-    static bool SyncDownloadString(const QString strUrl, QString& strSaveBuffer, QUrlQuery query = QUrlQuery());
+    // target 默认存储字符串， 单 targetIsFile = true, 表示路径
+    static bool SyncDownloadString(const QString strUrl, QString& target, QUrlQuery query = QUrlQuery(),bool targetIsFile = false);
 
     /* post 请求下载，下载完成后才返回 */
     static bool SyncDownloadStringPost(const QString strUrl, QString& strSaveBuffer, QByteArray queryData = QByteArray());

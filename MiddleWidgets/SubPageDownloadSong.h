@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include "BesButton.h"
-#include "LyricSearcherFactory/ThreadSearchNcmMusic.h"
+#include "Thread/ThreadSearchNcmMusic.h"
 #include "table/BesNcmSongTableView.h"
 
 class SubPageDownloadSong : public QWidget

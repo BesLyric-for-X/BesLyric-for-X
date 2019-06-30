@@ -88,7 +88,7 @@ void BesNcmSongButtonDelegate::paint(QPainter *painter, const QStyleOptionViewIt
 
                     if(downloadPercent == 100)
                         painter->drawPixmap(button.rect,QPixmap(":/resource/image/download_done.png"));
-                    else if(downloadPercent == -2)
+                    else if(downloadPercent <= -2)
                         painter->drawPixmap(button.rect,QPixmap(":/resource/image/download_done_invalid.png"));
                     else
                     {

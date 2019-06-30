@@ -75,7 +75,10 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
     QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
                             songInfo.strSong +" - "+ songInfo.strArtists
                            :songInfo.strArtists +" - "+ songInfo.strSong;
+    localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), " "); //将文件不允许出现的字符替换为空
+
     QString strSavePath = setting.musicDowloadPath + '/' + localFileName + ".mp3";
+    QString strTempSavePath = setting.musicDowloadPath + '/' + localFileName + "temp.mp3";
 
 
     if(songInfo.nPercentage == -1) //只有从未下载过时，才尝试下载
@@ -87,12 +90,22 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
         QString strId = QString().number(songInfo.nID);
         QString strLink = "http://music.163.com/song/media/outer/url?id="+ strId +".mp3";
 
-        net.DownloadFile(strLink, strSavePath, songInfo.nID);
+        net.DownloadFile(strLink, strTempSavePath, songInfo.nID);
     }
     else if(songInfo.nPercentage == -2)
     {
         //已经尝试过，404 找不到音乐，应该是没版权
         BesMessageBox::information(tr("提示"),tr("由于版权保护等原因，无法获取该音乐"));
+    }
+    else if(songInfo.nPercentage == -3)
+    {
+        //表示网络连接错误
+        BesMessageBox::information(tr("提示"),tr("网络连接错误"));
+    }
+    else if(songInfo.nPercentage == -4)
+    {
+        //表示本地存储失败
+        BesMessageBox::information(tr("提示"),tr("本地存储失败，可能是文件名包含非法字符或其他无法写文件的原因导致"));
     }
     else if(songInfo.nPercentage == 100)
     {
@@ -113,11 +126,48 @@ void BesNcmSongTableView::OnFinishedDownload(QVariant data, DOWNLOAD_FINISH_STAT
         if(info.nID == nSongId)
         {
             if(status == DOWNLOAD_FINISH_STATUS::NORMAL)
-                info.nPercentage = 100;
-            else
+            {
+                info.nPercentage = 99; //100
+
+                //接下来下载mp3图片等信息写入mp3中
+                auto setting = SettingManager::GetInstance().data();
+                QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
+                                        info.strSong +" - "+ info.strArtists
+                                       :info.strArtists +" - "+ info.strSong;
+                localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), " "); //将文件不允许出现的字符替换为空
+
+                QString strSavePath = setting.musicDowloadPath + '/' + localFileName + ".mp3";
+                QString strTempSavePath = setting.musicDowloadPath + '/' + localFileName + "temp.mp3";
+
+                ConvertTask task;
+                task.songNcmId = nSongId;
+                task.sourceMp3FilePath = strTempSavePath;
+                task.targetMp3FilePath = strSavePath;
+                mp3Converter.doTask(task);
+            }
+            else if(status == DOWNLOAD_FINISH_STATUS::NETEASE_MUSIC_NOT_FOUND)
                 info.nPercentage = -2;
+            else if(status == DOWNLOAD_FINISH_STATUS::NET_WORK_ERROR)
+                info.nPercentage = -3;
+            else
+                info.nPercentage = -4;
 
             update();
+        }
+    }
+}
+
+
+void BesNcmSongTableView::OnFinishConversion(int ncmId)
+{
+    QVector<SONGINFO>& infos =m_model->DataVector();
+    for(SONGINFO& info: infos)
+    {
+        if(info.nID == ncmId)
+        {
+            info.nPercentage = 100;
+            update();
+            break;
         }
     }
 }
@@ -172,6 +222,7 @@ void BesNcmSongTableView::initConnection()
     connect(&net, &NetworkAccess::sig_finishDownload, this, &BesNcmSongTableView::OnFinishedDownload);
     connect(&net, &NetworkAccess::sig_progressChanged, this, &BesNcmSongTableView::OnProgressChanged);
 
+    connect(&mp3Converter, &ThreadConvertMp3::sig_finishConvert, this, &BesNcmSongTableView::OnFinishConversion);
 }
 
  //基础的初始化

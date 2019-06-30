@@ -18,8 +18,9 @@ HEADERS+=\
     $$PWD/UnicodeReader.h\
     $$PWD/LyricSearcherFactory/ISearcher.h \
     $$PWD/LrcProcessor.h \
-    $$PWD/LyricSearcherFactory/ThreadSearchLyric.h\
-    $$PWD/LyricSearcherFactory/ThreadSearchNcmMusic.h\
+    $$PWD/Thread/ThreadSearchLyric.h\
+    $$PWD/Thread/ThreadSearchNcmMusic.h\
+    $$PWD/Thread/ThreadConvertMp3.h\
     $$PWD/LyricListManager.h\
     $$PWD/SettingManager.h\
     $$PWD/ThreadGuessLyricInfo.h\
@@ -44,9 +45,13 @@ SOURCES+=\
     $$PWD/LyricListManager.cpp\
     $$PWD/SettingManager.cpp\
     $$PWD/MusicPlayerController.cpp\
+    $$PWD/Thread/ThreadConvertMp3.cpp\
 
 
 
 
 INCLUDEPATH +=$$PWD MusicPlayer
 include(MusicPlayer/musicPlayer.pri)
+
+INCLUDEPATH +=$$PWD MP3Editor
+include(MP3Editor/mp3Editor.pri)
