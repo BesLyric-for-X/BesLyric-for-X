@@ -753,7 +753,7 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
                                                 //后再最后执行加锁，这样再次播放音频时就会形成死锁
         emit audioFinish(isEndByForce);
     });
-    connect(playThread, SIGNAL(audioFinish(bool)),this, SLOT(onStopTimer()));
+    connect(playThread, &PlayThread::audioFinish, this, &MusicPlayer::onStopTimer);
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
