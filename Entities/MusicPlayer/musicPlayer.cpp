@@ -186,7 +186,7 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 			}
 			else
 			{
-				tryTimes++;
+                tryTimes++;
                 //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
                 if (tryTimes >= 100000000LL)
 				{
@@ -259,6 +259,7 @@ void PlayThread::run()
     {
         bIsDeviceInit = true;
         emit durationChanged(pFormatCtx->duration);
+        emit audioLoadedsuccessfully();
     }
     else
     {
@@ -730,6 +731,9 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 {
     playThread = new PlayThread(this);
 
+    connect(playThread, &PlayThread::audioLoadedsuccessfully,[=](){
+        emit audioLoadedSuccessfully();
+    });
     connect(playThread, &PlayThread::audioPlay,[=](){
         qDebug()<<"&PlayThread::audioPlay bIsLock="<<bIsLock;
 
@@ -740,7 +744,16 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
         emit audioPause();
     });
-    connect(playThread, SIGNAL(audioFinish(bool)),this, SLOT(onAudioFinish(bool)));
+    connect(playThread, &PlayThread::audioFinish,[=](bool isEndByForce){
+        qDebug()<<"&PlayThread::audioFinish bIsLock="<<bIsLock;
+
+        bIsLock = true;
+        audioFinishedToThreadExitMutex.lock();  //该互斥锁必须在此以同步方式被 playThread 调用
+                                                //因为该锁在 音频结束时加锁，在线程结束后解锁，如果异步调用可能先结束线程而解锁，然
+                                                //后再最后执行加锁，这样再次播放音频时就会形成死锁
+        emit audioFinish(isEndByForce);
+    });
+    connect(playThread, SIGNAL(audioFinish(bool)),this, SLOT(onStopTimer()));
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
@@ -892,12 +905,6 @@ void MusicPlayer::stop()
 
     playThread->setAGStatus(AGS_FINISH);
 
-    if(m_positionUpdateTimer.isActive())
-    {
-        m_positionUpdateTimer.stop();
-        emit positionChanged(0);       //停止了timer ，自己发送0时间
-    }
-
     //停止音乐必须保证线程真的退出(否则 playThread->bIsDeviceInit 可能判断成立，而实际线程还没退出，导致下一次 播放 playThread->playDevice() 没能及时起作用)
     while(playThread->isRunning())
         _millisecondSleep(10); //等待结束
@@ -998,21 +1005,13 @@ void MusicPlayer::onErrorOccurs(int code, QString msg)
     emit errorOccur(code, msg);
 }
 
-void MusicPlayer::onAudioFinish(bool isEndByForce)
+void MusicPlayer::onStopTimer()
 {
-    qDebug()<<"&PlayThread::audioFinish bIsLock="<<bIsLock;
-
-    bIsLock = true;
-    audioFinishedToThreadExitMutex.lock();
-    emit audioFinish(isEndByForce);
-
-    //音频结束有2种情况，一种是自然结束(isEndByForce=false);另一种(isEndByForce=true)是调用 playThread->setAGStatus(AGS_FINISH);（MusicPlayer::stop()中调用）
-    //后者在 MusicPlayer::stop() 停止了定时器，这里处理前一种情况下的定时器
-    if(false == isEndByForce)
+    if(m_positionUpdateTimer.isActive())
+    {
         m_positionUpdateTimer.stop();
-
-    //音频结束，时间归0
-    emit positionChanged(0);
+        emit positionChanged(0);       //停止了timer ，自己发送0时间
+    }
 }
 
 

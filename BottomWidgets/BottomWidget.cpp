@@ -247,7 +247,6 @@ void BottomWidget::enterMakingMode()
 void BottomWidget::exitMakingMode()
 {
     bInMakingMode = false;
-
 }
 
 //btnPlayAndPause->clicked(bool) emitted

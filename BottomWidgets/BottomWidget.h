@@ -60,7 +60,6 @@ private slots:
 
     void onErrorOccurs(int code,QString strErr);
 
-    //
     void onAudioFinished(bool isEndWithForce);
     void onAudioPlay();
     void onAudioPause();

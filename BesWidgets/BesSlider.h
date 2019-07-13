@@ -19,10 +19,19 @@ public:
         maxValue = max;
     }
 
+    //是否启用鼠标事件响应
+    void enableMouseEvent(bool enable)
+    {
+        enableMouseEvt = enable;
+    }
+
 protected:
     //重写QSlider的mousePressEvent事件
     void mousePressEvent(QMouseEvent *ev)
     {
+        if(!enableMouseEvt)
+            return;
+
         //注意应先调用父类的鼠标点击处理事件，这样可以不影响拖动的情况
         QSlider::mousePressEvent(ev);
 
@@ -38,9 +47,24 @@ protected:
         }
     }
 
+    virtual void enterEvent(QEvent *event)
+    {
+        if(enableMouseEvt)
+        {
+            setCursor(QCursor(Qt::PointingHandCursor));
+            QSlider::enterEvent(event);
+        }
+        else
+            setCursor(QCursor(Qt::ArrowCursor));
+    }
 
-    virtual void enterEvent(QEvent *event){setCursor(QCursor(Qt::PointingHandCursor));QSlider::enterEvent(event);}
-    virtual void leaveEvent(QEvent *event){unsetCursor();QSlider::leaveEvent(event);}
+    virtual void leaveEvent(QEvent *event)
+    {
+        unsetCursor();
+
+        if(enableMouseEvt)
+            QSlider::leaveEvent(event);
+    }
 
 signals:
     void sig_clickNotOnHandle(int pos);
@@ -49,6 +73,7 @@ private:
     int minValue = 0;
     int maxValue = 0;
     double handleWidthValue = 30; //滑块handle的大小，这个取值会作为 sig_clickNotOnHandle 发送时判断是否在handle之外的依据
+    bool enableMouseEvt = false;  //默认禁用
 };
 
 #endif // BesSlider_H

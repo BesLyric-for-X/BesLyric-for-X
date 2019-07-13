@@ -111,6 +111,8 @@ void MainWidget::initConnection()
     connect(bottomWidget->musicPlayer, &MusicPlayer::pictureFound, middleWidget->pageMain->boxPagePreviewLyric, &BoxPagePreviewLyric::changePic);
     connect(bottomWidget->musicPlayer, &MusicPlayer::pictureFound, middleWidget->pageLyricList->boxPagePreviewLyric, &BoxPagePreviewLyric::changePic);
     connect(bottomWidget->musicPlayer, &MusicPlayer::pictureFound, middleWidget->pagePreviewLyric, &PagePreviewLyric::AlbumImageChanged);
+
+    connect(bottomWidget->musicPlayer, &MusicPlayer::audioLoadedSuccessfully, this, &MainWidget::onAudioLoadedSuccessfully);
     connect(bottomWidget->musicPlayer, &MusicPlayer::audioPlay, middleWidget->pagePreviewLyric, &PagePreviewLyric::playPhonagraph);
     connect(bottomWidget->musicPlayer, &MusicPlayer::audioPause, middleWidget->pagePreviewLyric, &PagePreviewLyric::stopPhonagraph);
     connect(bottomWidget->musicPlayer, &MusicPlayer::audioFinish, middleWidget->pagePreviewLyric, &PagePreviewLyric::stopPhonagraph);
@@ -246,6 +248,8 @@ void MainWidget::musicPositionChanged(int pos)
 
 void MainWidget::onAudioFinished(bool isEndWithForce)
 {
+    bottomWidget->sliderSong->enableMouseEvent(false);    //音频终止时，禁用歌曲滚动条鼠标操作
+
     if(middleWidget->pageMain->subPageMaking->isMaking)
         return; // 制作歌词模式，永远只播放一首歌
 
@@ -259,8 +263,18 @@ void MainWidget::onAudioFinished(bool isEndWithForce)
     if(nPlayMode == 1) //单曲循环模式，直接重新播放
     {
         if(!bottomWidget->musicPlayer->isCurrentInvalidMedia())
+        {
             //播放歌曲
             bottomWidget->play();
+        }
     }
+}
+
+void MainWidget::onAudioLoadedSuccessfully()
+{
+    if(middleWidget->pageMain->subPageMaking->isMaking)
+        return; // 制作歌词模式下，还是保持默认的禁用歌曲滚动条鼠标操作的状态
+
+    bottomWidget->sliderSong->enableMouseEvent(true); //每次成功加载歌曲时，启用歌曲滚动条鼠标操作
 }
 

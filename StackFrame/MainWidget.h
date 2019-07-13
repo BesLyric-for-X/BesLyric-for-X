@@ -38,6 +38,8 @@ public slots:
     //当前歌曲播放结束,准备播放下一首歌(播放模式的临时实现，后面将使用 MusicPlayerController 替换)
     void onAudioFinished(bool isEndWithForce);
 
+    void onAudioLoadedSuccessfully();
+
 public:
     TopWidget*      topWidget;
     MiddleWidget*   middleWidget;

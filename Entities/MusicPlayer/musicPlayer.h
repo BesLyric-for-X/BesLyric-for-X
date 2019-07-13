@@ -136,6 +136,7 @@ public:
 	void seekToPos(quint64 pos);
 
 signals:
+    void audioLoadedsuccessfully(); //每次音频成功被加载
     void audioPlay();               //播放
     void audioPause();              //暂停
     void audioFinish(bool isEndByForce);
@@ -251,6 +252,7 @@ public:
     QPixmap getPicture();
 
 signals:
+    void audioLoadedSuccessfully();         //每次音频成功被加载
     void audioPlay();                       //播放
     void audioPause();                      //暂停
     void audioFinish(bool isEndByForce );   //播放完毕
@@ -296,7 +298,7 @@ public slots:
 private slots:
     void sendPosChangedSignal();
     void onErrorOccurs(int ,QString);
-    void onAudioFinish(bool isForcedEnd);
+    void onStopTimer();
 
 private:
     //歌曲文件信息
