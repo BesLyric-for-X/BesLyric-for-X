@@ -683,7 +683,7 @@ void SubPageMaking::selectMusicPath()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("打开音频文件"),
                                                       SettingManager::GetInstance().data().defaultMusicPath,
-                                                      tr("音频 (*.mp3 *.wav *.ncm);;视频 (*.mp4)"));
+                                                      tr("音频 (*.mp3 *.wav *.ncm);;视频 (*.mp4);;其他 (*.*)"));
 
     selectMusicPath(fileName);
 }
