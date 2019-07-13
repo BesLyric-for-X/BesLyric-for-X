@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <QSlider>
+#include "BesSlider.h"
 #include "BesButton.h"
 
 class MusicPlayer;
@@ -48,6 +48,7 @@ private slots:
     void onSliderSongMoved(int position);
     void onSliderSongPressed();
     void onSliderSongReleased();
+    void onSliderSongClickNotOnHandle(int position);
 
     void onSoundToggle(bool);
     void onSliderSoundChanged(int);
@@ -81,7 +82,7 @@ public:
     QLabel*           labelTimeCurrent;
     QLabel*           labelTimeEnding;
 
-    QSlider*          sliderSong;
+    BesSlider*        sliderSong;
     QSlider*          sliderSound;
 
     BesButton*        btnSound;

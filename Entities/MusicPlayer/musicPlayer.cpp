@@ -187,7 +187,8 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 			else
 			{
 				tryTimes++;
-				if (tryTimes >= 100000000LL)
+                //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
+                if (tryTimes >= 100000000LL)
 				{
 					qDebug() << "no data in list for 1e8 times access";
 					AGStatus = AGS_FINISH;
@@ -534,7 +535,7 @@ void PlayThread::generateAudioDataLoop()
 {
     AGStatus = AGS_PLAYING;
 	AGSStatusMutex.unlock();		//从线程启动到 这里设置为 AGS_PLAYING 之间，与 setAGStatus 中的逻辑 应该是互斥的，
-									//否则可能启动了线程，还没有在这里设置 AGS_PLAYING， 却同时被想要结束线程者先设置 AGS_FINISH
+                                    //否则可能启动了线程，还没有在这里设置 AGS_PLAYING， 却同时被想要结束线程者先设置 AGS_FINISH
 									//导致外界设置的 AGS_FINISH 被 AGS_PLAYING 替代而导致无法预期的逻辑
 
     //[注:由于ffmpeg版本原因，ffmpeg 4.0.1 版本，在重头播放1秒多时有噪音，经试验，调用 av_seek_frame 后则会间接消除该噪音]
@@ -926,6 +927,9 @@ void MusicPlayer::stop()
 //跳到时间点播放（单位 毫秒）
 void MusicPlayer::seek(quint64 pos)
 {
+    if(state() == StoppedState)
+        return;
+
     if(m_positionUpdateTimer.isActive())
     {
         m_positionUpdateTimer.stop();

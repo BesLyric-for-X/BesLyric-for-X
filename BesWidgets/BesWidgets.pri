@@ -23,7 +23,8 @@ HEADERS+=\
     $$PWD/table/FinishLrcButtonDelegate.h \
     $$PWD/table/FinishLrcTableModel.h \
     $$PWD/table/FinishLrcTableView.h\
-    $$PWD/BesEditDialog.h
+    $$PWD/BesEditDialog.h\
+    $$PWD/BesSlider.h\
 
 SOURCES+=\
     $$PWD/BesFramelessWidget.cpp \

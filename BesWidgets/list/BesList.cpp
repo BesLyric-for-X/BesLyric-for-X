@@ -99,6 +99,9 @@ void BesList::moveRow(int from, int to)
 
 	LyricList item = pLyricLists->at(from);
 	pLyricLists->removeAt(from);
+
+    if(to > pLyricLists->size())
+        to = pLyricLists->size();
 	pLyricLists->insert(to,item);
 
 	emit sig_listDataChanged();

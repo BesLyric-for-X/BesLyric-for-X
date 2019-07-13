@@ -51,7 +51,7 @@ void BottomWidget::initLayout()
     labelTimeCurrent->setMaximumWidth(100 * BesScaleUtil::mscale());
     labelTimeCurrent->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
-    sliderSong = new QSlider(bottomWidgetContainer);
+    sliderSong = new BesSlider(bottomWidgetContainer);
     sliderSound= new QSlider(bottomWidgetContainer);
     sliderSong->setObjectName("sliderSong");
     sliderSound->setObjectName("sliderSound");
@@ -127,6 +127,7 @@ void BottomWidget::initConnection()
     connect(sliderSong, &QSlider::sliderPressed, this, &BottomWidget::onSliderSongPressed);
     connect(sliderSong, &QSlider::sliderMoved, this, &BottomWidget::onSliderSongMoved);
     connect(sliderSong, &QSlider::sliderReleased, this, &BottomWidget::onSliderSongReleased);
+    connect(sliderSong, &BesSlider::sig_clickNotOnHandle, this, &BottomWidget::onSliderSongClickNotOnHandle);
 
     connect(btnSound, &BesButton::toggled, this, &BottomWidget::onSoundToggle);
     connect(sliderSound, &QSlider::valueChanged, musicPlayer, &MusicPlayer::setVolume);
@@ -340,6 +341,12 @@ void BottomWidget::onSliderSongReleased()
 
         AdjustingPos = false;
     }
+}
+
+void BottomWidget::onSliderSongClickNotOnHandle(int position)
+{
+    int posMusic = musicPlayer->duration() * position / 1000;
+    musicPlayer->seek(posMusic);
 }
 
 void BottomWidget::onSoundToggle(bool mute)

@@ -20,6 +20,12 @@ void ThreadConvertMp3::doTask(ConvertTask task)
 
 void ThreadConvertMp3::OnGetEditResultd(bool success, QString path, QString errorTip)
 {
+    if(!success)
+    {
+        BesMessageBox::information(tr("提示"),
+            tr("转换 mp3 时发生错误")+ "\n\n" + tr("出错细节:")+ errorTip + "("+ path +")");
+    }
+
     oneConvertDone = true;
 }
 
