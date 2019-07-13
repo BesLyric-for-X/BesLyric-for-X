@@ -740,21 +740,7 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
         emit audioPause();
     });
-    connect(playThread, &PlayThread::audioFinish,[=](bool isEndByForce){
-        qDebug()<<"&PlayThread::audioFinish bIsLock="<<bIsLock;
-
-        bIsLock = true;
-        audioFinishedToThreadExitMutex.lock();
-        emit audioFinish(isEndByForce);
-
-        //音频结束有2种情况，一种是自然结束(isEndByForce=false);另一种(isEndByForce=true)是调用 playThread->setAGStatus(AGS_FINISH);（MusicPlayer::stop()中调用）
-        //后者在 MusicPlayer::stop() 停止了定时器，这里处理前一种情况下的定时器
-        if(false == isEndByForce)
-            m_positionUpdateTimer.stop();
-
-        //音频结束，时间归0
-        emit positionChanged(0);
-    });
+    connect(playThread, SIGNAL(audioFinish(bool)),this, SLOT(onAudioFinish(bool)));
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
@@ -1010,6 +996,23 @@ void MusicPlayer::onErrorOccurs(int code, QString msg)
 {
     bInvalidMedia = true;
     emit errorOccur(code, msg);
+}
+
+void MusicPlayer::onAudioFinish(bool isEndByForce)
+{
+    qDebug()<<"&PlayThread::audioFinish bIsLock="<<bIsLock;
+
+    bIsLock = true;
+    audioFinishedToThreadExitMutex.lock();
+    emit audioFinish(isEndByForce);
+
+    //音频结束有2种情况，一种是自然结束(isEndByForce=false);另一种(isEndByForce=true)是调用 playThread->setAGStatus(AGS_FINISH);（MusicPlayer::stop()中调用）
+    //后者在 MusicPlayer::stop() 停止了定时器，这里处理前一种情况下的定时器
+    if(false == isEndByForce)
+        m_positionUpdateTimer.stop();
+
+    //音频结束，时间归0
+    emit positionChanged(0);
 }
 
 

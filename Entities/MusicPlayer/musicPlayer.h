@@ -296,6 +296,7 @@ public slots:
 private slots:
     void sendPosChangedSignal();
     void onErrorOccurs(int ,QString);
+    void onAudioFinish(bool isForcedEnd);
 
 private:
     //歌曲文件信息
