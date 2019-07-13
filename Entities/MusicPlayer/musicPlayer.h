@@ -298,6 +298,7 @@ public slots:
 private slots:
     void sendPosChangedSignal();
     void onErrorOccurs(int ,QString);
+    void onStartTimer();
     void onStopTimer();
 
 private:
