@@ -242,6 +242,7 @@ public:
 
     void setMusicPath(QString path);
     QString getMusicPath();
+    bool isCurrentInvalidMedia(); //判断当前设置的歌曲是否被标记为无效
 
     //音乐文件信息
     QString getTitle();
@@ -316,6 +317,8 @@ private:
 
     QMutex audioFinishedToThreadExitMutex;	//保证音频结束到线程结束之间，播放操作不能进行
     bool bIsLock;
+
+    bool bInvalidMedia;               //在发生错误之后置为true,在每次重新调用 setMusicPath后重置为false
 };
 
 #endif // MUSIC_PLAYER_H

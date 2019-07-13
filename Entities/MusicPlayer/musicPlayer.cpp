@@ -342,23 +342,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
     char url[1024];
     index = 0;
 
-    //char url[]="xiaoqingge.mp3";              //test
-    //char url[]="小情歌.mp3";
-    //char url[]="Janice Morning.mp3";
-
-    //url = "A - Something's Going On.mp3";
-    //char url[] ="A - Starbucks.mp3";
-    //char url[] ="A - The Distance.mp3";
-    //char url[] ="Acreix - Visions.mp3";
-	//A - Starbucks.wav
-
-    strcpy(url, "A - Starbucks.wav");
-    strcpy(url, "xiaoqingge.mp3");
-    strcpy(url, "A - Something's Going On.wav");
-    strcpy(url, "HOPE-T,接个吻，开一枪 - 锦里.mp3");
-
     strcpy(url, musicPath.toUtf8());            //播放路径
-
 
     av_register_all();
     avformat_network_init();
@@ -818,11 +802,17 @@ void MusicPlayer::setMusicPath(QString path)
 {
 	musicPath = path;
 	playThread->setMusicPath(path);
+    bInvalidMedia = false;
 }
 
 QString MusicPlayer::getMusicPath()
 {
     return musicPath;
+}
+
+bool MusicPlayer::isCurrentInvalidMedia()
+{
+    return bInvalidMedia;
 }
 
 //音乐文件信息
@@ -1014,6 +1004,7 @@ void MusicPlayer::sendPosChangedSignal()
 
 void MusicPlayer::onErrorOccurs(int code, QString msg)
 {
+    bInvalidMedia = true;
     emit errorOccur(code, msg);
 }
 

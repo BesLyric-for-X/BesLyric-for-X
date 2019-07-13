@@ -6,6 +6,7 @@
 #include <QString>
 #include <QTextCodec>
 #include <QFile>
+#include <QDebug>
 
 class UnicodeReader
 {
@@ -54,6 +55,18 @@ public:
 
         QTextCodec::ConverterState state;
         QString text = codec->toUnicode( ba.constData(), ba.size(), &state);
+
+        //去掉最后可能存在的 \u0000
+        int countOfEndZero = 0;
+        for(int i=text.size()-1;i >=0; i--)
+        {
+            if(text[i] != '\0')
+                break;
+            else
+                countOfEndZero++;
+        }
+        if(countOfEndZero != 0)
+            text.truncate(text.size()-countOfEndZero);
 
         return text;
     }

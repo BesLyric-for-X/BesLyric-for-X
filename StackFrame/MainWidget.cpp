@@ -258,8 +258,9 @@ void MainWidget::onAudioFinished(bool isEndWithForce)
 
     if(nPlayMode == 1) //单曲循环模式，直接重新播放
     {
-        //播放歌曲
-        bottomWidget->play();
+        if(!bottomWidget->musicPlayer->isCurrentInvalidMedia())
+            //播放歌曲
+            bottomWidget->play();
     }
 }
 
