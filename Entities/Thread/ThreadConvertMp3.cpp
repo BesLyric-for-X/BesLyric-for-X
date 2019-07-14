@@ -37,6 +37,7 @@ void ThreadConvertMp3::run()
         //QString localImagePath;
         QString pathImage;
         CustomMp3Data mp3Data;
+        int index,index1,index2;
 
         //根据 songNcmId 下载歌曲的信息（包括专辑图片url）
         NcmDetailInfo info;
@@ -47,9 +48,9 @@ void ThreadConvertMp3::run()
 
         //下载专辑图片
         info.albumPicUrl;
-        int index1 = task.sourceMp3FilePath.lastIndexOf('/');
-        int index2 = task.sourceMp3FilePath.lastIndexOf('\\');
-        int index = qMax(index1, index2);
+        index1 = task.sourceMp3FilePath.lastIndexOf('/');
+        index2 = task.sourceMp3FilePath.lastIndexOf('\\');
+        index = qMax(index1, index2);
         if(index == -1)
             goto directCopy;
 
