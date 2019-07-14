@@ -278,9 +278,15 @@ void BottomWidget::positionChanged(int position)
         audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
         qDebug()<<"BottomWidget::positionChanged => audioOriginalPos="<<audioOriginalPos<<" sliderSong->value()="<<sliderSong->value();
 
-        int pecentOfThousand = musicPlayer->duration() == 0? 0: int(1.0 * position / musicPlayer->duration() * 1000);
-        sliderSong->setValue(pecentOfThousand);
+        int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
 
+        if( musicPlayer->duration() == 0) //检测到播放结束时，将当前位置置0
+        {
+            pecentOfThousand = 0;
+            position = 0;
+        }
+
+        sliderSong->setValue(pecentOfThousand);
         showPosition(position);
     }
 }

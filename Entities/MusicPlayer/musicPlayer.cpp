@@ -752,7 +752,10 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
                                                 //因为该锁在 音频结束时加锁，在线程结束后解锁，如果异步调用可能先结束线程而解锁，然
                                                 //后再最后执行加锁，这样再次播放音频时就会形成死锁
         emit audioFinish(isEndByForce);
+        //emit positionChanged(0);
     });
+    connect(playThread, &PlayThread::audioPlay, this, &MusicPlayer::onStartTimer);
+    connect(playThread, &PlayThread::audioPause, this, &MusicPlayer::onStopTimer);
     connect(playThread, &PlayThread::audioFinish, this, &MusicPlayer::onStopTimer);
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
@@ -779,9 +782,6 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
     // 所以发送异步信号 QueuedConnection；经过实际运行结果来看，还需要等待 slot 执行完再返回，所以用 BlockingQueuedConnection
     connect(playThread, &PlayThread::errorOccur, this, &MusicPlayer::onErrorOccurs, Qt::BlockingQueuedConnection);
 
-
-//    m_interval = 50;
-//    m_positionUpdateTimer.setInterval(m_interval);
     connect(&m_positionUpdateTimer, &QTimer::timeout, this, &MusicPlayer::sendPosChangedSignal);
 
     m_position = 0;
@@ -844,11 +844,7 @@ void MusicPlayer::reload()
     while(playThread->isRunning())
         _millisecondSleep(10); //等待结束
 
-
     play();
-
-    if(!m_positionUpdateTimer.isActive())
-        m_positionUpdateTimer.start();
 }
 
 
@@ -881,10 +877,6 @@ void MusicPlayer::play()
     else
         playThread->playDevice();
     audioFinishedToThreadExitMutex.unlock();
-
-    if(!m_positionUpdateTimer.isActive())
-        m_positionUpdateTimer.start();
-
 }
 
 void MusicPlayer::pause()
@@ -893,9 +885,6 @@ void MusicPlayer::pause()
 
     if(state() == PlayingState){
         playThread->pauseDevice();
-
-        if(m_positionUpdateTimer.isActive())
-            m_positionUpdateTimer.stop();
     }
 }
 
@@ -923,10 +912,7 @@ void MusicPlayer::seek(quint64 pos)
     if(state() == StoppedState)
         return;
 
-    if(m_positionUpdateTimer.isActive())
-    {
-        m_positionUpdateTimer.stop();
-    }
+    onStopTimer();
 
     //先获得总长
     quint64 total = duration();
@@ -937,10 +923,9 @@ void MusicPlayer::seek(quint64 pos)
 
 	playThread->seekToPos(pos);
 
-    if(!m_positionUpdateTimer.isActive())//之后是否需要添加：暂停时seek后继续暂停
-    {
-        m_positionUpdateTimer.start();
-    }
+    onStartTimer();
+
+    //#TODO 之后是否需要添加：暂停时seek后继续暂停
 }
 
 //往后跳（单位 毫秒）
@@ -1005,13 +990,16 @@ void MusicPlayer::onErrorOccurs(int code, QString msg)
     emit errorOccur(code, msg);
 }
 
+void MusicPlayer::onStartTimer()
+{
+    if(!m_positionUpdateTimer.isActive())
+        m_positionUpdateTimer.start();
+}
+
 void MusicPlayer::onStopTimer()
 {
     if(m_positionUpdateTimer.isActive())
-    {
         m_positionUpdateTimer.stop();
-        emit positionChanged(0);       //停止了timer ，自己发送0时间
-    }
 }
 
 
