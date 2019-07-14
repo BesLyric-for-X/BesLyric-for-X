@@ -220,8 +220,6 @@ void SubPageDownloadLyric::initLayout()
     btnLrcLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
 
     editLrcLyricPanelSavePath->setReadOnly(true);
-    editLrcLyricPanelSong->setFocusPolicy(Qt::NoFocus);
-    editLrcLyricPanelArtist->setFocusPolicy(Qt::NoFocus);
     editLrcLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editLrcLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultOutputPath);
 
