@@ -764,6 +764,8 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
             audioFinishedToThreadExitMutex.unlock();
             bIsLock = false;
         }
+
+        emit positionChanged(0); // 最后触发一次 BottomWidget::positionChanged，如果是单曲播放，则可达到进度条清零的效果
     });
     connect(playThread, &PlayThread::volumeChanged,[=](uint8_t volume){
         emit volumeChanged(volume);}
