@@ -754,9 +754,9 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
         emit audioFinish(isEndByForce);
         //emit positionChanged(0);
     });
-    connect(playThread, SIGNAL(audioPlay()),this, SLOT(onStartTimer()));
-    connect(playThread, SIGNAL(audioPause()),this, SLOT(onStopTimer()));
-    connect(playThread, SIGNAL(audioFinish(bool)),this, SLOT(onStopTimer()));
+    connect(playThread, &PlayThread::audioPlay, this, &MusicPlayer::onStartTimer);
+    connect(playThread, &PlayThread::audioPause, this, &MusicPlayer::onStopTimer);
+    connect(playThread, &PlayThread::audioFinish, this, &MusicPlayer::onStopTimer);
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
