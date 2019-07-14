@@ -748,11 +748,10 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
         qDebug()<<"&PlayThread::audioFinish bIsLock="<<bIsLock;
 
         bIsLock = true;
-        audioFinishedToThreadExitMutex.lock();  //该互斥锁必须在此以同步方式被 playThread 调用
+        audioFinishedToThreadExitMutex.lock();  //该互斥锁必须在此以同步方式被 playThread 调用(这里使用lamda表达式连接信号效果上似乎是Qt::ConnectionType 中的 Qt::DirectConnection)
                                                 //因为该锁在 音频结束时加锁，在线程结束后解锁，如果异步调用可能先结束线程而解锁，然
                                                 //后再最后执行加锁，这样再次播放音频时就会形成死锁
         emit audioFinish(isEndByForce);
-        //emit positionChanged(0);
     });
     connect(playThread, &PlayThread::audioPlay, this, &MusicPlayer::onStartTimer);
     connect(playThread, &PlayThread::audioPause, this, &MusicPlayer::onStopTimer);

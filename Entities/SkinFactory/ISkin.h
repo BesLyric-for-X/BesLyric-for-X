@@ -21,12 +21,12 @@ public:
         return QString::number(numAfterScale);
     }
 
-    //缩放字体大小,得到字符串表示
-    inline QString scaleFontSize(int size)
-    {
-        int sizeAfterScale = BesScaleUtil::fontSizeScale(size);
-        return QString::number(sizeAfterScale);
-    }
+//    //缩放字体大小,得到字符串表示
+//    inline QString scaleFontSize(int size)
+//    {
+//        int sizeAfterScale = BesScaleUtil::fontSizeScale(size);
+//        return QString::number(sizeAfterScale);
+//    }
 
     //获得 CSS 样式字符串
     QString GetCssString()

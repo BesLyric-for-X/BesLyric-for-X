@@ -47,10 +47,10 @@ public:
     {
         int sizeAfterScale = size * BesScaleUtil::scale();
 
-        if(sizeAfterScale != size)
-        {
-            sizeAfterScale = (sizeAfterScale + size)*3/4;
-        }
+//        if(sizeAfterScale != size)
+//        {
+//            sizeAfterScale = (sizeAfterScale + size)*3/4; //和原来想加再乘3/4是调试结果，可能还不是最好的结果
+//        }
 
         return sizeAfterScale;
     }
