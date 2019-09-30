@@ -559,7 +559,7 @@ void SubPageMaking::finishMaking()
         else
         {
             QFileInfo musicFile(pathMusic);
-            QString outputFile = pathOutputDir + "/" + musicFile.baseName() + ".lrc";
+            QString outputFile = pathOutputDir + "/" + musicFile.completeBaseName() + ".lrc";
 
             if(lyricMaker.saveLyrc(outputFile))
             {
