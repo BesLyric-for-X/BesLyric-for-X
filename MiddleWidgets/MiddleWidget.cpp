@@ -176,7 +176,7 @@ void MiddleWidget::geometryAnimationFinish()
 void MiddleWidget::onReloadMusic(QString musicFileNamePath)
 {
     QFileInfo fileinfo(musicFileNamePath);
-    onSetMusicTitle(fileinfo.baseName());
+    onSetMusicTitle(fileinfo.completeBaseName());
     onSetMusicArtist("");                   //重载时，歌手未知
 
     pagePreviewLyric->setToDefaultAlbumImage();

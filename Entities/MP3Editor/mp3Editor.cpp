@@ -317,7 +317,7 @@ void ConvertThread::buildOptionContent(OptionParseContext *octx)
      if(customData.mp3OutputPath.isEmpty())
      {
          QFileInfo fileInfo(inputMp3Path);
-         outputMp3Path = fileInfo.dir().absolutePath()+"/"+fileInfo.baseName()+"-converted.mp3";
+         outputMp3Path = fileInfo.dir().absolutePath()+"/"+fileInfo.completeBaseName()+"-converted.mp3";
      }
      else
      {
