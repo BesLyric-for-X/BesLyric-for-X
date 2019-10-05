@@ -49,21 +49,17 @@ protected:
     void mouseMoveEvent(QMouseEvent *ev){
 //        qDebug()<<"mouseMoveEvent: "<<ev->pos();
 
-        if(!enableMouseEvt){
-            QSlider::mouseMoveEvent(ev);
-            return;
-        }
+        // 为了精简逻辑，这里无条件调用父类方法，不知有何隐患
+        QSlider::mouseMoveEvent(ev);
 
-        if (isPointInHandle(ev->pos())) {
+        if (enableMouseEvt && isPointInHandle(ev->pos())) {
             qDebug() << "handle hovering";
 
             setCursor(QCursor(Qt::PointingHandCursor));
         }
         else{
-            unsetCursor();
+            unsetCursor();// 去掉 enableMouseEvt 条件判断后，能让鼠标在歌曲结束前变为 Qt::PointingHandCursor 后，在歌曲结束后变回默认样式
         }
-
-        QSlider::mouseMoveEvent(ev);
     }
 
     //重写QSlider的mousePressEvent事件
@@ -74,12 +70,13 @@ protected:
         if(!enableMouseEvt)
             return;
 
-        if (isPointInHandle(ev->pos())) {
+        bool isOnHandle = isPointInHandle(ev->pos());
+        QSlider::mousePressEvent(ev); //在这之后拿到的 pos() 和 value() 都是移动后的，手柄也移动到了新位置，所以需要先判断，存到 isOnHandle 里
+
+        if (isOnHandle) {
             qDebug() << "handle clicked";
-            QSlider::mousePressEvent(ev);
         }
         else{
-            QSlider::mousePressEvent(ev);
             //发送自定义的鼠标单击信号
             emit sig_clickNotOnHandle(value());
         }
