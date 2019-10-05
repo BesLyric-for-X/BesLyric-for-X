@@ -127,7 +127,7 @@ void BottomWidget::initConnection()
     connect(sliderSong, &QSlider::sliderPressed, this, &BottomWidget::onSliderSongPressed);
     connect(sliderSong, &QSlider::sliderMoved, this, &BottomWidget::onSliderSongMoved);
     connect(sliderSong, &QSlider::sliderReleased, this, &BottomWidget::onSliderSongReleased);
-    connect(sliderSong, &BesSlider::sig_clickNotOnHandle, this, &BottomWidget::onSliderSongClickNotOnHandle);
+    connect(sliderSong, &BesSlider::sig_refreshClickPos, this, &BottomWidget::onSliderSongClicked);
 
     connect(btnSound, &BesButton::toggled, this, &BottomWidget::onSoundToggle);
     connect(sliderSound, &QSlider::valueChanged, musicPlayer, &MusicPlayer::setVolume);
@@ -276,7 +276,7 @@ void BottomWidget::positionChanged(int position)
     if(!AdjustingPos)
     {
 //        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
-        qDebug()<<"void BottomWidget::positionChanged => position="<<position<<" sliderSong->value()="<<sliderSong->value();
+        qDebug()<<"void BottomWidget::positionChanged => position="<<position<<" sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
         int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
 
@@ -348,7 +348,7 @@ void BottomWidget::onSliderSongReleased()
 //    }
 }
 
-void BottomWidget::onSliderSongClickNotOnHandle(int position)
+void BottomWidget::onSliderSongClicked(int position)
 {
     qDebug()<<"void BottomWidget::onSliderSongClickNotOnHandle(int position"<<position<<")";
 

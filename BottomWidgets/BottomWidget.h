@@ -48,7 +48,7 @@ private slots:
     void onSliderSongMoved(int position);
     void onSliderSongPressed();
     void onSliderSongReleased();
-    void onSliderSongClickNotOnHandle(int position);
+    void onSliderSongClicked(int position);
 
     void onSoundToggle(bool);
     void onSliderSoundChanged(int);

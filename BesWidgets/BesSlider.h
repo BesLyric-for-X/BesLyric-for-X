@@ -35,14 +35,17 @@ public:
     }
 
 protected:
-    bool isPointInHandle(QPoint point){
+    QRect getHandleRect(){
         // https://stackoverflow.com/questions/52550633/how-to-emit-a-signal-if-double-clicking-on-slider-handle
 
         initStyleOption(&qStyleOptionStyle);
         QRect subControlRect = this->style()->subControlRect(QStyle::CC_Slider, &qStyleOptionStyle, QStyle::SC_SliderHandle, this);
-        QPoint clickPoint = point;
 
-        return subControlRect.contains(clickPoint);
+        return subControlRect;
+    }
+
+    bool isPointInHandle(QPoint point){
+        return getHandleRect().contains(point);
     }
 
     // 用 mouseMoveEvent 事件来处理鼠标形状
@@ -62,6 +65,26 @@ protected:
         }
     }
 
+    //重写QSlider的mouseReleaseEvent事件以使 &QSlider::sliderReleased 的接收者由 sig_refreshClickPos 信号获得最新位置
+    void mouseReleaseEvent(QMouseEvent *ev){
+//        qDebug()<<"mouseReleaseEvent: "<<ev->pos();
+
+        // isHandleClicked 判断释放鼠标前是否点击了 handle
+        // ev->pos()== oldPos 判断释放鼠标前后位置是否相同
+        if(isHandleClicked && ev->pos()== oldPos){
+            qDebug()<<"handle will not move";
+
+            //没有移动，用旧位置刷新，以回到 sliderSong（的 handle 的）之前的位置
+            emit sig_refreshClickPos(oldValue);
+        }else{
+            //如果移动了，就刷新当前位置
+            emit sig_refreshClickPos(value());
+        }
+
+        //在这之前发送 sig_refreshClickPos，避免 &QSlider::sliderReleased 的接收者没有拿到最新位置
+        QSlider::mouseReleaseEvent(ev);
+    }
+
     //重写QSlider的mousePressEvent事件
     void mousePressEvent(QMouseEvent *ev)
     {
@@ -70,16 +93,22 @@ protected:
         if(!enableMouseEvt)
             return;
 
-        bool isOnHandle = isPointInHandle(ev->pos());
-        QSlider::mousePressEvent(ev); //在这之后拿到的 pos() 和 value() 都是移动后的，手柄也移动到了新位置，所以需要先判断，存到 isOnHandle 里
+        oldPos = ev->pos();
+        oldValue = value();
 
-        if (isOnHandle) {
+        isHandleClicked = isPointInHandle(oldPos);
+        if (isHandleClicked) {
             qDebug() << "handle clicked";
+
+            //用 handle 中心点代替实际点击位置，避免在点击到 handle 非中心位置时移动 handle，使 handle 看起来是能在任何位置被拖动的
+            ev->setLocalPos(getHandleRect().center());
         }
-        else{
-            //发送自定义的鼠标单击信号
-            emit sig_clickNotOnHandle(value());
-        }
+
+        QSlider::mousePressEvent(ev); //在这之后，手柄移动到了点击的位置，value() 也变为点击处的值，所以任何判断都要在之前进行
+
+        //刷新当前位置
+        // 在这里执行没有意义，&QSlider::sliderPressed 的接收者也无法做更多的工作，所以放到 mouseReleaseEvent(ev) 中发送
+//        emit sig_refreshClickPos(value());
 
         //注意应先调用父类的鼠标点击处理事件，这样可以不影响拖动的情况
 //        QSlider::mousePressEvent(ev); //这会造成移动，之后拿到的value()都是移动后的
@@ -116,13 +145,17 @@ protected:
 //    }
 
 signals:
-    void sig_clickNotOnHandle(int pos);
+    void sig_refreshClickPos(int pos);
 
 private:
 //    int minValue = 0;
 //    int maxValue = 0;
 //    double handleWidthValue = 30; //滑块handle的大小，这个取值会作为 sig_clickNotOnHandle 发送时判断是否在handle之外的依据
     bool enableMouseEvt = false;  //默认禁用
+
+    QPoint oldPos;
+    int oldValue = 0;
+    bool isHandleClicked = false;
 
     QStyleOptionSlider qStyleOptionStyle;
 
