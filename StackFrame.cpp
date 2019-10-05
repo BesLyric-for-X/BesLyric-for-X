@@ -36,6 +36,12 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
 StackFrame::~StackFrame()
 {
 
+    // QThread: Destroyed while thread is still running
+    // 现在的问题是，能否做到立即结束线程。
+    login.exit(1);
+    login.wait();
+    checkUpdate.exit(1);
+    checkUpdate.wait();
 }
 
 void StackFrame::initSetting()
