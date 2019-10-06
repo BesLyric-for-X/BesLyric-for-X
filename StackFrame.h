@@ -38,6 +38,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
+    void moveEvent(QMoveEvent *event);
+
     virtual void resizeEvent(QResizeEvent *event);
 
 public slots:
@@ -46,6 +48,10 @@ public slots:
     void SetSpecialSkin(QString skinName, bool bFirstInit = false);  //有一些样式无法实现的效果，放在这里应用
 
     void toggleMaxRestoreStatus();          //切换最大化和恢复2个状态
+    void resizeScreenAvailableRegion(const QRect &geometry); //availableGeometry 变化时，例如任务栏变位置，分辨率变化
+                                                             //  此方法经修改后可以写到 BesFramelessWidget 类中作为公共行为。
+                                                             //  当然，切换最大化与正常状态的代码也需要修改
+
     void toggleSkinBox();                   //显示或隐藏皮肤盒
     void toggleAddItemWidget();             //显示或隐藏添加列表项控件
 

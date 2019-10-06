@@ -4,6 +4,8 @@
 #include "SettingManager.h"
 #include "BesScaleUtil.h"
 
+#include <QScreen>
+
 StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr),addItemWidget(nullptr)
 {
@@ -73,6 +75,8 @@ void StackFrame::initConnection()
 
     connect(mainWidget->topWidget->btnMax, &BesButton::clicked, this, &StackFrame::toggleMaxRestoreStatus);
     connect(mainWidget->topWidget->btnRestore, &BesButton::clicked, this, &StackFrame::toggleMaxRestoreStatus);
+
+    connect(QApplication::primaryScreen(), &QScreen::availableGeometryChanged, this, &StackFrame::resizeScreenAvailableRegion);
 
     connect(mainWidget->topWidget->btnSkinBox, &BesButton::clicked, this, &StackFrame::toggleSkinBox);
     connect(mainWidget->middleWidget->pageLyricList->headerListCreated, &BesListHeader::sig_addButtonClicked, this, &StackFrame::toggleAddItemWidget);
@@ -162,6 +166,8 @@ void StackFrame::mousePressEvent(QMouseEvent *event)
 
 void StackFrame::resizeEvent(QResizeEvent *event)
 {
+    qDebug()<<"StackFrame::resizeEvent(QResizeEvent "<<event->size();
+
     BesFramelessWidget::resizeEvent(event);
 
     QRect mainWidgetRect = QRect(borderMain ,borderMain,
@@ -232,11 +238,39 @@ void  StackFrame::toggleMaxRestoreStatus()
     {
         showMaximized();
 
-        setGeometry(-borderMain, -borderMain, width()+2*borderMain, height()+ 2*borderMain);
+        //在桌面左上角不为 (0, 0) 时，这个就不能用了
+//        setGeometry(-borderMain, -borderMain, width()+2*borderMain, height()+ 2*borderMain);
+
+        //https://stackoverflow.com/questions/2641193/qt-win-showmaximized-overlapping-taskbar-on-a-frameless-window
+        //要获取真实的可用范围，而不是写死
+        QRect availableGeometry(QApplication::desktop()->availableGeometry());
+        availableGeometry.adjust(-borderMain, -borderMain, 2 * borderMain, 2 * borderMain);
+        setGeometry(availableGeometry);
 
         mainWidget->topWidget->btnMax->setVisible(false);
         mainWidget->topWidget->btnRestore->setVisible(true);
     }
+}
+
+void StackFrame::resizeScreenAvailableRegion(const QRect &geometry)
+{
+    qDebug()<<"StackFrame::resizeScreenAvailableRegion(geometry:"<<geometry<<") isMaximized():"<<isMaximized();
+
+    if(isMaximized()){
+        //查看 debug 信息，如果不先恢复正常再最大化，多次调整任务栏位置后，自己的最大化状态就会在 StackFrame::moveEvent() 被调用前变为 False（原因未知），
+        //  因此调用了两遍 toggleMaxRestoreStatus()。这种方法效率低，过程看着也丑，但是最终的结果很符合预期
+        toggleMaxRestoreStatus();
+        toggleMaxRestoreStatus();
+        //传入的 geometry 参数可以忽略，因为在 toggleMaxRestoreStatus() 中当 isMaximized() 时，
+        //  会重新获取 availableGeometry() 并重新计算可用范围
+    }
+}
+
+void StackFrame::moveEvent(QMoveEvent *event)
+{
+    qDebug()<<"StackFrame::moveEvent(event->pos():"<<event->pos()<<") isMaximized():"<<isMaximized();
+
+    BesFramelessWidget::moveEvent(event);
 }
 
 //显示或隐藏皮肤盒

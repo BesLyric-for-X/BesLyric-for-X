@@ -3,6 +3,8 @@
 #include "BesFramelessWidget.h"
 #include "BesScaleUtil.h"
 
+#include <QDebug>
+
 BesFramelessWidget::BesFramelessWidget(QWidget *parent)
     : BesShadowWidget(parent)
 {
@@ -68,6 +70,15 @@ void BesFramelessWidget::mousePressEvent(QMouseEvent *event)
 
 void BesFramelessWidget::mouseMoveEvent(QMouseEvent *event)
 {
+//    qDebug()<<"BesFramelessWidget::mouseMoveEvent isMaximized()="<<isMaximized();
+
+    if(isMaximized()){
+        QWidget::mouseMoveEvent(event);
+
+        //最大化时不进行更多处理
+        return;
+    }
+
     QPoint gloPoint = event->globalPos();
     QRect rect = this->rect();
     QPoint tl = mapToGlobal(rect.topLeft());
