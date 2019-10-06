@@ -202,7 +202,7 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
             if(logAudio)
             {
                 logAudio = false;
-                qDebug() << "to " <<MS->audio_clock ;
+                qDebug() << "to " <<MS->audio_clock ; // ???输出的是原时间而不是seek时间
             }
         }
 
@@ -334,6 +334,8 @@ AudioGenStatus PlayThread::getAGStatus()
 
 void  PlayThread::seekToPos(quint64 pos)
 {
+    qDebug()<<"void  PlayThread::seekToPos(pos="<<pos<<")";
+
 	millisecondToSeek = pos; 
 	AGStatus = AGS_SEEK;
 }
@@ -596,7 +598,7 @@ void PlayThread::generateAudioDataLoop()
                else
                {
                    logAudio = true;
-                   qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to :";
+                   qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to :"<<millisecondToSeek;
                    if (audioStream!=-1) //audio
                    {
                     avcodec_flush_buffers(pCodecCtx);
@@ -910,10 +912,12 @@ void MusicPlayer::stop()
 //跳到时间点播放（单位 毫秒）
 void MusicPlayer::seek(quint64 pos)
 {
+    qDebug()<<"void MusicPlayer::seek(pos="<<pos<<")";
+
     if(state() == StoppedState)
         return;
 
-    onStopTimer();
+//    onStopTimer();// playThread->seekToPos(pos) -> AGStatus = AGS_SEEK -> void PlayThread::generateAudioDataLoop() -> pauseDevice() 会做这个工作
 
     //先获得总长
     quint64 total = duration();
@@ -924,7 +928,7 @@ void MusicPlayer::seek(quint64 pos)
 
 	playThread->seekToPos(pos);
 
-    onStartTimer();
+//    onStartTimer();// too early. 同上面的 onStopTimer()
 
     //#TODO 之后是否需要添加：暂停时seek后继续暂停
 }
@@ -981,6 +985,8 @@ void MusicPlayer::setNotifyInterval(int msec)
 
 void MusicPlayer::sendPosChangedSignal()
 {
+    qDebug()<<"void MusicPlayer::sendPosChangedSignal() playThread->getCurrentTime()="<<playThread->getCurrentTime();
+
     m_position = playThread->getCurrentTime();
     emit positionChanged(m_position);
 }
@@ -993,12 +999,16 @@ void MusicPlayer::onErrorOccurs(int code, QString msg)
 
 void MusicPlayer::onStartTimer()
 {
+    qDebug()<<"void MusicPlayer::onStartTimer()";
+
     if(!m_positionUpdateTimer.isActive())
         m_positionUpdateTimer.start();
 }
 
 void MusicPlayer::onStopTimer()
 {
+    qDebug()<<"void MusicPlayer::onStopTimer()";
+
     if(m_positionUpdateTimer.isActive())
         m_positionUpdateTimer.stop();
 }
