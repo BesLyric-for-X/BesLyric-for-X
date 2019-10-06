@@ -115,9 +115,9 @@ void BottomWidget::initEntity()
     posAdjust = 0;
 
     musicPlayer = new MusicPlayer(this);
-    musicPlayer->setNotifyInterval(33);
+    musicPlayer->setNotifyInterval(0);//之前是 33。置于 0 能看到 BottomWidget::positionChanged(int position) 被调用的“不同步”导致sliderSong的闪动
 
-    bInMakingMode = false;
+//    bInMakingMode = false;
 }
 
 void BottomWidget::initConnection()
@@ -239,14 +239,14 @@ void BottomWidget::seekBackward(quint64 step)
 //进入制作模式
 void BottomWidget::enterMakingMode()
 {
-    bInMakingMode = true;
+//    bInMakingMode = true;
 }
 
 //middleWidget->pageMain->subPageMaking,SIGNAL(onExitMakingMode()) emitted
 //退出制作模式
 void BottomWidget::exitMakingMode()
 {
-    bInMakingMode = false;
+//    bInMakingMode = false;
 }
 
 //btnPlayAndPause->clicked(bool) emitted
@@ -275,8 +275,8 @@ void BottomWidget::positionChanged(int position)
 {
     if(!AdjustingPos)
     {
-        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
-        qDebug()<<"BottomWidget::positionChanged => audioOriginalPos="<<audioOriginalPos<<" sliderSong->value()="<<sliderSong->value();
+//        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
+        qDebug()<<"void BottomWidget::positionChanged => position="<<position<<" sliderSong->value()="<<sliderSong->value();
 
         int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
 
@@ -312,46 +312,54 @@ void BottomWidget::onSliderSongMoved(int position)
 {
     qDebug()<<"void BottomWidget::onSliderSongMoved(int position="<<position<<")";
 
-    if(AdjustingPos){
-        posAdjust = musicPlayer->duration() * position / 1000;
-        showPosition(posAdjust);
-    }
-    else{
+//    if(AdjustingPos){
+        posAdjust = musicPlayer->duration() * static_cast<quint64>(position) / 1000;
+        showPosition(static_cast<int>(posAdjust));
+//    }
+//    else{
         //制作歌词时，AdjustingPos始终为 false, positionChanged 会一直更新进度条，
         //此时，用户按下拖动，也无需处理了
-    }
+//    }
 }
 
 void BottomWidget::onSliderSongPressed()
 {
     qDebug()<<"void BottomWidget::onSliderSongPressed() sliderSong->value()="<<sliderSong->value()<<" musicPlayer->state()="<<musicPlayer->state();
 
-    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
-        return ; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
-    }
+//    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
+//        return ; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
+//    }
 
     AdjustingPos = true;
-    posAdjust = -1; // -1 标记表示还没有任何拖动
+//    posAdjust = -1; // -1 标记表示还没有任何拖动
 }
 
 void BottomWidget::onSliderSongReleased()
 {
     qDebug()<<"void BottomWidget::onSliderSongReleased() sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
-    if(AdjustingPos){
-        if(posAdjust == -1)
-            musicPlayer->seek(audioOriginalPos);
-        else
+//    if(AdjustingPos){
+//        if(posAdjust == -1)
+//            musicPlayer->seek(audioOriginalPos);
+//        else
             musicPlayer->seek(posAdjust);
 
         AdjustingPos = false;
-    }
+//    }
 }
 
 void BottomWidget::onSliderSongClickNotOnHandle(int position)
 {
-    int posMusic = musicPlayer->duration() * position / 1000;
-    musicPlayer->seek(posMusic);
+    qDebug()<<"void BottomWidget::onSliderSongClickNotOnHandle(int position"<<position<<")";
+
+//    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
+//        return; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
+//    }
+
+    posAdjust = musicPlayer->duration() * static_cast<quint64>(position) / 1000;
+
+    //    int posMusic = musicPlayer->duration() * position / 1000;
+    //    musicPlayer->seek(posMusic);
 }
 
 void BottomWidget::onSoundToggle(bool mute)
