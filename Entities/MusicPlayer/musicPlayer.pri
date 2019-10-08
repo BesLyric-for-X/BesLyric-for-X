@@ -17,15 +17,19 @@ win32{
 #根据开发者自己 ffmpeg 和 sdl 库路径，可对如下路径进行修改，不过建议 库安装在 C:/lib 下，
 #   具体使用步骤，可参看项目： https://github.com/BensonLaur/beslyric-lib
 
+WIN32_LIB_PATH = C:/lib/beslyric-lib
+
 #ffmpeg
 
-FFMPEG_INCLUDE  =   C:/lib/beslyric-lib/win32/ffmpeg_4_0_1/include
-FFMPEG_LIB      =   C:/lib/beslyric-lib/win32/ffmpeg_4_0_1/lib
+FFMPEG_INCLUDE  =   $$WIN32_LIB_PATH/win32/ffmpeg_4_0_1/include
+FFMPEG_LIB      =   $$WIN32_LIB_PATH/win32/ffmpeg_4_0_1/lib
+FFMPEG_BIN      =   $$WIN32_LIB_PATH/win32/ffmpeg_4_0_1/bin
 
 #sdl
 
-SDL_INCLUDE     =   C:/lib/beslyric-lib/SDL_2_0_3/include
-SDL_LIB         =   C:/lib/beslyric-lib/SDL_2_0_3/lib
+SDL_INCLUDE     =   $$WIN32_LIB_PATH/SDL_2_0_3/include
+SDL_LIB         =   $$WIN32_LIB_PATH/SDL_2_0_3/lib
+SDL_BIN         =   $$WIN32_LIB_PATH/SDL_2_0_3/bin
 
 #other
 #OTHER_INCLUDE   =   C:/lib/beslyric-lib/win32/include
@@ -45,6 +49,28 @@ LIBS += -L$$FFMPEG_LIB/ -lavcodec\
         -L$$FFMPEG_LIB/ -lswresample \
         -L$$SDL_LIB/ -lSDL2main  \
         -L$$SDL_LIB/ -lSDL2
+
+# https://stackoverflow.com/questions/6771039/automatic-copy-of-dependent-files-in-qt-creator
+# https://doc.qt.io/qt-5/qmake-advanced-usage.html#installing-files
+
+libs_ffmpeg_related.files = $$FFMPEG_BIN/avcodec-58.dll \
+                   $$FFMPEG_BIN/avdevice-58.dll \
+                   $$FFMPEG_BIN/avfilter-7.dll \
+                   $$FFMPEG_BIN/avformat-58.dll \
+                   $$FFMPEG_BIN/avutil-56.dll \
+                   $$FFMPEG_BIN/postproc-55.dll \
+                   $$FFMPEG_BIN/swresample-3.dll \
+                   $$FFMPEG_BIN/swscale-5.dll \
+                   $$SDL_BIN/SDL2.dll
+
+#.pro 对 CONFIG 做了调整，不再有 debug 和 release 目录分别在 debug 和 release configuration 下生成
+CONFIG(debug, debug|release):libs_ffmpeg_related.path = $$OUT_PWD/debug_output
+CONFIG(release, debug|release):libs_ffmpeg_related.path = $$OUT_PWD/release_output
+
+#    message(Beslyric-for-X.pro libs_ffmpeg_related.files: $$libs_ffmpeg_related.files)
+#    message(Beslyric-for-X.pro libs_ffmpeg_related.path: $$libs_ffmpeg_related.path)
+
+INSTALLS += libs_ffmpeg_related
 }
 
 

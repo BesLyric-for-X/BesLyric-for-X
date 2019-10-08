@@ -77,6 +77,7 @@ ICON = Beslyric.icns
 
 # https://stackoverflow.com/questions/3440387/how-to-put-generated-files-e-g-object-files-into-a-separate-folder-when-using
 # 中间文件都放在 <conf>_generated 下，生成的二进制文件放在 <conf>_output 下
+# 注意 musicPlayer.pri 中关于 INSTALLS 的配置也与这个有关
 
 CONFIG(debug, debug|release) {
     OBJECTS_DIR = $$OUT_PWD/debug_generated
