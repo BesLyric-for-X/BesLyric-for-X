@@ -119,6 +119,59 @@ win32 {
 
     INSTALLS += libs_openssl_related
 
+# Universal C RunTime library
+## ucrt 10.0.14393.795
+
+    UCRT_BIN     =   $$WIN32_LIB_PATH/UCRT/x86/10.0.14393.795
+
+    libs_ucrt_related.files = $$UCRT_BIN/api-ms-win-core-console-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-datetime-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-debug-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-errorhandling-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-file-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-file-l1-2-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-file-l2-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-handle-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-heap-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-interlocked-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-libraryloader-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-localization-l1-2-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-memory-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-namedpipe-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-processenvironment-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-processthreads-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-processthreads-l1-1-1.dll \
+                   $$UCRT_BIN/api-ms-win-core-profile-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-rtlsupport-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-string-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-synch-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-synch-l1-2-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-sysinfo-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-timezone-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-core-util-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-conio-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-convert-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-environment-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-filesystem-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-heap-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-locale-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-math-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-multibyte-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-private-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-process-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-runtime-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-stdio-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-string-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-time-l1-1-0.dll \
+                   $$UCRT_BIN/api-ms-win-crt-utility-l1-1-0.dll \
+                   $$UCRT_BIN/ucrtbase.dll
+
+    #.pro 对 CONFIG 做了调整，不再有 debug 和 release 目录分别在 debug 和 release configuration 下生成
+    CONFIG(debug, debug|release):libs_ucrt_related.path = $$OUT_PWD/debug_output
+    CONFIG(release, debug|release):libs_ucrt_related.path = $$OUT_PWD/release_output
+
+    INSTALLS += libs_ucrt_related
+
 #--
 message(INSTALLS: $$INSTALLS)
 }
