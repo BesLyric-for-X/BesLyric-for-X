@@ -102,5 +102,24 @@ win32 {
     message($$CONFIG)
     CONFIG -= debug_and_release debug_and_release_target
 
+
+# WIN32_LIB_PATH 位于 musicPlayer.pri 中，以后可以放在独立的 .pri 文件中
+
+# OpenSSL library
+## openssl 1.0.x (binary only)
+
+    OPENSSL_BIN     =   $$WIN32_LIB_PATH/OpenSSL/i386/1.0.2t
+
+    libs_openssl_related.files = $$OPENSSL_BIN/libeay32.dll \
+                   $$OPENSSL_BIN/ssleay32.dll
+
+    #.pro 对 CONFIG 做了调整，不再有 debug 和 release 目录分别在 debug 和 release configuration 下生成
+    CONFIG(debug, debug|release):libs_openssl_related.path = $$OUT_PWD/debug_output
+    CONFIG(release, debug|release):libs_openssl_related.path = $$OUT_PWD/release_output
+
+    INSTALLS += libs_openssl_related
+
+#--
+message(INSTALLS: $$INSTALLS)
 }
 
