@@ -172,6 +172,21 @@ win32 {
 
     INSTALLS += libs_ucrt_related
 
+# Microsoft C RunTime library
+## crt 14.0.24234.1
+
+    CRT_BIN     =   $$WIN32_LIB_PATH/CRT/x86/14.0.24234.1
+
+    libs_crt_related.files = $$CRT_BIN/concrt140.dll \
+                   $$CRT_BIN/msvcp140.dll \
+                   $$CRT_BIN/vcruntime140.dll
+
+    #.pro 对 CONFIG 做了调整，不再有 debug 和 release 目录分别在 debug 和 release configuration 下生成
+    CONFIG(debug, debug|release):libs_crt_related.path = $$OUT_PWD/debug_output
+    CONFIG(release, debug|release):libs_crt_related.path = $$OUT_PWD/release_output
+
+    INSTALLS += libs_crt_related
+
 #--
 message(INSTALLS: $$INSTALLS)
 }
