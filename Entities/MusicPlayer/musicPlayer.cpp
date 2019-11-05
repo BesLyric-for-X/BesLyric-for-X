@@ -176,23 +176,25 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 
 
 			static int64_t lastRes = 0;		//用于记录最后一次的时间
-			static int64_t tryTimes = 0;
+//			static int64_t tryTimes = 0;
 
 			if (lastRes != res)				//与上次时间不同时，发送位置改变信号
 			{
 				MS->audio_clock = res * 1.0 / 1000;
 				lastRes = res;
-				tryTimes = 0;
+//				tryTimes = 0;
 			}
 			else
 			{
-                tryTimes++;
-                //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
-                if (tryTimes >= 100000000LL)
-				{
-					qDebug() << "no data in list for 1e8 times access";
-					AGStatus = AGS_FINISH;
-				}
+//                tryTimes++;
+//                //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
+//                if (tryTimes >= 100000000LL)
+//				{
+//					qDebug() << "no data in list for 1e8 times access";
+//					AGStatus = AGS_FINISH;
+//				}
+
+				return -1; // It works... Why?
 			}
 
 			//方式二：
