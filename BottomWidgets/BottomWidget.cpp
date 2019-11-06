@@ -276,7 +276,6 @@ void BottomWidget::positionChanged(int position)
     // 拖动 sliderSong 时不处理新位置
     if(!AdjustingPos)
     {
-//        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
         qDebug()<<"void BottomWidget::positionChanged => position="<<position<<" sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
         int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
@@ -313,54 +312,29 @@ void BottomWidget::onSliderSongMoved(int position)
 {
     qDebug()<<"void BottomWidget::onSliderSongMoved(int position="<<position<<")";
 
-//    if(AdjustingPos){
-        posAdjust = musicPlayer->duration() * static_cast<quint64>(position) / 1000;
-        showPosition(static_cast<int>(posAdjust));
-//    }
-//    else{
-        //制作歌词时，AdjustingPos始终为 false, positionChanged 会一直更新进度条，
-        //此时，用户按下拖动，也无需处理了
-//    }
+    posAdjust = musicPlayer->duration() * static_cast<quint64>(position) / 1000;
+    showPosition(static_cast<int>(posAdjust));
 }
 
 void BottomWidget::onSliderSongPressed()
 {
     qDebug()<<"void BottomWidget::onSliderSongPressed() sliderSong->value()="<<sliderSong->value()<<" musicPlayer->state()="<<musicPlayer->state();
 
-//    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
-//        return ; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
-//    }
-
     AdjustingPos = true;
-//    posAdjust = -1; // -1 标记表示还没有任何拖动
 }
 
 void BottomWidget::onSliderSongReleased()
 {
     qDebug()<<"void BottomWidget::onSliderSongReleased() sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
-//    if(AdjustingPos){
-//        if(posAdjust == -1)
-//            musicPlayer->seek(audioOriginalPos);
-//        else
-            musicPlayer->seek(posAdjust);
-
-//        AdjustingPos = false;
-//    }
+    musicPlayer->seek(posAdjust);
 }
 
 void BottomWidget::onSliderSongClicked(int position)
 {
     qDebug()<<"void BottomWidget::onSliderSongClickNotOnHandle(int position"<<position<<")";
 
-//    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
-//        return; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
-//    }
-
     posAdjust = musicPlayer->duration() * static_cast<quint64>(position) / 1000;
-
-    //    int posMusic = musicPlayer->duration() * position / 1000;
-    //    musicPlayer->seek(posMusic);
 }
 
 void BottomWidget::onSoundToggle(bool mute)
