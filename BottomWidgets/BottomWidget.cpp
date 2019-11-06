@@ -273,6 +273,7 @@ void BottomWidget::durationChanged(qint64 duration)
 //void MainWidget::musicPositionChanged(int pos) invoked
 void BottomWidget::positionChanged(int position)
 {
+    // 拖动 sliderSong 时不处理新位置
     if(!AdjustingPos)
     {
 //        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
@@ -344,7 +345,7 @@ void BottomWidget::onSliderSongReleased()
 //        else
             musicPlayer->seek(posAdjust);
 
-        AdjustingPos = false;
+//        AdjustingPos = false;
 //    }
 }
 
@@ -443,6 +444,16 @@ void BottomWidget::onAudioFinished(bool isEndWithForce)
 void BottomWidget::onAudioPlay()
 {
     qDebug()<<"void BottomWidget::onAudioPlay()";
+
+    // 由于 BottomWidget::positionChanged(int) 有机会在 BottomWidget::onSliderSoundReleased() 之后被调用，
+    //   此时 positionChanged(int) 拿到的是 seek 前的位置，所以 sliderSong 会跳回原位置再到新位置。
+    // 目前，由于 seek 后始终会重新播放，所以 BottomWidget::onAudioPlay() 之后 positionChanged(int) 就能拿到最新位置，
+    //   于是就在这里改变 AdjustingPos 开关，而不是在 onSliderSoundReleased() 中。
+    //
+    // “能用就行。” :)
+    if(AdjustingPos){
+        AdjustingPos = false;
+    }
 
     setStyleSheet("QPushButton#btnPlayAndPause{border-image:url(\":/resource/image/btn_pause.png\");}");
 }
