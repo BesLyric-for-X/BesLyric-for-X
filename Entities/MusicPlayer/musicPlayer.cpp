@@ -173,29 +173,7 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 			//使用 av_rescale_q 转换得到 微秒时间
 			AVRational aVRational = { 1, AV_TIME_BASE };
 			int64_t res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
-
-
-//			static int64_t lastRes = 0;		//用于记录最后一次的时间
-//			static int64_t tryTimes = 0;
-
-//			if (lastRes != res)				//与上次时间不同时，发送位置改变信号
-//			{
-				MS->audio_clock = res * 1.0 / 1000;
-//				lastRes = res;
-//				tryTimes = 0;
-//			}
-//			else
-//			{
-//                tryTimes++;
-//                //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
-//                if (tryTimes >= 100000000LL)
-//				{
-//					qDebug() << "no data in list for 1e8 times access";
-//					AGStatus = AGS_FINISH;
-//				}
-
-//				return -1; // It works... Why?
-//			}
+			MS->audio_clock = res * 1.0 / 1000;
 
 			//方式二：
             //MS->audio_clock = (double)av_q2d(MS->aStream->time_base) * (double)packet.pts;
@@ -244,7 +222,6 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
         }
         return -1;
     }
-//    return -1;
 }
 
 
