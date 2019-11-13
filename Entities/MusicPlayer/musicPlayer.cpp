@@ -99,7 +99,7 @@ int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block)
             ret = 1;
             break;
         } else if (!block) {
-            ret = 0;
+            ret = -1;
             break;
         } else
         {
