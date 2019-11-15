@@ -161,29 +161,29 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
         {
             return -1;
         }
+        if (packet.pts == AV_NOPTS_VALUE)
+        {
+            return -1;
+        }
         audio_pkt_data =packet.data;
         audio_pkt_size = packet.size;
 
-        if (packet.pts != AV_NOPTS_VALUE)
+        //方式一:
+        //packet->pts 时间基于  AVStream->time_base units
+        //外部时间基于 1/AV_TIME_BASE 即 1微秒
+        //使用 av_rescale_q 转换得到 微秒时间
+        AVRational aVRational = { 1, AV_TIME_BASE };
+        int64_t res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
+        MS->audio_clock = res * 1.0 / 1000;
+
+        //方式二：
+        //MS->audio_clock = (double)av_q2d(MS->aStream->time_base) * (double)packet.pts;
+        //MS->audio_clock *= 1000;
+
+        if(logAudio)
         {
-
-			//方式一:
-			//packet->pts 时间基于  AVStream->time_base units
-			//外部时间基于 1/AV_TIME_BASE 即 1微秒
-			//使用 av_rescale_q 转换得到 微秒时间
-			AVRational aVRational = { 1, AV_TIME_BASE };
-			int64_t res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
-			MS->audio_clock = res * 1.0 / 1000;
-
-			//方式二：
-            //MS->audio_clock = (double)av_q2d(MS->aStream->time_base) * (double)packet.pts;
-            //MS->audio_clock *= 1000;
-
-            if(logAudio)
-            {
-                logAudio = false;
-                qDebug() << "to " <<MS->audio_clock ;
-            }
+            logAudio = false;
+            qDebug() << "to " <<MS->audio_clock ;
         }
 
         while (audio_pkt_size > 0)
@@ -220,7 +220,6 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
             av_free_packet(&packet);
             return MS->wanted_frame->channels * len2 * av_get_bytes_per_sample((AVSampleFormat)MS->wanted_frame->format);
         }
-        return -1;
     }
 }
 
