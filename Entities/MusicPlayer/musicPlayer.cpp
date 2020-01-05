@@ -390,10 +390,10 @@ bool PlayThread::initDeviceAndFfmpegContext()
 	{
 		//读取音频的专辑图片
 		// read the format headers
-		if (pFormatCtx->iformat->read_header(pFormatCtx) < 0) {
-			printf("No header format");
-			//return;
-		}
+//		if (pFormatCtx->iformat->read_header(pFormatCtx) < 0) {
+//			printf("No header format");
+//			//return;
+//		}
 
 		//读取专辑图片
 		picture = QPixmap();
@@ -541,7 +541,7 @@ void PlayThread::generateAudioDataLoop()
 
     //[注:由于ffmpeg版本原因，ffmpeg 4.0.1 版本，在重头播放1秒多时有噪音，经试验，调用 av_seek_frame 后则会间接消除该噪音]
     //[若 后面更改 ffmpeg版本，可尝试去掉 seekToPos(10); 看看会不会在 1秒多 出现噪音]
-    seekToPos(10);
+//    seekToPos(10);
 
     AVPacket packet;
 
