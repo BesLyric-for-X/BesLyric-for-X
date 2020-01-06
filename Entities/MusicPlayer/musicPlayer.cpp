@@ -474,7 +474,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
 //SDL------------------
 #if USE_SDL
     //Init
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+    if(SDL_Init(SDL_INIT_AUDIO)) {
         const char* errorString = SDL_GetError();
         printf( "Could not initialize SDL - %s\n", errorString);
         emit errorOccur(6,QString(tr("无法初始化播放设备模块 SDL - %s.")).arg(errorString)); //QString("Could not initialize SDL - %s.").arg(errorString)
