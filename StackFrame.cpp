@@ -4,6 +4,8 @@
 #include "SettingManager.h"
 #include "BesScaleUtil.h"
 
+#include <QScreen>
+
 StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
     : BesFramelessWidget(parent),mainWidget(nullptr),skinBoxWidget(nullptr),addItemWidget(nullptr)
 {
@@ -231,8 +233,18 @@ void  StackFrame::toggleMaxRestoreStatus()
     else
     {
         showMaximized();
+        //在桌面左上角不为 (0, 0) 时，这个就不能用了
+//        setGeometry(-borderMain, -borderMain, width()+2*borderMain, height()+ 2*borderMain);
 
-        setGeometry(-borderMain, -borderMain, width()+2*borderMain, height()+ 2*borderMain);
+        //https://stackoverflow.com/questions/2641193/qt-win-showmaximized-overlapping-taskbar-on-a-frameless-window
+        //要获取真实的可用范围，而不是写死
+
+        //'availableGeometry' is deprecated: Use QGuiApplication::screens()
+//        QRect availableGeometry(QApplication::desktop()->availableGeometry());
+        QRect availableGeometry(QGuiApplication::screens().first()->availableGeometry());
+
+        availableGeometry.adjust(-borderMain, -borderMain, borderMain, borderMain);
+        setGeometry(availableGeometry);
 
         mainWidget->topWidget->btnMax->setVisible(false);
         mainWidget->topWidget->btnRestore->setVisible(true);
