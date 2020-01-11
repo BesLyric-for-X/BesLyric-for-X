@@ -141,6 +141,9 @@ void BottomWidget::initConnection()
     connect(musicPlayer, &MusicPlayer::seekFinished, this, [&](){
         AdjustingPos = false;
     });
+    connect(musicPlayer, &MusicPlayer::seekError, this, [&](){
+        AdjustingPos = false;
+    });
 
     connect(musicPlayer, &MusicPlayer::durationChanged, this, &BottomWidget::durationChanged);
     connect(musicPlayer, &MusicPlayer::errorOccur, this, &BottomWidget::onErrorOccurs);
