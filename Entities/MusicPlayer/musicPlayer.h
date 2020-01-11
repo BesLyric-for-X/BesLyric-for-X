@@ -144,6 +144,7 @@ signals:
     void seekError();               //seek error
     void volumeChanged(uint8_t);    //音量发生改变
     void durationChanged(qint64);   //总长发生改变（单位 微秒 10e-6）
+    void positionChanged();         //位置发生改变
     void errorOccur(int errorCode, QString errorMessage);
 
     void albumFound(QString);       //发现信息
@@ -296,14 +297,11 @@ public slots:
     quint64 duration();  //获得当总时长（单位 毫秒）
     qint64 position();  //获得当总位置（单位 毫秒）
 
-    void setNotifyInterval(int msec);   //设置通知间隔（歌曲位置进度）
     Status state();
 
 private slots:
     void sendPosChangedSignal();
     void onErrorOccurs(int ,QString);
-    void onStartTimer();
-    void onStopTimer();
 
 private:
     //歌曲文件信息
@@ -317,9 +315,6 @@ private:
     qint64 m_position;              //当前时间（单位 毫秒）
 
     int m_volume;
-
-    QTimer  m_positionUpdateTimer;    //通知歌曲进度发生改变的Timer
-    int     m_interval;               //间隔，单位毫秒
 
     PlayThread* playThread;
 

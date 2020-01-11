@@ -180,6 +180,7 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
                 qDebug() << "to " <<MS->audio_clock ;
                 emit seekFinished();
             }
+            emit positionChanged();
 
         if (packet.size > 0)
         {
@@ -731,9 +732,6 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
                                                 //后再最后执行加锁，这样再次播放音频时就会形成死锁
         emit audioFinish(isEndByForce);
     });
-    connect(playThread, &PlayThread::audioPlay, this, &MusicPlayer::onStartTimer);
-    connect(playThread, &PlayThread::audioPause, this, &MusicPlayer::onStopTimer);
-    connect(playThread, &PlayThread::audioFinish, this, &MusicPlayer::onStopTimer);
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
@@ -763,7 +761,7 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
     // 所以发送异步信号 QueuedConnection；经过实际运行结果来看，还需要等待 slot 执行完再返回，所以用 BlockingQueuedConnection
     connect(playThread, &PlayThread::errorOccur, this, &MusicPlayer::onErrorOccurs, Qt::BlockingQueuedConnection);
 
-    connect(&m_positionUpdateTimer, &QTimer::timeout, this, &MusicPlayer::sendPosChangedSignal);
+    connect(playThread, &PlayThread::positionChanged, this, &MusicPlayer::sendPosChangedSignal);
 
     m_position = 0;
 
@@ -893,8 +891,6 @@ void MusicPlayer::seek(quint64 pos)
     if(state() == StoppedState)
         return;
 
-    onStopTimer();
-
     //先获得总长
     quint64 total = duration();
     if(pos > total)
@@ -903,8 +899,6 @@ void MusicPlayer::seek(quint64 pos)
     }
 
 	playThread->seekToPos(pos);
-
-    onStartTimer();
 
     //#TODO 之后是否需要添加：暂停时seek后继续暂停
 }
@@ -952,13 +946,6 @@ qint64 MusicPlayer::position()
     return m_position;
 }
 
-//设置通知间隔（歌曲位置进度）
-void MusicPlayer::setNotifyInterval(int msec)
-{
-    m_interval = msec;
-    m_positionUpdateTimer.setInterval(m_interval);
-}
-
 void MusicPlayer::sendPosChangedSignal()
 {
     m_position = playThread->getCurrentTime();
@@ -969,18 +956,6 @@ void MusicPlayer::onErrorOccurs(int code, QString msg)
 {
     bInvalidMedia = true;
     emit errorOccur(code, msg);
-}
-
-void MusicPlayer::onStartTimer()
-{
-    if(!m_positionUpdateTimer.isActive())
-        m_positionUpdateTimer.start();
-}
-
-void MusicPlayer::onStopTimer()
-{
-    if(m_positionUpdateTimer.isActive())
-        m_positionUpdateTimer.stop();
 }
 
 
