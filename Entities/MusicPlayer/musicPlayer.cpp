@@ -565,9 +565,7 @@ void PlayThread::generateAudioDataLoop()
             }
             else
             {
-                int curTime = getCurrentTime()*0.001;
-                int durat = getDuration()*0.000001;
-                if(curTime >= durat)//播放到尾端
+                if(m_MS.audioq.first_pkt == nullptr)//播放到尾端
                 {
                     qDebug() << "ending reached";
                     AGStatus = AGS_FINISH;
