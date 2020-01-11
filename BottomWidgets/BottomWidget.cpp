@@ -115,7 +115,7 @@ void BottomWidget::initEntity()
     posAdjust = 0;
 
     musicPlayer = new MusicPlayer(this);
-    musicPlayer->setNotifyInterval(33);
+    musicPlayer->setNotifyInterval(0);
 
     bInMakingMode = false;
 }
