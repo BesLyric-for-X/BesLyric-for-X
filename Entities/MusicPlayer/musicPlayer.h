@@ -140,6 +140,7 @@ signals:
     void audioPlay();               //播放
     void audioPause();              //暂停
     void audioFinish(bool isEndByForce);
+    void seekFinished();            //seek 完毕
     void volumeChanged(uint8_t);    //音量发生改变
     void durationChanged(qint64);   //总长发生改变（单位 微秒 10e-6）
     void errorOccur(int errorCode, QString errorMessage);
@@ -258,6 +259,7 @@ signals:
     void audioFinish(bool isEndByForce );   //播放完毕
     void durationChanged(qint64);           //总长发生改变（单位 毫秒）
     void positionChanged(qint64);              //位置发生改变（单位 毫秒）
+    void seekFinished();                    //seek 完毕
     void volumeChanged(int);                //音量大小发生改变，范围 0-128
     void errorOccur(int errorCode, QString msg);   //发生错误
 

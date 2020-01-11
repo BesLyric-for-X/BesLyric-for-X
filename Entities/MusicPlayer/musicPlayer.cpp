@@ -178,6 +178,7 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
             {
                 logAudio = false;
                 qDebug() << "to " <<MS->audio_clock ;
+                emit seekFinished();
             }
 
         if (packet.size > 0)
@@ -739,6 +740,7 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
         emit positionChanged(0); // 最后触发一次 BottomWidget::positionChanged，如果是单曲播放，则可达到进度条清零的效果
     });
+    connect(playThread, &PlayThread::seekFinished, [&](){emit seekFinished();});
     connect(playThread, &PlayThread::volumeChanged,[=](uint8_t volume){
         emit volumeChanged(volume);}
     );

@@ -95,8 +95,6 @@ private:
 
     bool AdjustingPos;
     quint64 posAdjust;
-
-    int audioOriginalPos; //音频被按下时的位置（为了记录下精确地时间，记录音频位置，之前记录slider位置精度不够会导致偏移）
 };
 
 #endif // BOTTOMWIDGET_H

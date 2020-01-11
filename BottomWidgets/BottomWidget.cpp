@@ -138,6 +138,10 @@ void BottomWidget::initConnection()
     connect(btnPlayModeSingle, &BesButton::clicked, this, &BottomWidget::onModeSingleNext);
     connect(btnPlayModeSingleCycle, &BesButton::clicked, this, &BottomWidget::onModeSingleCycleNext);
 
+    connect(musicPlayer, &MusicPlayer::seekFinished, this, [&](){
+        AdjustingPos = false;
+    });
+
     connect(musicPlayer, &MusicPlayer::durationChanged, this, &BottomWidget::durationChanged);
     connect(musicPlayer, &MusicPlayer::errorOccur, this, &BottomWidget::onErrorOccurs);
 
@@ -275,8 +279,7 @@ void BottomWidget::positionChanged(int position)
 {
     if(!AdjustingPos)
     {
-        audioOriginalPos = position; //持续更新 audioOriginalPos，这样在拖动时则会保留拖动时刻的位置
-        qDebug()<<"BottomWidget::positionChanged => audioOriginalPos="<<audioOriginalPos<<" sliderSong->value()="<<sliderSong->value();
+        qDebug()<<"BottomWidget::positionChanged => sliderSong->value()="<<sliderSong->value()<<"position"<<position;
 
         int pecentOfThousand = int(1.0 * position / musicPlayer->duration() * 1000);
 
@@ -312,46 +315,28 @@ void BottomWidget::onSliderSongMoved(int position)
 {
     qDebug()<<"void BottomWidget::onSliderSongMoved(int position="<<position<<")";
 
-    if(AdjustingPos){
         posAdjust = musicPlayer->duration() * position / 1000;
         showPosition(posAdjust);
-    }
-    else{
-        //制作歌词时，AdjustingPos始终为 false, positionChanged 会一直更新进度条，
-        //此时，用户按下拖动，也无需处理了
-    }
 }
 
 void BottomWidget::onSliderSongPressed()
 {
     qDebug()<<"void BottomWidget::onSliderSongPressed() sliderSong->value()="<<sliderSong->value()<<" musicPlayer->state()="<<musicPlayer->state();
 
-    if(bInMakingMode || musicPlayer->state() == MusicPlayer::StoppedState){
-        return ; //制作模式或停止状态时不允许sliderSong被成功拖动，但并没有阻止信号被接收
-    }
-
     AdjustingPos = true;
-    posAdjust = -1; // -1 标记表示还没有任何拖动
 }
 
 void BottomWidget::onSliderSongReleased()
 {
     qDebug()<<"void BottomWidget::onSliderSongReleased() sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
-    if(AdjustingPos){
-        if(posAdjust == -1)
-            musicPlayer->seek(audioOriginalPos);
-        else
             musicPlayer->seek(posAdjust);
-
-        AdjustingPos = false;
-    }
 }
 
 void BottomWidget::onSliderSongClickNotOnHandle(int position)
 {
-    int posMusic = musicPlayer->duration() * position / 1000;
-    musicPlayer->seek(posMusic);
+    posAdjust = musicPlayer->duration() * position / 1000;
+    showPosition(posAdjust);
 }
 
 void BottomWidget::onSoundToggle(bool mute)
