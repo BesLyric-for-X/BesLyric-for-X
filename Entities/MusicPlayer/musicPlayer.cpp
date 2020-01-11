@@ -561,17 +561,22 @@ void PlayThread::generateAudioDataLoop()
                if (av_seek_frame(m_MS.fct, audioStream, res, AVSEEK_FLAG_ANY) < 0)
                {
                    //printf("Error to seek audio frame.\n");
-                   qDebug()<<"seek error";
-                   emit seekError();
+                   qDebug()<<"seek error  " << "  from " << m_MS.audio_clock << " to :"<<millisecondToSeek;
 
-                   AGStatus = AGS_FINISH;
-                   isEndByForce = true;
-                   break;
+                   // If the error occurs, try the fallback way.
+                   if(av_seek_frame(m_MS.fct, audioStream, res, AVSEEK_FLAG_BACKWARD) < 0){
+                       qDebug()<<"fallback seek error  " << "  from " << m_MS.audio_clock << " to around:"<<millisecondToSeek;
+
+                       emit seekError();
+                       AGStatus = AGS_FINISH;
+                       isEndByForce = true;
+                       break;
+                   }
+                       qDebug()<<"fallback seek successful  " << "  from " << m_MS.audio_clock << " to around:"<<millisecondToSeek;
+               }else{
+                   qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to around:"<<millisecondToSeek;
                }
-               else
-               {
-                   logAudio = true;
-                   qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to :";
+               logAudio = true;
 
                    // When the player is paused, the new position should be sent on time.
                    m_MS.audio_clock = millisecondToSeek;
@@ -583,7 +588,6 @@ void PlayThread::generateAudioDataLoop()
 
                        packet_queue_flush(&m_MS.audioq); //清除队列
                    }
-               }
 
                 AGStatus = AGS_PLAYING;
         }
