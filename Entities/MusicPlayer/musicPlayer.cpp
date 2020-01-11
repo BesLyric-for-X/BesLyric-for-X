@@ -572,6 +572,11 @@ void PlayThread::generateAudioDataLoop()
                {
                    logAudio = true;
                    qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to :";
+
+                   // When the player is paused, the new position should be sent on time.
+                   m_MS.audio_clock = millisecondToSeek;
+                   emit positionChanged();
+
                    if (audioStream!=-1) //audio
                    {
                     avcodec_flush_buffers(pCodecCtx);
@@ -579,9 +584,6 @@ void PlayThread::generateAudioDataLoop()
                        packet_queue_flush(&m_MS.audioq); //清除队列
                    }
                }
-//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
-//               SDL_PauseAudio(0);
-               playDevice();
 
                 AGStatus = AGS_PLAYING;
         }
@@ -895,8 +897,6 @@ void MusicPlayer::seek(quint64 pos)
     }
 
 	playThread->seekToPos(pos);
-
-    //#TODO 之后是否需要添加：暂停时seek后继续暂停
 }
 
 //往后跳（单位 毫秒）
