@@ -521,9 +521,6 @@ void PlayThread::generateAudioDataLoop()
 
     AVPacket packet;
 
-    AVPacket *ppacket = nullptr;  //分配用于转换的数据包(输入)
-    AVFrame	*pFrame = nullptr;    //分配用于转换的数据包(解码输出)
-
     while(!g_isQuit)
     {
         switch (AGStatus) {
@@ -601,11 +598,6 @@ void PlayThread::generateAudioDataLoop()
             break;
         }
     }
-
-    if(ppacket)             //释放 packet 本身
-        av_free(ppacket);
-    if(pFrame)              //释放 frame 本身
-       av_frame_free(&pFrame);
 }
 
 
