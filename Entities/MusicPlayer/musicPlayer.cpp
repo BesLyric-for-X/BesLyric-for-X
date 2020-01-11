@@ -99,7 +99,7 @@ int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block)
             ret = 1;
             break;
         } else if (!block) {
-            ret = 0;
+            ret = -1;
             break;
         } else
         {
@@ -142,78 +142,51 @@ void destroy_queue_context(PacketQueue* q)
 
 int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 {
-    static AVFrame *pframe=NULL;        //一帧
-    static SwrContext*pSwr_ctx=NULL;    //转换
+    AVFrame *pframe=NULL;        //一帧
+    SwrContext*pSwr_ctx=NULL;    //转换
     AVPacket packet;                    //包
 
-    int decodeLen=0;
-    int got_frame = 0;
-    int audio_pkt_size=0;
-    uint8_t* audio_pkt_data=NULL;
-
-    if(pframe)
-       av_frame_free(&pframe);
-    pframe=av_frame_alloc();
+    int returns = -1; //除非音频解码成功返回音频数据，否则返回 -1
 
     while (true)
     {
         if (packet_queue_get(&MS->audioq, &packet, 0) < 0)
         {
-            return -1;
+            break;
         }
-        audio_pkt_data =packet.data;
-        audio_pkt_size = packet.size;
-
-        if (packet.pts != AV_NOPTS_VALUE)
+        if (packet.pts == AV_NOPTS_VALUE)
         {
+            break;
+        }
 
 			//方式一:
 			//packet->pts 时间基于  AVStream->time_base units
-			//外部时间基于 1/AV_TIME_BASE 即 1微秒
-			//使用 av_rescale_q 转换得到 微秒时间
-			AVRational aVRational = { 1, AV_TIME_BASE };
-			int64_t res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
-
-
-			static int64_t lastRes = 0;		//用于记录最后一次的时间
-			static int64_t tryTimes = 0;
-
-			if (lastRes != res)				//与上次时间不同时，发送位置改变信号
-			{
-				MS->audio_clock = res * 1.0 / 1000;
-				lastRes = res;
-				tryTimes = 0;
-			}
-			else
-			{
-                tryTimes++;
-                //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
-                if (tryTimes >= 100000000LL)
-				{
-					qDebug() << "no data in list for 1e8 times access";
-					AGStatus = AGS_FINISH;
-				}
-			}
+			//外部时间基于 1/1000 即 1毫秒
+			//使用 av_rescale_q 转换得到 毫秒时间
+			AVRational aVRational = { 1, 1000 };
+			qint64 res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
+			MS->audio_clock = res;
 
 			//方式二：
             //MS->audio_clock = (double)av_q2d(MS->aStream->time_base) * (double)packet.pts;
             //MS->audio_clock *= 1000;
 
+            // AGStatus 由 AGS_SEEK 到 AGS_PLAYING 后， MS->audio_clock 才是拿到 seek 后的时间。
+            //   当然，通常在进入这个判断分支前 AGStatus 已是 AGS_PLAYING ，但仍有极少对立情况出现（出现频率为 2/193）。
+//            if(logAudio && getAGStatus() != AGS_SEEK)
             if(logAudio)
             {
                 logAudio = false;
                 qDebug() << "to " <<MS->audio_clock ;
             }
-        }
 
-        while (audio_pkt_size > 0)
+        if (packet.size > 0)
         {
-            decodeLen = avcodec_decode_audio4(MS->acct, pframe, &got_frame, &packet);
+            pframe=av_frame_alloc();
+            int got_frame;
+            int decodeLen = avcodec_decode_audio4(MS->acct, pframe, &got_frame, &packet);
             if (decodeLen < 0) // 出错，跳过
                 break;
-
-            audio_pkt_data += decodeLen;
-            audio_pkt_size -= decodeLen;
 
             if (pframe->channels > 0 && pframe->channel_layout == 0)
                 pframe->channel_layout = av_get_default_channel_layout(pframe->channels);
@@ -221,8 +194,6 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
                 pframe->channels = av_get_channel_layout_nb_channels(pframe->channel_layout);
 
 
-            if (pSwr_ctx)
-                swr_free(&pSwr_ctx);
             pSwr_ctx = swr_alloc_set_opts(nullptr, MS->wanted_frame->channel_layout,
                                          (AVSampleFormat)MS->wanted_frame->format,
                                          MS->wanted_frame->sample_rate,
@@ -237,11 +208,14 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
             if (len2 < 0)
                 break;
 
-            av_free_packet(&packet);
-            return MS->wanted_frame->channels * len2 * av_get_bytes_per_sample((AVSampleFormat)MS->wanted_frame->format);
+            returns = MS->wanted_frame->channels * len2 * av_get_bytes_per_sample((AVSampleFormat)MS->wanted_frame->format);
         }
+        break;
     }
-    return -1;
+    swr_free(&pSwr_ctx);
+    av_frame_free(&pframe);
+    av_packet_unref(&packet);
+    return returns;
 }
 
 
@@ -309,9 +283,9 @@ int PlayThread::getMsDuration()				//获得毫秒为度量的总长度
 }
 
 
-int  PlayThread::getCurrentTime() 
+qint64  PlayThread::getCurrentTime() 
 { 
-	return static_cast<int>(m_MS.audio_clock); 
+	return m_MS.audio_clock; 
 }
 
 bool PlayThread::getIsDeviceInit() 
@@ -965,7 +939,7 @@ quint64 MusicPlayer::duration()
 }
 
 //获得当总位置（单位 毫秒）
-quint64 MusicPlayer::position()
+qint64 MusicPlayer::position()
 {
     return m_position;
 }

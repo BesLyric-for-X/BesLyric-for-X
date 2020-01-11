@@ -87,7 +87,7 @@ typedef struct{
 	AVStream *vStream;
     PacketQueue audioq; //音频队列
 
-    double audio_clock; //储存毫秒时间
+    qint64 audio_clock; //储存毫秒时间
     uint8_t volume;
 
     PlayThread* playThread;
@@ -127,7 +127,7 @@ public:
 	void setVolume(int value);
 
 	int getMsDuration();//获得毫秒为度量的总长度	
-	int getCurrentTime(); //获得当前毫秒时间
+	qint64 getCurrentTime(); //获得当前毫秒时间
 
 	bool getIsDeviceInit();//实现互斥访问 isDeviceInit 的接口
 
@@ -257,7 +257,7 @@ signals:
     void audioPause();                      //暂停
     void audioFinish(bool isEndByForce );   //播放完毕
     void durationChanged(qint64);           //总长发生改变（单位 毫秒）
-    void positionChanged(int);              //位置发生改变（单位 毫秒）
+    void positionChanged(qint64);              //位置发生改变（单位 毫秒）
     void volumeChanged(int);                //音量大小发生改变，范围 0-128
     void errorOccur(int errorCode, QString msg);   //发生错误
 
@@ -290,7 +290,7 @@ public slots:
     void setVolume(int volume);  //音量大小范围 0-128
     int getVolume();
     quint64 duration();  //获得当总时长（单位 毫秒）
-    quint64 position();  //获得当总位置（单位 毫秒）
+    qint64 position();  //获得当总位置（单位 毫秒）
 
     void setNotifyInterval(int msec);   //设置通知间隔（歌曲位置进度）
     Status state();
@@ -310,7 +310,7 @@ private:
 
 private:
     QString musicPath;
-    quint64 m_position;              //当前时间（单位 毫秒）
+    qint64 m_position;              //当前时间（单位 毫秒）
 
     int m_volume;
 
