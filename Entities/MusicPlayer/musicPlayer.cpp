@@ -99,7 +99,7 @@ int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block)
             ret = 1;
             break;
         } else if (!block) {
-            ret = 0;
+            ret = -1;
             break;
         } else
         {
@@ -142,78 +142,53 @@ void destroy_queue_context(PacketQueue* q)
 
 int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 {
-    static AVFrame *pframe=NULL;        //一帧
-    static SwrContext*pSwr_ctx=NULL;    //转换
+    AVFrame *pframe=NULL;        //一帧
+    SwrContext*pSwr_ctx=NULL;    //转换
     AVPacket packet;                    //包
 
-    int decodeLen=0;
-    int got_frame = 0;
-    int audio_pkt_size=0;
-    uint8_t* audio_pkt_data=NULL;
-
-    if(pframe)
-       av_frame_free(&pframe);
-    pframe=av_frame_alloc();
+    int returns = -1; //除非音频解码成功返回音频数据，否则返回 -1
 
     while (true)
     {
         if (packet_queue_get(&MS->audioq, &packet, 0) < 0)
         {
-            return -1;
+            break;
         }
-        audio_pkt_data =packet.data;
-        audio_pkt_size = packet.size;
-
-        if (packet.pts != AV_NOPTS_VALUE)
+        if (packet.pts == AV_NOPTS_VALUE)
         {
+            break;
+        }
 
 			//方式一:
 			//packet->pts 时间基于  AVStream->time_base units
-			//外部时间基于 1/AV_TIME_BASE 即 1微秒
-			//使用 av_rescale_q 转换得到 微秒时间
-			AVRational aVRational = { 1, AV_TIME_BASE };
-			int64_t res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
-
-
-			static int64_t lastRes = 0;		//用于记录最后一次的时间
-			static int64_t tryTimes = 0;
-
-			if (lastRes != res)				//与上次时间不同时，发送位置改变信号
-			{
-				MS->audio_clock = res * 1.0 / 1000;
-				lastRes = res;
-				tryTimes = 0;
-			}
-			else
-			{
-                tryTimes++;
-                //wanted_spec.callback = fillAudio 会在PacketQueue 队列中认为寻找数据，认为1亿次获取如果没有结果则意味着音乐结束
-                if (tryTimes >= 100000000LL)
-				{
-					qDebug() << "no data in list for 1e8 times access";
-					AGStatus = AGS_FINISH;
-				}
-			}
+			//外部时间基于 1/1000 即 1毫秒
+			//使用 av_rescale_q 转换得到 毫秒时间
+			AVRational aVRational = { 1, 1000 };
+			qint64 res = av_rescale_q(packet.pts, pFormatCtx->streams[audioStream]->time_base, aVRational);
+			MS->audio_clock = res;
 
 			//方式二：
             //MS->audio_clock = (double)av_q2d(MS->aStream->time_base) * (double)packet.pts;
             //MS->audio_clock *= 1000;
 
+            // AGStatus 由 AGS_SEEK 到 AGS_PLAYING 后， MS->audio_clock 才是拿到 seek 后的时间。
+            //   当然，通常在进入这个判断分支前 AGStatus 已是 AGS_PLAYING ，但仍有极少对立情况出现（出现频率为 2/193）。
+//            if(logAudio && getAGStatus() != AGS_SEEK)
             if(logAudio)
             {
                 logAudio = false;
                 qDebug() << "to " <<MS->audio_clock ;
+                emit seekFinished();
             }
-        }
+            emit positionChanged();
 
-        while (audio_pkt_size > 0)
+        if (packet.size > 0)
         {
-            decodeLen = avcodec_decode_audio4(MS->acct, pframe, &got_frame, &packet);
+            pframe=av_frame_alloc();
+            int got_frame;
+            int decodeLen = avcodec_decode_audio4(MS->acct, pframe, &got_frame, &packet);
             if (decodeLen < 0) // 出错，跳过
                 break;
-
-            audio_pkt_data += decodeLen;
-            audio_pkt_size -= decodeLen;
 
             if (pframe->channels > 0 && pframe->channel_layout == 0)
                 pframe->channel_layout = av_get_default_channel_layout(pframe->channels);
@@ -221,8 +196,6 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
                 pframe->channels = av_get_channel_layout_nb_channels(pframe->channel_layout);
 
 
-            if (pSwr_ctx)
-                swr_free(&pSwr_ctx);
             pSwr_ctx = swr_alloc_set_opts(nullptr, MS->wanted_frame->channel_layout,
                                          (AVSampleFormat)MS->wanted_frame->format,
                                          MS->wanted_frame->sample_rate,
@@ -237,11 +210,14 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
             if (len2 < 0)
                 break;
 
-            av_free_packet(&packet);
-            return MS->wanted_frame->channels * len2 * av_get_bytes_per_sample((AVSampleFormat)MS->wanted_frame->format);
+            returns = MS->wanted_frame->channels * len2 * av_get_bytes_per_sample((AVSampleFormat)MS->wanted_frame->format);
         }
+        break;
     }
-    return -1;
+    swr_free(&pSwr_ctx);
+    av_frame_free(&pframe);
+    av_packet_unref(&packet);
+    return returns;
 }
 
 
@@ -309,9 +285,9 @@ int PlayThread::getMsDuration()				//获得毫秒为度量的总长度
 }
 
 
-int  PlayThread::getCurrentTime() 
+qint64  PlayThread::getCurrentTime() 
 { 
-	return static_cast<int>(m_MS.audio_clock); 
+	return m_MS.audio_clock; 
 }
 
 bool PlayThread::getIsDeviceInit() 
@@ -390,10 +366,10 @@ bool PlayThread::initDeviceAndFfmpegContext()
 	{
 		//读取音频的专辑图片
 		// read the format headers
-		if (pFormatCtx->iformat->read_header(pFormatCtx) < 0) {
-			printf("No header format");
-			//return;
-		}
+//		if (pFormatCtx->iformat->read_header(pFormatCtx) < 0) {
+//			printf("No header format");
+//			//return;
+//		}
 
 		//读取专辑图片
 		picture = QPixmap();
@@ -474,7 +450,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
 //SDL------------------
 #if USE_SDL
     //Init
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+    if(SDL_Init(SDL_INIT_AUDIO)) {
         const char* errorString = SDL_GetError();
         printf( "Could not initialize SDL - %s\n", errorString);
         emit errorOccur(6,QString(tr("无法初始化播放设备模块 SDL - %s.")).arg(errorString)); //QString("Could not initialize SDL - %s.").arg(errorString)
@@ -541,12 +517,9 @@ void PlayThread::generateAudioDataLoop()
 
     //[注:由于ffmpeg版本原因，ffmpeg 4.0.1 版本，在重头播放1秒多时有噪音，经试验，调用 av_seek_frame 后则会间接消除该噪音]
     //[若 后面更改 ffmpeg版本，可尝试去掉 seekToPos(10); 看看会不会在 1秒多 出现噪音]
-    seekToPos(10);
+//    seekToPos(10);
 
     AVPacket packet;
-
-    AVPacket *ppacket = nullptr;  //分配用于转换的数据包(输入)
-    AVFrame	*pFrame = nullptr;    //分配用于转换的数据包(解码输出)
 
     while(!g_isQuit)
     {
@@ -565,9 +538,7 @@ void PlayThread::generateAudioDataLoop()
             }
             else
             {
-                int curTime = getCurrentTime()*0.001;
-                int durat = getDuration()*0.000001;
-                if(curTime >= durat)//播放到尾端
+                if(m_MS.audioq.first_pkt == nullptr)//播放到尾端
                 {
                     qDebug() << "ending reached";
                     AGStatus = AGS_FINISH;
@@ -583,30 +554,37 @@ void PlayThread::generateAudioDataLoop()
                AVRational aVRational = {1, 1000};
                int64_t res = av_rescale_q(millisecondToSeek ,aVRational,pFormatCtx->streams[audioStream]->time_base);
 
-//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
-//               SDL_PauseAudio(1);
-               pauseDevice();
-
                //block here
                if (av_seek_frame(m_MS.fct, audioStream, res, AVSEEK_FLAG_ANY) < 0)
                {
                    //printf("Error to seek audio frame.\n");
-                   qDebug()<<"seek error";
+                   qDebug()<<"seek error  " << "  from " << m_MS.audio_clock << " to :"<<millisecondToSeek;
+
+                   // If the error occurs, try the fallback way.
+                   if(av_seek_frame(m_MS.fct, audioStream, res, AVSEEK_FLAG_BACKWARD) < 0){
+                       qDebug()<<"fallback seek error  " << "  from " << m_MS.audio_clock << " to around:"<<millisecondToSeek;
+
+                       emit seekError();
+                       AGStatus = AGS_FINISH;
+                       isEndByForce = true;
+                       break;
+                   }
+                       qDebug()<<"fallback seek successful  " << "  from " << m_MS.audio_clock << " to around:"<<millisecondToSeek;
+               }else{
+                   qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to around:"<<millisecondToSeek;
                }
-               else
-               {
-                   logAudio = true;
-                   qDebug()<<"seek successful  " << "  from " << m_MS.audio_clock << " to :";
+               logAudio = true;
+
+                   // When the player is paused, the new position should be sent on time.
+                   m_MS.audio_clock = millisecondToSeek;
+                   emit positionChanged();
+
                    if (audioStream!=-1) //audio
                    {
                     avcodec_flush_buffers(pCodecCtx);
 
                        packet_queue_flush(&m_MS.audioq); //清除队列
                    }
-               }
-//               不要直接调SDL_PauseAudio()，避免相应的信号发不出去
-//               SDL_PauseAudio(0);
-               playDevice();
 
                 AGStatus = AGS_PLAYING;
         }
@@ -620,11 +598,6 @@ void PlayThread::generateAudioDataLoop()
             break;
         }
     }
-
-    if(ppacket)             //释放 packet 本身
-        av_free(ppacket);
-    if(pFrame)              //释放 frame 本身
-       av_frame_free(&pFrame);
 }
 
 
@@ -753,9 +726,6 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
                                                 //后再最后执行加锁，这样再次播放音频时就会形成死锁
         emit audioFinish(isEndByForce);
     });
-    connect(playThread, &PlayThread::audioPlay, this, &MusicPlayer::onStartTimer);
-    connect(playThread, &PlayThread::audioPause, this, &MusicPlayer::onStopTimer);
-    connect(playThread, &PlayThread::audioFinish, this, &MusicPlayer::onStopTimer);
     connect(playThread, &PlayThread::finished,[=](){
         qDebug()<<"&PlayThread::finished bIsLock="<<bIsLock;
 
@@ -767,6 +737,8 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
 
         emit positionChanged(0); // 最后触发一次 BottomWidget::positionChanged，如果是单曲播放，则可达到进度条清零的效果
     });
+    connect(playThread, &PlayThread::seekFinished, [&](){emit seekFinished();});
+    connect(playThread, &PlayThread::seekError, [&](){emit seekError();});
     connect(playThread, &PlayThread::volumeChanged,[=](uint8_t volume){
         emit volumeChanged(volume);}
     );
@@ -783,7 +755,7 @@ MusicPlayer::MusicPlayer(QObject* parent):QObject(parent),m_volume(128)
     // 所以发送异步信号 QueuedConnection；经过实际运行结果来看，还需要等待 slot 执行完再返回，所以用 BlockingQueuedConnection
     connect(playThread, &PlayThread::errorOccur, this, &MusicPlayer::onErrorOccurs, Qt::BlockingQueuedConnection);
 
-    connect(&m_positionUpdateTimer, &QTimer::timeout, this, &MusicPlayer::sendPosChangedSignal);
+    connect(playThread, &PlayThread::positionChanged, this, &MusicPlayer::sendPosChangedSignal);
 
     m_position = 0;
 
@@ -913,8 +885,6 @@ void MusicPlayer::seek(quint64 pos)
     if(state() == StoppedState)
         return;
 
-    onStopTimer();
-
     //先获得总长
     quint64 total = duration();
     if(pos > total)
@@ -923,10 +893,6 @@ void MusicPlayer::seek(quint64 pos)
     }
 
 	playThread->seekToPos(pos);
-
-    onStartTimer();
-
-    //#TODO 之后是否需要添加：暂停时seek后继续暂停
 }
 
 //往后跳（单位 毫秒）
@@ -967,16 +933,9 @@ quint64 MusicPlayer::duration()
 }
 
 //获得当总位置（单位 毫秒）
-quint64 MusicPlayer::position()
+qint64 MusicPlayer::position()
 {
     return m_position;
-}
-
-//设置通知间隔（歌曲位置进度）
-void MusicPlayer::setNotifyInterval(int msec)
-{
-    m_interval = msec;
-    m_positionUpdateTimer.setInterval(m_interval);
 }
 
 void MusicPlayer::sendPosChangedSignal()
@@ -989,18 +948,6 @@ void MusicPlayer::onErrorOccurs(int code, QString msg)
 {
     bInvalidMedia = true;
     emit errorOccur(code, msg);
-}
-
-void MusicPlayer::onStartTimer()
-{
-    if(!m_positionUpdateTimer.isActive())
-        m_positionUpdateTimer.start();
-}
-
-void MusicPlayer::onStopTimer()
-{
-    if(m_positionUpdateTimer.isActive())
-        m_positionUpdateTimer.stop();
 }
 
 

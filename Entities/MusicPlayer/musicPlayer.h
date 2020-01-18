@@ -87,7 +87,7 @@ typedef struct{
 	AVStream *vStream;
     PacketQueue audioq; //音频队列
 
-    double audio_clock; //储存毫秒时间
+    qint64 audio_clock; //储存毫秒时间
     uint8_t volume;
 
     PlayThread* playThread;
@@ -127,7 +127,7 @@ public:
 	void setVolume(int value);
 
 	int getMsDuration();//获得毫秒为度量的总长度	
-	int getCurrentTime(); //获得当前毫秒时间
+	qint64 getCurrentTime(); //获得当前毫秒时间
 
 	bool getIsDeviceInit();//实现互斥访问 isDeviceInit 的接口
 
@@ -140,8 +140,11 @@ signals:
     void audioPlay();               //播放
     void audioPause();              //暂停
     void audioFinish(bool isEndByForce);
+    void seekFinished();            //seek 完毕
+    void seekError();               //seek error
     void volumeChanged(uint8_t);    //音量发生改变
     void durationChanged(qint64);   //总长发生改变（单位 微秒 10e-6）
+    void positionChanged();         //位置发生改变
     void errorOccur(int errorCode, QString errorMessage);
 
     void albumFound(QString);       //发现信息
@@ -257,7 +260,9 @@ signals:
     void audioPause();                      //暂停
     void audioFinish(bool isEndByForce );   //播放完毕
     void durationChanged(qint64);           //总长发生改变（单位 毫秒）
-    void positionChanged(int);              //位置发生改变（单位 毫秒）
+    void positionChanged(qint64);              //位置发生改变（单位 毫秒）
+    void seekFinished();                    //seek 完毕
+    void seekError();                       //seek error
     void volumeChanged(int);                //音量大小发生改变，范围 0-128
     void errorOccur(int errorCode, QString msg);   //发生错误
 
@@ -290,16 +295,13 @@ public slots:
     void setVolume(int volume);  //音量大小范围 0-128
     int getVolume();
     quint64 duration();  //获得当总时长（单位 毫秒）
-    quint64 position();  //获得当总位置（单位 毫秒）
+    qint64 position();  //获得当总位置（单位 毫秒）
 
-    void setNotifyInterval(int msec);   //设置通知间隔（歌曲位置进度）
     Status state();
 
 private slots:
     void sendPosChangedSignal();
     void onErrorOccurs(int ,QString);
-    void onStartTimer();
-    void onStopTimer();
 
 private:
     //歌曲文件信息
@@ -310,12 +312,9 @@ private:
 
 private:
     QString musicPath;
-    quint64 m_position;              //当前时间（单位 毫秒）
+    qint64 m_position;              //当前时间（单位 毫秒）
 
     int m_volume;
-
-    QTimer  m_positionUpdateTimer;    //通知歌曲进度发生改变的Timer
-    int     m_interval;               //间隔，单位毫秒
 
     PlayThread* playThread;
 
