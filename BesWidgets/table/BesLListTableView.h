@@ -3,7 +3,6 @@
 
 #include "Define/Define.h"
 #include "BesLListTableModel.h"
-#include "BesLListTableView.h"
 #include "BesLListButtonDelegate.h"
 #include "NetAccess.h"
 

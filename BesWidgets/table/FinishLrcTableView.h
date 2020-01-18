@@ -3,7 +3,6 @@
 
 #include "Define/Define.h"
 #include "FinishLrcTableModel.h"
-#include "FinishLrcTableView.h"
 #include "FinishLrcButtonDelegate.h"
 #include <QTableView>
 #include <QVector>

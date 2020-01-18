@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "Struct.h"
 #include <QString>
 #include <QVector>
 

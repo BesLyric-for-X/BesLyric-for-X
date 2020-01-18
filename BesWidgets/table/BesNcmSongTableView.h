@@ -3,7 +3,6 @@
 
 #include "Define/Define.h"
 #include "BesNcmSongTableModel.h"
-#include "BesNcmSongTableView.h"
 #include "BesNcmSongButtonDelegate.h"
 #include "NetAccess.h"
 #include "Thread/ThreadConvertMp3.h"
