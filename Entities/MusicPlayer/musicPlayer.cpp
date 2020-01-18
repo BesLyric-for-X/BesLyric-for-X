@@ -463,7 +463,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
     wanted_spec.channels = out_channels;
     wanted_spec.silence = 0;
     wanted_spec.samples = out_nb_samples;
-    wanted_spec.size = 1024;
+    wanted_spec.size = out_buffer_size;
     wanted_spec.callback = fillAudio;
     wanted_spec.userdata =  &m_MS;
 
