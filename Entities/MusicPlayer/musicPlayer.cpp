@@ -148,14 +148,18 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
 
     int returns = -1; //除非音频解码成功返回音频数据，否则返回 -1
 
+    if (packet_queue_get(&MS->audioq, &packet, 0) < 0)
+    {
+        qDebug()<<"PlayThread::audio_decode_frame: no packet got";
+        return returns;
+    }
+
+
     while (true)
     {
-        if (packet_queue_get(&MS->audioq, &packet, 0) < 0)
-        {
-            break;
-        }
         if (packet.pts == AV_NOPTS_VALUE)
         {
+            // useless ?
             break;
         }
 
