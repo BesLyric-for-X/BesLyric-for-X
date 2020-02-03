@@ -1,6 +1,4 @@
 
-QT       += network
-
 HEADERS+=\
     $$PWD/NetAccess.h
 
