@@ -75,6 +75,13 @@ macx{
 ICON = Beslyric.icns
 }
 
+# ubuntu icon recoginition
+#  No test on other Linux distros!
+# from: https://stackoverflow.com/questions/45329372/ubuntu-recognizes-executable-as-shared-library-and-wont-run-it-by-clicking
+!macx:unix{
+    QMAKE_LFLAGS *= -no-pie
+}
+
 #--------------------------------
 
 #屏蔽 msvc 编译器对 rational.h 的 warning: C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
