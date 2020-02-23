@@ -43,7 +43,7 @@ LIBS += -L$$FFMPEG_LIB/ -lavcodec\
         -L$$FFMPEG_LIB/ -lswresample \
         -L$$FFMPEG_LIB/ -lswscale \
         -L$$FFMPEG_LIB/ -lswresample \
-        -L$$SDL_LIB/ -lSDL2main  \
+#        -L$$SDL_LIB/ -lSDL2main  \
         -L$$SDL_LIB/ -lSDL2
 }
 
@@ -75,7 +75,7 @@ LIBS += $$FFMPEG_LIB/libavcodec.so      \
         $$FFMPEG_LIB/libswresample.so   \
         $$FFMPEG_LIB/libswscale.so      \
         #$$FFMPEG_LIB/libpostproc.so    \
-        -L$$SDL_LIB/ -lSDL2main        \   #can't be $$PSDL_LIB/ -lSDL2main, must be -L$$PSDL_LIB/ -lSDL2main
+#        -L$$SDL_LIB/ -lSDL2main        \   #can't be $$PSDL_LIB/ -lSDL2main, must be -L$$PSDL_LIB/ -lSDL2main
         -L$$SDL_LIB/ -lSDL2
 }
 
@@ -102,7 +102,7 @@ LIBS += -L$$FFMPEG_LIB/ -lavcodec      \
         -L$$FFMPEG_LIB/ -lavutil       \
         -L$$FFMPEG_LIB/ -lswresample   \
         -L$$FFMPEG_LIB/ -lswscale   \
-        -L$$SDL_LIB/ -lSDL2main        \
+#        -L$$SDL_LIB/ -lSDL2main        \
         -L$$SDL_LIB/ -lSDL2
 
 }
