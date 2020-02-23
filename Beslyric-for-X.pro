@@ -84,6 +84,16 @@ ICON = Beslyric.icns
 
 #--------------------------------
 
+# Separate the binary file.
+CONFIG(debug, debug|release){
+    DESTDIR = $${OUT_PWD}/debug_bin
+}
+CONFIG(release, debug|release){
+    DESTDIR = $${OUT_PWD}/release_bin
+}
+
+#--------------------------------
+
 #屏蔽 msvc 编译器对 rational.h 的 warning: C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 win32-msvc*:QMAKE_CXXFLAGS += /wd"4819"
 
