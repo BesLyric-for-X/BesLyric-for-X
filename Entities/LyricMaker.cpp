@@ -242,7 +242,12 @@ bool LyricMaker::updateCurrentLineText(QString& line)
 //标记当前行为 time
 bool LyricMaker::markCurrentRawLine(quint64 time)
 {
-    time -= insertOffsetTime;
+    // warning: comparison of integers of different sign
+    if(time < insertOffsetTime){
+        time = 0;
+    }else{
+        time -= insertOffsetTime;
+    }
     lrcLines.push_back(QPair<quint64, QString>(time,rawLines[rawCurrent]));
 
     rawCurrent++;
@@ -257,7 +262,12 @@ bool LyricMaker::markEmptyLine(quint64 time)
     //只有当lrc 歌词为空，或者不为空时最后一个元素的内容不为空时，才插入一个空的时间行
     if(lrcLines.isEmpty() || lrcLines.last().second != "")
     {
-        time -= insertOffsetTime;
+        // warning: comparison of integers of different signs
+        if(time < insertOffsetTime){
+            time = 0;
+        }else{
+            time -= insertOffsetTime;
+        }
         lrcLines.push_back(QPair<quint64, QString>(time,""));
         lrcNext++;
     }
