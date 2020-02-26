@@ -770,7 +770,6 @@ void SubPageMaking::startMaking()
     if(isMaking == false)  //没有在制作时才允许响应制作的操作
     {
         isMaking = true;
-	curAudioPos = 0; //初始化标记歌词时间使用的时间值
 
         emit onStartMaking();
 
