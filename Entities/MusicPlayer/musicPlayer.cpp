@@ -117,10 +117,11 @@ void packet_queue_flush(PacketQueue *q)
     for(pkt = q->first_pkt; pkt != NULL; pkt = pkt1)
     {
         pkt1 = pkt->next;
-        if(pkt1->pkt.data != (uint8_t *)"FLUSH")
-        {
-            ;
-        }
+        // Crashed on macOS
+//        if(pkt1->pkt.data != (uint8_t *)"FLUSH")
+//        {
+//            ;
+//        }
         av_free_packet(&pkt->pkt);
         av_freep(&pkt);
 
