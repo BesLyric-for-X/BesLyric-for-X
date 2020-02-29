@@ -20,7 +20,7 @@ public:
     void deleteAllItems();
     void appendItems(const QVector<LyricInfo>& infos);
 
-    void setLyricData(QVector<QPair<quint64, QString>>* pLrcLines);
+    void setLyricData(QVector<QPair<qint64, QString>>* pLrcLines);
 
     QVector<QString> getSelectedLrc();
 

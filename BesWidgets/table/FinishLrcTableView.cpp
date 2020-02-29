@@ -32,7 +32,7 @@ void FinishLrcTableView::appendItems(const QVector<LyricInfo>& infos)
 }
 
 
-void FinishLrcTableView::setLyricData(QVector<QPair<quint64, QString>>* pLrcLines)
+void FinishLrcTableView::setLyricData(QVector<QPair<qint64, QString>>* pLrcLines)
 {
     m_model->setLyricLines(pLrcLines);
     emit m_model->layoutChanged();
@@ -45,7 +45,7 @@ QVector<QString> FinishLrcTableView::getSelectedLrc()
     QVector<QString> vecLines;
     if(indexList.size() != 0)
     {
-        QVector<QPair<quint64, QString>>* pLrc = m_model->getLyricLines();
+        QVector<QPair<qint64, QString>>* pLrc = m_model->getLyricLines();
 
         if(pLrc)
         {
@@ -66,7 +66,7 @@ void FinishLrcTableView::onEditRow(int row)
 {
     //弹框改变已有lrc歌词内容
     BesEditDialog besEditDialog;
-    QVector<QPair<quint64, QString>>* pLrc = m_model->getLyricLines();
+    QVector<QPair<qint64, QString>>* pLrc = m_model->getLyricLines();
     QString text = pLrc->at(row).second;
     besEditDialog.setText(text);
     if(QDialog::Accepted == besEditDialog.exec())

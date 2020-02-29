@@ -240,7 +240,7 @@ bool LyricMaker::updateCurrentLineText(QString& line)
 }
 
 //标记当前行为 time
-bool LyricMaker::markCurrentRawLine(quint64 time)
+bool LyricMaker::markCurrentRawLine(qint64 time)
 {
     // warning: comparison of integers of different sign
     if(time < insertOffsetTime){
@@ -248,7 +248,7 @@ bool LyricMaker::markCurrentRawLine(quint64 time)
     }else{
         time -= insertOffsetTime;
     }
-    lrcLines.push_back(QPair<quint64, QString>(time,rawLines[rawCurrent]));
+    lrcLines.push_back(QPair<qint64, QString>(time,rawLines[rawCurrent]));
 
     rawCurrent++;
     lrcNext++;
@@ -257,7 +257,7 @@ bool LyricMaker::markCurrentRawLine(quint64 time)
 }
 
 //标记时间为 time 的空行
-bool LyricMaker::markEmptyLine(quint64 time)
+bool LyricMaker::markEmptyLine(qint64 time)
 {
     //只有当lrc 歌词为空，或者不为空时最后一个元素的内容不为空时，才插入一个空的时间行
     if(lrcLines.isEmpty() || lrcLines.last().second != "")
@@ -268,7 +268,7 @@ bool LyricMaker::markEmptyLine(quint64 time)
         }else{
             time -= insertOffsetTime;
         }
-        lrcLines.push_back(QPair<quint64, QString>(time,""));
+        lrcLines.push_back(QPair<qint64, QString>(time,""));
         lrcNext++;
     }
 
@@ -276,7 +276,7 @@ bool LyricMaker::markEmptyLine(quint64 time)
 }
 
 //回退到 time
-bool LyricMaker::stepBackToTime(quint64 time)
+bool LyricMaker::stepBackToTime(qint64 time)
 {
     //从下标为 0 开始遍历到 lrcNext, 知道找到 比 time 大的，其下标即为跳转后下标
     for(uint i = 0; i< lrcNext; i++)
@@ -317,7 +317,7 @@ bool LyricMaker::stepBackToTime(quint64 time)
 }
 
 //获得上一行LRC歌词的时间，没有上一行时返回-1
-int LyricMaker::getLastLrcLineTime()
+qint64 LyricMaker::getLastLrcLineTime()
 {
     if(!hasPreLrcLine())
         return -1;
@@ -332,7 +332,8 @@ void LyricMaker::finishMaking()
 
     for(auto& line:lrcLines)
     {
-        quint64 time = line.first;
+        qint64 time = line.first;
+
         int ms = time % 1000;
         time = time/1000;
         int s = time % 60;
@@ -353,13 +354,13 @@ bool LyricMaker::isResultLrcEmpty()
 }
 
 
-void LyricMaker::getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+void LyricMaker::getLyricData(QVector<QString>& _rawLines, QVector<QPair<qint64, QString>>& _lrcLines)
 {
     _rawLines = rawLines;
     _lrcLines = lrcLines;
 }
 
-void LyricMaker::updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+void LyricMaker::updateLyricData(QVector<QString>& _rawLines, QVector<QPair<qint64, QString>>& _lrcLines)
 {
     isLyricChanged = true;                  //标记歌词已经发生改变
     rawLines = _rawLines;

@@ -161,7 +161,7 @@ bool LyricEditorBox::isResultOK()
 }
 
 
-void LyricEditorBox::setLyricData(const QVector<QString>& _rawLines, const QVector<QPair<quint64, QString>>& _lrcLines)
+void LyricEditorBox::setLyricData(const QVector<QString>& _rawLines, const QVector<QPair<qint64, QString>>& _lrcLines)
 {
     rawLines = _rawLines;
     lrcLines = _lrcLines;
@@ -189,7 +189,7 @@ void LyricEditorBox::setLyricData(const QVector<QString>& _rawLines, const QVect
 }
 
 
-void LyricEditorBox::getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines)
+void LyricEditorBox::getLyricData(QVector<QString>& _rawLines, QVector<QPair<qint64, QString>>& _lrcLines)
 {
     //重新收集原歌词
     _rawLines.clear();

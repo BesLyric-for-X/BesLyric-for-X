@@ -19,8 +19,8 @@ public:
     bool saveLyrc(QString savePath);
     bool saveToRawLyric();
 
-    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
-    void updateLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
+    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<qint64, QString>>& _lrcLines);
+    void updateLyricData(QVector<QString>& _rawLines, QVector<QPair<qint64, QString>>& _lrcLines);
 
     bool isLyricModified(){return isLyricChanged; }
     QString getRawLyricPath(){return rawLyricPath; }
@@ -45,28 +45,28 @@ public slots:
     bool getNextRawLineText(QString& line);        //当前行为最后一行时，将返回 false
     bool getNNextRawLineText(QString& line);       //当前行为最后二行时，将返回 false
 
-    bool updateCurrentLineText(QString& line);      //更新当前行的歌词内容
+    bool updateCurrentLineText(QString& line);     //更新当前行的歌词内容
 
-    bool markCurrentRawLine(quint64 time);         //标记当前行为 time
-    bool markEmptyLine(quint64 time);              //标记时间为 time 的空行
-    bool stepBackToTime(quint64 time);             //回退到 time
+    bool markCurrentRawLine(qint64 time);          //标记当前行为 time
+    bool markEmptyLine(qint64 time);               //标记时间为 time 的空行
+    bool stepBackToTime(qint64 time);              //回退到 time
 
-    int getLastLrcLineTime();                       //获得上一行LRC歌词的时间，没有上一行时返回-1
+    qint64 getLastLrcLineTime();                   //获得上一行LRC歌词的时间，没有上一行时返回-1
 
-    void finishMaking();                            //结束制作
-    bool isResultLrcEmpty();                        //制作结束的lrc是否为空
+    void finishMaking();                           //结束制作
+    bool isResultLrcEmpty();                       //制作结束的lrc是否为空
 
 
 private:
     QVector<QString> rawLines;                          //原始歌词
-    QVector<QPair<quint64, QString>> lrcLines;          //lrc歌词
+    QVector<QPair<qint64, QString>> lrcLines;           //lrc歌词
 
     uint rawCurrent;                                    //原始歌词当前下标
     uint lrcNext;                                       //lrc歌词当前的下一个下标
 
     QString lrcContent;                                 //最终得到的lrc歌词内容
 
-    int insertOffsetTime;                           //插入歌词时提前偏移的时间值
+    int insertOffsetTime;                               //插入歌词时提前偏移的时间值
 
     bool isLyricChanged;                                //标记歌词是否发生改变过
     QString rawLyricPath;                               //源歌词路径

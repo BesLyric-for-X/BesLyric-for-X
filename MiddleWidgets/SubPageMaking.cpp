@@ -506,7 +506,7 @@ void SubPageMaking::backBy5Second()
 {
     emit onSeekBackward(5000);
 
-    quint64 to = 0;
+    qint64 to = 0;
     if(curAudioPos > 5000)
         to = curAudioPos - 5000;
 
@@ -521,9 +521,9 @@ void SubPageMaking::backOneLine()
     if(!lyricMaker.hasPreLrcLine())
         return;
 
-    int time = lyricMaker.getLastLrcLineTime();
+    qint64 time = lyricMaker.getLastLrcLineTime();
 
-    int back = curAudioPos-time;
+    qint64 back = curAudioPos-time;
     if(back < 0)
         back = 0;
 
@@ -810,7 +810,7 @@ void SubPageMaking::remaking()
     }
 }
 
-void SubPageMaking::updatePos(int pos)
+void SubPageMaking::updatePos(qint64 pos)
 {
 	if (isMaking)
 	{
@@ -870,7 +870,7 @@ void SubPageMaking::onEditBatchLyric()
     LyricEditorBox* lyricEditor = new LyricEditorBox(nullptr);
 
     QVector<QString>rawLines;
-    QVector<QPair<quint64, QString>> lrcLines;
+    QVector<QPair<qint64, QString>> lrcLines;
     lyricMaker.getLyricData(rawLines,lrcLines);
     lyricEditor->setLyricData(rawLines,lrcLines);
 

@@ -25,8 +25,8 @@ public:
 
     bool isResultOK();
 
-    void setLyricData(const QVector<QString>& _rawLines, const QVector<QPair<quint64, QString>>& _lrcLines);
-    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<quint64, QString>>& _lrcLines);
+    void setLyricData(const QVector<QString>& _rawLines, const QVector<QPair<qint64, QString>>& _lrcLines);
+    void getLyricData(QVector<QString>& _rawLines, QVector<QPair<qint64, QString>>& _lrcLines);
 public slots:
 
     void onCopySelected();
@@ -35,7 +35,7 @@ public slots:
 private:
     QVector<QString> lineSelected;
     QVector<QString> rawLines;                          //原始歌词
-    QVector<QPair<quint64, QString>> lrcLines;          //lrc歌词
+    QVector<QPair<qint64, QString>> lrcLines;           //lrc歌词
 
 private:
     QWidget* widgetMessageBoxContainer;

@@ -38,7 +38,7 @@ private:
 signals:
     void onReloadMusic(QString musicPath);
     void onStartMaking();
-    void onSeekBackward(quint64);           //回退指定毫秒时间
+    void onSeekBackward(qint64);           //回退指定毫秒时间
     void onPlayOrPauseMusic();
     void onStopMusic();
 
@@ -62,7 +62,7 @@ public slots:
     void previewResult();   //点击了预览效果
     void openResult();      //打开生成文件
 
-    void updatePos(int);
+    void updatePos(qint64);
 
     void onGuessNcmInfo();    //猜测ncm文件的歌曲名和歌词
 	void onGuessLyricInfo();  //猜测歌词信息
@@ -93,7 +93,7 @@ private:
     QString         pathOutputDir;
 
     LyricMaker      lyricMaker;
-    int             curAudioPos;        //当前歌曲播放到的位置
+    qint64          curAudioPos;        //当前歌曲播放到的位置
 
     bool            pathLoaded;         //标记路径是否被成功加载
     QString         pathMusicLoaded;    //当前被载入的音乐

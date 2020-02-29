@@ -281,7 +281,7 @@ void PlayThread::setVolume(int value)
 	m_MS.volume = (uint8_t)value;
 }
 
-int PlayThread::getMsDuration()				//获得毫秒为度量的总长度
+qint64 PlayThread::getMsDuration()				//获得毫秒为度量的总长度
 {
 	if (pFormatCtx == nullptr || !bIsDeviceInit)
 		return 0;
@@ -290,7 +290,7 @@ int PlayThread::getMsDuration()				//获得毫秒为度量的总长度
 }
 
 
-qint64  PlayThread::getCurrentTime() 
+qint64 PlayThread::getCurrentTime()
 { 
 	return m_MS.audio_clock; 
 }
@@ -313,7 +313,7 @@ AudioGenStatus PlayThread::getAGStatus()
 }
 
 
-void  PlayThread::seekToPos(quint64 pos)
+void  PlayThread::seekToPos(qint64 pos)
 {
 	millisecondToSeek = pos; 
 	AGStatus = AGS_SEEK;
@@ -885,13 +885,13 @@ void MusicPlayer::stop()
 }
 
 //跳到时间点播放（单位 毫秒）
-void MusicPlayer::seek(quint64 pos)
+void MusicPlayer::seek(qint64 pos)
 {
     if(state() == StoppedState)
         return;
 
     //先获得总长
-    quint64 total = duration();
+    qint64 total = duration();
     if(pos > total)
     {
         pos = total;
@@ -901,13 +901,13 @@ void MusicPlayer::seek(quint64 pos)
 }
 
 //往后跳（单位 毫秒）
-void MusicPlayer::forwordSeek(quint64 step)
+void MusicPlayer::forwordSeek(qint64 step)
 {
     seek(m_position + step);
 }
 
 //往回跳（单位 毫秒）
-void MusicPlayer::backwardSeek(quint64 step)
+void MusicPlayer::backwardSeek(qint64 step)
 {
     seek(step > m_position ? 0: m_position - step);
 }
@@ -932,7 +932,7 @@ int MusicPlayer::getVolume()
 }
 
 //获得当总时长（单位 毫秒）
-quint64 MusicPlayer::duration()
+qint64 MusicPlayer::duration()
 {
 	return playThread->getMsDuration();
 }

@@ -126,14 +126,14 @@ public:
 	int getVolume();
 	void setVolume(int value);
 
-	int getMsDuration();//获得毫秒为度量的总长度	
+    qint64 getMsDuration();//获得毫秒为度量的总长度
 	qint64 getCurrentTime(); //获得当前毫秒时间
 
 	bool getIsDeviceInit();//实现互斥访问 isDeviceInit 的接口
 
 	void setMusicPath(QString path);
 
-	void seekToPos(quint64 pos);
+    void seekToPos(qint64 pos);
 
 signals:
     void audioLoadedsuccessfully(); //每次音频成功被加载
@@ -222,9 +222,9 @@ private:
 
     AudioGenStatus AGStatus;            //音频产生方式状态
     bool bIsDeviceInit;                 //设备是否已经初始化
-    uint64_t millisecondToSeek;         //定位的 毫秒数）
+    qint64 millisecondToSeek;           //定位的 毫秒数）
 
-	QMutex AGSStatusMutex;				//保证	AGSStatus 状态 某些访问操作 的原子性
+    QMutex AGSStatusMutex;              //保证 AGSStatus 状态 某些访问操作 的原子性
 };
 
 
@@ -274,9 +274,9 @@ signals:
     //      emit errorOccur(6,QString(tr("无法初始化播放设备模块 SDL - %s.")).arg(errorString));
     //      emit errorOccur(7,tr("播放设备模块 SDL 无法打开指定音频数据"));
 
-	void sig_playThreadFinished();	//播放线程完全停止退出
+    void sig_playThreadFinished();	 //播放线程完全停止退出
 
-    void albumFound(QString);       //发现信息
+    void albumFound(QString);        //发现信息
     void artistFound(QString);
     void titleFound(QString);
     void pictureFound(QPixmap);
@@ -288,13 +288,13 @@ public slots:
     void play();
     void pause();
     void stop();
-    void seek(quint64 pos);          //跳到时间点播放（单位 毫秒）
-    void forwordSeek(quint64 step);  //往后跳（单位 毫秒）
-    void backwardSeek(quint64 step); //往回跳（单位 毫秒）
+    void seek(qint64 pos);           //跳到时间点播放（单位 毫秒）
+    void forwordSeek(qint64 step);   //往后跳（单位 毫秒）
+    void backwardSeek(qint64 step);  //往回跳（单位 毫秒）
 
-    void setVolume(int volume);  //音量大小范围 0-128
+    void setVolume(int volume);      //音量大小范围 0-128
     int getVolume();
-    quint64 duration();  //获得当总时长（单位 毫秒）
+    qint64 duration();  //获得当总时长（单位 毫秒）
     qint64 position();  //获得当总位置（单位 毫秒）
 
     Status state();
