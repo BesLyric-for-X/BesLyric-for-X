@@ -145,6 +145,11 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
                 labelDefaultPathLyric->setText(backup);
                 BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
             }
+            else
+            {
+                //“下载歌词->原歌词” 页面下的 edit 控件需要立刻生效使用新的路径
+                emit sig_defaultPathLyricChanged(dir);
+            }
         }
     });
 
@@ -165,6 +170,12 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
                 SettingManager::GetInstance().data().defaultOutputPath = backup;
                 labelDefaultPathOutput->setText(backup);
                 BesMessageBox::information(tr("提示"),tr("保存失败，可能是程序没有写权限"));
+            }
+            else
+            {
+                //“制作歌词” 页面下的输出目录 edit 控件 以及
+                //“下载歌词->LRC歌词” 页面下的 edit 控件 需要立刻生效使用新的路径
+                emit sig_defaultPathOutputChanged(dir);
             }
         }
     });

@@ -58,18 +58,21 @@ public slots:
     void loadCurrentPath();
     void startMaking();
     void remaking();
-    void finishMaking();    //结束制作
-    void previewResult();   //点击了预览效果
-    void openResult();      //打开生成文件
+    void finishMaking();              //结束制作
+    void previewResult();             //点击了预览效果
+    void openResult();                //打开生成文件
 
     void updatePos(qint64);
 
-    void onGuessNcmInfo();    //猜测ncm文件的歌曲名和歌词
-	void onGuessLyricInfo();  //猜测歌词信息
+    void onGuessNcmInfo();            //猜测ncm文件的歌曲名和歌词
+    void onGuessLyricInfo();          //猜测歌词信息
 
-    void onEditCurrentRawLyric(); //直接打开文件编辑当前原歌词
-    void onEditCurrentLine();     //编辑当前行
-    void onEditBatchLyric();      //批量编辑
+    void onEditCurrentRawLyric();     //直接打开文件编辑当前原歌词
+    void onEditCurrentLine();         //编辑当前行
+    void onEditBatchLyric();          //批量编辑
+
+    //默认输出路径发生改变
+    void OnDefaultPathOutputChanged(QString path);
 
 public:
     void selectMusicPath(const QString& musicPath);

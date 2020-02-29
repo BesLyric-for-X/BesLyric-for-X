@@ -31,6 +31,9 @@ public slots:
 signals:
     void sig_scrollPosChanged(int pos, int pageStep, int nScrollMax);//在滚动条位置发生变化时，发出当前的位置
 
+    //默认路径发生改变需要更新相关控件
+    void sig_defaultPathLyricChanged(QString path);
+    void sig_defaultPathOutputChanged(QString path);
 
 private:
     void initEntity();

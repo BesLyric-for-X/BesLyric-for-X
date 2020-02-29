@@ -890,6 +890,11 @@ void SubPageMaking::onEditBatchLyric()
     isBatchEditing = false;
 }
 
+//默认输出路径发生改变
+void SubPageMaking::OnDefaultPathOutputChanged(QString path)
+{
+    editSelectOutputDir->setText(SettingManager::GetInstance().data().defaultOutputPath); //LRC 歌词存放目录
+}
 
 void SubPageMaking::selectMusicPath(const QString& musicPath)
 {

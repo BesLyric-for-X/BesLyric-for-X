@@ -610,6 +610,16 @@ void SubPageDownloadLyric::OnSaveLrcLyric()
     }
 }
 
+void SubPageDownloadLyric::OnDefaultPathLyricChanged(QString path)
+{
+    editRawLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultLyricPath); //普通歌词文件的存放目录
+}
+
+void SubPageDownloadLyric::OnDefaultPathOutputChanged(QString path)
+{
+    editLrcLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultOutputPath); //LRC 文件的存放目录
+}
+
 void SubPageDownloadLyric::searchLyricDirectly(const QString& artists, const QString& song)
 {
     editSearchLyricSong->setText(song);

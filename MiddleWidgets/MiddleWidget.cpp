@@ -56,7 +56,15 @@ void MiddleWidget::initConnection()
     connect(&animationSettingExtend, &QPropertyAnimation::finished, this, &MiddleWidget::geometryAnimationFinish);
 
     connect(pageMain->subPageMaking, &SubPageMaking::sig_addToMakingHistory, pageLyricList, &PageLyricList::OnAddToMakingHistory);
-   }
+
+    //默认路径发生改变
+    connect(pageSetting->settingWidget->settingScrollPanel, &SuScrollPanel::sig_defaultPathOutputChanged,
+            pageMain->subPageMaking, &SubPageMaking::OnDefaultPathOutputChanged);
+    connect(pageSetting->settingWidget->settingScrollPanel, &SuScrollPanel::sig_defaultPathOutputChanged,
+            pageMain->subPageDownloadLyric, &SubPageDownloadLyric::OnDefaultPathOutputChanged);
+    connect(pageSetting->settingWidget->settingScrollPanel, &SuScrollPanel::sig_defaultPathLyricChanged,
+            pageMain->subPageDownloadLyric, &SubPageDownloadLyric::OnDefaultPathLyricChanged);
+}
 
 
 void MiddleWidget::initAnimation()

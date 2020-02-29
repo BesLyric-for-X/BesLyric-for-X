@@ -39,6 +39,14 @@ QVector<ISettingUnit *> &SuScrollPanel::getSettingUnits()
         settings.push_back(suUpgrade);
         settings.push_back(suSoftware);
         settings.push_back(suDonation);
+
+        //连接需要发出信号的控件
+        connect((SuDefaultPath*)suDefaultPath, &SuDefaultPath::sig_defaultPathLyricChanged, [=](QString path){
+            emit sig_defaultPathLyricChanged(path);
+        });
+        connect((SuDefaultPath*)suDefaultPath, &SuDefaultPath::sig_defaultPathOutputChanged, [=](QString path){
+            emit sig_defaultPathOutputChanged(path);
+        });
     }
 
     return settings;
