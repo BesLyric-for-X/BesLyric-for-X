@@ -42,6 +42,10 @@ public slots:
     void OnSaveRawLyric();
     void OnSaveLrcLyric();
 
+    //默认路径发生改变
+    void OnDefaultPathLyricChanged(QString path);
+    void OnDefaultPathOutputChanged(QString path);
+
 public:
     void searchLyricDirectly(const QString& artists, const QString& song);
 

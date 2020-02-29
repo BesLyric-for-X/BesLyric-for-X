@@ -9,10 +9,15 @@
 
 class SuDefaultPath: public ISettingUnit
 {
+    Q_OBJECT
 public:
     virtual QString getName() override;
     virtual int getUnitHeight() override;
     virtual QWidget* getUnitWidget(QWidget* parent) override;
+
+signals:
+    void sig_defaultPathLyricChanged(QString path);
+    void sig_defaultPathOutputChanged(QString path);
 
 public:
     QWidget* SettingUnitContainer;
