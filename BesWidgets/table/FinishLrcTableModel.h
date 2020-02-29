@@ -23,8 +23,8 @@ public:
     void deleteAllItems();
     void appendItems(const QVector<LyricInfo>& infos);
 
-    void setLyricLines(QVector<QPair<quint64, QString>>* _pLrcLines){pLrcLines = _pLrcLines;}
-    QVector<QPair<quint64, QString>>* getLyricLines(){return pLrcLines;}
+    void setLyricLines(QVector<QPair<qint64, QString>>* _pLrcLines){pLrcLines = _pLrcLines;}
+    QVector<QPair<qint64, QString>>* getLyricLines(){return pLrcLines;}
 signals:
 
 public slots:
@@ -34,7 +34,7 @@ private:
     QStringList m_HorizontalHeader;
     QVector<LyricInfo> m_data;
 
-    QVector<QPair<quint64, QString>>* pLrcLines;
+    QVector<QPair<qint64, QString>>* pLrcLines;
 };
 
 #endif // FinishLrcTableModel_H

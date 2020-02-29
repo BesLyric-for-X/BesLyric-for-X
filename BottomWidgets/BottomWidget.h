@@ -28,9 +28,9 @@ public slots:
     void autoPlayOrPause();             //自动判断播放还是暂停
     void stop();                        //【特别注意：本程序的播放器不是线程安全的，在stop()中的循环等待播放线程结束操作，
                                         // 可能会由于别处同时 调用 stop(),play() 而卡死】
-    void seek(quint64 pos);             //毫秒时间
-    void seekForward(quint64 step);
-    void seekBackward(quint64 step);
+    void seek(qint64 pos);              //毫秒时间
+    void seekForward(qint64 step);
+    void seekBackward(qint64 step);
 
 
     void enterMakingMode();     //进入制作模式
@@ -94,7 +94,7 @@ public:
 private:
 
     bool AdjustingPos;
-    quint64 posAdjust;
+    qint64 posAdjust;
 };
 
 #endif // BOTTOMWIDGET_H

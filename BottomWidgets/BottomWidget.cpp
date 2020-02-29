@@ -221,21 +221,21 @@ void BottomWidget::stop()
 }
 
 //uncalled
-void BottomWidget::seek(quint64 pos)
+void BottomWidget::seek(qint64 pos)
 {
      if(musicPlayer->state() != MusicPlayer::StoppedState )
          musicPlayer->seek(pos);
 }
 
 //uncalled
-void BottomWidget::seekForward(quint64 step)
+void BottomWidget::seekForward(qint64 step)
 {
     if(musicPlayer->state() != MusicPlayer::StoppedState )
         musicPlayer->forwordSeek(step);
 }
 
-//middleWidget->pageMain->subPageMaking,SIGNAL(onSeekBackward(quint64)) emitted
-void BottomWidget::seekBackward(quint64 step)
+//middleWidget->pageMain->subPageMaking,SIGNAL(onSeekBackward(qint64)) emitted
+void BottomWidget::seekBackward(qint64 step)
 {
     if(musicPlayer->state() != MusicPlayer::StoppedState )
         musicPlayer->backwardSeek(step);
@@ -332,7 +332,7 @@ void BottomWidget::onSliderSongReleased()
 {
     qDebug()<<"void BottomWidget::onSliderSongReleased() sliderSong->value()="<<sliderSong->value()<<" posAdjust="<<posAdjust;
 
-            musicPlayer->seek(posAdjust);
+    musicPlayer->seek(posAdjust);
 }
 
 void BottomWidget::onSliderSongClickNotOnHandle(int position)
