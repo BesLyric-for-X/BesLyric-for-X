@@ -893,6 +893,7 @@ void SubPageMaking::onEditBatchLyric()
 //默认输出路径发生改变
 void SubPageMaking::OnDefaultPathOutputChanged(QString path)
 {
+    pathOutputDir = SettingManager::GetInstance().data().defaultOutputPath;
     editSelectOutputDir->setText(SettingManager::GetInstance().data().defaultOutputPath); //LRC 歌词存放目录
 }
 
