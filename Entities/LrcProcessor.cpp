@@ -3,6 +3,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #include "LrcProcessor.h"
+#include "UnicodeReader.h"
+#include <QRegExp>
 #include <QFile>
 
 bool LrcProcessor::LoadFromFile(QString lyricFilePath)
@@ -16,22 +18,20 @@ bool LrcProcessor::LoadFromFile(QString lyricFilePath)
     bIsLrcLyric = false;
     bIsNeteaseLrcFormat = true;
 
-    QFile file(lyricFilePath);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
+    QString content;
+    UnicodeReader unicodeReader;
+    if(!unicodeReader.ReadFromFile(lyricFilePath,content))
         return false;
-    }
 
-    while(!file.atEnd())
+    QRegExp sepRegExp = QRegExp("\n|\r");               //linux\mac\windows 换行符号
+    QStringList lineList = content.split(sepRegExp);
+
+    for(auto& line: lineList)
     {
-        QByteArray line = file.readLine();
-        QString strline = QString(line).trimmed();
-
-        if(strline.size() != 0)
-            lines.push_back(strline);   //收集非空行
+        line = line.trimmed();
+        if(!line.isEmpty())
+            lines.push_back(line.trimmed());
     }
-
-    file.close();
 
     LoadFromRawLines(lines);
 
