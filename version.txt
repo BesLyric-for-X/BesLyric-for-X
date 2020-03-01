@@ -2,13 +2,15 @@
 
 version: 3.1.2
 1 修复搜索功能失效问题
- (第1点由 github 用户 devilintheEden/Yiyin Gu 反馈)
+ （第1点由 github 用户 devilintheEden/Yiyin Gu 反馈）
 2 修复含有“.”的歌曲文件的文件名不能被正确识别
 3 修复音乐播放崩溃问题（mac OS）
 4 修复 Window 下歌词单列表快速切换卡死问题
  （第4点由 github 用户 yujunjiex/俞俊杰 反馈）
 5 修复首句歌词时间在比较靠前时，时间标记异常问题
  （第5点由 github 用户 ish-kafel 反馈）
+6 修复导入的外来LRC文件歌词显示乱码问题
+ （第6点由 知乎用户 山雀教主周半仙 反馈）
 6 优化用户操作问题
 6.1 将同意下载声明的时间 1min 改为 30s
 6.2 默认目录更改立刻生效
