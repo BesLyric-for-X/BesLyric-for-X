@@ -165,12 +165,12 @@ private:
     AVDictionary *format_opts, *codec_opts, *resample_opts;
 
 #define OFFSET(x) offsetof(OptionsContext, x)
-    OptionDef optionMap = { "map", HAS_ARG | OPT_EXPERT | OPT_PERFILE |OPT_OUTPUT,(void*)opt_map,   // { .func_arg = opt_map },
+    OptionDef optionMap = { "map", HAS_ARG | OPT_EXPERT | OPT_PERFILE |OPT_OUTPUT,{(void*)opt_map},   // { .func_arg = opt_map },
             "set input stream mapping",
             "[-]input_file_id[:stream_specifier][,sync_file_id[:stream_specifier]]" };
-    OptionDef optionCodecName = { "c", HAS_ARG | OPT_STRING | OPT_SPEC |OPT_INPUT | OPT_OUTPUT,   (void*)OFFSET(codec_names) ,//{ .off       = OFFSET(codec_names) },
+    OptionDef optionCodecName = { "c", HAS_ARG | OPT_STRING | OPT_SPEC |OPT_INPUT | OPT_OUTPUT,   {(void*)OFFSET(codec_names)} ,//{ .off       = OFFSET(codec_names) },
                                   "codec name", "codec" };
-    OptionDef optionMetadata = { "metadata", HAS_ARG | OPT_STRING | OPT_SPEC | OPT_OUTPUT, (void*)OFFSET(metadata),//{ .off = OFFSET(metadata) },
+    OptionDef optionMetadata = { "metadata", HAS_ARG | OPT_STRING | OPT_SPEC | OPT_OUTPUT, {(void*)OFFSET(metadata)},//{ .off = OFFSET(metadata) },
                                  "add metadata", "string=string" };
 
     FfmpegParamContext paramCtx;
