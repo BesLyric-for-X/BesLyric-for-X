@@ -1,5 +1,6 @@
 ﻿#include "BesShadowDialog.h"
 #include <QPainter>
+#include <QPainterPath>
 #include <QtMath>
 
 BesShadowDialog::BesShadowDialog(QWidget *parent)
