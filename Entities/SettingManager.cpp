@@ -1,5 +1,6 @@
 ﻿#include "SettingManager.h"
 #include "BesMessageBox.h"
+#include "Utility/ConfigurationFile.h"
 
 SettingManager &SettingManager::GetInstance()
 {

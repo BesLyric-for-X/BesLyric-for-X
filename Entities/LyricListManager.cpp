@@ -18,22 +18,12 @@ LyricListData LyricListManager::getLyricListData()
     return listData;
 }
 
-bool LyricListManager::saveLyricListData(LyricListData data)
+bool LyricListManager::saveLyricListData(LyricListData data, QString &errorMessage)
 {
-    QString path = MakeSureConfigPathAvailable();
-    if(path.size() == 0)
-        return false;
-
-    //打开文件
-    QFile file(path);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) { // 只写模式打开文件
-            qDebug() << QString("Cannot write file %1(%2).").arg(path).arg(file.errorString());
-            return false;
-    }
+    QString strData;
 
     {
-        //将配置写入xml文件
-        QXmlStreamWriter writer(&file);
+        QXmlStreamWriter writer(&strData);
 
         writer.setAutoFormatting(true); // 自动格式化
         writer.writeStartDocument("1.0", true);  // 开始文档（XML 声明）
@@ -86,8 +76,11 @@ bool LyricListManager::saveLyricListData(LyricListData data)
         writer.writeEndElement();  // 结束子元素 </lyricList>
 
         writer.writeEndDocument();  // 结束文档
+    }
 
-        file.close();  // 关闭文件
+    //将配置写入xml文件
+    if (!configurationFile.writeToFile(strData, errorMessage)){
+        return false;
     }
 
     //成功保存后，赋值给listData
@@ -95,14 +88,9 @@ bool LyricListManager::saveLyricListData(LyricListData data)
     return true;
 }
 
-
-void LyricListManager::loadFromDataDir()
+bool LyricListManager::loadFromDataDir(QString &errorMessage)
 {
-    QString path = MakeSureConfigPathAvailable();
-    if(path.size() == 0)
-        return;
-
-    if(!QFile::exists(path))  //不存在，自动创建歌词单文件，并保存
+    if(!configurationFile.Exists())  //不存在，自动创建歌词单文件，并保存
     {
         if(listData.listsHistory.size()==0)
         {
@@ -111,15 +99,13 @@ void LyricListManager::loadFromDataDir()
             listData.listsHistory.push_back(lyricList);
         }
 
-        if(!saveLyricListData(listData))
-            BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败，可能是程序没有写权限"));
+        return saveLyricListData(listData, errorMessage);
     }
     else //存在，读取配置
     {
-		if (!LoadListData(path))
+        if (!LoadListData(errorMessage))
 		{
-            BesMessageBox::information(tr("提示"), tr("载入歌词单文件失败")
-                     + " : \n\n" + path + "\n\n"+ "将自动为您重建默认歌词单 :)");
+            BesMessageBox::information(tr("提示"), tr("载入歌词单文件失败：%1\n%2\n将自动为您重建默认歌词单").arg(configurationFile.filePath()).arg(errorMessage));
 
             if(listData.listsHistory.size()==0)
             {
@@ -129,31 +115,32 @@ void LyricListManager::loadFromDataDir()
             }
 
 			//自动重写
-			if (!saveLyricListData(listData))
-                BesMessageBox::information(tr("提示"), tr("尝试创建默认歌词单文件失败，可能是程序没有写权限 :("));
+            if (!saveLyricListData(listData, errorMessage)){
+                BesMessageBox::information(tr("提示"), tr("创建默认歌词单文件失败：%1").arg(errorMessage));
+            }
 		}
     }
 
     bDataLoaded = true;
 }
 
-bool LyricListManager::LoadListData(QString filePath)
+bool LyricListManager::LoadListData(QString &errorMessage)
 {
+    QString strData;
+
     //打开文件
-    QFile file(filePath);
-    if (!file.open(QFile::ReadOnly | QFile::Text)) { // 只读模式打开文件
-            qDebug() << QString("Cannot read file %1(%2).").arg(filePath).arg(file.errorString());
-            return false;
+    if (!configurationFile.readFromFile(strData, errorMessage)){
+        return false;
     }
 
     LyricListData lyricListData;
 
     //读取示例参考: https://blog.csdn.net/liang19890820/article/details/52808829
 
-    //将配置从xml文件读出
-    QXmlStreamReader reader(&file);
+    //将配置从字符串读出
+    QXmlStreamReader reader(strData);
 
-    QString strElementName = "";
+    QString strElementName;
 
     // 解析 XML，直到结束
     while (!reader.atEnd()) {
@@ -172,15 +159,11 @@ bool LyricListManager::LoadListData(QString filePath)
     }
 
     if (reader.hasError()) {  // 解析出错
-       qDebug() << QObject::tr("错误信息：%1  行号：%2  列号：%3  字符位移：%4").arg(reader.errorString()).arg(reader.lineNumber()).arg(reader.columnNumber()).arg(reader.characterOffset());
-       return false;
+        errorMessage = tr("错误信息：%1  行号：%2  列号：%3  字符位移：%4").arg(reader.errorString()).arg(reader.lineNumber()).arg(reader.columnNumber()).arg(reader.characterOffset());
+        return false;
     }
 
-    file.close();  // 关闭文件
-
     listData = lyricListData;
-
-
     return true;
 }
 
@@ -299,25 +282,5 @@ bool LyricListManager::parseLyricList(QXmlStreamReader &reader, QVector<LyricLis
     }
 
     return true;
-}
-
-
-QString LyricListManager::MakeSureConfigPathAvailable()
-{
-    QString StrDataDir = QCoreApplication::applicationDirPath() + "/data";
-
-    //如果settings 目录不存在则创建目录
-    QDir DataDir(StrDataDir);
-    if(!DataDir.exists())
-    {
-        if(!DataDir.mkpath(StrDataDir))
-        {
-            BesMessageBox::information(tr("提示"),tr("无法为配置创建目录")+":" + StrDataDir);
-            return "";
-        }
-    }
-
-    //得到目标路径
-    return StrDataDir + "/lyricList.xml";
 }
 

@@ -69,6 +69,7 @@ SOURCES += main.cpp \
     StackFrame.cpp
 
 HEADERS  += \
+    Constants.h \
     Define/Define.h\
     Define/Enum.h\
     Define/Struct.h\

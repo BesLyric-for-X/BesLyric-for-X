@@ -10,6 +10,7 @@
 #include <QMessageBox>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include "Utility/ConfigurationFile.h"
 
 enum NameFormatStyle{
     ARTIST_SONG = 0,
@@ -80,7 +81,7 @@ public:
     static QString MakeSureBaseDataPathAvailable();
 
 private:
-    SettingManager(){}
+    SettingManager():configurationData{ConfigurationFileNames::settingFileName}{}
 
     void loadFromDataDir();
     bool LoadSettingData(QString filePath);
@@ -91,6 +92,8 @@ private:
     void preProcessSetting();//预处理设置
 private:
     SettingData settingData;
+
+    ConfigurationFile configurationData;
 };
 
 

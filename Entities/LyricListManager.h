@@ -5,11 +5,10 @@
 #include <QDebug>
 #include <QObject>
 #include <QCoreApplication>
-#include <QDir>
-#include <QFile>
 #include <QMessageBox>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include "Utility/ConfigurationFile.h"
 
 class LyricListItem
 {
@@ -46,21 +45,20 @@ public:
     ~LyricListManager(){}
 
     LyricListData getLyricListData();
-    bool saveLyricListData(LyricListData data);
+    bool saveLyricListData(LyricListData data, QString &errorMessage);
 
 private:
-    LyricListManager():bDataLoaded(false){}
-    void loadFromDataDir();
-    bool LoadListData(QString filePath);
+    LyricListManager():bDataLoaded{false}, configurationFile{ConfigurationFileNames::lyricListFileName}{}
+    bool loadFromDataDir(QString &errorMessage);
+    bool LoadListData(QString &errorMessage);
 
     bool parseAll(QXmlStreamReader &reader, LyricListData &data);
     bool parseLyricList (QXmlStreamReader &reader,QVector<LyricList> &lists, QString parentName);
 
-    QString MakeSureConfigPathAvailable();  //确保配置路径可用，返回配置路径
-
 private:
     bool bDataLoaded;
-    LyricListData listData;
+    LyricListData listData;    
+    ConfigurationFile configurationFile;
 };
 
 
