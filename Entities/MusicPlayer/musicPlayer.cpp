@@ -207,7 +207,17 @@ int PlayThread::audio_decode_frame(mediaState* MS, uint8_t* audio_buf)
                                          pframe->channel_layout,
                                          (AVSampleFormat)pframe->format,
                                          pframe->sample_rate, 0, nullptr);
-            swr_init(pSwr_ctx);
+
+            // For issue #95
+            //   SWR: Requested input sample rate 0 is invalid
+            int errorNum = swr_init(pSwr_ctx);
+            if (errorNum != 0)
+            {
+                char errorBuff[AV_ERROR_MAX_STRING_SIZE];
+                av_strerror(errorNum, errorBuff, sizeof(errorBuff) - 1);
+                qDebug() << "swr_init failed:" << errorBuff;
+                break;
+            }
 
 
             int dst_nb_samples = av_rescale_rnd(swr_get_delay(pSwr_ctx, pframe->sample_rate) + pframe->nb_samples, pframe->sample_rate, pframe->sample_rate, AVRounding(1));
