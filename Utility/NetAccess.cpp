@@ -29,7 +29,7 @@ bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &target, QU
     request.setRawHeader("Accept-Language","zh-CN");
     request.setRawHeader("User-Agent","Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
     request.setRawHeader("Content-Type","application/x-www-form-urlencoded");
-    request.setRawHeader("Accept-Encoding","deflate");
+    //request.setRawHeader("Accept-Encoding","deflate");
     //request.setRawHeader("Host","i.y.qq.com");
     //request.setRawHeader("Cookie","qqmusic_fromtag=3; qqmusic_miniversion=57; qqmusic_version=12;");
 
