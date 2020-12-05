@@ -75,7 +75,7 @@ void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)
     QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
                             songInfo.strSong +" - "+ songInfo.strArtists
                            :songInfo.strArtists +" - "+ songInfo.strSong;
-    localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), " "); //将文件不允许出现的字符替换为空
+    localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), "_"); //将文件不允许出现的字符替换为下划线
 
     QString strSavePath = setting.musicDowloadPath + '/' + localFileName + ".mp3";
     QString strTempSavePath = setting.musicDowloadPath + '/' + localFileName + "temp.mp3";
@@ -134,7 +134,7 @@ void BesNcmSongTableView::OnFinishedDownload(QVariant data, DOWNLOAD_FINISH_STAT
                 QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
                                         info.strSong +" - "+ info.strArtists
                                        :info.strArtists +" - "+ info.strSong;
-                localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), " "); //将文件不允许出现的字符替换为空
+                localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), "_"); //将文件不允许出现的字符替换为下划线
 
                 QString strSavePath = setting.musicDowloadPath + '/' + localFileName + ".mp3";
                 QString strTempSavePath = setting.musicDowloadPath + '/' + localFileName + "temp.mp3";
