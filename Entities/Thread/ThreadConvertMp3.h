@@ -68,8 +68,8 @@ private:
 
     QQueue<ConvertTask> taskQueue;
     Mp3Editor* mp3Editor;
-    bool oneConvertDone;
-
+    bool oneConvertDone = false;    //完成一个转换
+    bool doneWithError = false;     //当前转换结束时是否有转换错误
 };
 
 

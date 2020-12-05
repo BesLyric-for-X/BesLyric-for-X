@@ -71,6 +71,8 @@ extern "C"
 #define VSYNC_DROP        0xff
 #define DEFAULT_PASS_LOGFILENAME_PREFIX "ffmpeg2pass"
 
+//不可恢复的错误则抛出异常
+extern void throwException(int exceptionCode);
 
 typedef struct InputStream {
     int file_index;
@@ -627,13 +629,13 @@ static void *grow_array(void *array, int elem_size, int *size, int new_size)
 {
     if (new_size >= INT_MAX / elem_size) {
         av_log(NULL, AV_LOG_ERROR, "Array too big.\n");
-        exit(1);
+        throwException(1);
     }
     if (*size < new_size) {
         uint8_t *tmp = (uint8_t *)av_realloc_array(array, new_size, elem_size);
         if (!tmp) {
             av_log(NULL, AV_LOG_ERROR, "Could not alloc buffer.\n");
-            exit(1);
+            throwException(1);
         }
         memset(tmp + *size*elem_size, 0, (new_size-*size) * elem_size);
         *size = new_size;
@@ -763,7 +765,7 @@ static int opt_map(void *optctx, const char *opt, const char *arg, void* paramCt
         sync_file_idx = strtol(sync + 1, &sync, 0);
         if (sync_file_idx >= pCtx->nb_input_files || sync_file_idx < 0) {
             av_log(NULL, AV_LOG_FATAL, "Invalid sync file index: %d.\n", sync_file_idx);
-            exit(1);
+            throwException(1);
         }
         if (*sync)
             sync++;
@@ -776,12 +778,12 @@ static int opt_map(void *optctx, const char *opt, const char *arg, void* paramCt
         if (i == pCtx->input_files[sync_file_idx]->nb_streams) {
             av_log(NULL, AV_LOG_FATAL, "Sync stream specification in map %s does not "
                                        "match any streams.\n", arg);
-            exit(1);
+            throwException(1);
         }
         if (pCtx->input_streams[pCtx->input_files[sync_file_idx]->ist_index + sync_stream_idx]->user_set_discard == AVDISCARD_ALL) {
             av_log(NULL, AV_LOG_FATAL, "Sync stream specification in map %s matches a disabled input "
                                        "stream.\n", arg);
-            exit(1);
+            throwException(1);
         }
     }
 
@@ -794,7 +796,7 @@ static int opt_map(void *optctx, const char *opt, const char *arg, void* paramCt
         m->linklabel = av_get_token(&c, "]");
         if (!m->linklabel) {
             av_log(NULL, AV_LOG_ERROR, "Invalid output link label: %s.\n", map);
-            exit(1);
+            throwException(1);
         }
     } else {
         if (allow_unused = strchr(map, '?'))
@@ -802,7 +804,7 @@ static int opt_map(void *optctx, const char *opt, const char *arg, void* paramCt
         file_idx = strtol(map, &p, 0);
         if (file_idx >= pCtx->nb_input_files || file_idx < 0) {
             av_log(NULL, AV_LOG_FATAL, "Invalid input file index: %d.\n", file_idx);
-            exit(1);
+            throwException(1);
         }
         if (negative)
             /* disable some already defined maps */
@@ -845,11 +847,11 @@ static int opt_map(void *optctx, const char *opt, const char *arg, void* paramCt
         } else if (disabled) {
             av_log(NULL, AV_LOG_FATAL, "Stream map '%s' matches disabled streams.\n"
                                        "To ignore this, add a trailing '?' to the map.\n", arg);
-            exit(1);
+            throwException(1);
         } else {
             av_log(NULL, AV_LOG_FATAL, "Stream map '%s' matches no streams.\n"
                                        "To ignore this, add a trailing '?' to the map.\n", arg);
-            exit(1);
+            throwException(1);
         }
     }
 
@@ -900,7 +902,7 @@ static AVDictionary *filter_codec_opts(AVDictionary *opts, enum AVCodecID codec_
             switch (check_stream_specifier(s, st, p + 1)) {
             case  1: *p = 0; break;
             case  0:         continue;
-            default:         exit(1);
+            default:         throwException(1);
             }
 
         if (av_opt_find(&cc, t->key, NULL, flags, AV_OPT_SEARCH_FAKE_OBJ) ||
@@ -958,7 +960,7 @@ static double parse_number_or_die(const char *context, const char *numstr, int t
     else
         return d;
     av_log(NULL, AV_LOG_FATAL, error, context, numstr, min, max);
-    exit(1);
+    throwException(1);
     return 0;
 }
 
@@ -969,7 +971,7 @@ static int64_t parse_time_or_die(const char *context, const char *timestr,
     if (av_parse_time(&us, timestr, is_duration) < 0) {
         av_log(NULL, AV_LOG_FATAL, "Invalid %s specification for %s: %s\n",
                is_duration ? "duration" : "date", context, timestr);
-        exit(1);
+        throwException(1);
     }
     return us;
 }
@@ -1025,7 +1027,7 @@ static int write_option(void *optctx, const OptionDef *po, const char *opt,
         }
     }
     if (po->flags & OPT_EXIT)
-        exit(0);
+        throwException(0);
 
     return 0;
 }
@@ -1091,7 +1093,7 @@ static int parse_optgroup(void *optctx, OptionGroup *g, void* paramCtx)
         if ((ret = check_stream_specifier(fmtctx, st, spec)) > 0)\
             outvar = o->name[i].u.type;\
         else if (ret < 0)\
-            exit(1);\
+            throwException(1);\
     }\
 }
 
@@ -1122,11 +1124,11 @@ static AVCodec *find_codec_or_die(const char *name, enum AVMediaType type, int e
 
     if (!codec) {
         av_log(NULL, AV_LOG_FATAL, "Unknown %s '%s'\n", codec_string, name);
-        exit(1);
+        throwException(1);
     }
     if (codec->type != type) {
         av_log(NULL, AV_LOG_FATAL, "Invalid %s type '%s'\n", codec_string, name);
-        exit(1);
+        throwException(1);
     }
     return codec;
 }
@@ -1234,7 +1236,7 @@ static uint8_t *get_line(AVIOContext *s)
 
     if (avio_open_dyn_buf(&line) < 0) {
         av_log(NULL, AV_LOG_FATAL, "Could not alloc buffer for reading preset.\n");
-        exit(1);
+        throwException(1);
     }
 
     while ((c = avio_r8(s)) && c != '\n')
@@ -1258,7 +1260,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
 
     if (!st) {
         av_log(NULL, AV_LOG_FATAL, "Could not alloc stream.\n");
-        exit(1);
+        throwException(1);
     }
 
     if (oc->nb_streams - 1 < (unsigned int)(o->nb_streamid_map))
@@ -1266,7 +1268,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
 
     GROW_ARRAY_2(paramCtx->output_streams, paramCtx->nb_output_streams,OutputStream *);
     if (!(ost = (OutputStream *)av_mallocz(sizeof(*ost))))
-        exit(1);
+        throwException(1);
     paramCtx->output_streams[paramCtx->nb_output_streams - 1] = ost;
 
     ost->file_index = paramCtx->nb_output_files - 1;
@@ -1279,20 +1281,20 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
     if (ret < 0) {
         av_log(NULL, AV_LOG_FATAL, "Error selecting an encoder for stream "
                "%d:%d\n", ost->file_index, ost->index);
-        exit(1);
+        throwException(1);
     }
 
     ost->enc_ctx = avcodec_alloc_context3(ost->enc);
     if (!ost->enc_ctx) {
         av_log(NULL, AV_LOG_ERROR, "Error allocating the encoding context.\n");
-        exit(1);
+        throwException(1);
     }
     ost->enc_ctx->codec_type = type;
 
     ost->ref_par = avcodec_parameters_alloc();
     if (!ost->ref_par) {
         av_log(NULL, AV_LOG_ERROR, "Error allocating the encoding parameters.\n");
-        exit(1);
+        throwException(1);
     }
 
     if (ost->enc) {
@@ -1311,7 +1313,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
                 }
                 if (!(arg = strchr(buf, '='))) {
                     av_log(NULL, AV_LOG_FATAL, "Invalid line found in the preset file.\n");
-                    exit(1);
+                    throwException(1);
                 }
                 *arg++ = 0;
                 av_dict_set(&ost->encoder_opts, buf, arg, AV_DICT_DONT_OVERWRITE);
@@ -1323,7 +1325,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
             av_log(NULL, AV_LOG_FATAL,
                    "Preset %s specified for stream %d:%d, but could not be opened.\n",
                    preset, ost->file_index, ost->index);
-            exit(1);
+            throwException(1);
         }
     } else {
         ost->encoder_opts = filter_codec_opts(o->g->codec_opts, AV_CODEC_ID_NONE, oc, st, NULL);
@@ -1339,7 +1341,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
         if (av_parse_ratio(&q, time_base, INT_MAX, 0, NULL) < 0 ||
             q.num <= 0 || q.den <= 0) {
             av_log(NULL, AV_LOG_FATAL, "Invalid time base: %s\n", time_base);
-            exit(1);
+            throwException(1);
         }
         st->time_base = q;
     }
@@ -1350,7 +1352,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
         if (av_parse_ratio(&q, time_base, INT_MAX, 0, NULL) < 0 ||
             q.den <= 0) {
             av_log(NULL, AV_LOG_FATAL, "Invalid time base: %s\n", time_base);
-            exit(1);
+            throwException(1);
         }
         ost->enc_timebase = q;
     }
@@ -1375,27 +1377,27 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
 
         bsf = av_get_token(&bsfs, ",");
         if (!bsf)
-            exit(1);
+            throwException(1);
         bsf_name = av_strtok(bsf, "=", &bsf_options_str);
         if (!bsf_name)
-            exit(1);
+            throwException(1);
 
         filter = av_bsf_get_by_name(bsf_name);
         if (!filter) {
             av_log(NULL, AV_LOG_FATAL, "Unknown bitstream filter %s\n", bsf_name);
-            exit(1);
+            throwException(1);
         }
 
         ost->bsf_ctx = (AVBSFContext**)av_realloc_array(ost->bsf_ctx,
                                         ost->nb_bitstream_filters + 1,
                                         sizeof(*ost->bsf_ctx));
         if (!ost->bsf_ctx)
-            exit(1);
+            throwException(1);
 
         ret = av_bsf_alloc(filter, &ost->bsf_ctx[ost->nb_bitstream_filters]);
         if (ret < 0) {
             av_log(NULL, AV_LOG_ERROR, "Error allocating a bitstream filter context\n");
-            exit(1);
+            throwException(1);
         }
 
         ost->nb_bitstream_filters++;
@@ -1410,7 +1412,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
             ret = av_opt_set_from_string(ost->bsf_ctx[ost->nb_bitstream_filters-1]->priv_data, bsf_options_str, shorthand, "=", ":");
             if (ret < 0) {
                 av_log(NULL, AV_LOG_ERROR, "Error parsing options for bitstream filter %s\n", bsf_name);
-                exit(1);
+                throwException(1);
             }
         }
         av_freep(&bsf);
@@ -1462,7 +1464,7 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
 
     ost->muxing_queue = av_fifo_alloc(8 * sizeof(AVPacket));
     if (!ost->muxing_queue)
-        exit(1);
+        throwException(1);
 
     return ost;
 }
@@ -1479,7 +1481,7 @@ static void check_streamcopy_filters(OptionsContext *o, AVFormatContext *oc,
                ost->filters ? "Filtergraph" : "Filtergraph script",
                ost->filters ? ost->filters : ost->filters_script,
                av_get_media_type_string(type), ost->file_index, ost->index);
-        exit(1);
+        throwException(1);
     }
 }
 
@@ -1495,7 +1497,7 @@ static void parse_matrix_coeffs(uint16_t *dest, const char *str)
         p = strchr(p, ',');
         if (!p) {
             av_log(NULL, AV_LOG_FATAL, "Syntax error in matrix \"%s\" at coeff %d\n", str, i);
-            exit(1);
+            throwException(1);
         }
         p++;
     }
@@ -1541,7 +1543,7 @@ static char *get_ost_filters(OptionsContext *o, AVFormatContext *oc,
     if (ost->filters_script && ost->filters) {
 //        av_log(NULL, AV_LOG_ERROR, "Both -filter and -filter_script set for "
 //               "output stream #%d:%d.\n", nb_output_files, st->index);
-        exit(1);
+        throwException(1);
     }
 
     if (ost->filters_script)
@@ -1567,7 +1569,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
     MATCH_PER_STREAM_OPT_2(frame_rates, str, frame_rate, oc, st);
     if (frame_rate && av_parse_video_rate(&ost->frame_rate, frame_rate) < 0) {
         av_log(NULL, AV_LOG_FATAL, "Invalid framerate value: %s\n", frame_rate);
-        exit(1);
+        throwException(1);
     }
     if (frame_rate && paramCtx->video_sync_method == VSYNC_PASSTHROUGH)
         av_log(NULL, AV_LOG_ERROR, "Using -vsync 0 and -r can produce invalid output files\n");
@@ -1578,7 +1580,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         if (av_parse_ratio(&q, frame_aspect_ratio, 255, 0, NULL) < 0 ||
             q.num <= 0 || q.den <= 0) {
             av_log(NULL, AV_LOG_FATAL, "Invalid aspect ratio: %s\n", frame_aspect_ratio);
-            exit(1);
+            throwException(1);
         }
         ost->frame_aspect_ratio = q;
     }
@@ -1601,7 +1603,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         MATCH_PER_STREAM_OPT_2(frame_sizes, str, frame_size, oc, st);
         if (frame_size && av_parse_video_size(&video_enc->width, &video_enc->height, frame_size) < 0) {
             av_log(NULL, AV_LOG_FATAL, "Invalid frame size: %s.\n", frame_size);
-            exit(1);
+            throwException(1);
         }
 
         video_enc->bits_per_raw_sample = paramCtx->frame_bits_per_raw_sample;
@@ -1613,7 +1615,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         }
         if (frame_pix_fmt && (video_enc->pix_fmt = av_get_pix_fmt(frame_pix_fmt)) == AV_PIX_FMT_NONE) {
             av_log(NULL, AV_LOG_FATAL, "Unknown pixel format requested: %s.\n", frame_pix_fmt);
-            exit(1);
+            throwException(1);
         }
         st->sample_aspect_ratio = video_enc->sample_aspect_ratio;
 
@@ -1623,7 +1625,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         if (intra_matrix) {
             if (!(video_enc->intra_matrix = (uint16_t*)av_mallocz(sizeof(*video_enc->intra_matrix) * 64))) {
                 av_log(NULL, AV_LOG_FATAL, "Could not allocate memory for intra matrix.\n");
-                exit(1);
+                throwException(1);
             }
             parse_matrix_coeffs(video_enc->intra_matrix, intra_matrix);
         }
@@ -1632,7 +1634,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
             uint16_t *p = (uint16_t *)av_mallocz(sizeof(*video_enc->chroma_intra_matrix) * 64);
             if (!p) {
                 av_log(NULL, AV_LOG_FATAL, "Could not allocate memory for intra matrix.\n");
-                exit(1);
+                throwException(1);
             }
             video_enc->chroma_intra_matrix = p;
             parse_matrix_coeffs(p, chroma_intra_matrix);
@@ -1641,7 +1643,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         if (inter_matrix) {
             if (!(video_enc->inter_matrix =(uint16_t*) av_mallocz(sizeof(*video_enc->inter_matrix) * 64))) {
                 av_log(NULL, AV_LOG_FATAL, "Could not allocate memory for inter matrix.\n");
-                exit(1);
+                throwException(1);
             }
             parse_matrix_coeffs(video_enc->inter_matrix, inter_matrix);
         }
@@ -1652,14 +1654,14 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
             int e = sscanf(p, "%d,%d,%d", &start, &end, &q);
             if (e != 3) {
                 av_log(NULL, AV_LOG_FATAL, "error parsing rc_override\n");
-                exit(1);
+                throwException(1);
             }
             video_enc->rc_override =(RcOverride *)
                 av_realloc_array(video_enc->rc_override,
                                  i + 1, sizeof(RcOverride));
             if (!video_enc->rc_override) {
                 av_log(NULL, AV_LOG_FATAL, "Could not (re)allocate memory for rc_override.\n");
-                exit(1);
+                throwException(1);
             }
             video_enc->rc_override[i].start_frame = start;
             video_enc->rc_override[i].end_frame   = end;
@@ -1695,7 +1697,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         MATCH_PER_STREAM_OPT_2(passlogfiles, str, ost->logfile_prefix, oc, st);
         if (ost->logfile_prefix &&
             !(ost->logfile_prefix = av_strdup(ost->logfile_prefix)))
-            exit(1);
+            throwException(1);
 
         if (do_pass) {
             char logfilename[1024];
@@ -1714,7 +1716,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
                     if (!logbuffer) {
                         av_log(NULL, AV_LOG_FATAL, "Error reading log file '%s' for pass-2 encoding\n",
                                logfilename);
-                        exit(1);
+                        throwException(1);
                     }
                     video_enc->stats_in = logbuffer;
                 }
@@ -1724,7 +1726,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
                         av_log(NULL, AV_LOG_FATAL,
                                "Cannot write log file '%s' for pass-1 encoding: %s\n",
                                logfilename, strerror(errno));
-                        exit(1);
+                        throwException(1);
                     }
                     ost->logfile = f;
                 }
@@ -1743,7 +1745,7 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
 
         ost->avfilter = get_ost_filters(o, oc, ost);
         if (!ost->avfilter)
-            exit(1);
+            throwException(1);
     } else {
         MATCH_PER_STREAM_OPT(copy_initial_nonkeyframes, i, ost->copy_initial_nonkeyframes, oc ,st);
     }
@@ -1781,7 +1783,7 @@ static OutputStream *new_audio_stream(OptionsContext *o, AVFormatContext *oc, in
         if (sample_fmt &&
             (audio_enc->sample_fmt = av_get_sample_fmt(sample_fmt)) == AV_SAMPLE_FMT_NONE) {
             av_log(NULL, AV_LOG_FATAL, "Invalid sample format '%s'\n", sample_fmt);
-            exit(1);
+            throwException(1);
         }
 
         MATCH_PER_STREAM_OPT(audio_sample_rate, i, audio_enc->sample_rate, oc, st);
@@ -1791,7 +1793,7 @@ static OutputStream *new_audio_stream(OptionsContext *o, AVFormatContext *oc, in
 
         ost->avfilter = get_ost_filters(o, oc, ost);
         if (!ost->avfilter)
-            exit(1);
+            throwException(1);
 
         /* check for channel mapping for this audio stream */
 //        for (n = 0; n < o->nb_audio_channel_maps; n++) {
@@ -1815,7 +1817,7 @@ static OutputStream *new_audio_stream(OptionsContext *o, AVFormatContext *oc, in
 //                                          ost->audio_channels_mapped + 1,
 //                                          sizeof(*ost->audio_channels_map)
 //                                          ) < 0 )
-//                        exit(1);
+//                        throwException(1);
 
 //                    ost->audio_channels_map[ost->audio_channels_mapped++] = map->channel_idx;
 //                }
@@ -1848,7 +1850,7 @@ static void parse_meta_type(char *arg, char *type, int *index, const char **stre
         case 's':
             if (*(++arg) && *arg != ':') {
                 av_log(NULL, AV_LOG_FATAL, "Invalid metadata specifier %s.\n", arg);
-                exit(1);
+                throwException(1);
             }
             *stream_spec = *arg == ':' ? arg + 1 : "";
             break;
@@ -1859,7 +1861,7 @@ static void parse_meta_type(char *arg, char *type, int *index, const char **stre
             break;
         default:
             av_log(NULL, AV_LOG_FATAL, "Invalid metadata type %c.\n", *arg);
-            exit(1);
+            throwException(1);
         }
     } else
         *type = 'g';

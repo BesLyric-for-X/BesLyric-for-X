@@ -23,7 +23,9 @@ void ThreadConvertMp3::OnGetEditResultd(bool success, QString path, QString erro
     if(!success)
     {
         BesMessageBox::information(tr("提示"),
-            tr("转换 mp3 时发生错误")+ "\n\n" + tr("出错细节:")+ errorTip + "("+ path +")");
+            tr("转换 mp3 时发生错误")+ "\n\n" + tr("出错细节:")+ errorTip + "\n"+ "("+ path +")");
+
+        doneWithError = true;
     }
 
     oneConvertDone = true;
@@ -69,6 +71,7 @@ void ThreadConvertMp3::run()
         mp3Data.mp3OutputPath = task.targetMp3FilePath;
 
         oneConvertDone = false;
+        doneWithError = false;
 
         if(!mp3Editor->CustomizeMp3(task.sourceMp3FilePath,mp3Data))
             goto directCopy;
@@ -76,9 +79,13 @@ void ThreadConvertMp3::run()
         while(!oneConvertDone)
             msleep(500);
 
-        goto convertEnd;
+        if(doneWithError)
+            goto directCopy;
+        else
+            goto convertEnd;
 
 directCopy:
+        //任何失败的情况，直接复制
         QFile::copy(task.sourceMp3FilePath, task.targetMp3FilePath);
         oneConvertDone = true;
 

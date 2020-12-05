@@ -5,6 +5,14 @@
 
 #define RAW_PACKET_BUFFER_SIZE 2500000
 
+#include<QException>
+#include <QDebug>
+void throwException(int exceptionCode)
+{
+    qDebug() << "Converting Error : exception code("<<exceptionCode<<")";
+    throw QUnhandledException();
+}
+
 void ConvertThread::SetConvertedData(QString filePath, const CustomMp3Data &customMp3Data)
 {
     inputMp3Path = filePath;
@@ -175,18 +183,25 @@ int ConvertThread::ffmpeg_parse_options()
 		av_log_set_level(paramCtx.logLevel);
 	}
 
-    //打开输入的文件（mp3 和 图片）
-    ret = open_files(&octx.groups[GROUP_INFILE], true);
+    try{
+        //打开输入的文件（mp3 和 图片）
+        ret = open_files(&octx.groups[GROUP_INFILE], true);
 
-    if(ret < 0){
-        goto fail;
+        if(ret < 0){
+            goto fail;
+        }
+
+        //打开输出文件（mp3）
+        ret = open_files(&octx.groups[GROUP_OUTFILE], false);
+
+        if(ret < 0){
+            goto fail;
+        }
     }
-
-    //打开输出文件（mp3）
-    ret = open_files(&octx.groups[GROUP_OUTFILE], false);
-
-    if(ret < 0){
-        goto fail;
+    catch(QException&)
+    {
+        uninit_parse_context(&octx);
+        return -1;
     }
 
 fail:
@@ -337,7 +352,7 @@ void ConvertThread::init_parse_context(OptionParseContext *octx, const OptionGro
     octx->nb_groups = nb_groups;
     octx->groups    = reinterpret_cast<OptionGroupList*>(av_mallocz_array(octx->nb_groups, sizeof(*octx->groups)));
     if (!octx->groups)
-        exit(1);
+        throwException(1);
 
     for (i = 0; i < octx->nb_groups; i++)
         octx->groups[i].group_def = &groups[i];
@@ -367,7 +382,7 @@ void ConvertThread::add_input_streams(OptionsContext *o, AVFormatContext *ic)
         const AVOption *discard_opt = av_opt_find(&cc, "skip_frame", NULL, 0, 0);
 
         if (!ist)
-            exit(1);
+            throwException(1);
 
         GROW_ARRAY_2(paramCtx.input_streams, paramCtx.nb_input_streams,InputStream *);
 
@@ -413,7 +428,7 @@ void ConvertThread::add_input_streams(OptionsContext *o, AVFormatContext *ic)
         if (discard_str && av_opt_eval_int(&cc, discard_opt, discard_str, &ist->user_set_discard) < 0) {
             av_log(NULL, AV_LOG_ERROR, "Error parsing discard %s.\n",
                     discard_str);
-            exit(1);
+            throwException(1);
         }
 
         ist->filter_in_rescale_delta_last = AV_NOPTS_VALUE;
@@ -421,13 +436,13 @@ void ConvertThread::add_input_streams(OptionsContext *o, AVFormatContext *ic)
         ist->dec_ctx = avcodec_alloc_context3(ist->dec);
         if (!ist->dec_ctx) {
             av_log(NULL, AV_LOG_ERROR, "Error allocating the decoder context.\n");
-            exit(1);
+            throwException(1);
         }
 
         ret = avcodec_parameters_to_context(ist->dec_ctx, par);
         if (ret < 0) {
             av_log(NULL, AV_LOG_ERROR, "Error initializing the decoder context.\n");
-            exit(1);
+            throwException(1);
         }
 
         if (o->bitexact)
@@ -455,7 +470,7 @@ void ConvertThread::add_input_streams(OptionsContext *o, AVFormatContext *ic)
                                                  framerate) < 0) {
                 av_log(NULL, AV_LOG_ERROR, "Error parsing framerate %s.\n",
                        framerate);
-                exit(1);
+                throwException(1);
             }
 
             ist->top_field_first = -1;
@@ -465,14 +480,14 @@ void ConvertThread::add_input_streams(OptionsContext *o, AVFormatContext *ic)
             if (hwaccel) {
                 assert(false);
                 //未搬运逻辑
-                exit(1);
+                throwException(1);
             }
 
             MATCH_PER_STREAM_OPT_2(hwaccel_devices, str, hwaccel_device, ic, st);
             if (hwaccel_device) {
                 ist->hwaccel_device = av_strdup(hwaccel_device);
                 if (!ist->hwaccel_device)
-                    exit(1);
+                    throwException(1);
             }
 
             MATCH_PER_STREAM_OPT_2(hwaccel_output_formats, str,
@@ -509,7 +524,7 @@ void ConvertThread::add_input_streams(OptionsContext *o, AVFormatContext *ic)
         ret = avcodec_parameters_from_context(par, ist->dec_ctx);
         if (ret < 0) {
             av_log(NULL, AV_LOG_ERROR, "Error initializing the decoder context.\n");
-            exit(1);
+            throwException(1);
         }
     }
 
@@ -583,7 +598,7 @@ int ConvertThread::open_input_file(OptionsContext *o, const char *filename)
         print_error(filename, err);
         if (err == AVERROR_PROTOCOL_NOT_FOUND)
             av_log(NULL, AV_LOG_ERROR, "Did you mean file:%s?\n", filename);
-       exit(1);
+        throwException(1);
     }
     if (scan_all_pmts_set)
         av_dict_set(&o->g->format_opts, "scan_all_pmts", NULL, AV_DICT_MATCH_CASE);
@@ -613,7 +628,7 @@ int ConvertThread::open_input_file(OptionsContext *o, const char *filename)
             av_log(NULL, AV_LOG_FATAL, "%s: could not find codec parameters\n", filename);
             if (ic->nb_streams == 0) {
                 avformat_close_input(&ic);
-                exit(1);
+                throwException(1);
             }
         }
     }
@@ -629,7 +644,7 @@ int ConvertThread::open_input_file(OptionsContext *o, const char *filename)
     GROW_ARRAY_2(paramCtx.input_files, paramCtx.nb_input_files,InputFile*);
     f = (InputFile *)av_mallocz(sizeof(*f));
     if (!f)
-       exit(1);
+       throwException(1);
 
     paramCtx.input_files[paramCtx.nb_input_files - 1] = f;
 
@@ -662,7 +677,7 @@ int ConvertThread::open_input_file(OptionsContext *o, const char *filename)
     while ((e = av_dict_get(unused_opts, "", e, AV_DICT_IGNORE_SUFFIX))) {
        assert(false);
        //未搬运
-       exit(1);
+       throwException(1);
     }
     av_dict_free(&unused_opts);
 
@@ -689,7 +704,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
     GROW_ARRAY_2(paramCtx.output_files, paramCtx.nb_output_files,OutputFile*);
     of = (OutputFile*)av_mallocz(sizeof(*of));
     if (!of)
-        exit(1);
+        throwException(1);
 
     paramCtx.output_files[paramCtx.nb_output_files - 1] = of;
     of->ost_index      = paramCtx.nb_output_streams;
@@ -702,7 +717,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
     err = avformat_alloc_output_context2(&oc, NULL, o->format, filename);
     if (!oc) {
         print_error(filename, err);
-        exit(1);
+        throwException(1);
     }
 
     of->ctx = oc;
@@ -746,7 +761,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
                if (ist->user_set_discard == AVDISCARD_ALL) {
                    av_log(NULL, AV_LOG_FATAL, "Stream #%d:%d is disabled and cannot be mapped.\n",
                           map->file_index, map->stream_index);
-                   exit(1);
+                   throwException(1);
                }
                if(o->subtitle_disable && ist->st->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE)
                    continue;
@@ -785,7 +800,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
             && (e = av_dict_get(o->g->codec_opts, "flags", NULL, AV_DICT_IGNORE_SUFFIX))
             && (!e->key[5] || check_stream_specifier(oc, ost->st, e->key+6)))
             if (av_opt_set(ost->st->codec, "flags", e->value, 0) < 0)
-                exit(1);
+                throwException(1);
     }
 #endif
 
@@ -807,7 +822,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
                               &oc->interrupt_callback,
                               &of->opts)) < 0) {
             print_error(filename, err);
-            exit(1);
+            throwException(1);
         }
     } else if (strcmp(oc->oformat->name, "image2")==0 && !av_filename_number_test(filename))
         assert_file_overwrite(filename);
@@ -858,7 +873,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
             if (!val) {
                 av_log(NULL, AV_LOG_FATAL, "No '=' character in metadata string %s.\n",
                        o->metadata[i].u.str);
-                exit(1);
+                throwException(1);
             }
             *val++ = 0;
 
@@ -878,7 +893,7 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
                             av_dict_set(&oc->streams[j]->metadata, (char*)o->metadata[i].u.str, *val ? val : NULL, 0);
                         }
                     } else if (ret < 0)
-                        exit(1);
+                        throwException(1);
                 }
             }
             else {
@@ -889,20 +904,20 @@ int ConvertThread::open_output_file(OptionsContext *o, const char *filename)
                 case 'c':
                     if (index < 0 || index >= int(oc->nb_chapters)) {
                         av_log(NULL, AV_LOG_FATAL, "Invalid chapter index %d in metadata specifier.\n", index);
-                        exit(1);
+                        throwException(1);
                     }
                     m = &oc->chapters[index]->metadata;
                     break;
                 case 'p':
                     if (index < 0 || index >= int(oc->nb_programs)) {
                         av_log(NULL, AV_LOG_FATAL, "Invalid program index %d in metadata specifier.\n", index);
-                        exit(1);
+                        throwException(1);
                     }
                     m = &oc->programs[index]->metadata;
                     break;
                 default:
                     av_log(NULL, AV_LOG_FATAL, "Invalid metadata specifier %s.\n", o->metadata[i].specifier);
-                    exit(1);
+                    throwException(1);
                 }
                 av_dict_set(m, (char*)o->metadata[i].u.str, *val ? val : NULL, 0);
             }
@@ -1005,7 +1020,7 @@ int ConvertThread::init_output_stream_streamcopy(OutputStream *ost)
         case AVMEDIA_TYPE_AUDIO:
 //            if (audio_volume != 256) {
 //                av_log(NULL, AV_LOG_FATAL, "-acodec copy and -vol are incompatible (frames are not decoded)\n");
-//                exit(1);
+//                throwException(1);
 //            }
             if((par_dst->block_align == 1 || par_dst->block_align == 1152 || par_dst->block_align == 576) && par_dst->codec_id == AV_CODEC_ID_MP3)
                 par_dst->block_align= 0;
@@ -1541,15 +1556,15 @@ void ConvertThread::write_packet(OutputFile *of, AVPacket *pkt, OutputStream *os
                 av_log(NULL, AV_LOG_ERROR,
                        "Too many packets buffered for output stream %d:%d.\n",
                        ost->file_index, ost->st->index);
-                exit(1);
+                throwException(1);
             }
             ret = av_fifo_realloc2(ost->muxing_queue, new_size);
             if (ret < 0)
-                exit(1);
+                throwException(1);
         }
         ret = av_packet_make_refcounted(pkt);
         if (ret < 0)
-            exit(1);
+            throwException(1);
         av_packet_move_ref(&tmp_pkt, pkt);
         av_fifo_generic_write(ost->muxing_queue, &tmp_pkt, sizeof(tmp_pkt), NULL);
         return;
@@ -1607,7 +1622,7 @@ void ConvertThread::write_packet(OutputFile *of, AVPacket *pkt, OutputStream *os
                        ost->file_index, ost->st->index, ost->last_mux_dts, pkt->dts);
                 if (paramCtx.exit_on_error) {
                     av_log(NULL, AV_LOG_FATAL, "aborting.\n");
-                    exit(1);
+                    throwException(1);
                 }
                 av_log(s, loglevel, "changing to %" PRId64 ". This may result "
                                                          "in incorrect timestamps in the output file.\n",
@@ -1690,7 +1705,7 @@ finish:
         av_log(NULL, AV_LOG_ERROR, "Error applying bitstream filters to an output "
                                    "packet for stream #%d:%d.\n", ost->file_index, ost->index);
         if(paramCtx.exit_on_error)
-            exit(1);
+            throwException(1);
     }
 }
 
@@ -1771,7 +1786,7 @@ void ConvertThread::do_streamcopy(InputStream *ist, OutputStream *ost, const AVP
     if (pkt->buf) {
         opkt.buf = av_buffer_ref(pkt->buf);
         if (!opkt.buf)
-            exit(1);
+            throwException(1);
     }
     opkt.data = pkt->data;
     opkt.size = pkt->size;
@@ -2236,7 +2251,7 @@ int ConvertThread::process_input(int file_index)
         if (ret != AVERROR_EOF) {
             print_error(is->url, ret);
             if (paramCtx.exit_on_error)
-                exit(1);
+                throwException(1);
         }
 
         for (i = 0; i < ifile->nb_streams; i++) {
@@ -2287,7 +2302,7 @@ int ConvertThread::process_input(int file_index)
         av_log(NULL, AV_LOG_FATAL,//exit_on_error ? AV_LOG_FATAL : AV_LOG_WARNING,
                "%s: corrupt input packet in stream %d\n", is->url, pkt.stream_index);
         if (paramCtx.exit_on_error)
-            exit(1);
+            throwException(1);
     }
 
     //if (debug_ts) {}
@@ -2488,7 +2503,7 @@ int ConvertThread::transcode()
         if ((ret = av_write_trailer(os)) < 0) {
             av_log(NULL, AV_LOG_ERROR, "Error writing trailer of %s: %s\n", os->url, "av_err2str(ret)");
             if (paramCtx.exit_on_error)
-                exit(1);
+                throwException(1);
         }
     }
 
@@ -2506,7 +2521,7 @@ int ConvertThread::transcode()
 
     if (!total_packets_written /*&& (abort_on_flags & ABORT_ON_FLAG_EMPTY_OUTPUT)*/) {
         av_log(NULL, AV_LOG_FATAL, "Empty output\n");
-        exit(1);
+        throwException(1);
     }
 
     /* close each decoder */
@@ -2649,7 +2664,7 @@ void ConvertThread::assert_avoptions(AVDictionary *m)
     AVDictionaryEntry *t;
     if ((t = av_dict_get(m, "", NULL, AV_DICT_IGNORE_SUFFIX))) {
         av_log(NULL, AV_LOG_FATAL, "Option %s not found.\n", t->key);
-        exit(1);
+        throwException(1);
     }
 }
 
@@ -2670,7 +2685,7 @@ void ConvertThread::assert_file_overwrite(const char *filename)
 
     if (paramCtx.file_overwrite && paramCtx.no_file_overwrite) {
         fprintf(stderr, "Error, both -y and -n supplied. Exiting.\n");
-        exit(1);
+        throwException(1);
     }
 
     if (!paramCtx.file_overwrite) {
@@ -2687,13 +2702,13 @@ void ConvertThread::assert_file_overwrite(const char *filename)
                     //signal(SIGINT, SIG_DFL);
                     if (!read_yesno()) {
                         av_log(NULL, AV_LOG_FATAL, "Not overwriting - exiting\n");
-                        exit(1);
+                        throwException(1);
                     }
                     //term_init();
                 }
                 else {
                     av_log(NULL, AV_LOG_FATAL, "File '%s' already exists. Exiting.\n", filename);
-                    exit(1);
+                    throwException(1);
                 }
             }
         }
@@ -2707,7 +2722,7 @@ void ConvertThread::assert_file_overwrite(const char *filename)
             if (!strcmp(filename, file->ctx->url)) {
                 av_log(NULL, AV_LOG_FATAL, "Output %s same as Input #%d - exiting\n", filename, i);
                 av_log(NULL, AV_LOG_WARNING, "FFmpeg cannot edit existing files in-place.\n");
-                exit(1);
+                throwException(1);
             }
         }
     }
