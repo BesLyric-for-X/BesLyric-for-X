@@ -88,6 +88,7 @@ void MainWidget::initConnection()
     connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onStartMaking, bottomWidget, &BottomWidget::playFromBegin);
     connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onSeekBackward, bottomWidget, &BottomWidget::seekBackward);
     connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onPlayOrPauseMusic, bottomWidget, &BottomWidget::autoPlayOrPause);
+    connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onPauseMusic, bottomWidget, &BottomWidget::pause);
     connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::onStopMusic, bottomWidget, &BottomWidget::stop);
     connect(middleWidget->pageMain->subPageMaking, &SubPageMaking::loadLrcLyricAndSwitchToPreview, this, &MainWidget::onLoadLrcLyricAndSwitchToPreview);
 

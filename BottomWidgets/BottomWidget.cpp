@@ -183,7 +183,7 @@ void BottomWidget::play()
     }
 }
 
-//uncalled
+//middleWidget->pageMain->subPageMaking,SIGNAL(onPauseMusic()) emitted
 void BottomWidget::pause()
 {
     musicPlayer->pause();

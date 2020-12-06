@@ -538,6 +538,12 @@ void SubPageMaking::playOrPause()
     emit onPlayOrPauseMusic();
 }
 
+//暂停
+void SubPageMaking::pause()
+{
+    emit onPauseMusic();
+}
+
 //结束制作
 void SubPageMaking::finishMaking()
 {
@@ -865,7 +871,7 @@ void SubPageMaking::onEditCurrentLine()
 void SubPageMaking::onEditBatchLyric()
 {
     isBatchEditing = true;
-    playOrPause();
+    pause();
 
     LyricEditorBox* lyricEditor = new LyricEditorBox(nullptr);
 
@@ -886,7 +892,6 @@ void SubPageMaking::onEditBatchLyric()
 
     delete lyricEditor;
 
-    playOrPause();
     isBatchEditing = false;
 }
 
@@ -984,6 +989,8 @@ void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
     static QString lineBackup;
     if(showEdit)
     {
+        pause();
+
         labelLine2->setVisible(false);
         labelDoneMark2->setVisible(false);
         middleSpacer->changeSize(1,25,QSizePolicy::Ignored,QSizePolicy::Fixed);
@@ -1019,8 +1026,6 @@ void SubPageMaking::toggleMiddleLineEdit(bool showEdit)
         btnEditLyricCurrent->setEnabled(true);
         isEditing = false;
     }
-
-    playOrPause();
 }
 
 

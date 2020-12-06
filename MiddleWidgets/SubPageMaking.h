@@ -31,6 +31,7 @@ public:
     void backOneLine();     //回退到上一行
 
     void playOrPause();     //暂停或开始
+    void pause();           //暂停
 
 private:
     void updateLinesText(); //更新当前行内容的显示
@@ -40,6 +41,7 @@ signals:
     void onStartMaking();
     void onSeekBackward(qint64);           //回退指定毫秒时间
     void onPlayOrPauseMusic();
+    void onPauseMusic();
     void onStopMusic();
 
     void onEnterMakingMode();
