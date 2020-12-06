@@ -1,4 +1,6 @@
-﻿#include "LyricListManager.h"
+﻿#include <QStandardPaths>
+
+#include "LyricListManager.h"
 #include "BesMessageBox.h"
 
 LyricListManager &LyricListManager::GetInstance()
@@ -304,7 +306,7 @@ bool LyricListManager::parseLyricList(QXmlStreamReader &reader, QVector<LyricLis
 
 QString LyricListManager::MakeSureConfigPathAvailable()
 {
-    QString StrDataDir = QCoreApplication::applicationDirPath() + "/data";
+    QString StrDataDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 
     //如果settings 目录不存在则创建目录
     QDir DataDir(StrDataDir);

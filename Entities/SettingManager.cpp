@@ -1,4 +1,6 @@
-﻿#include "SettingManager.h"
+﻿#include <QStandardPaths>
+
+#include "SettingManager.h"
 #include "BesMessageBox.h"
 
 SettingManager &SettingManager::GetInstance()
@@ -111,7 +113,7 @@ SettingData &SettingManager::data()
 
 QString SettingManager::SettingManager::MakeSureBaseDataPathAvailable()
 {
-    QString StrDataDir = QCoreApplication::applicationDirPath() + "/data";
+    QString StrDataDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 
     //如果settings 目录不存在则创建目录
     QDir DataDir(StrDataDir);
@@ -375,7 +377,7 @@ bool SettingManager::parseAll(QXmlStreamReader &reader)
 
 QString SettingManager::MakeSureConfigPathAvailable()
 {
-    QString StrDataDir = QCoreApplication::applicationDirPath() + "/data";
+    QString StrDataDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 
     //如果settings 目录不存在则创建目录
     QDir DataDir(StrDataDir);
