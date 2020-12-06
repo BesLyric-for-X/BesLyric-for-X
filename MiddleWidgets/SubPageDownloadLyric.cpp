@@ -509,9 +509,6 @@ void SubPageDownloadLyric::OnSaveRawLyric()
     QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
                             song +" - "+ artist
                            :artist +" - "+ song;
-
-    localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), "_"); //将文件不允许出现的字符替换为下划线
-
     fileName = editRawLyricPanelSavePath->text() + "/" + localFileName + ".txt";
 
     //提示是否保存到路径
@@ -587,9 +584,6 @@ void SubPageDownloadLyric::OnSaveLrcLyric()
     QString localFileName = setting.nameFormatStyle==SONG_ARTIST?
                             song +" - "+ artist
                            :artist +" - "+ song;
-
-    localFileName = localFileName.replace(QRegExp("[\\/\\\\\\|\\*\\?<>\\:\"]"), "_"); //将文件不允许出现的字符替换为下划线
-
     fileName = editLrcLyricPanelSavePath->text() + "/" + localFileName + ".lrc";
 
     //提示是否保存到路径
