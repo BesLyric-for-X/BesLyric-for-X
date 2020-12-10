@@ -98,7 +98,7 @@ RC_FILE = Beslyric.rc
 
 # set icon under Mac Os
 macx{
-ICON = Beslyric.icns
+ICON = BesLyric.icns
 }
 
 # ubuntu icon recoginition
