@@ -30,7 +30,7 @@ equals(is_qt_version_too_low, true) {
 }
 
 
-TARGET = Beslyric-for-X
+TARGET = BesLyric-for-X
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
