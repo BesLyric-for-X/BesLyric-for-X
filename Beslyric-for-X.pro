@@ -4,9 +4,31 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+# For OpenSSL 1.1.1, we need Qt 5.12.4+.
+#   https://www.qt.io/blog/2019/06/17/qt-5-12-4-released-support-openssl-1-1-1
+#   https://github.com/BesLyric-for-X/BesLyric-for-X/issues/29
+
+is_qt_version_too_low = false
+
+lessThan(QT_MAJOR_VERSION, 5) {
+    is_qt_version_too_low = true
+}
+else:equals(QT_MAJOR_VERSION, 5) {
+    lessThan(QT_MINOR_VERSION, 12) {
+        is_qt_version_too_low = true
+    }
+    else:equals(QT_MINOR_VERSION, 12):lessThan(QT_PATCH_VERSION, 4) {
+        is_qt_version_too_low = true
+    }
+}
+
+equals(is_qt_version_too_low, true) {
+    error("Qt version >= 5.12.4 is required, you are using $$[QT_VERSION].")
+}
+
 
 TARGET = Beslyric-for-X
 TEMPLATE = app
