@@ -34,6 +34,7 @@ defineTest(locateMsvcUcrtDlls) {
     message("UCRT_RELEASE_DIR = $${UCRT_RELEASE_DIR}")
 
     for(UCRT_COMMON_DLL, UCRT_COMMON_DLLS) {
+        UCRT_DLL_SOURCE_PATHS_FORWARDSLASH *= $$getSourcePathForwardSlashed($${UCRT_COMMON_DIR}, $${UCRT_COMMON_DLL})
         UCRT_DLL_SOURCE_PATHS_QUOTED *= $$getSourcePathQuoted($${UCRT_COMMON_DIR}, $${UCRT_COMMON_DLL})
         UCRT_DLL_TARGET_PATHS_QUOTED *= $$getTargetPathQuoted($${UCRT_COMMON_DLL})
     }
@@ -48,6 +49,7 @@ defineTest(locateMsvcUcrtDlls) {
     }
 
     for(UCRT_DLL, UCRT_DLLS) {
+        UCRT_DLL_SOURCE_PATHS_FORWARDSLASH *= $$getSourcePathForwardSlashed($${UCRT_DIR}, $${UCRT_DLL})
         UCRT_DLL_SOURCE_PATHS_QUOTED *= $$getSourcePathQuoted($${UCRT_DIR}, $${UCRT_DLL})
         UCRT_DLL_TARGET_PATHS_QUOTED *= $$getTargetPathQuoted($${UCRT_DLL})
     }
@@ -61,4 +63,21 @@ defineTest(locateMsvcUcrtDlls) {
         $${UCRT_DLL_TARGET_PATHS_QUOTED}, \
         $${target_depends_on_this} \
     )
+
+    message("UCRT_DLL_SOURCE_PATHS_FORWARDSLASH = $${UCRT_DLL_SOURCE_PATHS_FORWARDSLASH}")
+
+    INSTALLS_$${this_target}.path = "/"
+    INSTALLS_$${this_target}.files *= $${UCRT_DLL_SOURCE_PATHS_FORWARDSLASH}
+    INSTALLS_$${this_target}.CONFIG = nostrip
+
+    message("INSTALLS_$${this_target}.path = $$eval(INSTALLS_$${this_target}.path)")
+    message("INSTALLS_$${this_target}.files = $$eval(INSTALLS_$${this_target}.files)")
+    message("INSTALLS_$${this_target}.CONFIG = $$eval(INSTALLS_$${this_target}.CONFIG)")
+
+    export(INSTALLS_$${this_target}.path)
+    export(INSTALLS_$${this_target}.files)
+    export(INSTALLS_$${this_target}.CONFIG)
+
+    INSTALLS *= INSTALLS_$${this_target}
+    export(INSTALLS)
 }

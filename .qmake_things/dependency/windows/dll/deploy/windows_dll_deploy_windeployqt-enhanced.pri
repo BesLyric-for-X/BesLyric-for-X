@@ -56,19 +56,28 @@ defineTest(invokeWindeployqtEnhanced) {
             $${target_depends_on_this}.depends *= $${this_target}
             $${target_depends_on_this}_clean.depends *= $${this_target}_clean
         }
+
+        INSTALLS_$${this_target}.commands = $${QMAKE_WINDEPLOYQT} $${WINDEPLOYQT_OPTIONS} --list target \$(INSTALL_ROOT)
+        INSTALLS_$${this_target}.depends *= install_target
     } else {
         $${this_target}.CONFIG *= recursive
         $${this_target}_clean.CONFIG *= recursive
+
+        INSTALLS_$${this_target}.CONFIG *= recursive
     }
 
     makeTargetCalledOnlyOnceAndDependsOnFirst($${this_target}, true)
     makeTargetCalledOnlyOnceAndDependsOnFirst($${this_target}_clean, false)
+    makeTargetCalledOnlyOnceAndDependsOnFirst(INSTALLS_$${this_target}, false)
 
     export($${this_target}.commands)
     export($${this_target}_clean.commands)
     export($${this_target}.CONFIG)
     export($${this_target}_clean.CONFIG)
     export($${this_target}.depends)
+    export(INSTALLS_$${this_target}.depends)
+    export(INSTALLS_$${this_target}.CONFIG)
+    export(INSTALLS_$${this_target}.commands)
     export(DISTCLEAN_DEPS)
     export(QMAKE_DISTCLEAN)
     export(QMAKE_EXTRA_TARGETS)

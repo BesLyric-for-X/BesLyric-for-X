@@ -55,6 +55,7 @@ defineTest(locateMsvcCrtDlls) {
     for(CRT_DLL, CRT_DLLS) {
         CRT_DLL_SOURCE_PATHS_QUOTED *= $$getSourcePathQuoted($${CRT_DIR}, $${CRT_DLL})
         CRT_DLL_TARGET_PATHS_QUOTED *= $$getTargetPathQuoted($${CRT_DLL})
+        CRT_DLL_SOURCE_PATHS_FORWARDSLASH *= $$getSourcePathForwardSlashed($${CRT_DIR}, $${CRT_DLL})
     }
 
     message("CRT_DLL_SOURCE_PATHS_QUOTED = $${CRT_DLL_SOURCE_PATHS_QUOTED}")
@@ -66,4 +67,21 @@ defineTest(locateMsvcCrtDlls) {
         $${CRT_DLL_TARGET_PATHS_QUOTED}, \
         $${target_depends_on_this} \
     )
+
+    message("CRT_DLL_SOURCE_PATHS_FORWARDSLASH = $${CRT_DLL_SOURCE_PATHS_FORWARDSLASH}")
+
+    INSTALLS_$${this_target}.path = "/"
+    INSTALLS_$${this_target}.files = $${CRT_DLL_SOURCE_PATHS_FORWARDSLASH}
+    INSTALLS_$${this_target}.CONFIG = nostrip
+
+    message("INSTALLS_$${this_target}.path = $$eval(INSTALLS_$${this_target}.path)")
+    message("INSTALLS_$${this_target}.files = $$eval(INSTALLS_$${this_target}.files)")
+    message("INSTALLS_$${this_target}.CONFIG = $$eval(INSTALLS_$${this_target}.CONFIG)")
+
+    export(INSTALLS_$${this_target}.path)
+    export(INSTALLS_$${this_target}.files)
+    export(INSTALLS_$${this_target}.CONFIG)
+
+    INSTALLS *= INSTALLS_$${this_target}
+    export(INSTALLS)
 }

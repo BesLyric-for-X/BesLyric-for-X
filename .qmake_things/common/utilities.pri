@@ -57,6 +57,20 @@ TARGET_DIR = $$system_path($$dirname(QMAKE_RESOLVED_TARGET))
 message("TARGET_DIR = $${TARGET_DIR}")
 
 
+defineReplace(getSourcePathForwardSlashed) {
+    checkArgumentCount("getSourcePathForwardSlashed", $${ARGC}, 2)
+
+    base_dir_path = $${1}
+    filename = $${2}
+
+    path = $$clean_path($$absolute_path($${filename}, $${base_dir_path}))
+    !exists($${path}) {
+        error("\"$${path}\" is NOT existed.")
+    }
+    return ($${path})
+}
+
+
 defineReplace(getSourcePathQuoted) {
     checkArgumentCount("getSourcePathQuoted", $${ARGC}, 2)
 
