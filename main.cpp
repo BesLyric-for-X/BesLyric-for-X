@@ -10,6 +10,13 @@
 
 #include <LyricListManager.h>
 
+#ifdef Q_OS_MAC
+// For SDL2 installed by HomeBrew on macOS
+#include <SDL.h>
+#else
+#include <SDL2/SDL.h>
+#endif
+
 
 void test()
 {
