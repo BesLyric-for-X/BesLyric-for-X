@@ -19,20 +19,6 @@
 
 #define __STDC_CONSTANT_MACROS
 
-#ifdef _WIN32
-//Windows
-extern "C"
-{
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
-#include "libswresample/swresample.h"
-#include "SDL.h"
-}
-
-#include <stdlib.h>  //使用 _sleep();
-
-#else
-//Linux...
 #ifdef __cplusplus
 extern "C"
 {
@@ -40,11 +26,24 @@ extern "C"
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswresample/swresample.h>
-#include "SDL.h"
-#ifdef __cplusplus
-}
+
+#ifdef Q_OS_MAC
+// For SDL2 installed by HomeBrew on macOS
+#include <SDL.h>
+#else
+#include <SDL2/SDL.h>
+#endif
+
+#ifdef _WIN32
+//Windows
+#include <stdlib.h>  //使用 _sleep();
+
+#else
+//Linux...
 #include <unistd.h>
 #endif
+#ifdef __cplusplus
+}
 #endif
 
 #define FLUSH_DATA "FLUSH"
