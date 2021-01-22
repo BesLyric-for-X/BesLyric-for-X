@@ -10,7 +10,7 @@
 
 #include <LyricListManager.h>
 
-// --- For SDL_main.h Begin ---
+// --- SDL_main.h on Windows Begin ---
 #ifdef Q_OS_WIN32
 //
 // 1. In qtmain_win.cpp, Qt's WinMain() will call our main(),
@@ -22,22 +22,9 @@
 //   https://github.com/SDL-mirror/SDL/blob/release-2.0.3/include/SDL_main.h#L33-L41
 //
 #define SDL_MAIN_HANDLED
-#endif
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-#ifdef Q_OS_MAC
-// For SDL2 installed by HomeBrew on macOS
-#include <SDL.h>
-#else
 #include <SDL2/SDL.h>
 #endif
-#ifdef __cplusplus
-}
-#endif
-// --- For SDL_main.h End ---
+// --- SDL_main.h on Windows End ---
 
 void test()
 {
