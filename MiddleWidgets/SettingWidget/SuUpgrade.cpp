@@ -42,8 +42,8 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     labelCurrentVersionTip = new QLabel(SettingUnitContainer);
     labelCurrentVersion    = new QLabel(SettingUnitContainer);
     labelCurrentVersionTip->setText("当前版本号：");
-    labelCurrentVersionTip->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelCurrentVersionTip->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelCurrentVersionTip->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelCurrentVersionTip->setMaximumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelCurrentVersion->setMinimumSize(50* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
     labelCurrentVersion->setMaximumSize(50* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
