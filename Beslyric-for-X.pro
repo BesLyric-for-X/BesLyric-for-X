@@ -107,7 +107,8 @@ HEADERS  += \
 
 DISTFILES += \
     BesLyric.rc \
-    version.txt
+    version.txt \
+    README.md
 
 RESOURCES += \
     resource.qrc
