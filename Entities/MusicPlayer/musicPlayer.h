@@ -17,34 +17,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define __STDC_CONSTANT_MACROS
-
-#ifdef _WIN32
-//Windows
-extern "C"
-{
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
-#include "libswresample/swresample.h"
-#include "SDL.h"
-}
-
-#include <stdlib.h>  //使用 _sleep();
-
-#else
-//Linux...
 #ifdef __cplusplus
+#define __STDC_CONSTANT_MACROS
+#define __STDC_FORMAT_MACROS
 extern "C"
 {
 #endif
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswresample/swresample.h>
-#include "SDL.h"
-#ifdef __cplusplus
-}
+
+#ifdef Q_OS_WIN
+// https://github.com/BesLyric-for-X/BesLyric-for-X/pull/53#issuecomment-769120183
+#define SDL_MAIN_HANDLED
+#endif
+#include <SDL.h>
+
+#ifdef _WIN32
+//Windows
+#include <stdlib.h>  //使用 _sleep();
+
+#else
+//Linux...
 #include <unistd.h>
 #endif
+#ifdef __cplusplus
+}
 #endif
 
 #define FLUSH_DATA "FLUSH"
