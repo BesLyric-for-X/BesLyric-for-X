@@ -22,6 +22,7 @@ void test()
 int main(int argc, char *argv[])
 {
     MyApplication app(argc, argv);
+    app.setApplicationName("BesLyric-for-X");
 
     StackFrame MainFrameWidget(&app);
     app.SetMakingLyricNotifyWidget(MainFrameWidget.mainWidget);
