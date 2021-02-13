@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QRegExp>
 #include <QStringList>
+#include <QSysInfo>
 #include "NetAccess.h"
 #include "SettingManager.h"
 
@@ -85,8 +86,16 @@ protected:
             strIP = "unknown";
 
         //访问链接，服务端负责记录登录信息
-        QString strSendLink = LINK_SEND_LOGIN + "?ip=" + strIP + "&version=" + VERSION_NAME + "&vernum=" +VERSION_NUMBER;
-        NetworkAccess::SyncDownloadString(strSendLink, tempBuffer);
+        QUrlQuery loginInfoQuery{
+            QPair<QString, QString>{"ip", strIP},
+            QPair<QString, QString>{"version", VERSION_NAME},
+            QPair<QString, QString>{"vernum", VERSION_NUMBER},
+            QPair<QString, QString>{"systemArchitecture",
+                "[Build]" + QSysInfo::buildCpuArchitecture()
+                + "[Current]" + QSysInfo::currentCpuArchitecture()
+            }
+        };
+        NetworkAccess::SyncDownloadString(LINK_SEND_LOGIN, tempBuffer, loginInfoQuery, false);
     }
 
 
