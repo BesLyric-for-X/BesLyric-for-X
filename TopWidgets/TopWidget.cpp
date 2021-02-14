@@ -21,7 +21,6 @@ void TopWidget::initLayout()
     topWidgetContainer->setObjectName("topWidgetContainer");
     topWidgetContainer->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
-    //icon = new QIcon(":/resource/image/netease_cloudmusic_48px.ico");
     btnIcon = new BesButton(topWidgetContainer);
     btnIcon->setIconSize(QSize(150,30));
     btnIcon->setObjectName("btnIcon");
