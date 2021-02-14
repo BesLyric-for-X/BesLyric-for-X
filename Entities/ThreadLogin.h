@@ -86,6 +86,16 @@ protected:
             strIP = "unknown";
 
         //访问链接，服务端负责记录登录信息
+#if (QT_VERSION < QT_VERSION_CHECK(5, 13, 0))
+        QUrlQuery loginInfoQuery{};
+        loginInfoQuery.addQueryItem("ip", strIP);
+        loginInfoQuery.addQueryItem("version", VERSION_NAME);
+        loginInfoQuery.addQueryItem("vernum", VERSION_NUMBER);
+        loginInfoQuery.addQueryItem("systemArchitecture",
+             "[Build]" + QSysInfo::buildCpuArchitecture()
+             + "[Current]" + QSysInfo::currentCpuArchitecture()
+         );
+#else
         QUrlQuery loginInfoQuery{
             QPair<QString, QString>{"ip", strIP},
             QPair<QString, QString>{"version", VERSION_NAME},
@@ -95,6 +105,7 @@ protected:
                 + "[Current]" + QSysInfo::currentCpuArchitecture()
             }
         };
+#endif
         NetworkAccess::SyncDownloadString(LINK_SEND_LOGIN, tempBuffer, loginInfoQuery, false);
     }
 
