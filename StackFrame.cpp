@@ -55,7 +55,7 @@ void StackFrame::initSetting()
 
 void StackFrame::initLayout()
 {
-    this->setWindowIcon(QIcon(":/resource/image/netease_cloudmusic_48px.ico"));
+    this->setWindowIcon(QIcon(":/Beslyric.ico"));
     mainWidget = new MainWidget(this);
 
     transparentLayer = new BesTransparentLayer(this);       //透明层，用于放置在浮动框和主窗口之间

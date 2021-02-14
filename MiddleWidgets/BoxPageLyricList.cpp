@@ -21,7 +21,6 @@ void BoxPageLyricList::initLayout()
     widgetMainLyricList->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
 
     extendButton = new ExtendButton(widgetMainLyricList);
-    extendButton->SetPixmap(QPixmap(":/resource/image/netease_cloudmusic_48px.ico"));
 
     labelLyricListBoxTip = new QLabel(widgetMainLyricList);
     labelLyricListBoxTip->setText(tr("歌词单"));
