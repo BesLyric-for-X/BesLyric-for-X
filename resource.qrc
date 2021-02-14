@@ -6,7 +6,6 @@
         <file>resource/image/key_right.png</file>
         <file>resource/image/key_space.png</file>
         <file>resource/image/key_up.png</file>
-        <file>resource/image/netease_cloudmusic_48px.ico</file>
         <file>resource/image/red.png</file>
         <file>resource/image/pink.png</file>
         <file>resource/image/black.png</file>
@@ -134,5 +133,6 @@
         <file>resource/image/icon_music_black.png</file>
         <file>resource/image/icon_question_black.png</file>
         <file>resource/image/key_down.png</file>
+        <file>Beslyric.ico</file>
     </qresource>
 </RCC>
