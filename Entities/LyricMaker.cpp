@@ -340,7 +340,7 @@ void LyricMaker::finishMaking()
         int m = time/60;
 
         QString timeLabel;
-        timeLabel.sprintf("%.2d:%.2d.%.3d",m, s, ms);
+        timeLabel.sprintf("%.2d:%.2d.%.2d",m, s, ms / 10);
 
         QString oneline = "["+timeLabel+"]"+line.second + "\n";
         lrcContent.append(oneline);
