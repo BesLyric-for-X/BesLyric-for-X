@@ -35,6 +35,7 @@ public:
 
 private:
     ThreadCheckUpdate threadCheck;
+    QLabel* labelCurrentGitCommitSHA1;
 };
 
 #endif // SuUpgrade_H

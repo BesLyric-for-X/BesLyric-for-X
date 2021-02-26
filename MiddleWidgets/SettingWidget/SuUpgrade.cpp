@@ -61,6 +61,11 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     hLayout2->addWidget(btnCheckUpgrade);
     hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
+    labelCurrentGitCommitSHA1 = new QLabel(SettingUnitContainer);
+    labelCurrentGitCommitSHA1->setTextInteractionFlags(Qt::TextInteractionFlag::TextSelectableByMouse);
+    labelCurrentGitCommitSHA1->setCursor(Qt::IBeamCursor);
+    labelCurrentGitCommitSHA1->setText(GIT_COMMIT_SHA1);
+
     labelNcmBeslyricAccount= new QLabel(SettingUnitContainer);
     labelNcmBeslyricAccount->setObjectName("labelSettingHighColor");
     labelNcmBeslyricAccount->setText(tr("<p style='line-height:130%'>更新检测可能由于数据存储迁移而失效，了解最新动态可关注： <a style='color:#666666;' href='https://music.163.com/#/user/home?id=349301179'>BesLyric 网易云音乐官方账号</a></p>"));
@@ -71,6 +76,7 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     vLayout->setSpacing(15* BesScaleUtil::mscale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
+    vLayout->addWidget(labelCurrentGitCommitSHA1);
     vLayout->addSpacerItem(new QSpacerItem(5,5* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
     vLayout->addWidget(labelNcmBeslyricAccount);
     vLayout->addSpacerItem(new QSpacerItem(5,5* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
