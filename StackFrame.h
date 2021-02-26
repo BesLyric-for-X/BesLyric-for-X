@@ -73,6 +73,7 @@ private:
     //登录记录
     ThreadLogin login;
     ThreadCheckUpdate checkUpdate;
+    void showVersionInfo();
 };
 
 #endif // STACKFRAME_H
