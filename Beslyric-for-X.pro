@@ -91,6 +91,20 @@ RESOURCES += \
     resource.qrc
 
 
+# Git commit SHA1.
+isEmpty(GIT_COMMIT_SHA1) {
+    GIT_COMMIT_SHA1 = $$getenv(GIT_COMMIT_SHA1)
+}
+isEmpty(GIT_COMMIT_SHA1) {
+    error("\"GIT_COMMIT_SHA1\" is NOT set.")
+}
+!contains(GIT_COMMIT_SHA1, "^[0-9a-f]{40}$") {
+    error("\"GIT_COMMIT_SHA1\" is NOT a valid SHA1.")
+}
+message("GIT_COMMIT_SHA1 = $${GIT_COMMIT_SHA1}")
+DEFINES *= "GIT_COMMIT_SHA1=\\\"$${GIT_COMMIT_SHA1}\\\""
+
+
 # windows icon and exe file infomation
 win32{
 RC_FILE = Beslyric.rc
