@@ -84,7 +84,6 @@ HEADERS  += \
     MyApplication.h
 
 DISTFILES += \
-    BesLyric.rc \
     version.txt
 
 RESOURCES += \
@@ -105,9 +104,31 @@ message("GIT_COMMIT_SHA1 = $${GIT_COMMIT_SHA1}")
 DEFINES *= "GIT_COMMIT_SHA1=\\\"$${GIT_COMMIT_SHA1}\\\""
 
 
+# Version number. All in one.
+isEmpty(APP_VERSION) {
+    APP_VERSION = $$getenv(APP_VERSION)
+}
+isEmpty(APP_VERSION) {
+    error("\"APP_VERSION\" is NOT set.")
+}
+!contains(APP_VERSION, "^\d+\.\d+\.\d+$") {
+    error("\"APP_VERSION\" is NOT a valid version number.")
+}
+message("APP_VERSION = $${APP_VERSION}")
+
+DEFINES *= "APP_VERSION=\\\"$${APP_VERSION}\\\""
+VERSION = "$${APP_VERSION}"
+
+
 # windows icon and exe file infomation
+#   https://doc.qt.io/qt-5/qmake-platform-notes.html#adding-windows-resource-files
 win32{
-RC_FILE = Beslyric.rc
+    QMAKE_TARGET_COMPANY = "BesStudio"
+    QMAKE_TARGET_DESCRIPTION = "Lrc maker for Netease Cloud Music"
+    QMAKE_TARGET_COPYRIGHT = "copyleft (C) GPL"
+    QMAKE_TARGET_PRODUCT = "BesLyric"
+    RC_ICONS = Beslyric.ico
+    RC_LANG = 0x0804 # zh-CN
 }
 
 # set icon under Mac Os
