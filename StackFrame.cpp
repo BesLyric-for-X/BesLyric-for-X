@@ -14,6 +14,7 @@ StackFrame::StackFrame(QApplication *pApplication,QWidget *parent)
 
     //先初始化设置（由于没有读取皮肤设置，先设置一个默认的皮肤，好在出错弹框时有一个默认皮肤）【第1次设置】
     SetSkin("black");
+    showVersionInfo();
     initSetting();
 
     QString skinName = SettingManager::GetInstance().data().skinName;
@@ -336,5 +337,14 @@ void StackFrame::onUpdateResultFound(CheckUpgradeResult result)
 
     BesMessageBox::information(tr("有新版本  ") + result.versionNum, strUpdate);
 
+}
+
+void StackFrame::showVersionInfo(){
+    qDebug() << "VERSION: " << VERSION_NUMBER << ", COMMIT: " << GIT_COMMIT_SHA1;
+#if !defined(RELEASE_VERSION)
+    BesMessageBox::information(
+        tr("这是测试版"),
+        tr("版本： %1\n提交： %2").arg(VERSION_NUMBER).arg(GIT_COMMIT_SHA1));
+#endif
 }
 
