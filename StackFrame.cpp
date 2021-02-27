@@ -341,5 +341,10 @@ void StackFrame::onUpdateResultFound(CheckUpgradeResult result)
 
 void StackFrame::showVersionInfo(){
     qDebug() << "VERSION: " << VERSION_NUMBER << ", COMMIT: " << GIT_COMMIT_SHA1;
+#if !defined(RELEASE_VERSION)
+    BesMessageBox::information(
+        tr("这是测试版"),
+        tr("版本： %1\n提交： %2").arg(VERSION_NUMBER).arg(GIT_COMMIT_SHA1));
+#endif
 }
 
