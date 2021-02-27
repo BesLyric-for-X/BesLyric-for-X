@@ -105,7 +105,16 @@ DEFINES *= "GIT_COMMIT_SHA1=\\\"$${GIT_COMMIT_SHA1}\\\""
 
 
 # Version number. All in one.
-APP_VERSION="3.1.2"
+isEmpty(APP_VERSION) {
+    APP_VERSION = $$getenv(APP_VERSION)
+}
+isEmpty(APP_VERSION) {
+    error("\"APP_VERSION\" is NOT set.")
+}
+!contains(APP_VERSION, "^\d+\.\d+\.\d+$") {
+    error("\"APP_VERSION\" is NOT a valid version number.")
+}
+message("APP_VERSION = $${APP_VERSION}")
 
 DEFINES *= "APP_VERSION=\\\"$${APP_VERSION}\\\""
 VERSION = "$${APP_VERSION}"
