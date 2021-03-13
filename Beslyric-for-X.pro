@@ -96,10 +96,10 @@ isEmpty(GIT_COMMIT_SHA1) {
     GIT_COMMIT_SHA1 = $$getenv(GIT_COMMIT_SHA1)
 }
 isEmpty(GIT_COMMIT_SHA1) {
-    error("\"GIT_COMMIT_SHA1\" is NOT set.")
+    GIT_COMMIT_SHA1 = $$system("git -C \"$${_PRO_FILE_PWD_}\" rev-parse HEAD")
 }
 !contains(GIT_COMMIT_SHA1, "^[0-9a-f]{40}$") {
-    error("\"GIT_COMMIT_SHA1\" is NOT a valid SHA1.")
+    GIT_COMMIT_SHA1 = "0000000000000000000000000000000000000000"
 }
 message("GIT_COMMIT_SHA1 = $${GIT_COMMIT_SHA1}")
 DEFINES *= "GIT_COMMIT_SHA1=\\\"$${GIT_COMMIT_SHA1}\\\""
@@ -110,10 +110,12 @@ isEmpty(APP_VERSION) {
     APP_VERSION = $$getenv(APP_VERSION)
 }
 isEmpty(APP_VERSION) {
-    error("\"APP_VERSION\" is NOT set.")
+    APP_VERSION_starts_with_v = $$system("git -C \"$${_PRO_FILE_PWD_}\" describe --tags --abbrev=0")
+    APP_VERSION = $$replace(APP_VERSION_starts_with_v, "v", "")
+    unset(APP_VERSION_starts_with_v)
 }
 !contains(APP_VERSION, "^\d+\.\d+\.\d+$") {
-    error("\"APP_VERSION\" is NOT a valid version number.")
+    APP_VERSION = "0.0.0"
 }
 message("APP_VERSION = $${APP_VERSION}")
 
