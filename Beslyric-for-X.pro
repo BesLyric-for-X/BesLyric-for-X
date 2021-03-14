@@ -201,12 +201,6 @@ win32 {
     }
     message("dep_lib_path = $${dep_lib_path}")
 
-    dep_bin_path = $$system_path($${dep_base_path}/bin)
-    !exists($${dep_bin_path}) {
-        error("\"$${dep_bin_path}\" does NOT exist.")
-    }
-    message("dep_bin_path = $${dep_bin_path}")
-
     INCLUDEPATH *= \
         $${dep_include_path} \
         $$system_path($${dep_include_path}/SDL2)
@@ -222,7 +216,6 @@ win32 {
         -lswscale \
         -lSDL2
 
-    unset(dep_bin_path)
     unset(dep_lib_path)
     unset(dep_include_path)
     unset(dep_base_path)
