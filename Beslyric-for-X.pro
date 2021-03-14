@@ -93,12 +93,15 @@ RESOURCES += \
 
 # Git commit SHA1.
 isEmpty(GIT_COMMIT_SHA1) {
+    warning("No \"GIT_COMMIT_SHA1\" in qmake arguments. Try to find in environment.")
     GIT_COMMIT_SHA1 = $$getenv(GIT_COMMIT_SHA1)
 }
 isEmpty(GIT_COMMIT_SHA1) {
+    warning("No \"GIT_COMMIT_SHA1\" in environment. Try to get it by executing the command 'git -C \"$${_PRO_FILE_PWD_}\" rev-parse HEAD'.")
     GIT_COMMIT_SHA1 = $$system("git -C \"$${_PRO_FILE_PWD_}\" rev-parse HEAD")
 }
 !contains(GIT_COMMIT_SHA1, "^[0-9a-f]{40}$") {
+    warning("\"$${GIT_COMMIT_SHA1}\" is NOT a valid GIT_COMMIT_SHA1. Use the default one.")
     GIT_COMMIT_SHA1 = "0000000000000000000000000000000000000000"
 }
 message("GIT_COMMIT_SHA1 = $${GIT_COMMIT_SHA1}")
@@ -107,14 +110,17 @@ DEFINES *= "GIT_COMMIT_SHA1=\\\"$${GIT_COMMIT_SHA1}\\\""
 
 # Version number. All in one.
 isEmpty(APP_VERSION) {
+    warning("No \"APP_VERSION\" in qmake arguments. Try to find in environment.")
     APP_VERSION = $$getenv(APP_VERSION)
 }
 isEmpty(APP_VERSION) {
+    warning("No \"APP_VERSION\" in environment. Try to get it by executing the command 'git -C \"$${_PRO_FILE_PWD_}\" describe --tags --abbrev=0'.")
     APP_VERSION_starts_with_v = $$system("git -C \"$${_PRO_FILE_PWD_}\" describe --tags --abbrev=0")
     APP_VERSION = $$replace(APP_VERSION_starts_with_v, "v", "")
     unset(APP_VERSION_starts_with_v)
 }
 !contains(APP_VERSION, "^\d+\.\d+\.\d+$") {
+    warning("\"$${APP_VERSION}\" is NOT a valid APP_VERSION. Use the default one.")
     APP_VERSION = "0.0.0"
 }
 message("APP_VERSION = $${APP_VERSION}")
