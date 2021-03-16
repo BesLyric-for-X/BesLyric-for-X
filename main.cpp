@@ -10,7 +10,8 @@
 
 #include <LyricListManager.h>
 #ifdef Q_OS_WIN
-#include <synchapi.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #endif
 
 
