@@ -237,3 +237,19 @@ unix {
 }
 
 #--------------------------------
+
+# Copy the files used for packaging.
+#   https://stackoverflow.com/questions/3984104/qmake-how-to-copy-a-file-to-the-output/54162789#54162789
+
+CONFIG *= file_copies
+
+macx:  the_icon.files = $${_PRO_FILE_PWD_}/BesLyric.icns
+win32: the_icon.files = $${_PRO_FILE_PWD_}/Beslyric.ico
+the_icon.path = $${OUT_PWD}
+
+win32: version_txt.files = $${_PRO_FILE_PWD_}/version.txt
+version_txt.path = $${OUT_PWD}
+
+COPIES *= the_icon version_txt
+
+#--------------------------------
