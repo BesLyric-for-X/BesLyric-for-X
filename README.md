@@ -1,8 +1,9 @@
-![Beslyric-for-X](resource/image/netease_cloudmusic_32px.ico)
+<img alt="BesLyric-for-X" src="Beslyric.ico" width=32px>
 
 [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/zh_CN)
-[![Release version](https://img.shields.io/badge/release-3.1.1-blue.svg?style=flat-square)](https://github.com/BensonLaur/Beslyric-for-X/releases)
-[![Gitter](https://img.shields.io/badge/chat-on%20gitter-4fb999.svg?style=flat-square)](https://gitter.im/Beslyric-for-X/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Latest version](https://img.shields.io/badge/dynamic/json?color=blue&label=latest%20version&style=flat-square&query=%24.tag_name&url=https%3A%2F%2Fapi.github.com%2Frepos%2FBesLyric-for-X%2FBesLyric-for-X%2Freleases%2Flatest)](https://github.com/BesLyric-for-X/BesLyric-for-X/releases/latest)
+[![Gitter](https://img.shields.io/badge/Gitter-BesLyric--for--X__org%2Fcommunity-%2346BC99?style=flat-square)](https://gitter.im/BesLyric-for-X_org/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![BesLyric QQ 群](https://img.shields.io/badge/QQ%20%E7%BE%A4-1021317114-red?style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=90548f8500d6f5b5fd9b6ee89684206053b709b6309a0dc807cdb4cd8704a78e)
 
 # Beslyric-for-X  
 
