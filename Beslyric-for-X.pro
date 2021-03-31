@@ -133,7 +133,7 @@ VERSION = "$${APP_VERSION}"
 #   https://doc.qt.io/qt-5/qmake-platform-notes.html#adding-windows-resource-files
 win32{
     QMAKE_TARGET_COMPANY = "BesStudio"
-    QMAKE_TARGET_DESCRIPTION = "Lrc maker for Netease Cloud Music"
+    QMAKE_TARGET_DESCRIPTION = "BesLyric-for-X is a lyric (.lrc) maker in the style of NetEase Cloud Music"
     QMAKE_TARGET_COPYRIGHT = "copyleft (C) GPL"
     QMAKE_TARGET_PRODUCT = "BesLyric"
     RC_ICONS = Beslyric.ico
