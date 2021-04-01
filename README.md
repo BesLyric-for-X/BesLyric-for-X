@@ -15,13 +15,59 @@ BesLyric-for-X 详细介绍与下载，访问 [这里](http://www.cnblogs.com/Be
 
 ## 开发说明
 
-#### 开发环境
+### 获取源代码
 
-IDE: [QT Creator 5.7.1](https://download.qt.io/archive/qt/5.7/5.7.1/)  
+```console
+$ git clone --recurse-submodules https://github.com/BesLyric-for-X/BesLyric-for-X.git
+$ #         \--------__--------/
+$ #              Important!
+```
 
-#### 开发准备
+### 环境
 
-1、本项目为项目主体，clone 本项目到本地使用 Qt Creator 开发
+框架：
 
-2、本项目使用跨平台开源库 ffmpeg 解析播放音频文件，考虑到更新ffmpeg的灵活性 以及 跨平台要求的特性，Beslyric-for-X 中在使用 ffmpeg 时，不直接将其置于项目下，而是开发者在对应的平台上各自独立单独安装。具体开发说明置于 [beslyric-lib](https://github.com/BensonLaur/beslyric-lib) 项目中。
+- Qt 5.12.4+
 
+操作系统：
+
+- Linux ([Qt for Linux/X11 | Qt 5 § Supported Configurations](https://doc.qt.io/qt-5/linux.html#supported-configurations))
+  - Ubuntu 18.04+
+  - Fedora release 32
+  - Manjaro Linux xfce 20.0.3
+  - openSUSE Leap 15.2
+- macOS 10.14 & 10.15 ([Qt for macOS | Qt 5 § Supported Versions](https://doc.qt.io/qt-5/macos.html#supported-versions))
+- Windows 10 ([Qt for Windows | Qt 5 § Supported Configurations](https://doc.qt.io/qt-5/windows.html#supported-configurations))
+
+工具链：
+
+- Linux: GCC 5+
+- macOS: Xcode 11+ (Command Line Tools (CLT) only)
+- Windows
+  - MSVC 2017+
+  - MinGW 7.3.0+
+
+本项目依赖这些第三方库：
+
+- FFmpeg 4
+- SDL 2
+- OpenSSL 1.1.1
+
+### 构建
+
+请按照 [BesLyric-for-X/BesLyric-for-X_Conf](https://github.com/BesLyric-for-X/BesLyric-for-X_Conf) 进行开发环境的配置，再进行构建。
+
+#### Linux 或 macOS
+
+```console
+$ qmake && make
+```
+
+#### Windows
+
+```console
+> qmake -before "B4X_DEP_PATH=C:\b4x-lib"
+
+> nmake         # MSVC
+> mingw32-make  # MinGW
+```
