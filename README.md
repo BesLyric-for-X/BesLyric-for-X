@@ -5,13 +5,29 @@
 [![Gitter](https://img.shields.io/badge/Gitter-BesLyric--for--X__org%2Fcommunity-%2346BC99?style=flat-square)](https://gitter.im/BesLyric-for-X_org/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![BesLyric QQ 群](https://img.shields.io/badge/QQ%20%E7%BE%A4-1021317114-red?style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=90548f8500d6f5b5fd9b6ee89684206053b709b6309a0dc807cdb4cd8704a78e)
 
-# Beslyric-for-X  
+# BesLyric-for-X
 
-Beslyric-for-X ，是原 [Beslyric](https://github.com/BensonLaur/BesLyric) 的跨平台升级版，基于QT实现。
+## 简介
 
-Beslyric 目的在于制作一款 操作简单、功能实用的 专门用于制作网易云音乐滚动歌词的 歌词制作软件。基于Qt实现，主打歌词制作功能，以网易云风格界面，力图为云村村民提供一个良好的歌词制作体验！
+BesLyric-for-X 是一款操作简单、功能实用的歌词制作软件。云村的村民们能够在网易云风格的界面中获得良好的歌词制作体验。
 
-BesLyric-for-X 详细介绍与下载，访问 [这里](http://www.cnblogs.com/BensonLaur/p/9695769.html)
+本软件的前身是 [BesLyric](https://github.com/BesLyric-for-X/BesLyric) ，它只能运行在 Windows 中。为了 Linux 和 macOS 的用户，我们基于 Qt 框架开发了 BesLyric-for-X 。
+
+经过测试，本软件可在下列操作系统中正常运行：
+
+- Linux （ 64 位）
+  - Ubuntu 18.04
+- macOS （ 64 位）
+  - 10.13
+  - 10.14
+  - 10.15
+- Windows （ 32 / 64 位）
+  - 7 (6.1.7600)
+  - 10
+
+请访问[这篇博文](http://www.cnblogs.com/BensonLaur/p/9695769.html)查看使用教程或可能遇到的问题。
+
+BesLyric-for-X 所使用的程序图标来自 [Netease Cloudmusic icons - OPPO Color OS Icons - Easyicon](https://www.easyicon.net/1186871-netease_cloudmusic_icon.html) 。
 
 ## 开发说明
 
