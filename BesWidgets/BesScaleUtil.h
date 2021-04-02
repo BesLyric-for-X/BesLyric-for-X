@@ -12,12 +12,12 @@ public:
         //获取主屏幕可用大小
         QRect primaryScreenRect = getPrimaryScreenRect();
 
-        //窗口本身高800px，分辨率高小于800时缩放到一个固定比例。
+        //窗口本身高800px，分辨率高小于800时，按比例缩放
         //              分辨率高大于800，小于1080的情况下不缩放
         //              分辨率高大于1080时，按比例缩放
 
         if(primaryScreenRect.height() < 800)
-            return 0.72;
+            return primaryScreenRect.height() / 800.0;
         else if(primaryScreenRect.height() <= 1080)
             return 1.0;
         else
