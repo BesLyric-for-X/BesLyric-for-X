@@ -168,9 +168,9 @@ void StackFrame::resizeEvent(QResizeEvent *event)
 
     QRect mainWidgetRect = QRect(borderMain ,borderMain,
                                  this->width()- 2*borderMain, this->height()-2*borderMain);
-    QRect skinBoxRect = QRect(this->width()- 400* BesScaleUtil::mscale()- 20* BesScaleUtil::scale(),
+    QRect skinBoxRect = QRect(this->width()- 400* BesScaleUtil::scale()- 20* BesScaleUtil::scale(),
                               58* BesScaleUtil::scale(),
-                              400* BesScaleUtil::mscale(),330* BesScaleUtil::mscale());
+                              400* BesScaleUtil::scale(),330* BesScaleUtil::scale());
 
     QRect transWidgetRect(mainWidgetRect);
     transWidgetRect.setTop(transWidgetRect.top()+65* BesScaleUtil::scale());  //上侧标题控件不要阻挡

@@ -10,8 +10,8 @@
 BesEditDialog::BesEditDialog(QWidget *parent)
     : BesFramelessDialog(parent)
 {
-    this->setMinimumHeight(300* BesScaleUtil::mscale());
-    this->setMinimumWidth(600* BesScaleUtil::mscale());
+    this->setMinimumHeight(300* BesScaleUtil::scale());
+    this->setMinimumWidth(600* BesScaleUtil::scale());
 
     initLayout();
     initConnection();
@@ -31,7 +31,7 @@ void BesEditDialog::setText(QString text)
     int length = 10 * text.size();
     if(length < 600)
         length = 600;
-    this->setMinimumWidth(length * BesScaleUtil::mscale());
+    this->setMinimumWidth(length * BesScaleUtil::scale());
 
     editAddItemName->setText(strContent);
 }
@@ -55,14 +55,14 @@ void BesEditDialog::initLayout()
     labelAddItemNameTip = new QLabel(widgetMessageBoxContainer);
     labelAddItemNameTip->setObjectName("labelAddItemNameTip");
     labelAddItemNameTip->setText(tr("编辑"));
-    labelAddItemNameTip->setMinimumHeight(45* BesScaleUtil::mscale());
-    labelAddItemNameTip->setMaximumHeight(45* BesScaleUtil::mscale());
+    labelAddItemNameTip->setMinimumHeight(45* BesScaleUtil::scale());
+    labelAddItemNameTip->setMaximumHeight(45* BesScaleUtil::scale());
     labelAddItemNameTip->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     editAddItemName = new QLineEdit(widgetMessageBoxContainer);
     editAddItemName->setObjectName("editAddItemName");
-    editAddItemName->setMinimumHeight(40* BesScaleUtil::mscale());
-    editAddItemName->setMaximumHeight(40* BesScaleUtil::mscale());
+    editAddItemName->setMinimumHeight(40* BesScaleUtil::scale());
+    editAddItemName->setMaximumHeight(40* BesScaleUtil::scale());
     editAddItemName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     //editAddItemName->setText(strContent);
 
@@ -74,25 +74,25 @@ void BesEditDialog::initLayout()
     btnCancel->setObjectName("btnCancel");
     btnOK->setEnabled(false);
 
-    btnOK->setMinimumHeight(40* BesScaleUtil::mscale());
-    btnOK->setMaximumHeight(40* BesScaleUtil::mscale());
-    btnOK->setMinimumWidth(100* BesScaleUtil::mscale());
+    btnOK->setMinimumHeight(40* BesScaleUtil::scale());
+    btnOK->setMaximumHeight(40* BesScaleUtil::scale());
+    btnOK->setMinimumWidth(100* BesScaleUtil::scale());
     btnOK->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-    btnCancel->setMinimumHeight(40* BesScaleUtil::mscale());
-    btnCancel->setMaximumHeight(40* BesScaleUtil::mscale());
-    btnCancel->setMinimumWidth(100* BesScaleUtil::mscale());
+    btnCancel->setMinimumHeight(40* BesScaleUtil::scale());
+    btnCancel->setMaximumHeight(40* BesScaleUtil::scale());
+    btnCancel->setMinimumWidth(100* BesScaleUtil::scale());
     btnCancel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
 
     QHBoxLayout* hLayout = new QHBoxLayout();
-    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
     hLayout->addWidget(btnOK);
     hLayout->addWidget(btnCancel);
-    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
+    hLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding,QSizePolicy::Fixed));
 
     QVBoxLayout* vMainLayout = new QVBoxLayout(widgetMessageBoxContainer);
-    vMainLayout->setMargin(32* BesScaleUtil::mscale());
-    vMainLayout->setSpacing(25* BesScaleUtil::mscale());
+    vMainLayout->setMargin(32* BesScaleUtil::scale());
+    vMainLayout->setSpacing(25* BesScaleUtil::scale());
     vMainLayout->addWidget(labelAddItemNameTip);
     vMainLayout->addWidget(editAddItemName);
     vMainLayout->addLayout(hLayout);

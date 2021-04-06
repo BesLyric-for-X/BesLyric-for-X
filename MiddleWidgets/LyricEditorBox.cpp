@@ -6,8 +6,8 @@
 
 LyricEditorBox::LyricEditorBox(QWidget *parent):BesFramelessDialog(parent)
 {
-    this->setMinimumHeight(720* BesScaleUtil::mscale());
-    this->setMinimumWidth(800* BesScaleUtil::mscale());
+    this->setMinimumHeight(720* BesScaleUtil::scale());
+    this->setMinimumWidth(800* BesScaleUtil::scale());
 
     initLayout();
     initConnection();
@@ -45,11 +45,11 @@ void LyricEditorBox::initLayout()
     widgetBody->setMouseTracking(true);
     widgetFooter->setMouseTracking(true);
 
-    widgetHeader->setMinimumHeight(45* BesScaleUtil::mscale());
+    widgetHeader->setMinimumHeight(45* BesScaleUtil::scale());
     widgetHeader->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    widgetBody->setMinimumHeight(400* BesScaleUtil::mscale());
+    widgetBody->setMinimumHeight(400* BesScaleUtil::scale());
     widgetBody->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    widgetFooter->setMinimumHeight(60* BesScaleUtil::mscale());
+    widgetFooter->setMinimumHeight(60* BesScaleUtil::scale());
     widgetFooter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     QVBoxLayout * vLayout = new QVBoxLayout(widgetBaseContainer);
@@ -68,35 +68,35 @@ void LyricEditorBox::initLayout()
     btnMessageClose->setObjectName("btnMessageClose");
 
     hHeaderLayout->addWidget(labelMessageTitle);
-    hHeaderLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
+    hHeaderLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
     hHeaderLayout->addWidget(btnMessageClose);
 
     QVBoxLayout *vBodyLayout = new QVBoxLayout(widgetBody);
 
     labelLyricFinishPart = new QLabel(widgetBody);
     labelLyricFinishPart->setText(tr("已制作部分"));
-    labelLyricFinishPart->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelLyricFinishPart->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelLyricFinishPart->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     labelLyricUnfinishPart = new QLabel(widgetBody);
     labelLyricUnfinishPart->setText(tr("未制作部分"));
-    labelLyricUnfinishPart->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelLyricUnfinishPart->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelLyricUnfinishPart->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     btnCopySelected = new BesButton(widgetBody);
     btnCopySelected->setText(tr("复制已选行"));
-    btnCopySelected->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnCopySelected->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnCopySelected->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     btnPastSelected = new BesButton(widgetBody);
     btnPastSelected->setText(tr("粘贴"));
-    btnPastSelected->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnPastSelected->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnPastSelected->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     btnPastSelected->setEnabled(false);
 
     btnRemakeLastLine = new BesButton(widgetBody);
     btnRemakeLastLine->setText(tr("重制最后一行"));
-    btnRemakeLastLine->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnRemakeLastLine->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnRemakeLastLine->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     btnRemakeLastLine->setVisible(false); //暂时不考虑该功能
 
@@ -128,19 +128,19 @@ void LyricEditorBox::initLayout()
     btnCancel->setObjectName("btnCancel");
     btnOK->setText(tr("确定"));
     btnCancel->setText(tr("取消"));
-    btnOK->setMinimumSize(75* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnCancel->setMinimumSize(75* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnOK->setMaximumSize(200* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnCancel->setMaximumSize(200* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnOK->setMinimumSize(75* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnCancel->setMinimumSize(75* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnOK->setMaximumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnCancel->setMaximumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnOK->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
     btnCancel->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 
 
-    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
+    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
     hBottomLayout->addWidget(btnOK);
-    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hBottomLayout->addWidget(btnCancel);
-    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
+    hBottomLayout->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::Expanding, QSizePolicy::Fixed));
 }
 
 void LyricEditorBox::initConnection()

@@ -14,7 +14,7 @@ QString SuDefaultPath::getName()
 
 int SuDefaultPath::getUnitHeight()
 {
-   return 260* BesScaleUtil::mscale();
+   return 260* BesScaleUtil::scale();
 }
 
 QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
@@ -28,7 +28,7 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     btnSelectDefaultPathMusic  = new BesButton(SettingUnitContainer);
     btnSelectDefaultPathLyric  = new BesButton(SettingUnitContainer);
@@ -43,12 +43,12 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
     btnSelectDefaultPathMusic->setText(tr("选择"));
     btnSelectDefaultPathLyric->setText(tr("选择"));
     btnSelectDefaultPathOutput->setText(tr("选择"));
-    btnSelectDefaultPathMusic->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnSelectDefaultPathMusic->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnSelectDefaultPathLyric->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnSelectDefaultPathLyric->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnSelectDefaultPathOutput->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnSelectDefaultPathOutput->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnSelectDefaultPathMusic->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSelectDefaultPathMusic->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSelectDefaultPathLyric->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSelectDefaultPathLyric->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSelectDefaultPathOutput->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSelectDefaultPathOutput->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnSelectDefaultPathMusic->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSelectDefaultPathLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSelectDefaultPathOutput->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -56,22 +56,22 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
     labelTipPathMusic->setText(tr("音乐目录："));
     labelTipPathLyric->setText(tr("歌词目录："));
     labelTipPathOutput->setText(tr("输出目录："));
-    labelTipPathMusic->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelTipPathMusic->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelTipPathLyric->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelTipPathLyric->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelTipPathOutput->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelTipPathOutput->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelTipPathMusic->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelTipPathMusic->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelTipPathLyric->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelTipPathLyric->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelTipPathOutput->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelTipPathOutput->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelTipPathMusic->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelTipPathLyric->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelTipPathOutput->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    labelDefaultPathMusic->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelDefaultPathMusic->setMaximumHeight(30* BesScaleUtil::mscale());
-    labelDefaultPathLyric->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelDefaultPathLyric->setMaximumHeight(30* BesScaleUtil::mscale());
-    labelDefaultPathOutput->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelDefaultPathOutput->setMaximumHeight(30* BesScaleUtil::mscale());
+    labelDefaultPathMusic->setMinimumHeight(30* BesScaleUtil::scale());
+    labelDefaultPathMusic->setMaximumHeight(30* BesScaleUtil::scale());
+    labelDefaultPathLyric->setMinimumHeight(30* BesScaleUtil::scale());
+    labelDefaultPathLyric->setMaximumHeight(30* BesScaleUtil::scale());
+    labelDefaultPathOutput->setMinimumHeight(30* BesScaleUtil::scale());
+    labelDefaultPathOutput->setMaximumHeight(30* BesScaleUtil::scale());
     labelDefaultPathMusic->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelDefaultPathLyric->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     labelDefaultPathOutput->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
@@ -92,12 +92,12 @@ QWidget *SuDefaultPath::getUnitWidget(QWidget *parent)
     hLayout4->addWidget(labelDefaultPathOutput);
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
-    vLayout->setSpacing(15* BesScaleUtil::mscale());
+    vLayout->setSpacing(15* BesScaleUtil::scale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addLayout(hLayout3);
     vLayout->addLayout(hLayout4);
-    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
 
     labelDefaultPathMusic->setText(SettingManager::GetInstance().data().defaultMusicPath);

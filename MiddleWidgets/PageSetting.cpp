@@ -33,7 +33,7 @@ void PageSetting::initLayout()
     QVBoxLayout* vMainLayout = new QVBoxLayout(pageSettingContainer);
 
     settingTopPanel = new QWidget(pageSettingContainer);
-    settingTopPanel->setMaximumHeight(65 *BesScaleUtil::mscale());
+    settingTopPanel->setMaximumHeight(65 *BesScaleUtil::scale());
     settingTopPanel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     settingTopPanel->setObjectName("settingTopPanel");
     settingTopPanel->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
@@ -44,7 +44,7 @@ void PageSetting::initLayout()
     settingTitle->setText(tr("设置"));
 
     QHBoxLayout* hSettingLayout = new QHBoxLayout(settingTopPanel);
-    hSettingLayout->setMargin(10*BesScaleUtil::mscale());
+    hSettingLayout->setMargin(10*BesScaleUtil::scale());
     hSettingLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hSettingLayout->addWidget(settingTitle);
     hSettingLayout->addSpacerItem(new QSpacerItem(20,20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));

@@ -29,10 +29,10 @@ void SubPageDownloadSong::initLayout()
     //搜索按钮
     labelSearchNcmSong = new QLabel(this);
     labelSearchNcmArtist = new QLabel(this);
-    labelSearchNcmSong->setMinimumSize(120*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    labelSearchNcmArtist->setMinimumSize(120*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    labelSearchNcmSong->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    labelSearchNcmArtist->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    labelSearchNcmSong->setMinimumSize(120*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    labelSearchNcmArtist->setMinimumSize(120*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    labelSearchNcmSong->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    labelSearchNcmArtist->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::scale());
     labelSearchNcmSong->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchNcmArtist->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchNcmSong->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -44,18 +44,18 @@ void SubPageDownloadSong::initLayout()
     editSearchNcmArtist = new QLineEdit(this);
     editSearchNcmSong->setPlaceholderText(tr("必填"));
     editSearchNcmArtist->setPlaceholderText(tr("选填"));
-    editSearchNcmSong->setMinimumSize(200*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    editSearchNcmArtist->setMinimumSize(200*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    editSearchNcmSong->setMaximumSize(300*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    editSearchNcmArtist->setMaximumSize(300*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    editSearchNcmSong->setMinimumSize(200*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    editSearchNcmArtist->setMinimumSize(200*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    editSearchNcmSong->setMaximumSize(300*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    editSearchNcmArtist->setMaximumSize(300*BesScaleUtil::scale(),30*BesScaleUtil::scale());
     editSearchNcmSong->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSearchNcmArtist->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     btnSearchNcmSong  = new BesButton(this);
     btnSearchNcmSong->setObjectName("btnSearchNcmSong");
     btnSearchNcmSong->setText(tr("搜索"));
-    btnSearchNcmSong->setMinimumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
-    btnSearchNcmSong->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::mscale());
+    btnSearchNcmSong->setMinimumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::scale());
+    btnSearchNcmSong->setMaximumSize(150*BesScaleUtil::scale(),30*BesScaleUtil::scale());
     btnSearchNcmSong->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
@@ -74,11 +74,11 @@ void SubPageDownloadSong::initLayout()
     labelNcmSongResultTip3= new QLabel(this);
     labelNcmSongResultTip4= new QLabel(this);
     labelNcmSongResultTip5= new QLabel(this);
-    labelNcmSongResultTip1->setMinimumHeight(30*BesScaleUtil::mscale());
-    labelNcmSongResultTip2->setMinimumHeight(30*BesScaleUtil::mscale());
-    labelNcmSongResultTip3->setMinimumHeight(30*BesScaleUtil::mscale());
-    labelNcmSongResultTip4->setMinimumHeight(30*BesScaleUtil::mscale());
-    labelNcmSongResultTip5->setMinimumHeight(30*BesScaleUtil::mscale());
+    labelNcmSongResultTip1->setMinimumHeight(30*BesScaleUtil::scale());
+    labelNcmSongResultTip2->setMinimumHeight(30*BesScaleUtil::scale());
+    labelNcmSongResultTip3->setMinimumHeight(30*BesScaleUtil::scale());
+    labelNcmSongResultTip4->setMinimumHeight(30*BesScaleUtil::scale());
+    labelNcmSongResultTip5->setMinimumHeight(30*BesScaleUtil::scale());
     labelNcmSongResultTip1->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelNcmSongResultTip2->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelNcmSongResultTip3->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );

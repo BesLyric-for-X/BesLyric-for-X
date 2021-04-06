@@ -40,10 +40,10 @@ void SubPageDownloadLyric::initLayout()
     //搜索按钮
     labelSearchLyricSong = new QLabel(this);
     labelSearchLyricArtist = new QLabel(this);
-    labelSearchLyricSong->setMinimumSize(120 * BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelSearchLyricArtist->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelSearchLyricSong->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelSearchLyricArtist->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelSearchLyricSong->setMinimumSize(120 * BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelSearchLyricArtist->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelSearchLyricSong->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelSearchLyricArtist->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelSearchLyricSong->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchLyricArtist->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelSearchLyricSong->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -55,10 +55,10 @@ void SubPageDownloadLyric::initLayout()
     editSearchLyricArtist = new QLineEdit(this);
     editSearchLyricSong->setPlaceholderText(tr("必填"));
     editSearchLyricArtist->setPlaceholderText(tr("选填"));
-    editSearchLyricSong->setMinimumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    editSearchLyricArtist->setMinimumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    editSearchLyricSong->setMaximumSize(300* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    editSearchLyricArtist->setMaximumSize(300* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    editSearchLyricSong->setMinimumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    editSearchLyricArtist->setMinimumSize(200* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    editSearchLyricSong->setMaximumSize(300* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    editSearchLyricArtist->setMaximumSize(300* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     editSearchLyricSong->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editSearchLyricArtist->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
@@ -70,10 +70,10 @@ void SubPageDownloadLyric::initLayout()
     btnSearchByBaidu->setText(tr("百度搜索"));
     btnSearchInProgram->setFocusPolicy(Qt::NoFocus);
     btnSearchByBaidu->setFocusPolicy(Qt::NoFocus);
-    btnSearchByBaidu->setMinimumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    btnSearchInProgram->setMinimumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    btnSearchByBaidu->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    btnSearchInProgram->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnSearchByBaidu->setMinimumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSearchInProgram->setMinimumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSearchByBaidu->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnSearchInProgram->setMaximumSize(150* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnSearchByBaidu->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSearchInProgram->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -94,11 +94,11 @@ void SubPageDownloadLyric::initLayout()
     labelLyricResultTip3= new QLabel(this);
     labelLyricResultTip4= new QLabel(this);
     labelLyricResultTip5= new QLabel(this);
-    labelLyricResultTip1->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelLyricResultTip2->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelLyricResultTip3->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelLyricResultTip4->setMinimumHeight(30* BesScaleUtil::mscale());
-    labelLyricResultTip5->setMinimumHeight(30* BesScaleUtil::mscale());
+    labelLyricResultTip1->setMinimumHeight(30* BesScaleUtil::scale());
+    labelLyricResultTip2->setMinimumHeight(30* BesScaleUtil::scale());
+    labelLyricResultTip3->setMinimumHeight(30* BesScaleUtil::scale());
+    labelLyricResultTip4->setMinimumHeight(30* BesScaleUtil::scale());
+    labelLyricResultTip5->setMinimumHeight(30* BesScaleUtil::scale());
     labelLyricResultTip1->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelLyricResultTip2->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
     labelLyricResultTip3->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed );
@@ -144,26 +144,26 @@ void SubPageDownloadLyric::initLayout()
     labelRawLyricPanelSavePath->setText(tr("保存路径："));
     labelRawLyricPanelSong->setText(tr("音乐："));
     labelRawLyricPanelArtist->setText(tr("歌手："));
-    labelRawLyricPanelSavePath->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelRawLyricPanelSong->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelRawLyricPanelArtist->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelRawLyricPanelSavePath->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelRawLyricPanelSong->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelRawLyricPanelArtist->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
 
     labelRawLyricPanelSavePath->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelRawLyricPanelArtist->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelRawLyricPanelSong->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editRawLyricPanelSavePath->setMinimumHeight(30* BesScaleUtil::mscale());
-    editRawLyricPanelSong->setMinimumHeight(30* BesScaleUtil::mscale());
-    editRawLyricPanelArtist->setMinimumHeight(30* BesScaleUtil::mscale());
-    btnRawLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::mscale());
-    btnRawLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
+    editRawLyricPanelSavePath->setMinimumHeight(30* BesScaleUtil::scale());
+    editRawLyricPanelSong->setMinimumHeight(30* BesScaleUtil::scale());
+    editRawLyricPanelArtist->setMinimumHeight(30* BesScaleUtil::scale());
+    btnRawLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::scale());
+    btnRawLyricPanelSave->setMinimumHeight(30* BesScaleUtil::scale());
 
     editRawLyricPanelSavePath->setReadOnly(true);
     editRawLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editRawLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultLyricPath);
 
-    btnRawLyricPanelSelect->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    btnRawLyricPanelSave->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnRawLyricPanelSelect->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnRawLyricPanelSave->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnRawLyricPanelSelect->setText("选择");
     btnRawLyricPanelSave->setText("保存原歌词");
     btnRawLyricPanelSelect->setFocusPolicy(Qt::NoFocus);
@@ -205,26 +205,26 @@ void SubPageDownloadLyric::initLayout()
     labelLrcLyricPanelSavePath->setText(tr("保存路径："));
     labelLrcLyricPanelSong->setText(tr("音乐："));
     labelLrcLyricPanelArtist->setText(tr("歌手："));
-    labelLrcLyricPanelSavePath->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelLrcLyricPanelSong->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelLrcLyricPanelArtist->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelLrcLyricPanelSavePath->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelLrcLyricPanelSong->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelLrcLyricPanelArtist->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
 
     labelLrcLyricPanelSavePath->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelLrcLyricPanelArtist->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelLrcLyricPanelSong->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editLrcLyricPanelSavePath->setMinimumHeight(30* BesScaleUtil::mscale());
-    editLrcLyricPanelSong->setMinimumHeight(30* BesScaleUtil::mscale());
-    editLrcLyricPanelArtist->setMinimumHeight(30* BesScaleUtil::mscale());
-    btnLrcLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::mscale());
-    btnLrcLyricPanelSave->setMinimumHeight(30* BesScaleUtil::mscale());
+    editLrcLyricPanelSavePath->setMinimumHeight(30* BesScaleUtil::scale());
+    editLrcLyricPanelSong->setMinimumHeight(30* BesScaleUtil::scale());
+    editLrcLyricPanelArtist->setMinimumHeight(30* BesScaleUtil::scale());
+    btnLrcLyricPanelSelect->setMinimumHeight(30* BesScaleUtil::scale());
+    btnLrcLyricPanelSave->setMinimumHeight(30* BesScaleUtil::scale());
 
     editLrcLyricPanelSavePath->setReadOnly(true);
     editLrcLyricPanelSavePath->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editLrcLyricPanelSavePath->setText(SettingManager::GetInstance().data().defaultOutputPath);
 
-    btnLrcLyricPanelSelect->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    btnLrcLyricPanelSave->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    btnLrcLyricPanelSelect->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnLrcLyricPanelSave->setMinimumSize(120* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnLrcLyricPanelSelect->setText("选择");
     btnLrcLyricPanelSave->setText("保存LRC歌词");
     btnLrcLyricPanelSelect->setFocusPolicy(Qt::NoFocus);

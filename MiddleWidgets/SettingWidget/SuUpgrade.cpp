@@ -14,7 +14,7 @@ QString SuUpgrade::getName()
 
 int SuUpgrade::getUnitHeight()
 {
-   return 240* BesScaleUtil::mscale();
+   return 240* BesScaleUtil::scale();
 }
 
 QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
@@ -28,25 +28,25 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     checkboxAutoUpgrade = new QCheckBox(SettingUnitContainer);
     checkboxAutoUpgrade->setText(tr("自动检测新版本并提示"));
 
     btnCheckUpgrade = new BesButton(SettingUnitContainer);
     btnCheckUpgrade->setText(tr("检测更新"));
-    btnCheckUpgrade->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnCheckUpgrade->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnCheckUpgrade->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnCheckUpgrade->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnCheckUpgrade->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
 
     labelCurrentVersionTip = new QLabel(SettingUnitContainer);
     labelCurrentVersion    = new QLabel(SettingUnitContainer);
     labelCurrentVersionTip->setText("当前版本号：");
-    labelCurrentVersionTip->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelCurrentVersionTip->setMaximumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelCurrentVersionTip->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelCurrentVersionTip->setMaximumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
-    labelCurrentVersion->setMinimumSize(50* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelCurrentVersion->setMaximumSize(50* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelCurrentVersion->setMinimumSize(50* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelCurrentVersion->setMaximumSize(50* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelCurrentVersionTip->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
     labelCurrentVersionTip->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
     labelCurrentVersion->setSizePolicy( QSizePolicy::Fixed,  QSizePolicy::Fixed);
@@ -54,12 +54,12 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout2 = new QHBoxLayout();
     hLayout2->addWidget(checkboxAutoUpgrade);
-    hLayout2->addSpacerItem(new QSpacerItem(120* BesScaleUtil::mscale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(120* BesScaleUtil::scale(),20,QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(labelCurrentVersionTip);
     hLayout2->addWidget(labelCurrentVersion);
-    hLayout2->addSpacerItem(new QSpacerItem(10* BesScaleUtil::mscale(),40* BesScaleUtil::mscale(),QSizePolicy::Fixed, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(10* BesScaleUtil::scale(),40* BesScaleUtil::scale(),QSizePolicy::Fixed, QSizePolicy::Fixed));
     hLayout2->addWidget(btnCheckUpgrade);
-    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     labelCurrentGitCommitSHA1 = new QLabel(SettingUnitContainer);
     labelCurrentGitCommitSHA1->setTextInteractionFlags(Qt::TextInteractionFlag::TextSelectableByMouse);
@@ -73,13 +73,13 @@ QWidget *SuUpgrade::getUnitWidget(QWidget *parent)
     labelNcmBeslyricAccount->setWordWrap(true);
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
-    vLayout->setSpacing(15* BesScaleUtil::mscale());
+    vLayout->setSpacing(15* BesScaleUtil::scale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
     vLayout->addWidget(labelCurrentGitCommitSHA1);
-    vLayout->addSpacerItem(new QSpacerItem(5,5* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(5,5* BesScaleUtil::scale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
     vLayout->addWidget(labelNcmBeslyricAccount);
-    vLayout->addSpacerItem(new QSpacerItem(5,5* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(5,5* BesScaleUtil::scale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     checkboxAutoUpgrade->setChecked(SettingManager::GetInstance().data().autoCheckForUpgrade);
 

@@ -14,7 +14,7 @@ QString SuLyricMaker::getName()
 
 int SuLyricMaker::getUnitHeight()
 {
-   return 150 * BesScaleUtil::mscale();
+   return 150 * BesScaleUtil::scale();
 }
 
 QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
@@ -28,7 +28,7 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     labelShiftBackwardTime = new QLabel(SettingUnitContainer);
     editShiftBackwardTime = new QLineEdit(SettingUnitContainer);
@@ -37,16 +37,16 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
     editShiftBackwardTime->setValidator(new QIntValidator(0, 3000, this));
 
     labelShiftBackwardTime->setText(tr("提前毫秒数："));
-    labelShiftBackwardTime->setMinimumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    labelShiftBackwardTime->setMaximumSize(100* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    labelShiftBackwardTime->setMinimumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelShiftBackwardTime->setMaximumSize(100* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelShiftBackwardTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    editShiftBackwardTime->setMinimumHeight(30* BesScaleUtil::mscale());
-    editShiftBackwardTime->setMaximumHeight(30* BesScaleUtil::mscale());
-    editShiftBackwardTime->setMaximumWidth(200* BesScaleUtil::mscale());
-    editShiftBackwardTime->setMinimumWidth(200* BesScaleUtil::mscale());
+    editShiftBackwardTime->setMinimumHeight(30* BesScaleUtil::scale());
+    editShiftBackwardTime->setMaximumHeight(30* BesScaleUtil::scale());
+    editShiftBackwardTime->setMaximumWidth(200* BesScaleUtil::scale());
+    editShiftBackwardTime->setMinimumWidth(200* BesScaleUtil::scale());
     editShiftBackwardTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    btnEditShiftTime->setMinimumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
-    btnEditShiftTime->setMaximumSize(80* BesScaleUtil::mscale(),30* BesScaleUtil::mscale());
+    btnEditShiftTime->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    btnEditShiftTime->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     btnEditShiftTime->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnEditShiftTime->setText(tr("修改"));
 
@@ -54,13 +54,13 @@ QWidget *SuLyricMaker::getUnitWidget(QWidget *parent)
     hLayout2->addWidget(labelShiftBackwardTime);
     hLayout2->addWidget(editShiftBackwardTime);
     hLayout2->addWidget(btnEditShiftTime);
-    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout2->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
-    vLayout->setSpacing(15* BesScaleUtil::mscale());
+    vLayout->setSpacing(15* BesScaleUtil::scale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(hLayout2);
-    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     //连接信号
 
