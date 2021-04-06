@@ -145,8 +145,8 @@ void PageLyricList::initLayout()
     labelLyricListRedMark->setText("歌词单");
     labelListInfoTitle->setText(tr("歌词单标题"));
     labelLyricListRedMark->setAlignment(Qt::AlignCenter);
-    labelLyricListRedMark->setMinimumSize(BesScaleUtil::fontSizeScale(60),BesScaleUtil::fontSizeScale(26));
-    labelLyricListRedMark->setMaximumSize(BesScaleUtil::fontSizeScale(60),BesScaleUtil::fontSizeScale(26));
+    labelLyricListRedMark->setMinimumSize(60 * BesScaleUtil::scale(), 26 * BesScaleUtil::scale());
+    labelLyricListRedMark->setMaximumSize(60 * BesScaleUtil::scale(), 26 * BesScaleUtil::scale());
     labelLyricListRedMark->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelListInfoTitle->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
 

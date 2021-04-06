@@ -17,7 +17,7 @@ public:
 //    //缩放字体大小,得到字符串表示
 //    inline QString scaleFontSize(int size)
 //    {
-//        int sizeAfterScale = BesScaleUtil::fontSizeScale(size);
+//        int sizeAfterScale = size * BesScaleUtil::scale();
 //        return QString::number(sizeAfterScale);
 //    }
 
