@@ -85,6 +85,8 @@ HEADERS  += \
     MyApplication.h
 
 OTHER_FILES += \
+    LICENSE \
+    README.md \
     version.txt
 
 RESOURCES += \
