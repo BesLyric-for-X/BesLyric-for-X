@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
     MyApplication app(argc, argv);
     app.setApplicationName("BesLyric-for-X");
 
+    QGuiApplication::setWindowIcon(QIcon(":/Beslyric.ico"));
+
     StackFrame MainFrameWidget(&app);
     app.SetMakingLyricNotifyWidget(MainFrameWidget.mainWidget);
     app.SetStackFrame(&MainFrameWidget);
