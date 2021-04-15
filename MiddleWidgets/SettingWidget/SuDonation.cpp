@@ -14,7 +14,7 @@ QString SuDonation::getName()
 
 int SuDonation::getUnitHeight()
 {
-   return 450* BesScaleUtil::mscale();
+   return 450* BesScaleUtil::scale();
 }
 
 QWidget *SuDonation::getUnitWidget(QWidget *parent)

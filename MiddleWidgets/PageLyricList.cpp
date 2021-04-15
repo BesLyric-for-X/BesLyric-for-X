@@ -145,8 +145,8 @@ void PageLyricList::initLayout()
     labelLyricListRedMark->setText("歌词单");
     labelListInfoTitle->setText(tr("歌词单标题"));
     labelLyricListRedMark->setAlignment(Qt::AlignCenter);
-    labelLyricListRedMark->setMinimumSize(BesScaleUtil::fontSizeScale(60),BesScaleUtil::fontSizeScale(26));
-    labelLyricListRedMark->setMaximumSize(BesScaleUtil::fontSizeScale(60),BesScaleUtil::fontSizeScale(26));
+    labelLyricListRedMark->setMinimumSize(60 * BesScaleUtil::scale(), 26 * BesScaleUtil::scale());
+    labelLyricListRedMark->setMaximumSize(60 * BesScaleUtil::scale(), 26 * BesScaleUtil::scale());
     labelLyricListRedMark->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelListInfoTitle->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed);
 
@@ -207,10 +207,10 @@ void PageLyricList::initLayout()
     labelLrcItemLrcPath->setText(tr("歌词路径"));
     editLrcItemSongPath->setFocusPolicy(Qt::NoFocus);
     editLrcItemLrcPath->setFocusPolicy(Qt::NoFocus);
-    editLrcItemSongPath->setMinimumHeight(35* BesScaleUtil::mscale());
-    editLrcItemSongPath->setMaximumHeight(35* BesScaleUtil::mscale());
-    editLrcItemLrcPath->setMinimumHeight(35* BesScaleUtil::mscale());
-    editLrcItemLrcPath->setMaximumHeight(35* BesScaleUtil::mscale());
+    editLrcItemSongPath->setMinimumHeight(35* BesScaleUtil::scale());
+    editLrcItemSongPath->setMaximumHeight(35* BesScaleUtil::scale());
+    editLrcItemLrcPath->setMinimumHeight(35* BesScaleUtil::scale());
+    editLrcItemLrcPath->setMaximumHeight(35* BesScaleUtil::scale());
     editLrcItemSongPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
     editLrcItemLrcPath->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Fixed );
     editLrcItemSongPath->setPlaceholderText(tr("点击选择文件 或 拖放文件到这里"));
@@ -224,10 +224,10 @@ void PageLyricList::initLayout()
     btnSelectLrcItemSongPath->setMaximumWidth(120* BesScaleUtil::scale());
     btnSelectLrcItemLrcPath->setMinimumWidth(80* BesScaleUtil::scale());
     btnSelectLrcItemLrcPath->setMaximumWidth(120* BesScaleUtil::scale());
-    btnSaveLrcItem->setMinimumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnSaveLrcItem->setMaximumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnCreateLrcItem->setMinimumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnCreateLrcItem->setMaximumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnSaveLrcItem->setMinimumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnSaveLrcItem->setMaximumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnCreateLrcItem->setMinimumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnCreateLrcItem->setMaximumSize(80* BesScaleUtil::scale(),35* BesScaleUtil::scale());
 
     QHBoxLayout* hEditItemSong = new QHBoxLayout();
     hEditItemSong->addWidget(labelLrcItemSongPath);
@@ -258,12 +258,12 @@ void PageLyricList::initLayout()
     btnModifyListCover = new BesButton(widgetEditListInfo);
 
     labelModifyLrcListName->setText(tr("歌词单名:"));
-    labelModifyLrcListName->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
-    labelModifyLrcListName->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::mscale());
+    labelModifyLrcListName->setMinimumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
+    labelModifyLrcListName->setMaximumSize(80* BesScaleUtil::scale(),30* BesScaleUtil::scale());
     labelModifyLrcListName->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    editModifyLrcListName->setMinimumHeight(35* BesScaleUtil::mscale());
-    editModifyLrcListName->setMaximumHeight(35* BesScaleUtil::mscale());
+    editModifyLrcListName->setMinimumHeight(35* BesScaleUtil::scale());
+    editModifyLrcListName->setMaximumHeight(35* BesScaleUtil::scale());
     editModifyLrcListName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     labelModifyListCoverRect->setObjectName("labelModifyListCoverRect");
@@ -276,8 +276,8 @@ void PageLyricList::initLayout()
     labelModifyListCoverRect->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelModifyListCoverRect->setVisible(false);
 
-    btnModifyListCover->setMinimumSize(120* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnModifyListCover->setMaximumSize(120* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnModifyListCover->setMinimumSize(120* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnModifyListCover->setMaximumSize(120* BesScaleUtil::scale(),35* BesScaleUtil::scale());
     btnModifyListCover->setText(tr("编辑封面"));
     btnModifyListCover->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnModifyListCover->setVisible(false);
@@ -289,10 +289,10 @@ void PageLyricList::initLayout()
 
     btnDeleteLrcList->setText(tr("删除整个歌词单"));
     btnSaveLrcListModified->setText(tr("保存"));
-    btnDeleteLrcList->setMinimumSize(160* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnDeleteLrcList->setMaximumSize(160* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnSaveLrcListModified->setMinimumSize(100* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
-    btnSaveLrcListModified->setMaximumSize(100* BesScaleUtil::scale(),35* BesScaleUtil::mscale());
+    btnDeleteLrcList->setMinimumSize(160* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnDeleteLrcList->setMaximumSize(160* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnSaveLrcListModified->setMinimumSize(100* BesScaleUtil::scale(),35* BesScaleUtil::scale());
+    btnSaveLrcListModified->setMaximumSize(100* BesScaleUtil::scale(),35* BesScaleUtil::scale());
     btnDeleteLrcList->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btnSaveLrcListModified->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 

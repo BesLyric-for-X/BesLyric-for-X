@@ -14,20 +14,6 @@ public:
         return QString::number(numAfterScale);
     }
 
-    //按和最大宽的比例缩放，但是又不要缩放太小，取缩放前后均值,得到字符串表示
-    inline QString mscaleNum(int num)
-    {
-        int numAfterScale = num * BesScaleUtil::mscale();
-        return QString::number(numAfterScale);
-    }
-
-//    //缩放字体大小,得到字符串表示
-//    inline QString scaleFontSize(int size)
-//    {
-//        int sizeAfterScale = BesScaleUtil::fontSizeScale(size);
-//        return QString::number(sizeAfterScale);
-//    }
-
     //获得 CSS 样式字符串
     QString GetCssString()
     {
@@ -322,7 +308,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_skin_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -330,7 +316,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_skin_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -338,7 +324,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_setting_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -346,7 +332,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_setting_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -354,7 +340,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_mini_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -362,7 +348,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_mini_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -370,7 +356,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_max_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -378,7 +364,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_max_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -386,7 +372,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_restore_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -394,7 +380,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_restore_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -402,7 +388,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_close_normal_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -410,7 +396,7 @@ private:
 "                   border: 0px;border-radius:0px;"
 "                   background-color:rgba(0, 0, 0, 0);"
 "                   padding: 0px;margin: 0px;"
-"                   width: "+mscaleNum(22)+"px; height:"+mscaleNum(22)+"px;"
+"                   width: "+scaleNum(22)+"px; height:"+scaleNum(22)+"px;"
 "                   border-image:url(\":/resource/image/btn_close_press_white.png\");"
 "                   background-repeat:no-repeat;"
 "               }"
@@ -685,14 +671,14 @@ private:
                 "QPushButton#btnOK:hover, QPushButton#btnAddListItem:hover"
                 ",QPushButton#btnSaveLrcItem:hover,QPushButton#btnCreateLrcItem:hover"
                 ",QPushButton#btnDeleteLrcList:hover,QPushButton#btnSaveLrcListModified:hover{"
-                "    min-height: "+mscaleNum(30)+"px;"
+                "    min-height: "+scaleNum(30)+"px;"
                 "    color:#f0f0f0;"
                 "    background:"+blueButtonColorHover+";"
                 "}"
                 "QPushButton#btnOK:disabled, QPushButton#btnAddListItem:disabled"
                 ",QPushButton#btnSaveLrcItem:disabled, QPushButton#btnCreateLrcItem:disabled"
                 ",QPushButton#btnDeleteLrcList:disabled, QPushButton#btnSaveLrcListModified:disabled{"
-                "    min-height: "+mscaleNum(30)+"px;"
+                "    min-height: "+scaleNum(30)+"px;"
                 "    background:"+blueButtonColorDisabled+";"
                 "}"
 
@@ -708,7 +694,7 @@ private:
                 "}"
                 "QPushButton#btnDownloadWindow:hover, QPushButton#btnDownloadLinux:hover"
                 ",QPushButton#btnDownloadMac:hover{"
-                "    min-height: "+mscaleNum(30)+"px;"
+                "    min-height: "+scaleNum(30)+"px;"
                 "    color:#f0f0f0;"
                 "    background:"+blueButtonColorHover+";"
                 "}"
@@ -1008,7 +994,7 @@ private:
         "   border-bottom:"+scaleNum(5)+"px solid;"
         "   color:"+ DeepLabelColor+";"
         "   border-bottom-color: rgba(0, 0, 0, 0);"
-        "   min-width: "+mscaleNum(96)+"px;"
+        "   min-width: "+scaleNum(96)+"px;"
         "}"
 
         "QTabBar:tab:selected {"

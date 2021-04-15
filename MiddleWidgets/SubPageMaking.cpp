@@ -271,9 +271,9 @@ void SubPageMaking::initLayout()
     labelTimeTip->setText(tr("00:00.000"));
     labelCurrenLineTip->setText(tr("当前行："));
     labelNextLineTip->setText(tr("下一行："));
-    labelTimeTip->setMinimumSize(100,28* BesScaleUtil::mscale());
-    labelCurrenLineTip->setMinimumSize(100,28* BesScaleUtil::mscale());
-    labelNextLineTip->setMinimumSize(100,28* BesScaleUtil::mscale());
+    labelTimeTip->setMinimumSize(100,28* BesScaleUtil::scale());
+    labelCurrenLineTip->setMinimumSize(100,28* BesScaleUtil::scale());
+    labelNextLineTip->setMinimumSize(100,28* BesScaleUtil::scale());
     labelTimeTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrenLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelNextLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -282,8 +282,8 @@ void SubPageMaking::initLayout()
     widgetMiddleLine = new QWidget(widgetLyricBoard);
     widgetLine4 = new QWidget(widgetLyricBoard);
 
-    widgetLine0->setMinimumHeight(30* BesScaleUtil::mscale());
-    widgetLine0->setMaximumHeight(30* BesScaleUtil::mscale());
+    widgetLine0->setMinimumHeight(30* BesScaleUtil::scale());
+    widgetLine0->setMaximumHeight(30* BesScaleUtil::scale());
     widgetLine0->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
 
     labelLine0= new QLabel(widgetLine0);
@@ -291,11 +291,11 @@ void SubPageMaking::initLayout()
     labelLine2= new QLabel(widgetMiddleLine);
     labelLine3= new QLabel(widgetLyricBoard);
     labelLine4= new QLabel(widgetLine4);
-    labelLine0->setMinimumHeight(28* BesScaleUtil::mscale());
-    labelLine1->setMinimumHeight(28* BesScaleUtil::mscale());
-    labelLine2->setMinimumHeight(28* BesScaleUtil::mscale());
-    labelLine3->setMinimumHeight(28* BesScaleUtil::mscale());
-    labelLine4->setMinimumHeight(28* BesScaleUtil::mscale());
+    labelLine0->setMinimumHeight(28* BesScaleUtil::scale());
+    labelLine1->setMinimumHeight(28* BesScaleUtil::scale());
+    labelLine2->setMinimumHeight(28* BesScaleUtil::scale());
+    labelLine3->setMinimumHeight(28* BesScaleUtil::scale());
+    labelLine4->setMinimumHeight(28* BesScaleUtil::scale());
     labelLine0->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelLine1->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     labelLine2->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -334,14 +334,14 @@ void SubPageMaking::initLayout()
     labelDoneMark2->setVisible(false);
 
     editMiddleLine = new QLineEdit(widgetMiddleLine);
-    editMiddleLine->setMinimumHeight(28* BesScaleUtil::mscale());
+    editMiddleLine->setMinimumHeight(28* BesScaleUtil::scale());
     editMiddleLine->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
     editMiddleLine->setObjectName("editMiddleLine");
     editMiddleLine->setVisible(false);
 
     labelCurrenLineEmptyTip = new QLabel(widgetMiddleLine);
     labelCurrenLineEmptyTip->setText(tr("空行"));
-    labelCurrenLineEmptyTip->setMinimumSize(80,25* BesScaleUtil::mscale());
+    labelCurrenLineEmptyTip->setMinimumSize(80,25* BesScaleUtil::scale());
     labelCurrenLineEmptyTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrenLineEmptyTip->setObjectName("labelCurrenLineEmptyTip");
     labelCurrenLineEmptyTip->setAlignment(Qt::AlignCenter);
@@ -361,8 +361,8 @@ void SubPageMaking::initLayout()
 
     btnEditLyricCurrent = new BesButton(widgetLine0);
     btnEditLyricCurrent->setText(tr("单行编辑"));
-    btnEditLyricCurrent->setMinimumSize(75,28* BesScaleUtil::mscale());
-    btnEditLyricCurrent->setMaximumSize(75,28* BesScaleUtil::mscale());
+    btnEditLyricCurrent->setMinimumSize(75,28* BesScaleUtil::scale());
+    btnEditLyricCurrent->setMaximumSize(75,28* BesScaleUtil::scale());
     btnEditLyricCurrent->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     QHBoxLayout* hLayoutLine0 = new QHBoxLayout();
@@ -376,8 +376,8 @@ void SubPageMaking::initLayout()
 
     btnEditBatchLyric = new BesButton(widgetLine4);
     btnEditBatchLyric->setText(tr("批量编辑"));
-    btnEditBatchLyric->setMinimumSize(75,28* BesScaleUtil::mscale());
-    btnEditBatchLyric->setMaximumSize(75,28* BesScaleUtil::mscale());
+    btnEditBatchLyric->setMinimumSize(75,28* BesScaleUtil::scale());
+    btnEditBatchLyric->setMaximumSize(75,28* BesScaleUtil::scale());
     btnEditBatchLyric->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     QHBoxLayout* hLayoutLine4 = new QHBoxLayout();

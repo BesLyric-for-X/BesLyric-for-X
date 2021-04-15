@@ -37,8 +37,8 @@ void LyricViewer::initLayout()
     labelPreviewSongTip->setText("歌曲路径:");
     labelPreviewLyricTip->setText("歌词路径:");
 
-    labelPreviewSongTip->setMaximumSize(80,30 * BesScaleUtil::mscale());
-    labelPreviewLyricTip->setMaximumSize(80,30 * BesScaleUtil::mscale());
+    labelPreviewSongTip->setMaximumSize(80,30 * BesScaleUtil::scale());
+    labelPreviewLyricTip->setMaximumSize(80,30 * BesScaleUtil::scale());
     labelPreviewSongTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelPreviewLyricTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 

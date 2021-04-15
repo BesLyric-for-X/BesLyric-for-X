@@ -47,8 +47,8 @@ void BottomWidget::initLayout()
     labelTimeEnding->setObjectName("labelTimeEnding");
 
     labelTimeCurrent->setAlignment(Qt::AlignRight);
-    labelTimeCurrent->setMinimumWidth(100 * BesScaleUtil::mscale());
-    labelTimeCurrent->setMaximumWidth(100 * BesScaleUtil::mscale());
+    labelTimeCurrent->setMinimumWidth(100 * BesScaleUtil::scale());
+    labelTimeCurrent->setMaximumWidth(100 * BesScaleUtil::scale());
     labelTimeCurrent->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     sliderSong = new BesSlider(bottomWidgetContainer);

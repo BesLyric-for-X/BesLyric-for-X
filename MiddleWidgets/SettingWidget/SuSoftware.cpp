@@ -13,7 +13,7 @@ QString SuSoftware::getName()
 
 int SuSoftware::getUnitHeight()
 {
-   return 350* BesScaleUtil::mscale();
+   return 350* BesScaleUtil::scale();
 }
 
 QWidget *SuSoftware::getUnitWidget(QWidget *parent)
@@ -27,7 +27,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
 
     QHBoxLayout* hLayout1 = new QHBoxLayout();
     hLayout1->addWidget(labelSettingTitle);
-    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::mscale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+    hLayout1->addSpacerItem(new QSpacerItem(20* BesScaleUtil::scale(),20,QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
     QLabel* label1 = new QLabel(SettingUnitContainer);
     QLabel* label2 = new QLabel(SettingUnitContainer);
@@ -62,10 +62,10 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     vLayout1->addWidget(label4);
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
-    vLayout->setSpacing(15* BesScaleUtil::mscale());
+    vLayout->setSpacing(15* BesScaleUtil::scale());
     vLayout->addLayout(hLayout1);
     vLayout->addLayout(vLayout1);
-    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::mscale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
+    vLayout->addSpacerItem(new QSpacerItem(20,20* BesScaleUtil::scale(), QSizePolicy::Fixed ,QSizePolicy::MinimumExpanding));
 
     return SettingUnitContainer;
 }
