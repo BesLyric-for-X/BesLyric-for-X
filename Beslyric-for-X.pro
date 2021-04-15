@@ -227,3 +227,38 @@ unix {
 }
 
 #--------------------------------
+
+# "Install" required files to specific directory via "make install INSTALL_ROOT='somewhere'"
+
+
+# For create-dmg.
+macx {
+    icon_icns.files = "$${_PRO_FILE_PWD_}/BesLyric.icns"
+    icon_icns.path = "/"
+
+    INSTALLS *= icon_icns
+}
+
+
+# For Inno Setup.
+win32 {
+    icon_ico.files = "$${_PRO_FILE_PWD_}/Beslyric.ico"
+    icon_ico.path = "/"
+
+    INSTALLS *= icon_ico
+
+
+    version_txt.files = "$${_PRO_FILE_PWD_}/version.txt"
+    version_txt.path = "/"
+
+    INSTALLS *= version_txt
+}
+
+
+# For target, both binary and debugging symbol go to target.path .
+#   See also QTBUG-81354 for MinGW.
+target.path = "/"
+
+INSTALLS *= target
+
+#--------------------------------
