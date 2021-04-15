@@ -1,0 +1,30 @@
+
+# Recognized desktop entry keys
+#   https://specifications.freedesktop.org/desktop-entry-spec/1.5/ar01s06.html
+
+# The icons
+#   12.04 - Confused about app icons folders - Ask Ubuntu
+#     https://askubuntu.com/questions/477445/confused-about-app-icons-folders
+#   Directory Layout
+#     https://specifications.freedesktop.org/icon-theme-spec/0.13/ar01s03.html
+
+
+[Desktop Entry]
+Type=Application
+Name=BesLyric-for-X
+Comment=BesLyric-for-X is a lyric (.lrc) maker in the style of NetEase Cloud Music
+Icon=BesLyric-for-X
+Exec=BesLyric-for-X
+Categories=AudioVideo;Audio;Player;Qt;
+Terminal=false
+# MimeType will be added in the future.
+
+
+# AppImage stuff
+#   https://docs.appimage.org/reference/desktop-integration.html#custom-keys-introduced-for-appimage-purposes
+#   https://github.com/AppImage/AppImageKit/issues/59
+
+# X-AppImage-Name=
+# X-AppImage-Arch=
+# X-AppImage-Version=
+

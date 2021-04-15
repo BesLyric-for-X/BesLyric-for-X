@@ -257,8 +257,47 @@ win32 {
 
 # For target, both binary and debugging symbol go to target.path .
 #   See also QTBUG-81354 for MinGW.
-target.path = "/"
+unix:!macx {
+    # For AppImage.
+    #   INSTALL_ROOT=AppDir
+
+    target.path = "/usr/bin"
+} else {
+    target.path = "/"
+}
 
 INSTALLS *= target
+
+
+# For AppImage.
+#   INSTALL_ROOT=AppDir
+unix:!macx {
+    appdir_desktop.path = "/usr/share/applications"
+    appdir_desktop.files = "$${_PRO_FILE_PWD_}/BesLyric-for-X.AppDir$${appdir_desktop.path}/BesLyric-for-X.desktop"
+
+    INSTALLS *= appdir_desktop
+
+
+    icon_sizes = \
+        "16x16" \
+        "24x24" \
+        "32x32" \
+        "32x32@2" \
+        "48x48" \
+        "64x64" \
+        "64x64@2" \
+        "72x72" \
+        "96x96" \
+        "128x128" \
+        "256x256" \
+        "256x256@2" \
+
+    for(icon_size, icon_sizes) {
+        appdir_icon_$${icon_size}.path = "/usr/share/icons/hicolor/$${icon_size}/apps"
+        appdir_icon_$${icon_size}.files = "$${_PRO_FILE_PWD_}/BesLyric-for-X.AppDir$$eval(appdir_icon_$${icon_size}.path)/BesLyric-for-X.png"
+
+        INSTALLS *= appdir_icon_$${icon_size}
+    }
+}
 
 #--------------------------------
