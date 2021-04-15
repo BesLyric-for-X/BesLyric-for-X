@@ -84,7 +84,7 @@ HEADERS  += \
     StackFrame.h \
     MyApplication.h
 
-DISTFILES += \
+OTHER_FILES += \
     version.txt
 
 RESOURCES += \
