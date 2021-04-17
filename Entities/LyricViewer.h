@@ -112,7 +112,6 @@ protected:
         QPainter painter(this);
 
         QFont font;
-        //font.setPointSize(10 * BesScaleUtil::scale());
         font.setWeight(61 * BesScaleUtil::scale());
         painter.setFont(font);
 
