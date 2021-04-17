@@ -51,7 +51,9 @@ private:
    {
         QString str =
         "QWidget{"
-            "font-family:"+fontFamily +";"
+#ifdef Q_OS_WIN
+            "font-family: Microsoft YaHei;"
+#endif
              "padding:0px;"
              "margin: 0px;"
         "}"
@@ -1161,7 +1163,6 @@ protected:
         MessageBoxBottomColor       ="#292b2f";
 
         //label、button 相关
-        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
         DeepLabelColor             ="#ffffff";
         titleColor                 ="#ffffff                                     ";
@@ -1256,7 +1257,6 @@ protected:
         MessageBoxBottomColor       ="#f5f5f7";
 
         //label、button 相关
-        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#111111                                     ";
         DeepLabelColor             ="#000000";
         titleColor                 ="#ffffff                                     ";
@@ -1330,7 +1330,6 @@ protected:
 
 protected:
                                         //默认值参考
-    QString fontFamily;                 //Microsoft YaHei
     QString topContainerBgImage;        //:/resource/image/top_background_black.png
     QString topContainerBgColor;        //#c62f2f
     QString leftboardBgColor;           //#191b1f
