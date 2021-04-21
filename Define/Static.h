@@ -16,7 +16,6 @@ static const QString LINK_SEND_LOGIN = "http://beslyric.320.io/BesBlog/beslyric/
 #ifdef Q_OS_WIN32
 
 static const QString OS_NAME = "windows";
-static const QString  LINK_VERSION_LOG= "http://files.cnblogs.com/files/BensonLaur/versionLog.zip";			//链接，指向版本日志文件
 static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/files/BensonLaur/lastVersion-windows.zip";		//链接，指向最后版本信息的文件
 
 #endif
@@ -25,7 +24,6 @@ static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/fil
 #ifdef Q_OS_LINUX
 
 static const QString OS_NAME = "linux";
-static const QString  LINK_VERSION_LOG= "http://files.cnblogs.com/files/BensonLaur/versionLog.zip";			//链接，指向版本日志文件
 static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/files/BensonLaur/lastVersion-linux.zip";		//链接，指向最后版本信息的文件
 
 #endif
@@ -34,7 +32,6 @@ static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/fil
 #ifdef Q_OS_MAC
 
 static const QString OS_NAME = "mac";
-static const QString  LINK_VERSION_LOG= "http://files.cnblogs.com/files/BensonLaur/versionLog.zip";			//链接，指向版本日志文件
 static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/files/BensonLaur/lastVersion-mac.zip";		//链接，指向最后版本信息的文件
 
 #endif
