@@ -37,9 +37,3 @@ static const QString  LINK_LAST_VERSION_INFO= "https://files-cdn.cnblogs.com/fil
 #endif
 
 static const QString VERSION_NAME = "beslyric-for-" + OS_NAME;
-
-
-
-
-
-static const QString LINK_SERVER_PATH = "http://files.cnblogs.com/files/BensonLaur/";		//链接，服务器地址
