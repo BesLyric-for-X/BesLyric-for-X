@@ -46,14 +46,23 @@ protected:
     virtual void SetParameter() = 0;
 
 private:
+    int qwidgetDefaultFontPointSize = QApplication::font().pointSize() + 1;
+
+    QString CalculateFontPointSizeWithDelta(int delta = 0)
+    {
+        return QString::number(qwidgetDefaultFontPointSize + delta);
+    };
 
     QString GetQWidgetCss()
    {
         QString str =
         "QWidget{"
-            "font-family:"+fontFamily +";"
+#ifdef Q_OS_WIN
+            "font-family: Microsoft YaHei;"
+#endif
              "padding:0px;"
              "margin: 0px;"
+             "font-size: " + QString::number(qwidgetDefaultFontPointSize) + "pt;"
         "}"
         "QWidget#topWidgetContainer"
         "{"
@@ -85,6 +94,10 @@ private:
         "{"
              "margin-right:10px;"
              "border-right: 1px solid rgba(100,100,100,25%);"
+        "}"
+        "QWidget#lyricPanel"
+        "{"
+            "font-size: " + CalculateFontPointSizeWithDelta(3) + "pt;"
         "}"
         "QWidget#widgetLyricBoard"
         "{"
@@ -168,26 +181,26 @@ private:
         QString str =
         "QLabel{"
            " color:"+defautlLabelColor+";"
-           "font-size:10pt;"
+           "font-size: " + CalculateFontPointSizeWithDelta(1) + "pt;"
         "}"
 
         "QLabel#labelTitle{"
             "color:"+titleColor+";"
-            "font-size:10pt;"
+            "font-size: " + CalculateFontPointSizeWithDelta(1) + "pt;"
         "}"
         "QLabel#labelSepHeader{"
             "color:rgba(88, 88, 88, 88);"
-            "font-size:13pt;"
+            "font-size: " + CalculateFontPointSizeWithDelta(4) + "pt;"
         "}"
 
         "QLabel#labelLine2{"
          "color:"+DeepLabelColor+";"
-            "font-size:12pt;"
+            "font-size: " + CalculateFontPointSizeWithDelta(3) + "pt;"
         "}"
 
         "QLabel#labelSettingHighColor{"
          "color:"+DeepLabelColor+";"
-            "font-size:11pt;"
+            "font-size: " + CalculateFontPointSizeWithDelta(2) + "pt;"
         "}"
 
 
@@ -198,7 +211,7 @@ private:
 
         "QLabel#labelPreviewTitle{"
             "color:"+DeepLabelColor+";"
-            "font-size:15pt;"
+            "font-size: " + CalculateFontPointSizeWithDelta(6) + "pt;"
         "}"
 
         "QLabel#labelPreviewSongTip, QLabel#labelPreviewLyricTip{"
@@ -212,46 +225,46 @@ private:
 
         "QLabel#labelMessageTitle{"
             "color:"+DeepLabelColor+";"
-            "font-size:12pt;"
+            "font-size: " + CalculateFontPointSizeWithDelta(3) + "pt;"
             "font-weight:bold;"
             "margin:0px;"
         "}"
 
          "QLabel#labelMessageContent{"
              "color:"+DeepLabelColor+";"
-             "font-size:11pt;"
+             "font-size: " + CalculateFontPointSizeWithDelta(2) + "pt;"
              "margin:"+scaleNum(10)+"px;"
          "}"
 
          "QLabel#labelTitleSearchLyric,QLabel#labelTitleSearchSong, "
          "QLabel#settingTitle, QLabel#labelListInfoTitle{"
              "color:"+DeepLabelColor+";"
-             "font-size:14pt;"
+             "font-size: " + CalculateFontPointSizeWithDelta(5) + "pt;"
              "margin:"+scaleNum(10)+"px;"
          "}"
 
          "QLabel#labelLyricResultTip2, QLabel#labelLyricResultTip4,QLabel#labelNcmSongResultTip2, QLabel#labelNcmSongResultTip4{"
              "color:#427cae;"
-             "font-size:11pt;"
+             "font-size: " + CalculateFontPointSizeWithDelta(2) + "pt;"
          "}"
 
          "QLabel#labelAddItemNameTip{"
              "color:"+DeepLabelColor+";"
              "font-weight:bold;"
-             "font-size:12pt;"
+             "font-size: " + CalculateFontPointSizeWithDelta(3) + "pt;"
              "margin:1px;"
          "}"
 
          "QLabel#labelLyricListRedMark{"
              "color:#e03f40;"
-             "font:10pt;"
+             "font-size: " + CalculateFontPointSizeWithDelta(1) + "pt;"
              "border:1px solid #e03f40;"
              "border-radius:2px;"
          "}"
 
       "QLabel#settingUnitTitle{"
           "color:"+DeepLabelColor+";"
-          "font-size:14pt;"
+          "font-size: " + CalculateFontPointSizeWithDelta(5) + "pt;"
           "margin-top:"+scaleNum(15)+"px;"
           "margin-bottom:"+scaleNum(15)+"px;"
       "}"
@@ -270,7 +283,7 @@ private:
         QString str =
 
 "               QPushButton{"
-"                   font-size:10pt;"
+"                   font-size: " + CalculateFontPointSizeWithDelta(1) + "pt;"
 "                   border:1px solid "+leftboardBorderColor+";"
 "                   border-radius:5px;"
 "                   color:"+defaultButtonColorNormal+";"
@@ -989,7 +1002,7 @@ private:
         "}"
         "QTabBar:tab {"
         "   margin-right:"+scaleNum(30)+"px;"
-        "   font:11pt;"
+        "   font-size: " + CalculateFontPointSizeWithDelta(2) + "pt;"
         "   height: "+scaleNum(40)+"px;"
         "   border-bottom:"+scaleNum(5)+"px solid;"
         "   color:"+ DeepLabelColor+";"
@@ -1013,7 +1026,6 @@ private:
         " {"
         "     background-color: rgba(255, 255, 255, 0); "
         //"     alternate-background-color:#e3edf9;"
-        "     font:9pt;"
         "     color:"+DeepLabelColor+";"
         "     selection-background-color:"+itemSelectBackground+";"
         "     gridline-color: #00000000;"
@@ -1021,7 +1033,6 @@ private:
         " }"
         " QTableView::item"
         " {	"
-        "     font:9pt;"
         "     color:"+DeepLabelColor+";"
         "     gridline-color: #00000000; "
         "     text-align:center;"
@@ -1044,7 +1055,7 @@ private:
         "} "
         " QHeaderView::section {	"
         "     color:"+defautlLabelColor+";"
-        "     font:bold 9pt;"
+        "     font-weight: bold;"
         "     text-align:center;"
         "     height:"+scaleNum(32)+"px;"
         "     background-color: #00000000;"
@@ -1075,7 +1086,6 @@ private:
          "}"
          "QListWidget::Item{"
              "border-left: 5px solid transparent;"
-             "font:9pt;"
              "height:35px;"
              "padding-left:10;"
              "background:transparent;"
@@ -1161,7 +1171,6 @@ protected:
         MessageBoxBottomColor       ="#292b2f";
 
         //label、button 相关
-        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#909090                                     ";
         DeepLabelColor             ="#ffffff";
         titleColor                 ="#ffffff                                     ";
@@ -1256,7 +1265,6 @@ protected:
         MessageBoxBottomColor       ="#f5f5f7";
 
         //label、button 相关
-        fontFamily                 ="Microsoft YaHei                             ";
         defautlLabelColor          ="#111111                                     ";
         DeepLabelColor             ="#000000";
         titleColor                 ="#ffffff                                     ";
@@ -1330,7 +1338,6 @@ protected:
 
 protected:
                                         //默认值参考
-    QString fontFamily;                 //Microsoft YaHei
     QString topContainerBgImage;        //:/resource/image/top_background_black.png
     QString topContainerBgColor;        //#c62f2f
     QString leftboardBgColor;           //#191b1f

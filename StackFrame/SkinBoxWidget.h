@@ -44,10 +44,6 @@ public:
 
         rect.setLeft(8);
         painter.setPen(QColor("white"));
-        QFont font = painter.font();
-        font.setFamily("Microsoft YaHei");
-        font.setPixelSize(15);
-        painter.setFont(font);
         QTextOption option;
         option.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         painter.drawText(rect,m_title, option);
