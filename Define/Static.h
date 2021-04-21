@@ -41,6 +41,5 @@ static const QString VERSION_NAME = "beslyric-for-" + OS_NAME;
 
 
 
-static const QString SERVER_FILE_EXTENTION = ".zip";							//定义上传到 cnblog服务器的文件拓展名
 
 static const QString LINK_SERVER_PATH = "http://files.cnblogs.com/files/BensonLaur/";		//链接，服务器地址
