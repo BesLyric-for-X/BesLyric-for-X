@@ -190,7 +190,7 @@ protected:
             lineRect.setRect(2, currentY, this->width()-1, heightCurrent);
 
             QString text = lrcLyrics.at(i).second;
-            painter.drawText(lineRect, text);
+            painter.drawText(lineRect, Qt::AlignCenter|Qt::TextWordWrap, text);
 
             //累加当前行高和行间隔
             currentY += heightCurrent + lineGap;
