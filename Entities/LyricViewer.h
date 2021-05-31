@@ -148,6 +148,8 @@ protected:
 
         QFont font;
         font.setWeight(61 * BesScaleUtil::scale());
+        //先设置粗体，以让后续获得的 fmText 是基于粗体计算，从而避免高亮歌词显示不全问题（这里认为多空一行的空间可以接受）
+        font.setBold(true);
         painter.setFont(font);
 
         //绘制背景颜色，方便调试时直观感知歌词面板位置和尺寸
