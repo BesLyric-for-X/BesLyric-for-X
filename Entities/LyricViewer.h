@@ -158,10 +158,6 @@ protected:
         //获得绘制环境下的字体测量对象，用于在 setLyric 时计算歌词显示的高度
         fmText = QFontMetrics(painter.font());
 
-        assert(heightList.size() == lrcLyrics.size());
-        if(heightList.size() != lrcLyrics.size())
-            return;
-
         //当前绘制的位置Y
         int currentY = 0;
 
