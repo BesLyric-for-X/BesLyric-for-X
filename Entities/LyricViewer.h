@@ -80,7 +80,7 @@ public:
             for(int i = 0; i< lrcLyrics.size();i++)
             {
                 QString text = lrcLyrics.at(i).second;
-                QRect rect = fmText.boundingRect(textFrameRect, Qt::TextWordWrap, text);
+                QRect rect = fmText.boundingRect(textFrameRect, Qt::TextWrapAnywhere, text);
                 heightList.push_back(rect.height());
             }
         }
@@ -192,7 +192,7 @@ protected:
             lineRect.setRect(2, currentY, this->width()-1, heightCurrent);
 
             QString text = lrcLyrics.at(i).second;
-            painter.drawText(lineRect, Qt::AlignCenter|Qt::TextWordWrap, text);
+            painter.drawText(lineRect, Qt::AlignCenter|Qt::TextWrapAnywhere, text);
 
             //累加当前行高和行间隔
             currentY += heightCurrent + lineGap;
