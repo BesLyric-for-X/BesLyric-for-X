@@ -22,7 +22,7 @@ class LyricPanel : public QWidget
 {
     Q_OBJECT
 public:
-    LyricPanel(QWidget* parent):QWidget(parent)
+    LyricPanel(QWidget* parent):QWidget(parent),fmText(QFont())
     {
         bIsLrcLyric = false;
         lrcLyrics.clear();
@@ -35,7 +35,10 @@ public:
     int getHeigth()
     {
         int height = 300* BesScaleUtil::scale();
-        int actualHeight = lrcLyrics.size() * 45;
+
+        int actualHeight = 0;
+        for(auto height:heightList)
+            actualHeight += height + lineGap;
 
         return height > actualHeight ? height : actualHeight;
     }
@@ -65,13 +68,45 @@ public:
             //lrcLyrics.push_back(QPair<int,QString>(lastLineTime+6000000,"歌词贡献者：勤劳的云村村民"));
             //不额外添加歌词，之前添加后，引起用户误解
         }
+
+        //获得行间隔，计算每一行歌词显示的高度
+        {
+            QRect textFrameRect(2,0,this->width()-1,this->height()-1);
+            heightList.clear();
+
+            //行间隔定为一倍的行高
+            lineGap = fmText.boundingRect('T').height();
+
+            for(int i = 0; i< lrcLyrics.size();i++)
+            {
+                QString text = lrcLyrics.at(i).second;
+                QRect rect = fmText.boundingRect(textFrameRect, Qt::TextWrapAnywhere, text);
+                heightList.push_back(rect.height());
+            }
+        }
+
         bIsLrcLyric = isLrcLyric;
         currentLine = -1;
     }
 
-    int getTotalLine()
+    //获得行的位置占整体控件高度的占比
+    double getLinePositionPercent(int currentLine)
     {
-        return lrcLyrics.size();
+        if(heightList.empty())
+            return 0.0;
+        if(currentLine >= heightList.size())
+            return 1.0;
+
+        int totalHeight = 0;
+        int currentHeight = 0;
+        for(int i = 0; i< heightList.size(); ++i)
+        {
+            totalHeight += heightList[i] + lineGap;
+            if( i < currentLine )
+                currentHeight = totalHeight;
+        }
+
+        return currentHeight * 1.0 / totalHeight;
     }
 
 signals:
@@ -112,32 +147,50 @@ protected:
         QPainter painter(this);
 
         QFont font;
-        font.setWeight(61 * BesScaleUtil::scale());
+        //先设置粗体，以让后续获得的 fmText 是基于粗体计算，从而避免高亮歌词显示不全问题（这里认为多空一行的空间可以接受）
+        font.setBold(true);
         painter.setFont(font);
 
-        //QRect outerRect(0,0,this->width()-1,this->height()-1);
-        //painter.fillRect(outerRect, QBrush("#00000000"));                   //绘制背景颜色
+        //绘制背景颜色，方便调试时直观感知歌词面板位置和尺寸
+        //QRect textFrameRect(0,0,this->width()-1,this->height()-1);
+        //painter.fillRect(textFrameRect, QBrush("#4400ff00"));
+
+        //获得绘制环境下的字体测量对象，用于在 setLyric 时计算歌词显示的高度
+        fmText = QFontMetrics(painter.font());
+
+        //当前绘制的位置Y
+        int currentY = 0;
 
         for(int i = 0; i< lrcLyrics.size();i++)
         {
-            normalColor.setAlpha(180);
             if(i == currentLine)
+            {
+                //加粗、使用不透明的白色
+                font.setBold(true);
+                painter.setFont(font);
                 painter.setPen("#ffffff");
+            }
             else
+            {
+                //不加粗、使用 180 透明度的 normalColor
+                normalColor.setAlpha(180);
+
+                font.setBold(false);
+                painter.setFont(font);
                 painter.setPen(normalColor);
+            }
 
-            QFontMetrics fm(painter.font());
-            QRect rec = fm.boundingRect( lrcLyrics.at(i).second);
+            int heightCurrent = heightList[i];
 
-            int height = 30;
-            if(rec.width() > 490* BesScaleUtil::scale())
-                height += 30;
-
+            //绘制的矩形框，和计算行高时的文字显示外框保持一致的宽度，textFrameRect(2,0,this->width()-1,this->height()-1);
             QRectF lineRect;
-            lineRect.setRect(2, (i) * 45,
-                             496* BesScaleUtil::scale(),height* BesScaleUtil::scale());
-            painter.drawText(lineRect,lrcLyrics.at(i).second);
+            lineRect.setRect(2, currentY, this->width()-1, heightCurrent);
 
+            QString text = lrcLyrics.at(i).second;
+            painter.drawText(lineRect, Qt::AlignCenter|Qt::TextWrapAnywhere, text);
+
+            //累加当前行高和行间隔
+            currentY += heightCurrent + lineGap;
         }
 
         QWidget::paintEvent(e);
@@ -150,6 +203,11 @@ private:
 
     bool bIsLrcLyric;
     QVector<QPair<int, QString>> lrcLyrics;
+
+    QVector<int> heightList;                //存储每一行的高度
+    int lineGap;                            //定义行间隔
+
+    QFontMetrics fmText;                    //存储从 paintEvent 中得到的字体测量对象
 };
 
 class ScrollLyricPanel :public QWidget
@@ -192,8 +250,8 @@ public:
         connect(lyricPanel, &LyricPanel::lineChanged,[=](int currentLine){
 
             int pageStep = scrollbar->pageStep();       //一页的大小
-            int totalLine = lyricPanel->getTotalLine();
-            double percent = currentLine * 1.0 / totalLine;
+            double percent = lyricPanel->getLinePositionPercent(currentLine);
+
             double linePos = int((nMax - nMin + pageStep) * percent) + nMin;
 
             //头中尾定位调整
