@@ -455,7 +455,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
     //nb_samples: AAC-1024 MP3-1152
     out_nb_samples=pCodecCtx->frame_size;
     out_sample_fmt=AV_SAMPLE_FMT_S16;
-    out_sample_rate=44100;
+    out_sample_rate=pCodecCtx->sample_rate;
     out_channels=av_get_channel_layout_nb_channels(out_channel_layout);
     //Out Buffer Size
     out_buffer_size=av_samples_get_buffer_size(NULL,out_channels ,out_nb_samples,out_sample_fmt, 1);
