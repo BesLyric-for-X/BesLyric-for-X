@@ -451,7 +451,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
     }
 
     //Out Audio Param
-    out_channel_layout=AV_CH_LAYOUT_STEREO;
+    out_channel_layout=pCodecCtx->channel_layout;
     //nb_samples: AAC-1024 MP3-1152
     out_nb_samples=pCodecCtx->frame_size;
     out_sample_fmt=AV_SAMPLE_FMT_S16;
