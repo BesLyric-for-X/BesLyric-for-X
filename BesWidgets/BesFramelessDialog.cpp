@@ -16,8 +16,6 @@ BesFramelessDialog::BesFramelessDialog(QWidget *parent)
 
     this->setMouseTracking(true);
     this->setAttribute(Qt::WA_TranslucentBackground);
-    this->setStyleSheet("QDialog{background:url(:/bg_main.png)}");
-
 }
 
 void BesFramelessDialog::SetFrameBorder(int boder)
