@@ -49,7 +49,7 @@ void BesLListTableView::setDataSource(LyricList *pData)
 
 void BesLListTableView::reloadTableFromData()
 {
-    this->update();
+    emit m_model->layoutChanged();
 }
 
 void BesLListTableView::initEntity()
