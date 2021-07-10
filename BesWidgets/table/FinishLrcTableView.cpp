@@ -100,7 +100,7 @@ void FinishLrcTableView::BaseInit()
     this->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     this->setColumnWidth(0,120);
     this->setColumnWidth(2,120);
-    this->verticalHeader()->setVisible(true);
+    this->verticalHeader()->setVisible(false);
     this->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setMinimumSectionSize(50);

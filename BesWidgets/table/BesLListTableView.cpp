@@ -89,7 +89,7 @@ void BesLListTableView::BaseInit()
     this->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     this->setColumnWidth(0,50);
     this->setColumnWidth(1,100);
-    this->verticalHeader()->setVisible(true);
+    this->verticalHeader()->setVisible(false);
     this->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setMinimumSectionSize(50);
