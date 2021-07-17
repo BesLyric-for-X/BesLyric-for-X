@@ -17,26 +17,16 @@ FinishLrcTableView::~FinishLrcTableView()
     delete m_model;
 }
 
-void FinishLrcTableView::deleteAllItems()
-{
-    m_model->deleteAllItems();
-    emit m_model->layoutChanged();
-    this->update();
-}
-
 void FinishLrcTableView::appendItems(const QVector<LyricInfo>& infos)
 {
     m_model->appendItems(infos);
     emit m_model->layoutChanged();
-    this->update();
 }
-
 
 void FinishLrcTableView::setLyricData(QVector<QPair<qint64, QString>>* pLrcLines)
 {
     m_model->setLyricLines(pLrcLines);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 QVector<QString> FinishLrcTableView::getSelectedLrc()
@@ -122,4 +112,3 @@ void FinishLrcTableView::resizeEvent(QResizeEvent *event)
 //    this->setColumnWidth(2,widthLeft * 2/5);
 //    this->setColumnWidth(3,widthLeft * 1/5);
 }
-

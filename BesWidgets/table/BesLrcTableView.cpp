@@ -20,14 +20,12 @@ void BesLrcTableView::deleteAllItems()
 {
     m_model->deleteAllItems();
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void BesLrcTableView::appendItems(const QVector<LyricInfo>& infos)
 {
     m_model->appendItems(infos);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void BesLrcTableView::iniData()

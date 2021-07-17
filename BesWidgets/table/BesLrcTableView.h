@@ -16,15 +16,12 @@ public:
 
     BesLrcTableModel* tableModel() {return m_model;}
 
-public:
     void deleteAllItems();
     void appendItems(const QVector<LyricInfo>& infos);
 
 signals:
     void sig_showRawLyric(const LyricInfo&);
     void sig_showLrcLyric(const LyricInfo&);
-
-public slots:
 
 protected:
     void iniData();
@@ -36,7 +33,6 @@ private:
 private:
     BesLrcTableModel *m_model;
     BesLrcButtonDelegate *m_buttonDelegate;
-
 };
 
 #endif // BESLRCTABLEVIEW_H

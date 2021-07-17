@@ -20,7 +20,6 @@ public:
     BesNcmSongTableModel* tableModel() {return m_model;}
 
 public:
-    void deleteAllItems();
     void appendItems(const QVector<SONGINFO>& infos);
     void setItems(const QVector<SONGINFO>& infos);
 

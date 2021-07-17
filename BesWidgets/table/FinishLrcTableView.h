@@ -17,7 +17,6 @@ public:
     FinishLrcTableModel* tableModel() {return m_model;}
 
 public:
-    void deleteAllItems();
     void appendItems(const QVector<LyricInfo>& infos);
 
     void setLyricData(QVector<QPair<qint64, QString>>* pLrcLines);

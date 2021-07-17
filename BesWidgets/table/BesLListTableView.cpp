@@ -24,27 +24,11 @@ BesLListTableView::~BesLListTableView()
     delete m_model;
 }
 
-void BesLListTableView::deleteAllItems()
-{
-    m_model->deleteAllItems();
-    emit m_model->layoutChanged();
-    this->update();
-}
-
-//void BesLListTableView::appendItems(const QVector<LyricListItem>& infos)
-//{
-//    m_model->appendItems(infos);
-//    emit m_model->layoutChanged();
-//    this->update();
-//}
-
 void BesLListTableView::setDataSource(LyricList *pData)
 {
     m_model->deleteAllItems();
     m_model->setDataSource(pData);
-//    m_model->appendItems(infos);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void BesLListTableView::reloadTableFromData()
@@ -78,8 +62,6 @@ void BesLListTableView::initConnection()
         LyricListItem& listItem = m_model->getData()->items[index.row()];
         emit sig_playSongAndLyric(listItem.song, listItem.lyric);
     });
-
-
 }
 
  //基础的初始化
@@ -109,5 +91,4 @@ void BesLListTableView::resizeEvent(QResizeEvent *event)
 
     this->setColumnWidth(2,widthLeft / 2);
     this->setColumnWidth(3,widthLeft / 2);
-
 }
