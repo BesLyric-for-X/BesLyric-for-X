@@ -31,7 +31,6 @@ void FinishLrcTableView::appendItems(const QVector<LyricInfo>& infos)
     this->update();
 }
 
-
 void FinishLrcTableView::setLyricData(QVector<QPair<qint64, QString>>* pLrcLines)
 {
     m_model->setLyricLines(pLrcLines);
@@ -122,4 +121,3 @@ void FinishLrcTableView::resizeEvent(QResizeEvent *event)
 //    this->setColumnWidth(2,widthLeft * 2/5);
 //    this->setColumnWidth(3,widthLeft * 1/5);
 }
-
