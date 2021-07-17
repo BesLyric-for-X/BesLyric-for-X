@@ -31,7 +31,6 @@ void BesNcmSongTableView::appendItems(const QVector<SONGINFO>& infos)
 
     m_model->appendItems(infos_dealed);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void BesNcmSongTableView::setItems(const QVector<SONGINFO> &infos)
@@ -41,7 +40,6 @@ void BesNcmSongTableView::setItems(const QVector<SONGINFO> &infos)
     m_model->deleteAllItems();
     m_model->appendItems(infos_dealed);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void BesNcmSongTableView::OnDownloadNcmMusic(SONGINFO songInfo)

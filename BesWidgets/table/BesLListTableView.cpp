@@ -29,7 +29,6 @@ void BesLListTableView::setDataSource(LyricList *pData)
     m_model->deleteAllItems();
     m_model->setDataSource(pData);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void BesLListTableView::reloadTableFromData()

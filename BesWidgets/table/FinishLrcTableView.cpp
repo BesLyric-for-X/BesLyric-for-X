@@ -21,14 +21,12 @@ void FinishLrcTableView::appendItems(const QVector<LyricInfo>& infos)
 {
     m_model->appendItems(infos);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 void FinishLrcTableView::setLyricData(QVector<QPair<qint64, QString>>* pLrcLines)
 {
     m_model->setLyricLines(pLrcLines);
     emit m_model->layoutChanged();
-    this->update();
 }
 
 QVector<QString> FinishLrcTableView::getSelectedLrc()
