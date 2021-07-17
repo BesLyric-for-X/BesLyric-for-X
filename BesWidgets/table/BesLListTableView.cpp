@@ -24,13 +24,6 @@ BesLListTableView::~BesLListTableView()
     delete m_model;
 }
 
-void BesLListTableView::deleteAllItems()
-{
-    m_model->deleteAllItems();
-    emit m_model->layoutChanged();
-    this->update();
-}
-
 void BesLListTableView::setDataSource(LyricList *pData)
 {
     m_model->deleteAllItems();

@@ -19,7 +19,6 @@ public:
     BesLListTableModel* tableModel() {return m_model;}
 
 public:
-    void deleteAllItems();
     void setDataSource(LyricList* pData);
 
     void reloadTableFromData();

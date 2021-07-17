@@ -17,13 +17,6 @@ FinishLrcTableView::~FinishLrcTableView()
     delete m_model;
 }
 
-void FinishLrcTableView::deleteAllItems()
-{
-    m_model->deleteAllItems();
-    emit m_model->layoutChanged();
-    this->update();
-}
-
 void FinishLrcTableView::appendItems(const QVector<LyricInfo>& infos)
 {
     m_model->appendItems(infos);
