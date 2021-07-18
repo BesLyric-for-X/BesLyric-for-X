@@ -55,7 +55,7 @@ void BesLrcTableView::BaseInit()
     this->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     this->setColumnWidth(0,50);
     this->setColumnWidth(4,240);
-    this->verticalHeader()->setVisible(true);
+    this->verticalHeader()->setVisible(false);
     this->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setSectionResizeMode(4,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setMinimumSectionSize(50);

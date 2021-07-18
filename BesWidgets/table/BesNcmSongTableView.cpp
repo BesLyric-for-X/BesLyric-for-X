@@ -224,7 +224,7 @@ void BesNcmSongTableView::BaseInit()
     this->setColumnWidth(0,50);
     this->setColumnWidth(1,100);
     this->setColumnWidth(5,120);
-    this->verticalHeader()->setVisible(true);
+    this->verticalHeader()->setVisible(false);
     this->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeMode::Fixed);
     this->horizontalHeader()->setSectionResizeMode(5,QHeaderView::ResizeMode::Fixed);
