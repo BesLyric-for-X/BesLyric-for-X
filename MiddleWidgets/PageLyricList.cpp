@@ -373,6 +373,7 @@ void PageLyricList::initConnection()
 
     connect(tableLrcList, &BesLListTableView::sig_deleteItem, this, &PageLyricList::OnDeleteListItem);
     connect(tableLrcList, &BesLListTableView::sig_editItem, this, &PageLyricList::OnEditListItem);
+    connect(tableLrcList, &BesLListTableView::sig_saveLyricListData, this, &PageLyricList::OnSaveLyricListData);
 
     connect(btnSaveLrcListModified, &BesButton::clicked, this, &PageLyricList::OnSaveListInfo);
     connect(btnDeleteLrcList, &BesButton::clicked, this, &PageLyricList::OnDeleteLrcList);

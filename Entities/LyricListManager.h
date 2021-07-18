@@ -18,6 +18,10 @@ public:
     LyricListItem(QString song, QString lyric):song(song),lyric(lyric){}
     QString song;
     QString lyric;
+
+    //辅助变量，方便拖动排序的计算，以及在拖动后识别哪些项在拖动时被选中
+    bool selected = false;//标记是否需要被取出
+    bool target = false;  //标记是否是移动的目标位置（放置在目标之前）
 };
 
 class LyricList

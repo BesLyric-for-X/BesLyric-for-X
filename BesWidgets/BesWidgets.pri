@@ -13,6 +13,7 @@ HEADERS+=\
     $$PWD/table/BesNcmSongButtonDelegate.h \
     $$PWD/table/BesNcmSongTableModel.h \
     $$PWD/table/BesNcmSongTableView.h\
+    $$PWD/table/BesLListViewStyle.hpp \
     $$PWD/table/BesLListButtonDelegate.h \
     $$PWD/table/BesLListTableModel.h \
     $$PWD/table/BesLListTableView.h\
