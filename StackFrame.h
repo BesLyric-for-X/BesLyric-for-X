@@ -32,6 +32,7 @@ public:
 
 signals:
     void onFinalSkinNameChanged(QString);
+    void onFinalBaseColorChanged(QColor);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event);

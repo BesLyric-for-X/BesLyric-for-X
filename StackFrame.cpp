@@ -112,8 +112,7 @@ void StackFrame::initConnection()
     connect(skinBoxWidget, &SkinBoxWidget::signalSetCustomSkin, [=](QString skinName) {SetSkin(skinName); });
 
     connect(this, &StackFrame::onFinalSkinNameChanged, mainWidget->middleWidget->pagePreviewLyric->lyricViewer, &LyricViewer::skinNameChanged);
-
-
+    connect(this, &StackFrame::onFinalBaseColorChanged, mainWidget->middleWidget->pageLyricList->tableLrcList, &BesLListTableView::baseColorChanged);
    }
 
 void StackFrame::initEntity()
@@ -217,6 +216,9 @@ void StackFrame::SetSpecialSkin(QString skinName ,bool bFirstInit)
     }
 
     emit onFinalSkinNameChanged(skinName);
+
+    if(!bFirstInit)
+        emit onFinalBaseColorChanged(AppHelper::GetBaseColorFromStyleName(skinName));
 }
 
 

@@ -26,6 +26,29 @@ public:
         //app->setPalette(QPalette(styleName == "black" ? QColor("#ff0000"):  QColor("#e5e5e7")));
     }
 
+    static QColor GetBaseColorFromStyleName( const QString &styleName)
+    {
+        QColor color;
+
+        if(styleName.contains("#"))
+            color.setNamedColor(styleName);
+        else if(styleName == "black")
+            color.setNamedColor(themColorRed);//黑色主题的基础色是红色
+        else if(styleName =="red")
+            color.setNamedColor(themColorRed);
+        else if(styleName =="pink")
+            color.setNamedColor(themColorPink);
+        else if(styleName =="blue")
+            color.setNamedColor(themColorBlue);
+        else if(styleName =="green")
+            color.setNamedColor(themColorGreen);
+        else if(styleName =="gold")
+            color.setNamedColor(themColorGold);
+        else
+            color.setNamedColor(themColorRed);
+
+        return color;
+    }
 };
 
 #endif // APPHELPER_H
