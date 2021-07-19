@@ -592,7 +592,7 @@ void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
     LyricListItem item;
     item.song = song;
     item.lyric = lrc;
-    historyList.items.push_back(item);        //这里的更改直接对  listData 生效
+    historyList.items.insert(0,item);          //这里的更改直接对  listData 生效
     OnSaveLyricListData();                     //触发保存
 
     if(lyricListCurrent == lyricListHistory) //如果当前在历史列表页面，需要重载入界面数据
