@@ -360,11 +360,6 @@ void PageLyricList::initConnection()
 
     connect(lyricListCreated, &BesList::sig_listDataChanged, this, &PageLyricList::OnSaveLyricListData);
 
-
-    QAbstractItemModel* model = lyricListCreated->model();
-    connect(model, &QAbstractItemModel::rowsMoved, [=](const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row) {OnRowsMoved(parent, start, end, destination, row, QPrivateSignal()); });
-
-
     //连接按钮动作
     connect(btnSelectLrcItemSongPath, &BesButton::clicked, this, &PageLyricList::OnSelectSongPath);
     connect(btnSelectLrcItemLrcPath, &BesButton::clicked, this, &PageLyricList::OnSelectLrcPath);
@@ -389,16 +384,6 @@ void PageLyricList::initConnection()
     enableEditMode(false);              //默认不在编辑模式
 
     headerListCreated->OnMakeSureHeaderChecking();  //默认列表是展开的
-}
-
-void PageLyricList::OnRowsMoved(const QModelIndex &parent, int start, int end,
-                                const QModelIndex &destination, int row, PageLyricList::QPrivateSignal)
-{
-    Q_UNUSED(parent)
-    Q_UNUSED(end)
-    Q_UNUSED(destination)
-	//(start,end)->row
-	lyricListCreated->moveRow(start, row);
 }
 
 void PageLyricList::OnAddNewListItem(QString itemName)

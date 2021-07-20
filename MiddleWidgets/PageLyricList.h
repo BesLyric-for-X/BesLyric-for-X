@@ -28,7 +28,6 @@ public:
 public slots:
 
     //左侧歌词单操作
-    void OnRowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
     void OnAddNewListItem(QString itemName);
     bool OnDeleteCurrentItem(bool bDeleteConformRequested);
 
