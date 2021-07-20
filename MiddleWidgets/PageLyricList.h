@@ -29,7 +29,7 @@ public slots:
 
     //左侧歌词单操作
     void OnAddNewListItem(QString itemName);
-    bool OnDeleteCurrentItem(bool bDeleteConformRequested);
+    bool OnDeleteCurrentItem();
 
     //右侧编辑歌词单相关
     void OnSelectSongPath();

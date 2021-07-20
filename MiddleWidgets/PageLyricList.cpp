@@ -393,9 +393,9 @@ void PageLyricList::OnAddNewListItem(QString itemName)
     headerListCreated->OnMakeSureHeaderChecking();
 }
 
-bool PageLyricList::OnDeleteCurrentItem(bool bDeleteConformRequested)
+bool PageLyricList::OnDeleteCurrentItem()
 {
-    if(bDeleteConformRequested)
+    if(pCurrentLyricList->items.size() != 0)
     {
         if(QMessageBox::StandardButton::Ok ==
                 BesMessageBox::question(tr("温馨提示"), tr("该歌词单中包含有 %1 个歌词项\n\n是否确定删除 [%2]？").arg(
@@ -551,7 +551,7 @@ void PageLyricList::OnSaveListInfo()
 
 void PageLyricList::OnDeleteLrcList()
 {
-    if(OnDeleteCurrentItem(pCurrentLyricList->items.size() != 0))
+    if(OnDeleteCurrentItem())
     {
         lyricListCreated->setCurrentRow(-1);
         lyricListHistory->setCurrentRow(0); //删除后，默认选中制作历史歌词单;必有一项，默认选中
