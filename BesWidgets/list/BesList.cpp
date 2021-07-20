@@ -100,8 +100,8 @@ void BesList::moveRow(int from, int to)
 	LyricList item = pLyricLists->at(from);
 	pLyricLists->removeAt(from);
 
-    if(to > pLyricLists->size()) //但拖向最后一项时，由于移除了1项后，需要纠正目标下标防止越界访问
-        to = pLyricLists->size();
+    if(to > from) //如果目标项下标大于拖动项，由于先去除了from对应的项，to 需要减 1
+        to -= 1;
 
 	pLyricLists->insert(to,item);
 
