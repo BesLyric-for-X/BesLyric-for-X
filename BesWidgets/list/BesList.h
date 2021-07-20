@@ -27,7 +27,7 @@ public:
 
     void setFinalSkinName(QString skinName);
 signals:
-    void sig_listDataChanged();
+    void sig_saveLyriclistData();
 
 public slots:
     void rowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);

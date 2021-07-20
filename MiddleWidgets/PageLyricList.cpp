@@ -367,7 +367,7 @@ void PageLyricList::initConnection()
         }
     });
 
-    connect(lyricListCreated, &BesList::sig_listDataChanged, this, &PageLyricList::OnSaveLyricListData);
+    connect(lyricListCreated, &BesList::sig_saveLyriclistData, this, &PageLyricList::OnSaveLyricListData);
 
     //连接按钮动作
     connect(btnSelectLrcItemSongPath, &BesButton::clicked, this, &PageLyricList::OnSelectSongPath);
