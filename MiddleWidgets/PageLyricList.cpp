@@ -352,6 +352,10 @@ void PageLyricList::initConnection()
         {
             isShowingHistory = false;
             reloadLyricListData(lyricListCreated->getCurrentItemData(), !isShowingHistory);
+
+            //如果当前正在查看的页面是“制作历史”歌词单，此时拖动创建的歌词单时，不会触发 lyricListCreated 的 &QListWidget::itemClicked 信号，
+            //从而不会互斥两个列表；而此时会触发 lyricListCreated 的 &QListWidget::currentRowChanged 信号，故在次保证“制作历史”歌词单不被选中
+            if(lyricListHistory->getCurrentIndex() != -1)lyricListHistory->setCurrentRow(-1);
         }
     });
 
