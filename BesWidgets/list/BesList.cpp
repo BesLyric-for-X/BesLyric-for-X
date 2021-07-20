@@ -34,11 +34,9 @@ void BesList::setLyricLists(QVector<LyricList> &lyricLists)
 void BesList::addItem(QString item, bool bConstructNewData)
 {
     if(pLyricLists==nullptr)
-    {
         return;
-    }
 
-	LyricList lyricList;
+    LyricList lyricList;
     lyricList.name = item;
 
     QString imageName = getImageNameByTitleAndSkinName(item, currentSkinName);
