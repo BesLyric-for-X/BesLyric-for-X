@@ -48,7 +48,7 @@ void BesList::addItem(QString item, bool bConstructNewData)
     if (bConstructNewData)
     {
         pLyricLists->push_back(lyricList);
-        emit sig_listDataChanged();
+        emit sig_saveLyriclistData();
 
         this->setMaximumHeight(35 * pLyricLists->size());
         this->setMinimumHeight(35 * pLyricLists->size());
@@ -78,7 +78,7 @@ void BesList::deleteCurrentItem()
     this->setMaximumHeight(35* pLyricLists->size());
     this->setMinimumHeight(35* pLyricLists->size());
 
-	emit sig_listDataChanged();
+    emit sig_saveLyriclistData();
 }
 
 void BesList::removeAll()
@@ -90,7 +90,7 @@ void BesList::removeAll()
 
 	pLyricLists->clear();
 
-	emit sig_listDataChanged();
+    emit sig_saveLyriclistData();
 }
 
 int BesList::getCurrentIndex()
@@ -155,7 +155,7 @@ void BesList::rowsMoved(const QModelIndex &parent, int start, int end, const QMo
 
     pLyricLists->insert(to,item);
 
-    emit sig_listDataChanged();
+    emit sig_saveLyriclistData();
 }
 
 void BesList::enterEvent(QEvent *event)
