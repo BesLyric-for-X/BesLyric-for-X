@@ -7,6 +7,13 @@ BesList::BesList(QWidget *parent):QListWidget(parent)
 {
     pLyricLists = nullptr;
     this->setMouseTracking(true);
+
+    initConnection();
+}
+
+void BesList::initConnection()
+{
+    connect(this->model(), &QAbstractItemModel::rowsMoved, this,&BesList::rowsMoved);
 }
 
 void BesList::setLyricLists(QVector<LyricList> &lyricLists)
@@ -66,11 +73,14 @@ void BesList::deleteCurrentItem()
         return;
     }
 
-	pLyricLists->removeAt(index);
-
     QListWidgetItem* item = this->takeItem(index);
     if(item)
         delete item;
+
+    //必须在 this->takeItem(index) 执行之后再删除实际数据，因为实践发现,执 行 this->takeItem(index) 时,
+    //QListWidget::currentRowChanged 信号会被触发选中下一行的选中，进一步地，BesList::getCurrentItemData()
+    //会被调用，其中会访问 pLyricLists 的数据，如果数据先于takeItem(index)删除，则可能会因越界而崩溃
+    pLyricLists->removeAt(index);
 
     this->setMaximumHeight(35* pLyricLists->size());
     this->setMinimumHeight(35* pLyricLists->size());
@@ -90,24 +100,6 @@ void BesList::removeAll()
 	emit sig_listDataChanged();
 }
 
-void BesList::moveRow(int from, int to)
-{
-    if(pLyricLists==nullptr)
-    {
-        return;
-    }
-
-	LyricList item = pLyricLists->at(from);
-	pLyricLists->removeAt(from);
-
-    if(to > from) //如果目标项下标大于拖动项，由于先去除了from对应的项，to 需要减 1
-        to -= 1;
-
-	pLyricLists->insert(to,item);
-
-	emit sig_listDataChanged();
-}
-
 int BesList::getCurrentIndex()
 {
     if(pLyricLists==nullptr)
@@ -122,7 +114,7 @@ LyricList *BesList::getCurrentItemData()
         return nullptr;
 
     int index = this->currentRow();
-    if(index == -1)
+    if(index == -1 && pLyricLists->size() == 0)
         return nullptr;
 
     return (LyricList*)&(pLyricLists->at(index));
@@ -171,6 +163,31 @@ void BesList::setFinalSkinName(QString skinName)
     }
 }
 
+void BesList::rowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row)
+{
+    Q_UNUSED(parent)
+    Q_UNUSED(end)
+    Q_UNUSED(destination)
+    //(start,end)->row
+
+    int from = start;
+    int to = row;
+
+    if(pLyricLists==nullptr)
+    {
+        return;
+    }
+
+    LyricList item = pLyricLists->at(from);
+    pLyricLists->removeAt(from);
+
+    if(to > from) //如果目标项下标大于拖动项，由于先去除了from对应的项，to 需要减 1
+        to -= 1;
+
+    pLyricLists->insert(to,item);
+
+    emit sig_listDataChanged();
+}
 
 void BesList::enterEvent(QEvent *event)
 {
