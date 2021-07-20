@@ -39,6 +39,7 @@ protected:
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
 
+    virtual void startDrag(Qt::DropActions supportedActions);
 private:
     QString getImageNameByTitleAndSkinName(const QString& title, const QString& skinName);
 

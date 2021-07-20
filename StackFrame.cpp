@@ -112,6 +112,7 @@ void StackFrame::initConnection()
     connect(skinBoxWidget, &SkinBoxWidget::signalSetCustomSkin, [=](QString skinName) {SetSkin(skinName); });
 
     connect(this, &StackFrame::onFinalSkinNameChanged, mainWidget->middleWidget->pagePreviewLyric->lyricViewer, &LyricViewer::skinNameChanged);
+    connect(this, &StackFrame::onFinalBaseColorChanged, mainWidget->middleWidget->pageLyricList, &PageLyricList::baseColorChanged);
     connect(this, &StackFrame::onFinalBaseColorChanged, mainWidget->middleWidget->pageLyricList->tableLrcList, &BesLListTableView::baseColorChanged);
    }
 

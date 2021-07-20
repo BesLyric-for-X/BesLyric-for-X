@@ -12,6 +12,7 @@
 #include "table/BesLListTableView.h"
 #include "BesFileLineEdit.h"
 #include "BoxPagePreviewLyric.h"
+#include <table/BesLListViewStyle.hpp>
 
 class PageLyricList : public QWidget
 {
@@ -49,6 +50,8 @@ public slots:
     //用于外部添加到历史记录
     void OnAddToMakingHistory(QString musicPath, QString lrcPath);
 
+    //基础颜色发生改变
+    void baseColorChanged(QColor color);
 private:
     void reloadLyricListData(LyricList* pLyricListData, bool canEditAndDelete);
 
@@ -65,6 +68,8 @@ public:
     BesListHeader* headerListCreated;
     BesList *lyricListCreated;
     QWidget * lyricListContainer;
+
+    BesLListViewStyle* m_listViewStyle;
 
     QScrollArea* scrollAreaLeft;
 

@@ -2,6 +2,9 @@
 #include "BesList.h"
 #include <QHBoxLayout>
 #include <QSpacerItem>
+#include <QPainter>
+#include <QPainterPath>
+#include <QDrag>
 
 BesList::BesList(QWidget *parent):QListWidget(parent)
 {
@@ -171,6 +174,88 @@ void BesList::leaveEvent(QEvent *event)
 {
     unsetCursor();
     QListWidget::leaveEvent(event);
+}
+
+void BesList::startDrag(Qt::DropActions supportedActions)
+{
+    QModelIndexList indexes = selectedIndexes();
+    if (indexes.count() > 0) {
+        QMimeData *data = this->model()->mimeData(indexes);
+        if (!data)
+            return;
+
+        //绘制拖动时显示的图像 (以预想拖动多个的项的情况来绘图，实际上歌词单每次只能拖动一个项)
+        QPixmap pixmap;
+        {
+            //获得实际拖动的数据
+            QVector<QString> items;
+            {
+                QSet<int> rowsSet;
+                for(QModelIndex index:indexes)
+                    rowsSet.insert(index.row());
+
+                QList<int> rows(rowsSet.begin(),rowsSet.end());
+                std::sort(rows.begin(),rows.end());
+
+                for(int row:rows)
+                {
+                    QString name = pLyricLists->at(row).name;
+                    items.push_back(name);
+                }
+            }
+
+            //开始绘制
+            int margin = 6;    //距边
+            int interval = 4;  //行间隔
+            int totalLine = items.size()>1 ? items.size()+1 : items.size(); //多于一行时，额外显示一个统计
+
+            QFont font;
+            QFontMetrics fmText = QFontMetrics(font);
+            int heightOfLine = fmText.boundingRect("文本").height();   //一行高度
+
+            int maxWidthOfText = 0;     //文字最大宽度
+            for(QString fileName:items)
+            {
+                QRect rect = fmText.boundingRect(fileName);
+                maxWidthOfText = qMax(maxWidthOfText,rect.width());
+            }
+
+            int HeightOfAllText = margin * 2 + totalLine * heightOfLine + (totalLine-1)*interval;
+            int WidthOfAllText = margin * 2 + maxWidthOfText;
+
+            pixmap = QPixmap(WidthOfAllText+1,HeightOfAllText+1);
+            pixmap.fill(Qt::transparent);
+            QPainter painter(&pixmap);
+            painter.setOpacity(0.6);
+            painter.setFont(font);
+
+            //绘制圆角矩形背景
+            painter.setRenderHint(QPainter::Antialiasing);
+            QPainterPath path;
+            path.addRoundedRect(QRect(0, 0, WidthOfAllText, HeightOfAllText), margin, margin);
+            painter.fillPath(path, Qt::white);
+            painter.drawPath(path);
+
+            //绘制文字
+            QString extraHeader = items.size() >1?QString("共 %1 个歌单").arg(items.size()):"";
+            int currentY = margin + heightOfLine;
+            if(!extraHeader.isEmpty())
+            {
+                painter.drawText(margin,currentY,extraHeader);
+                currentY += heightOfLine + interval;
+            }
+            for(QString fileName:items)
+            {
+                painter.drawText(margin,currentY,fileName);
+                currentY += heightOfLine + interval;
+            }
+        }
+
+        QDrag *drag = new QDrag(this);
+        drag->setPixmap(pixmap);
+        drag->setMimeData(data);
+        drag->exec(supportedActions);
+    }
 }
 
 QString BesList::getImageNameByTitleAndSkinName(const QString& title, const QString& skinName)

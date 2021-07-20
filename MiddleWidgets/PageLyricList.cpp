@@ -34,6 +34,7 @@ PageLyricList::~PageLyricList()
 void PageLyricList::initEntity()
 {
     listData = LyricListManager::GetInstance().getLyricListData();
+    m_listViewStyle = new BesLListViewStyle(style());
 }
 
 void PageLyricList::initLayout()
@@ -93,6 +94,7 @@ void PageLyricList::initLayout()
     lyricListCreated->setFocusPolicy(Qt::NoFocus);
     lyricListCreated->setDragDropMode(QListView::DragDropMode::InternalMove);
     lyricListCreated->setMouseTracking(true);//详见 BesFramelessWidget.h 注释
+    lyricListCreated->setStyle(m_listViewStyle); //为了显示自定义的拖动 line indicator
 
     lyricListCreated->setLyricLists(listData.listsCreated);
 
@@ -594,6 +596,12 @@ void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
     {
         //如果当前不在历史表，不需要做重载处理 ,从别处点击历史列表，会自动重载
     }
+}
+
+void PageLyricList::baseColorChanged(QColor color)
+{
+    if(m_listViewStyle)
+        m_listViewStyle->setLineIndicatorColor(color);
 }
 
 void PageLyricList::reloadLyricListData(LyricList *pLyricListData, bool canEditAndDelete)
