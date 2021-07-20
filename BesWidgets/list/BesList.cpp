@@ -73,11 +73,14 @@ void BesList::deleteCurrentItem()
         return;
     }
 
-	pLyricLists->removeAt(index);
-
     QListWidgetItem* item = this->takeItem(index);
     if(item)
         delete item;
+
+    //必须在 this->takeItem(index) 执行之后再删除实际数据，因为实践发现,执 行 this->takeItem(index) 时,
+    //QListWidget::currentRowChanged 信号会被触发选中下一行的选中，进一步地，BesList::getCurrentItemData()
+    //会被调用，其中会访问 pLyricLists 的数据，如果数据先于takeItem(index)删除，则可能会因越界而崩溃
+    pLyricLists->removeAt(index);
 
     this->setMaximumHeight(35* pLyricLists->size());
     this->setMinimumHeight(35* pLyricLists->size());
@@ -111,7 +114,7 @@ LyricList *BesList::getCurrentItemData()
         return nullptr;
 
     int index = this->currentRow();
-    if(index == -1)
+    if(index == -1 && pLyricLists->size() == 0)
         return nullptr;
 
     return (LyricList*)&(pLyricLists->at(index));
