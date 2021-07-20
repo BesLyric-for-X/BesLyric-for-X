@@ -19,6 +19,11 @@ PageLyricList::PageLyricList(QWidget *parent)
     initEntity();
     initLayout();
     initConnection();
+
+    //初始化布局和信号槽后，初始化界面控件状态
+    lyricListHistory->setCurrentRow(0);             //历史歌词单必有一项，默认选中
+    headerListCreated->OnMakeSureHeaderChecking();  //默认列表是展开的
+    enableEditMode(false);                          //默认不在对表数据项的编辑模式
 }
 
 PageLyricList::~PageLyricList()
@@ -345,16 +350,16 @@ void PageLyricList::initConnection()
     connect(lyricListCreated,&QListWidget::currentRowChanged,[=](int currentRow){
         if(currentRow != -1)
         {
-            lyricListCurrent = lyricListCreated;
-            reloadLyricListData(lyricListCreated->getCurrentItemData());
+            isShowingHistory = false;
+            reloadLyricListData(lyricListCreated->getCurrentItemData(), !isShowingHistory);
         }
     });
 
     connect(lyricListHistory,&QListWidget::currentRowChanged,[=](int currentRow){
         if(currentRow != -1)
         {
-            lyricListCurrent = lyricListHistory;
-            reloadLyricListData(lyricListHistory->getCurrentItemData());
+            isShowingHistory = true;
+            reloadLyricListData(lyricListHistory->getCurrentItemData(), !isShowingHistory);
         }
     });
 
@@ -377,13 +382,6 @@ void PageLyricList::initConnection()
             [=](QList<QString> list){editLrcItemSongPath->setText(list.at(0));});
     connect(editLrcItemLrcPath, &BesFileLineEdit::sig_filesHaveBeenDrop,
             [=](QList<QString> list){editLrcItemLrcPath->setText(list.at(0));});
-
-    //连接完后，默认选中第一项
-    lyricListHistory->setCurrentRow(0); //必有一项，默认选中
-
-    enableEditMode(false);              //默认不在编辑模式
-
-    headerListCreated->OnMakeSureHeaderChecking();  //默认列表是展开的
 }
 
 void PageLyricList::OnAddNewListItem(QString itemName)
@@ -442,21 +440,17 @@ void PageLyricList::OnSaveLrcListItem()
     QString song = editLrcItemSongPath->text();
     QString lrc = editLrcItemLrcPath->text();
 
-    assert(bEnableEditMode == true);
-
-    if(pCurrentLyricList->items[currentEditItem].song == song
-            && pCurrentLyricList->items[currentEditItem].lyric ==lrc)
+    if(pCurrentLyricList->items[currentEditIndex].song == song
+            && pCurrentLyricList->items[currentEditIndex].lyric ==lrc)
     {
         BesMessageBox::information(tr("提示"),tr("没有发生任何更改 ：）"));
         return;
     }
 
-    pCurrentLyricList->items[currentEditItem].song = song;//这里的更改直接对  listData 生效
-    pCurrentLyricList->items[currentEditItem].lyric = lrc;
+    pCurrentLyricList->items[currentEditIndex].song = song;//这里的更改直接对  listData 生效
+    pCurrentLyricList->items[currentEditIndex].lyric = lrc;
 
     OnSaveLyricListData();                 //触发保存
-
-    enableEditMode(false);                  //退出编辑模式
 
     //切换到列表页面
     tabpageLyricList->setCurrentIndex(0);
@@ -495,8 +489,6 @@ void PageLyricList::OnCreateLrcListItem()
 
     tableLrcList->setDataSource(pCurrentLyricList); //重置使表重载数据
 
-    enableEditMode(false);                  //确保退出编辑模式（由于编辑时可能保持也可能新建）
-
     //切换到列表页面
     tabpageLyricList->setCurrentIndex(0);
 }
@@ -507,9 +499,6 @@ void PageLyricList::OnDeleteListItem(int row)
     OnSaveLyricListData();                 //触发保存
 
     tableLrcList->reloadTableFromData(); //表格数据改变，让其重显示数据
-
-    //删除项将自动退出编辑模式
-    enableEditMode(false);
 }
 
 void PageLyricList::OnEditListItem(int row)
@@ -519,6 +508,7 @@ void PageLyricList::OnEditListItem(int row)
     editLrcItemSongPath->setText(item.song);
     editLrcItemLrcPath->setText(item.lyric);
 
+    //指定当前编辑的行，进入编辑模式
     enableEditMode(true, row);
 
     //切换到编辑页面
@@ -561,6 +551,15 @@ void PageLyricList::OnDeleteLrcList()
 void PageLyricList::OnSaveLyricListData()
 {
     LyricListManager::GetInstance().saveLyricListData(listData);
+
+    //为了简化逻辑，只要需要保存数据的场景，触发保存的那一刻，都确保退出对表数据项的编辑模式
+    //比如保存数据的场景有：
+    //1. 在 OnSaveLrcListItem() 中刚刚完成对数据项的编辑
+    //2. 在 OnCreateLrcListItem() 中刚刚完成对数据的新建
+    //3. 在 OnDeleteListItem(int row) 中刚刚完成对某一行的删除
+    //4. 在 OnAddToMakingHistory(QString song, QString lrc) 中刚刚完成“制作历史”歌词单内容的添加
+    //... 其他任何保存的场景 ...
+    enableEditMode(false);
 }
 
 void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
@@ -580,11 +579,9 @@ void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
     historyList.items.insert(0,item);          //这里的更改直接对  listData 生效
     OnSaveLyricListData();                     //触发保存
 
-    if(lyricListCurrent == lyricListHistory) //如果当前在历史列表页面，需要重载入界面数据
+    if(isShowingHistory)                       //如果当前在历史列表页面，需要重载入界面数据
     {
         tableLrcList->setDataSource(pCurrentLyricList); //重置使表重载数据
-
-        enableEditMode(false);                  //确保退出编辑模式（由于编辑时可能保持也可能新建）
 
         //切换到列表页面
         tabpageLyricList->setCurrentIndex(0);
@@ -595,7 +592,7 @@ void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
     }
 }
 
-void PageLyricList::reloadLyricListData(LyricList *pLyricListData)
+void PageLyricList::reloadLyricListData(LyricList *pLyricListData, bool canEditAndDelete)
 {
     pCurrentLyricList = pLyricListData;
 
@@ -603,26 +600,22 @@ void PageLyricList::reloadLyricListData(LyricList *pLyricListData)
     editModifyLrcListName->setText(pCurrentLyricList->name);
     tableLrcList->setDataSource(pCurrentLyricList);
 
-    //重载将自动退出编辑模式
+    //数据的重载可能使得编辑数据发生改变，自动退出编辑模式
     enableEditMode(false);
 
-    //历史记录列表不让编辑名字和删除
-    bool bIsNotHistory = lyricListCurrent != lyricListHistory;
-    editModifyLrcListName->setEnabled(bIsNotHistory);
-    btnDeleteLrcList->setEnabled(bIsNotHistory);
-
+    //根据 canEditAndDelete 绝对是否不让编辑名字和删除歌词单
+    editModifyLrcListName->setEnabled(canEditAndDelete);
+    btnDeleteLrcList->setEnabled(canEditAndDelete);
 
     //切换到列表页面
     tabpageLyricList->setCurrentIndex(0);
 }
 
-void PageLyricList::enableEditMode(bool bEnable, int indexWhenEnable)
+void PageLyricList::enableEditMode(bool bEnable, int indexEdited)
 {
-    bEnableEditMode = bEnable;
-
-    if(bEnableEditMode)
+    if(bEnable)
     {
-        currentEditItem = indexWhenEnable;
+        currentEditIndex = indexEdited;
         btnSaveLrcItem->setVisible(true);
     }
     else

@@ -50,10 +50,10 @@ public slots:
     void OnAddToMakingHistory(QString musicPath, QString lrcPath);
 
 private:
-    void reloadLyricListData(LyricList* pLyricListData);
+    void reloadLyricListData(LyricList* pLyricListData, bool canEditAndDelete);
 
-    void enableEditMode(bool bEnable, int indexWhenEnable = -1);
-
+    //是否进入对 indexEdited 下标对应的项的编辑模式
+    void enableEditMode(bool bEnable, int indexEdited = -1);
 
 public:
     QWidget * pageLyricListContainer;
@@ -106,14 +106,12 @@ public:
     BesButton* btnSaveLrcListModified;
 
 public:
+    LyricListData listData;             //所有歌词单数据，在 initEntity() 获取，在 OnSaveLyricListData() 中保存
 
-    LyricListData listData;
+    LyricList* pCurrentLyricList;       //当前页面中正在显示操作的歌词单，由 PageLyricList::reloadLyricListData 统一设置
 
-    LyricList* pCurrentLyricList;
-    BesList *lyricListCurrent;          //当前选中的列
-
-    bool bEnableEditMode;
-    int currentEditItem;
+    int currentEditIndex;               //当前正在编辑的项目的下标
+    bool isShowingHistory;              //正在显示的是否是 “制作历史” 歌词单
 };
 
 #endif // PAGELYRICLIST_H
