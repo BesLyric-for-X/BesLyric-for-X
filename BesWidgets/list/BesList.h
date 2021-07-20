@@ -39,8 +39,11 @@ protected:
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
 
+private:
+    QString getImageNameByTitleAndSkinName(const QString& title, const QString& skinName);
 
 private:
+    QString currentSkinName;
     QVector<LyricList>* pLyricLists;
 };
 
