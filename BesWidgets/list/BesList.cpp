@@ -156,6 +156,9 @@ void BesList::rowsMoved(const QModelIndex &parent, int start, int end, const QMo
     pLyricLists->insert(to,item);
 
     emit sig_saveLyriclistData();
+
+    //拖动变换顺序之后，通知当前选择行发生改变，以使得外部可以重新加载
+    emit currentRowChanged(to);
 }
 
 void BesList::enterEvent(QEvent *event)
