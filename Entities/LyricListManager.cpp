@@ -49,6 +49,7 @@ bool LyricListManager::saveLyricListData(LyricListData data)
             writer.writeStartElement("list"); // 开始元素<list>
 
             writer.writeAttribute("name", data.listsHistory[j].name);
+            writer.writeAttribute("albumCoverPath", data.listsHistory[j].albumCoverPath);
 
             for(int i = 0; i<data.listsHistory[j].items.size(); i++)
             {
@@ -71,6 +72,7 @@ bool LyricListManager::saveLyricListData(LyricListData data)
             writer.writeStartElement("list"); // 开始元素<list>
 
             writer.writeAttribute("name", data.listsCreated[j].name);
+            writer.writeAttribute("albumCoverPath", data.listsCreated[j].albumCoverPath);
 
             for(int i = 0; i<data.listsCreated[j].items.size(); i++)
             {
@@ -243,6 +245,13 @@ bool LyricListManager::parseLyricList(QXmlStreamReader &reader, QVector<LyricLis
                 }
                 else
                     return false;
+
+                //获取封面路径
+                if (attributes.hasAttribute("albumCoverPath")) {
+                    QString albumCoverPath = attributes.value("albumCoverPath").toString();
+                    lyricList.albumCoverPath = albumCoverPath;
+                    qDebug() << QString::fromLocal8Bit("attribute: albumCoverPath(%1)").arg(albumCoverPath);
+                }
 
                 //获取具体项
                 while (!reader.atEnd()) {

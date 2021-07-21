@@ -29,33 +29,35 @@ void BesList::setLyricLists(QVector<LyricList> &lyricLists)
     //创建歌词单项
     for(auto& list:*pLyricLists)
     {
-        addItem(list.name, false);
+        QString imageName = getImageNameByTitleAndSkinName(list.name, currentSkinName);
+
+        QListWidgetItem *pItem = new QListWidgetItem(this);
+        pItem->setIcon(QIcon(imageName));
+        pItem->setText(list.name);
     }
 }
 
-
-void BesList::addItem(QString item, bool bConstructNewData)
+void BesList::addItem(QString item, int newId)
 {
     if(pLyricLists==nullptr)
         return;
 
-    LyricList lyricList;
-    lyricList.name = item;
-
+    //构建列表项
     QString imageName = getImageNameByTitleAndSkinName(item, currentSkinName);
 
     QListWidgetItem *pItem = new QListWidgetItem(this);
     pItem->setIcon(QIcon(imageName));
-    pItem->setText(lyricList.name);
+    pItem->setText(item);
 
-    if (bConstructNewData)
-    {
-        pLyricLists->push_back(lyricList);
-        emit sig_saveLyriclistData();
+    this->setMaximumHeight(35 * pLyricLists->size());
+    this->setMinimumHeight(35 * pLyricLists->size());
 
-        this->setMaximumHeight(35 * pLyricLists->size());
-        this->setMinimumHeight(35 * pLyricLists->size());
-    }
+    //构建实际的数据
+    LyricList lyricList;
+    lyricList.name = item;
+    lyricList.id = newId;
+    pLyricLists->push_back(lyricList);
+    emit sig_saveLyriclistData();
 }
 
 void BesList::deleteCurrentItem()

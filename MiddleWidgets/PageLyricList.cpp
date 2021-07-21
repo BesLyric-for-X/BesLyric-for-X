@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QFileDialog>
+#include <QThreadPool>
+#include <QStandardPaths>
 #include <assert.h>
 #include "BesMessageBox.h"
 #include "SettingManager.h"
@@ -34,6 +36,16 @@ PageLyricList::~PageLyricList()
 void PageLyricList::initEntity()
 {
     listData = LyricListManager::GetInstance().getLyricListData();
+
+    //赋值上临时id
+    for(LyricList& list: listData.listsHistory)
+        list.id = ++globalListId;
+    for(LyricList& list: listData.listsCreated)
+        list.id = ++globalListId;
+
+    // QRunable 默认会自动销毁，这里希望一直复用，等程序退出时自然析构 
+    albumImageHelper.setAutoDelete(false);
+
     m_listViewStyle = new BesLListViewStyle(style());
 }
 
@@ -371,6 +383,8 @@ void PageLyricList::initConnection()
 
     connect(lyricListCreated, &BesList::sig_saveLyriclistData, this, &PageLyricList::OnSaveLyricListData);
 
+    connect(&albumImageHelper, &AlbumImageHelper::sig_lyricListAblumFound,this, &PageLyricList::OnLyricListAblumFound);
+
     //连接按钮动作
     connect(btnSelectLrcItemSongPath, &BesButton::clicked, this, &PageLyricList::OnSelectSongPath);
     connect(btnSelectLrcItemLrcPath, &BesButton::clicked, this, &PageLyricList::OnSelectLrcPath);
@@ -380,6 +394,10 @@ void PageLyricList::initConnection()
     connect(tableLrcList, &BesLListTableView::sig_deleteItem, this, &PageLyricList::OnDeleteListItem);
     connect(tableLrcList, &BesLListTableView::sig_editItem, this, &PageLyricList::OnEditListItem);
     connect(tableLrcList, &BesLListTableView::sig_saveLyricListData, this, &PageLyricList::OnSaveLyricListData);
+    connect(tableLrcList, &BesLListTableView::sig_saveLyricListData, [=](){
+        //重新获得歌词单图片 (歌词单表数据发生改变时，一般为拖动项，拥有有效图片的第一项可能已经发生改变)
+        QThreadPool::globalInstance()->start(albumImageHelper.SetDataAndGetPointer(*pCurrentLyricList));
+    });
 
     connect(btnSaveLrcListModified, &BesButton::clicked, this, &PageLyricList::OnSaveListInfo);
     connect(btnDeleteLrcList, &BesButton::clicked, this, &PageLyricList::OnDeleteLrcList);
@@ -392,7 +410,7 @@ void PageLyricList::initConnection()
 
 void PageLyricList::OnAddNewListItem(QString itemName)
 {
-    lyricListCreated->addItem(itemName);
+    lyricListCreated->addItem(itemName, ++globalListId);
 
     headerListCreated->OnMakeSureHeaderChecking();
 }
@@ -453,6 +471,7 @@ void PageLyricList::OnSaveLrcListItem()
         return;
     }
 
+    bool isSongChanged = (pCurrentLyricList->items[currentEditIndex].song != song);
     pCurrentLyricList->items[currentEditIndex].song = song;//这里的更改直接对  listData 生效
     pCurrentLyricList->items[currentEditIndex].lyric = lrc;
 
@@ -460,6 +479,10 @@ void PageLyricList::OnSaveLrcListItem()
 
     //切换到列表页面
     tabpageLyricList->setCurrentIndex(0);
+
+    //重新获得歌词单图片（歌曲发生改变,专辑图片就有可能发生改变）
+    if(isSongChanged)
+        QThreadPool::globalInstance()->start(albumImageHelper.SetDataAndGetPointer(*pCurrentLyricList));
 }
 
 void PageLyricList::OnCreateLrcListItem()
@@ -497,6 +520,9 @@ void PageLyricList::OnCreateLrcListItem()
 
     //切换到列表页面
     tabpageLyricList->setCurrentIndex(0);
+
+    //重新获得歌词单图片（新建歌词单项，图片可能发生改变，比如新建第一项）
+    QThreadPool::globalInstance()->start(albumImageHelper.SetDataAndGetPointer(*pCurrentLyricList));
 }
 
 void PageLyricList::OnDeleteListItem(int row)
@@ -505,6 +531,9 @@ void PageLyricList::OnDeleteListItem(int row)
     OnSaveLyricListData();                 //触发保存
 
     tableLrcList->reloadTableFromData(); //表格数据改变，让其重显示数据
+
+    //重新获得歌词单图片（假如当前图片刚好来自删除了的项）
+    QThreadPool::globalInstance()->start(albumImageHelper.SetDataAndGetPointer(*pCurrentLyricList));
 }
 
 void PageLyricList::OnEditListItem(int row)
@@ -585,6 +614,9 @@ void PageLyricList::OnAddToMakingHistory(QString song, QString lrc)
     historyList.items.insert(0,item);          //这里的更改直接对  listData 生效
     OnSaveLyricListData();                     //触发保存
 
+    //重新获得歌词单图片（第一项发生改变）
+    QThreadPool::globalInstance()->start(albumImageHelper.SetDataAndGetPointer(listData.listsHistory[0]));
+
     if(isShowingHistory)                       //如果当前在历史列表页面，需要重载入界面数据
     {
         tableLrcList->setDataSource(pCurrentLyricList); //重置使表重载数据
@@ -604,6 +636,58 @@ void PageLyricList::baseColorChanged(QColor color)
         m_listViewStyle->setLineIndicatorColor(color);
 }
 
+void PageLyricList::OnLyricListAblumFound(int listId, QPixmap pixmap)
+{
+    //获得获取结果对应的歌词单
+    LyricList *pLyricListData = nullptr;
+    {
+        for(LyricList& list:listData.listsHistory)
+        {
+            if(list.id == listId)
+            {
+                pLyricListData = &list;
+                break;
+            }
+        }
+        if(pLyricListData == nullptr)
+        {
+            for(LyricList& list:listData.listsCreated)
+            {
+                if(list.id == listId)
+                {
+                    pLyricListData = &list;
+                    break;
+                }
+            }
+        }
+    }
+
+    if(pLyricListData)
+    {
+        //确保封面存储目录存在
+        QString StrDataDir = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+        QString strCoverDir = StrDataDir + "/listCover";
+        QDir CoverDir(strCoverDir);
+        if(!CoverDir.exists())
+        {
+            if(!CoverDir.mkpath(strCoverDir))
+            {
+                BesMessageBox::information(tr("提示"),tr("无法为封面文件创建目录")+":" + strCoverDir);
+                return;
+            }
+        }
+
+        QString fileName =strCoverDir +"/"+ pLyricListData->name + ".png";
+        pixmap.save(fileName);
+        pLyricListData->albumCoverPath = fileName;
+
+        //保存数据
+        OnSaveLyricListData();
+        //更新封面
+        UpdateCurrentListCover();
+    }
+}
+
 void PageLyricList::reloadLyricListData(LyricList *pLyricListData, bool canEditAndDelete)
 {
     pCurrentLyricList = pLyricListData;
@@ -611,6 +695,9 @@ void PageLyricList::reloadLyricListData(LyricList *pLyricListData, bool canEditA
     labelListInfoTitle->setText( pCurrentLyricList->name);
     editModifyLrcListName->setText(pCurrentLyricList->name);
     tableLrcList->setDataSource(pCurrentLyricList);
+
+    //更新封面
+    UpdateCurrentListCover();
 
     //数据的重载可能使得编辑数据发生改变，自动退出编辑模式
     enableEditMode(false);
@@ -634,6 +721,16 @@ void PageLyricList::enableEditMode(bool bEnable, int indexEdited)
     {
         btnSaveLrcItem->setVisible(false);
     }
+}
+
+void PageLyricList::UpdateCurrentListCover()
+{
+    QPixmap pixmapCover;
+    if(!pixmapCover.load(pCurrentLyricList->albumCoverPath))
+        pixmapCover.load(":/resource/image/default_list_cover.png");
+    QPixmap pixmapCoverScaled = pixmapCover.scaled(245* BesScaleUtil::scale(), 245* BesScaleUtil::scale(),
+                                                   Qt::IgnoreAspectRatio, Qt::SmoothTransformation);  // 饱满填充
+    labelListCoverRect->setPixmap(pixmapCoverScaled);
 }
 
 

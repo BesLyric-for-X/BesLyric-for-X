@@ -16,7 +16,7 @@ public:
 
     void setLyricLists(QVector<LyricList>& lyricLists);
 
-    void addItem(QString item, bool bConstructNewData = true);
+    void addItem(QString item, int newId);
     void deleteCurrentItem();
     void removeAll();
 

@@ -13,6 +13,7 @@
 #include "BesFileLineEdit.h"
 #include "BoxPagePreviewLyric.h"
 #include <table/BesLListViewStyle.hpp>
+#include <Entities/MP3Editor/AlbumImageHelper.hpp>
 
 class PageLyricList : public QWidget
 {
@@ -52,11 +53,17 @@ public slots:
 
     //基础颜色发生改变
     void baseColorChanged(QColor color);
+
+    //找到了专辑图片
+    void OnLyricListAblumFound(int listId, QPixmap pixmap);
 private:
     void reloadLyricListData(LyricList* pLyricListData, bool canEditAndDelete);
 
     //是否进入对 indexEdited 下标对应的项的编辑模式
     void enableEditMode(bool bEnable, int indexEdited = -1);
+
+    //更新当前列表的封面
+    void UpdateCurrentListCover();
 
 public:
     QWidget * pageLyricListContainer;
@@ -117,6 +124,9 @@ public:
 
     int currentEditIndex;               //当前正在编辑的项目的下标
     bool isShowingHistory;              //正在显示的是否是 “制作历史” 歌词单
+
+    AlbumImageHelper albumImageHelper;  //用于获取歌词单的封面
+    int globalListId = 0;               //用于为歌词单分配临时的唯一的id，方便异步获取图片后匹配到原来的歌词单
 };
 
 #endif // PAGELYRICLIST_H
