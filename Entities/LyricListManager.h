@@ -28,7 +28,11 @@ class LyricList
 {
 public:
     QString name;
+    QString albumCoverPath;
     QVector<LyricListItem> items;
+
+    //辅助变量，用于异步获取专辑图片后，将图片匹配赋值到歌词单
+    int id = 0;
 };
 
 class LyricListData
