@@ -45,8 +45,8 @@ QWidget *SuDonation::getUnitWidget(QWidget *parent)
     btnDownloadLinux->setObjectName("btnDownloadLinux");
     btnDownloadMac->setObjectName("btnDownloadMac");
 
-    btnDownloadWindow->setMinimumSize(100,30);
-    btnDownloadWindow->setMaximumSize(100,30);
+    btnDownloadWindow->setMinimumSize(120,30);
+    btnDownloadWindow->setMaximumSize(120,30);
     btnDownloadLinux->setMinimumSize(90,30);
     btnDownloadLinux->setMaximumSize(90,30);
     btnDownloadMac->setMinimumSize(80,30);
