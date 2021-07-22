@@ -1007,7 +1007,7 @@ private:
         "   border-bottom:"+scaleNum(5)+"px solid;"
         "   color:"+ DeepLabelColor+";"
         "   border-bottom-color: rgba(0, 0, 0, 0);"
-        "   min-width: "+scaleNum(96)+"px;"
+        "   min-width: "+scaleNum(150)+"px;"
         "}"
 
         "QTabBar:tab:selected {"

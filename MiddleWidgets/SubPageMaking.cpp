@@ -271,9 +271,9 @@ void SubPageMaking::initLayout()
     labelTimeTip->setText(tr("00:00.000"));
     labelCurrenLineTip->setText(tr("当前行："));
     labelNextLineTip->setText(tr("下一行："));
-    labelTimeTip->setMinimumSize(100,28* BesScaleUtil::scale());
-    labelCurrenLineTip->setMinimumSize(100,28* BesScaleUtil::scale());
-    labelNextLineTip->setMinimumSize(100,28* BesScaleUtil::scale());
+    labelTimeTip->setMinimumSize(110,28* BesScaleUtil::scale());
+    labelCurrenLineTip->setMinimumSize(110,28* BesScaleUtil::scale());
+    labelNextLineTip->setMinimumSize(110,28* BesScaleUtil::scale());
     labelTimeTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelCurrenLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     labelNextLineTip->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -361,8 +361,8 @@ void SubPageMaking::initLayout()
 
     btnEditLyricCurrent = new BesButton(widgetLine0);
     btnEditLyricCurrent->setText(tr("单行编辑"));
-    btnEditLyricCurrent->setMinimumSize(75,28* BesScaleUtil::scale());
-    btnEditLyricCurrent->setMaximumSize(75,28* BesScaleUtil::scale());
+    btnEditLyricCurrent->setMinimumSize(85,28* BesScaleUtil::scale());
+    btnEditLyricCurrent->setMaximumSize(85,28* BesScaleUtil::scale());
     btnEditLyricCurrent->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     QHBoxLayout* hLayoutLine0 = new QHBoxLayout();
@@ -376,8 +376,8 @@ void SubPageMaking::initLayout()
 
     btnEditBatchLyric = new BesButton(widgetLine4);
     btnEditBatchLyric->setText(tr("批量编辑"));
-    btnEditBatchLyric->setMinimumSize(75,28* BesScaleUtil::scale());
-    btnEditBatchLyric->setMaximumSize(75,28* BesScaleUtil::scale());
+    btnEditBatchLyric->setMinimumSize(85,28* BesScaleUtil::scale());
+    btnEditBatchLyric->setMaximumSize(85,28* BesScaleUtil::scale());
     btnEditBatchLyric->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     QHBoxLayout* hLayoutLine4 = new QHBoxLayout();
