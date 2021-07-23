@@ -15,9 +15,6 @@ public:
     virtual int getUnitHeight() override;
     virtual QWidget* getUnitWidget(QWidget* parent) override;
 
-public slots:
-    void onDownloadProgram();
-
 public:
     QWidget* SettingUnitContainer;
     QLabel* labelSettingTitle;
