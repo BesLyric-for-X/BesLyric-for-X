@@ -1,4 +1,4 @@
-<img alt="BesLyric-for-X" src="Beslyric.ico" width=32px>
+﻿<img alt="BesLyric-for-X" src="Beslyric.ico" width=32px>
 
 [![Badge](https://img.shields.io/badge/link-996.icu-%23FF4D5B.svg?style=flat-square)](https://996.icu/#/zh_CN)
 [![Latest version](https://img.shields.io/badge/dynamic/json?color=blue&label=latest%20version&style=flat-square&query=%24.tag_name&url=https%3A%2F%2Fapi.github.com%2Frepos%2FBesLyric-for-X%2FBesLyric-for-X%2Freleases%2Flatest)](https://github.com/BesLyric-for-X/BesLyric-for-X/releases/latest)
@@ -11,7 +11,7 @@
 
 BesLyric-for-X 是一款操作简单、功能实用的歌词制作软件。云村的村民们能够在网易云风格的界面中获得良好的歌词制作体验。
 
-本软件的前身是 [BesLyric](https://github.com/BesLyric-for-X/BesLyric) ，它只能运行在 Windows 中。为了 Linux 和 macOS 的用户，我们基于 Qt 框架开发了 BesLyric-for-X 。
+本软件的设计和开发源自 [BesLyric](https://github.com/BesLyric-for-X/BesLyric) ，它只能运行在 Windows 中。为了 Linux 和 macOS 的用户，我们基于 Qt 框架开发了 BesLyric-for-X 。
 
 经过测试，本软件可在下列操作系统中正常运行：
 
