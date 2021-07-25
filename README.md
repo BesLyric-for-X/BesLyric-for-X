@@ -7,6 +7,8 @@
 
 # BesLyric-for-X
 
+<img alt="BesLyric-screenshots-page-main" src=".repository\screenshots\page-main.png" width="90%">
+
 ## 简介
 
 BesLyric-for-X 是一款操作简单、功能实用的歌词制作软件。云村的村民们能够在网易云风格的界面中获得良好的歌词制作体验。
