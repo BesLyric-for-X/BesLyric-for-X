@@ -23,6 +23,8 @@ int BesMessageBox::question(const QString &title, const QString &text, QString s
     else
         besMessageBox->labelMessageIcon->setPixmap(QPixmap(":/resource/image/icon_question_white.png"));
 
+    limitBoxWidth(besMessageBox, text, bWordWrap);
+
     besMessageBox->labelMessageTitle->setText(title);
     besMessageBox->labelMessageContent->setText(text);
     besMessageBox->labelMessageContent->setWordWrap(bWordWrap);
@@ -42,6 +44,8 @@ int BesMessageBox::information(const QString &title, const QString &text, bool b
         besMessageBox->labelMessageIcon->setPixmap(QPixmap(":/resource/image/icon_music_black.png"));
     else
         besMessageBox->labelMessageIcon->setPixmap(QPixmap(":/resource/image/icon_music_white.png"));
+
+    limitBoxWidth(besMessageBox, text, bWordWrap);
 
     besMessageBox->labelMessageTitle->setText(title);
     besMessageBox->labelMessageContent->setText(text);
@@ -167,4 +171,26 @@ void BesMessageBox::initConnection()
 void BesMessageBox::setIsBlackTheme(bool value)
 {
     isBlackTheme = value;
+}
+
+void BesMessageBox::limitBoxWidth(BesMessageBox *besMessageBox, const QString &text, bool &bWordWrap)
+{
+    //int widthWindow = besMessageBox->width();
+    //实际数据测试：(Win10 1920*1080)
+    // widthWidgetTotal   widthWindow
+    //       543             669
+    //       751             964
+    //       1086            1280
+    //上面重置窗口的最小宽度的依据，是参考以上数据，取一个相对舒服的大概的宽度
+    //—— 当 widthWidgetTotal > 800 时，widthWindow 设置为 1000
+
+    int widthText = besMessageBox->labelMessageContent->fontMetrics().boundingRect(text).width();
+    int widthIcon = (48+15*2)* BesScaleUtil::scale();
+    int widthWidgetTotal = widthIcon + widthText;
+    if(widthWidgetTotal > 800)
+    {
+        //不允许宽度太宽，超出一定宽度时，设置一个最小宽度，并且文字可换行
+        bWordWrap = true;
+        besMessageBox->setMinimumWidth(1000);
+    }
 }
