@@ -28,8 +28,8 @@ public:
 
     static void setIsBlackTheme(bool value);
 
-public slots:
-
+private:
+    static void limitBoxWidth(BesMessageBox* , const QString& text, bool& bWordWrap);
 
 private:
     QWidget* widgetMessageBoxContainer0;
