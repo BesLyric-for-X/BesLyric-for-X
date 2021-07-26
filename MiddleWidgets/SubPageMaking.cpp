@@ -567,24 +567,49 @@ void SubPageMaking::finishMaking()
             QFileInfo musicFile(pathMusic);
             QString outputFile = pathOutputDir + "/" + musicFile.completeBaseName() + ".lrc";
 
-            if(lyricMaker.saveLyrc(outputFile))
+            //保存 lrc 文件，如果保存失败则不断尝试，直到保存成功或用户取消为止
+            bool saved = false;
+            do{
+                if(lyricMaker.saveLyrc(outputFile))
+                {
+                    pathResultLrcLyric = outputFile;
+                    BesMessageBox::information(tr("提示"),tr("成功保存到：")+outputFile);
+
+                    emit sig_addToMakingHistory(pathMusicLoaded, pathResultLrcLyric);
+
+                    btnPreviewResult->setEnabled(true);
+                    btnOpenResult->setEnabled(true);
+
+                    saved = true;
+                    break;//成功保存，可退出循环
+                }
+                else
+                {
+                    //提示保存失败，并且为了保留用户制作歌词的成果，让用户选择其他路径保存
+                    QString tip = tr("保存失败：")+outputFile;
+                    tip += "\n\n";
+                    tip += tr("保存失败的原因可能有：文件名包含非法字符、目标文件被占用、目标文件为只读文件、本程序没有写入目标文件的权限等");
+                    tip += "\n\n";
+                    tip += tr("按“确定”后可选择另一个保存文件的目录 :)");
+                    int nRet = BesMessageBox::information(tr("提示"),tip, true);
+                    if(QMessageBox::StandardButton::Ok == nRet)
+                    {
+                        QString fileName = QFileDialog::getSaveFileName(this, tr("保存文件"), outputFile, tr("Lrc 文件 (*.lrc)"));
+                        if(!fileName.isEmpty())
+                            outputFile = fileName;
+                        else
+                            break;//未选择文件而取消
+                    }
+                    else
+                        break;//关闭提示，取消保存
+                }
+            }while(true);
+
+            if(!saved)
             {
-                pathResultLrcLyric = outputFile;
-                BesMessageBox::information(tr("提示"),tr("成功保存到：")+outputFile);
-
-                emit sig_addToMakingHistory(pathMusicLoaded, pathResultLrcLyric);
-
-                btnPreviewResult->setEnabled(true);
-                btnOpenResult->setEnabled(true);
-            }
-            else
-            {
-                BesMessageBox::information( tr("提示"),tr("成功失败，无法保存到：")+outputFile);
-
                 btnPreviewResult->setEnabled(false);
                 btnOpenResult->setEnabled(false);
             }
-
 
             btnLoadLastFiles->setEnabled(true);
             btnToRemaking->setEnabled(false);
