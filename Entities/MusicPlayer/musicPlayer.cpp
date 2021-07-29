@@ -332,16 +332,13 @@ void  PlayThread::seekToPos(qint64 pos)
 //尝试初始化播放设备 和 ffmpeg 上下文
 bool PlayThread::initDeviceAndFfmpegContext()
 {
-    char url[1024];
     index = 0;
-
-    strcpy(url, musicPath.toUtf8());            //播放路径
 
     av_register_all();
     avformat_network_init();
     m_MS.fct = pFormatCtx = avformat_alloc_context();
     //Open
-    if(avformat_open_input(&pFormatCtx,url,NULL,NULL)!=0){
+    if(avformat_open_input(&pFormatCtx,musicPath.toUtf8(),NULL,NULL)!=0){
         printf("Couldn't open input stream.\n");
         emit errorOccur(1,tr("无法打开媒体输入流"));//"Couldn't open input stream."
         return false;
@@ -404,7 +401,7 @@ bool PlayThread::initDeviceAndFfmpegContext()
 
 
     // Dump valid information onto standard error
-    av_dump_format(pFormatCtx, 0, url, false);
+    av_dump_format(pFormatCtx, 0, musicPath.toUtf8(), false);
 
     // Find the first audio stream
     audioStream=-1;

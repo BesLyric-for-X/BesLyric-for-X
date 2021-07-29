@@ -47,14 +47,10 @@ private:
 
     bool GetSongAlbum(const QString& song, QPixmap& pixmap)
     {
-        //获得文件路径
-        char url[1024];
-        strcpy_s(url, song.toUtf8());
-
         AVFormatContext	*pFormatCtx = avformat_alloc_context();
 
         //打开输入流
-        if(avformat_open_input(&pFormatCtx,url,NULL,NULL)!=0){
+        if(avformat_open_input(&pFormatCtx,song.toUtf8(),NULL,NULL)!=0){
             qDebug()<<"Couldn't open input stream.";
             return false;
         }
