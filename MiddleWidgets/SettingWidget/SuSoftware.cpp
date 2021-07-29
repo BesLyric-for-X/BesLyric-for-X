@@ -14,7 +14,7 @@ QString SuSoftware::getName()
 
 int SuSoftware::getUnitHeight()
 {
-   return 480* BesScaleUtil::scale();
+   return 520 * BesScaleUtil::scale();
 }
 
 QWidget *SuSoftware::getUnitWidget(QWidget *parent)
@@ -36,6 +36,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     QLabel* label4 = new QLabel(SettingUnitContainer);
     QLabel* label5 = new QLabel(SettingUnitContainer);
     QLabel* label6 = new QLabel(SettingUnitContainer);
+    QLabel* label7 = new QLabel(SettingUnitContainer);
 
     label1->setObjectName("labelSettingHighColor");
     label2->setObjectName("labelSettingHighColor");
@@ -43,6 +44,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     label4->setObjectName("labelSettingHighColor");
     label5->setObjectName("labelSettingHighColor");
     label6->setObjectName("labelSettingHighColor");
+    label7->setObjectName("labelSettingHighColor");
 
     label1->setText(tr("<p style='line-height:130%'>本软件名为 BesLyric。BesLyric 是一款 <a style='color:#666666;' href='https://blog.csdn.net/testcs_dn/article/details/37722355'>免费且开源</a> 的软件，我们开发本软件的目的，是为了提供给用户一个 上手简单、功能实用的 滚动歌词制作软件，为广大网易云音乐爱好者提供一个良好的歌词制作体验。</p>"));
 
@@ -93,11 +95,14 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     QString GithubCommitLink = "https://github.com/BesLyric-for-X/BesLyric-for-X/commit/" + CommitHash;
     label6->setText(QString(tr("<p style='line-height:130%'>提交的哈希值: <a style='color:#666666;' href='%1'>%2</a></p>")).arg(GithubCommitLink).arg(CommitHash));
 
+    label7->setText(tr("<p style='line-height:130%'>软件图标来源: <a style='color:#666666;' href='https://www.easyicon.net/1186871-netease_cloudmusic_icon.html'>Netease Cloudmusic icons - OPPO Color OS Icons - Easyicon</a></p>"));
+
     label2->setOpenExternalLinks(true);
     label3->setOpenExternalLinks(true);
     label4->setOpenExternalLinks(true);
     label5->setOpenExternalLinks(true);
     label6->setOpenExternalLinks(true);
+    label7->setOpenExternalLinks(true);
 
     label1->setWordWrap(true);
 
@@ -108,6 +113,7 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
     vLayout1->addWidget(label4);
     vLayout1->addWidget(label5);
     vLayout1->addWidget(label6);
+    vLayout1->addWidget(label7);
 
     QVBoxLayout* vLayout = new QVBoxLayout(SettingUnitContainer);
     vLayout->setSpacing(15* BesScaleUtil::scale());
