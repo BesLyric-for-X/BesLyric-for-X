@@ -468,19 +468,16 @@ void SkinBoxWidget::paintEvent(QPaintEvent *event)
     QPainter p(this);
     p.setPen(Qt::transparent);
 
-    QPixmap indicatorPixmap;
     QColor LineColor;
     QColor BackgroundColor;
 
     if(finalSkinName == "black")
     {
-        indicatorPixmap = QPixmap(":/resource/image/box_indicator_black.png");
         BackgroundColor = QColor("#2d2f33");
         LineColor=QColor("#3a3c40");
     }
     else
     {
-        indicatorPixmap = QPixmap(":/resource/image/box_indicator_white.png");
         BackgroundColor = QColor("#fafafa");
         LineColor=QColor("#e1e1e1");
     }
@@ -493,7 +490,6 @@ void SkinBoxWidget::paintEvent(QPaintEvent *event)
     p.setPen(QPen(LineColor,2));
     p.drawLine(25,btnTheme->geometry().bottom()+ marginTop+border,
                this->width()-25, btnTheme->geometry().bottom()+ marginTop+border);
-    p.drawPixmap(this->width()/2 - indicatorPixmap.width()/2, 0 ,indicatorPixmap);  //在中上位置绘制指标
 
     BesShadowWidget::paintEvent(event);
 }
