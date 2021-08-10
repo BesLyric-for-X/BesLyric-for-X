@@ -7,7 +7,7 @@
 
 # BesLyric-for-X
 
-<img alt="BesLyric-screenshots-page-main" src=".repository\screenshots\page-main.png" width="90%">
+<img alt="BesLyric-screenshots-page-main" src=".repository/screenshots/page-main.png" width="90%">
 
 ## 简介
 
