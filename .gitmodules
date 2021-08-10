@@ -1,0 +1,9 @@
+[submodule ".deploy-package/Linux"]
+	path = .deploy-package/Linux
+	url = https://github.com/BesLyric-for-X/BesLyric-for-X_Linux_deploy-package
+[submodule ".deploy-package/macOS"]
+	path = .deploy-package/macOS
+	url = https://github.com/BesLyric-for-X/BesLyric-for-X_macOS_deploy-package
+[submodule ".deploy-package/Windows"]
+	path = .deploy-package/Windows
+	url = https://github.com/BesLyric-for-X/BesLyric-for-X_Windows_deploy-package

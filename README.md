@@ -89,3 +89,7 @@ $ qmake && make
 > nmake         # MSVC
 > mingw32-make  # MinGW
 ```
+
+### 部署与打包
+
+请参考 [.deploy-package](.deploy-package/) 文件夹中的内容。
