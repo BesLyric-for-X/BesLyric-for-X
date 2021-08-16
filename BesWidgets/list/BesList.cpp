@@ -49,15 +49,15 @@ void BesList::addItem(QString item, int newId)
     pItem->setIcon(QIcon(imageName));
     pItem->setText(item);
 
-    this->setMaximumHeight(35 * pLyricLists->size());
-    this->setMinimumHeight(35 * pLyricLists->size());
-
     //构建实际的数据
     LyricList lyricList;
     lyricList.name = item;
     lyricList.id = newId;
     pLyricLists->push_back(lyricList);
     emit sig_saveLyriclistData();
+
+    this->setMaximumHeight(35 * pLyricLists->size());
+    this->setMinimumHeight(35 * pLyricLists->size());
 }
 
 void BesList::deleteCurrentItem()
