@@ -27,6 +27,16 @@ BesLyric-for-X 是一款操作简单、功能实用的歌词制作软件。云�
   - 7 (6.1.7600)
   - 10
 
+经过测试，本软件可在使用下列显示设置的桌面环境中正常运行：
+
+| 分辨率 | DPI 缩放等级
+|:- | -:
+| 2560x1440 (QHD) | 100%
+| 3840x2160 (4K UHD) | 100%
+| 3840x2160 (4K UHD) | 200%
+| 5120x2880 (5K UHD) | 100%
+| 5120x2880 (5K UHD) | 200%
+
 请访问[这篇博文](http://www.cnblogs.com/BensonLaur/p/9695769.html)查看使用教程或可能遇到的问题。
 
 BesLyric-for-X 所使用的程序图标来自 [Netease Cloudmusic icons - OPPO Color OS Icons - Easyicon](https://www.easyicon.net/1186871-netease_cloudmusic_icon.html) 。
