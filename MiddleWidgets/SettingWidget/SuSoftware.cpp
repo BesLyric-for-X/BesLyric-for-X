@@ -52,7 +52,11 @@ QWidget *SuSoftware::getUnitWidget(QWidget *parent)
 
     label3->setText(tr("<p style='line-height:130%'>软件用户交流: <a style='color:#666666;' href='https://jq.qq.com/?_wv=1027&k=5Uc1a79'>QQ群 1021317114</a></p>"));
 
-    QString OSName = QSysInfo::prettyProductName();
+    QString OSName = QString{"%1 (%2, %3, %4)"}
+            .arg(QSysInfo::prettyProductName(),
+                 QSysInfo::kernelType(),
+                 QSysInfo::kernelVersion(),
+                 QSysInfo::currentCpuArchitecture());
     QString BesLyricVersion = VERSION_NUMBER;
     QString CommitHash = GIT_COMMIT_SHA1;
     QString QtVersion = QT_VERSION_STR;
