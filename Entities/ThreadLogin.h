@@ -85,7 +85,7 @@ protected:
         if(strIP.size() == 0)
             strIP = "unknown";
 
-        QString gitCommit = QString(GIT_COMMIT_SHA1).left(7); //为了便于显示，收集常规的前7位即可
+        QString gitCommit = QString(GIT_COMMIT_SHA1);
         QString osInfo = QSysInfo::prettyProductName()+"(" + QSysInfo::kernelType() + "," + QSysInfo::kernelVersion() +"," + QSysInfo::currentCpuArchitecture() +")";
 
         //访问链接，服务端负责记录登录信息
