@@ -123,7 +123,7 @@ isEmpty(APP_VERSION) {
 }
 !contains(APP_VERSION, "^\d+\.\d+\.\d+$") {
     warning("\"$${APP_VERSION}\" is NOT a valid APP_VERSION. Use the default one.")
-    APP_VERSION = "3.1.2"
+    APP_VERSION = "3.2.0"
 }
 message("APP_VERSION = $${APP_VERSION}")
 
