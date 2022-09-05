@@ -196,7 +196,8 @@ void BesList::startDrag(Qt::DropActions supportedActions)
                 for(QModelIndex index:indexes)
                     rowsSet.insert(index.row());
 
-                QList<int> rows(rowsSet.begin(),rowsSet.end());
+                //QList<int> rows(rowsSet.begin(),rowsSet.end());  //This function was introduced in Qt 5.14
+                QList<int> rows = rowsSet.toList();
                 std::sort(rows.begin(),rows.end());
 
                 for(int row:rows)
