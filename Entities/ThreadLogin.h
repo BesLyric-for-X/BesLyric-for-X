@@ -85,25 +85,24 @@ protected:
         if(strIP.size() == 0)
             strIP = "unknown";
 
+        QString gitCommit = QString(GIT_COMMIT_SHA1);
+        QString osInfo = QSysInfo::prettyProductName()+"(" + QSysInfo::kernelType() + "," + QSysInfo::kernelVersion() +"," + QSysInfo::currentCpuArchitecture() +")";
+
         //访问链接，服务端负责记录登录信息
 #if (QT_VERSION < QT_VERSION_CHECK(5, 13, 0))
         QUrlQuery loginInfoQuery{};
         loginInfoQuery.addQueryItem("ip", strIP);
         loginInfoQuery.addQueryItem("version", VERSION_NAME);
         loginInfoQuery.addQueryItem("vernum", VERSION_NUMBER);
-        loginInfoQuery.addQueryItem("systemArchitecture",
-             "[Build]" + QSysInfo::buildCpuArchitecture()
-             + "[Current]" + QSysInfo::currentCpuArchitecture()
-         );
+        loginInfoQuery.addQueryItem("gitCommit", gitCommit);
+        loginInfoQuery.addQueryItem("osInfo",osInfo);
 #else
         QUrlQuery loginInfoQuery{
             QPair<QString, QString>{"ip", strIP},
             QPair<QString, QString>{"version", VERSION_NAME},
             QPair<QString, QString>{"vernum", VERSION_NUMBER},
-            QPair<QString, QString>{"systemArchitecture",
-                "[Build]" + QSysInfo::buildCpuArchitecture()
-                + "[Current]" + QSysInfo::currentCpuArchitecture()
-            }
+            QPair<QString, QString>{"gitCommit", gitCommit},
+            QPair<QString, QString>{"osInfo",osInfo}
         };
 #endif
         NetworkAccess::SyncDownloadString(LINK_SEND_LOGIN, tempBuffer, loginInfoQuery, false);
