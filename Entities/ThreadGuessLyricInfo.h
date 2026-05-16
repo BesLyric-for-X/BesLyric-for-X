@@ -257,7 +257,7 @@ protected:
         queryData.append("csrf_token=&s="+encodedFirst+"+"+ encodedSecond +"&type=1&offset=0&total=True&limit=20");
 
         QString strRes;
-        if(!NetworkAccess::SyncDownloadStringPost( "https://music.163.com/api/search/get/web",strRes,queryData))
+        if(!NetworkAccess::SyncDownloadStringPost( "https://music.163.com/api/v1/search/get",strRes,queryData))
         {
             //strLastResult = tr("网络连接失败，无法获取索引数据");
             return false;

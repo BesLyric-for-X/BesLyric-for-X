@@ -9,7 +9,7 @@ HEADERS+=\
     $$PWD/SkinFactory/SkinPureColor.h \
     $$PWD/LyricSearcherFactory/LyricSearcherFactory.h \
     $$PWD/LyricSearcherFactory/SearcherNetEaseCloud.h \
-    $$PWD/LyricSearcherFactory/SearcherGecimi.h \
+    $$PWD/LyricSearcherFactory/SearcherLrcLib.h \
     $$PWD/Phonograph.h \
     $$PWD/filter.h \
     $$PWD/ImageFilter.h \
@@ -36,7 +36,7 @@ HEADERS+=\
 
 SOURCES+=\
     $$PWD/LyricSearcherFactory/SearcherNetEaseCloud.cpp \
-    $$PWD/LyricSearcherFactory/SearcherGecimi.cpp \
+    $$PWD/LyricSearcherFactory/SearcherLrcLib.cpp \
     $$PWD/AppHelper.cpp\
     $$PWD/Phonograph.cpp \
     $$PWD/LyricViewer.cpp \

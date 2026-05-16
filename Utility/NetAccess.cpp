@@ -74,6 +74,8 @@ bool NetworkAccess::SyncDownloadStringPost(const QString strUrl, QString &strSav
     QNetworkRequest request;
     request.setUrl(strUrl);
     request.setRawHeader("Content-Type","application/x-www-form-urlencoded");
+    request.setRawHeader("User-Agent","NeteaseMusic/9.0.90 (iPhone; iOS 17.0; Scale/3.00)");
+    request.setRawHeader("Referer","https://music.163.com");
 
     QNetworkAccessManager manager;
     QNetworkReply *reply= manager.post(request,queryData);

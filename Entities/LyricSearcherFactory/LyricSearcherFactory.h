@@ -23,7 +23,7 @@
 #pragma once
 #include "Define/Define.h"
 #include "ISearcher.h"
-#include "SearcherGecimi.h"
+#include "SearcherLrcLib.h"
 #include "SearcherNetEaseCloud.h"
 #include <QSharedPointer>
 #include <assert.h>
@@ -35,8 +35,8 @@ public:
 	{
         switch(search_from)
         {
-        case SF_GECIMI:
-           return QSharedPointer<ISearcher>(new SearcherGecimi());
+        case SF_LRCLIB:
+           return QSharedPointer<ISearcher>(new SearcherLrcLib());
         case SF_NETEASE:
            return QSharedPointer<ISearcher>(new SearcherNetEaseCloud());
         default:
