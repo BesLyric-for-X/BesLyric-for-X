@@ -10,6 +10,7 @@
 #include <QEventLoop>
 #include <QUrlQuery>
 #include <QQueue>
+#include <QMap>
 
 enum DOWNLOAD_FINISH_STATUS{
     NORMAL,
@@ -46,8 +47,8 @@ public:
     // target 默认存储字符串， 单 targetIsFile = true, 表示路径
     static bool SyncDownloadString(const QString strUrl, QString& target, QUrlQuery query = QUrlQuery(),bool targetIsFile = false);
 
-    /* post 请求下载，下载完成后才返回 */
-    static bool SyncDownloadStringPost(const QString strUrl, QString& strSaveBuffer, QByteArray queryData = QByteArray());
+    /* post 请求下载，下载完成后才返回。extraHeaders 用于附加请求头（如调用网易云接口时所需的 User-Agent/Referer 伪装）。 */
+    static bool SyncDownloadStringPost(const QString strUrl, QString& strSaveBuffer, QByteArray queryData = QByteArray(), const QMap<QByteArray, QByteArray>& extraHeaders = {});
 
 signals:
     void finished();

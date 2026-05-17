@@ -98,7 +98,11 @@ bool ThreadConvertMp3::downloadNcmInfo(int ncmId, NcmDetailInfo& info, QString& 
     QByteArray queryData;
     queryData.append("id="+strNcmId+"&ids=%5B" + strNcmId+"%5D");
     QString strRes;
-    if(!NetworkAccess::SyncDownloadStringPost( "https://music.163.com/api/song/detail/",strRes,queryData))
+    QMap<QByteArray, QByteArray> headers = {
+        {"User-Agent", "NeteaseMusic/9.0.90 (iPhone; iOS 17.0; Scale/3.00)"},
+        {"Referer", "https://music.163.com"}
+    };
+    if(!NetworkAccess::SyncDownloadStringPost( "https://music.163.com/api/song/detail/",strRes,queryData,headers))
     {
         strLastResult = tr("网络连接失败，无法获取索引数据");
         return false;

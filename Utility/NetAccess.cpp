@@ -69,13 +69,14 @@ bool NetworkAccess::SyncDownloadString(const QString strUrl, QString &target, QU
     return bRet;
 }
 
-bool NetworkAccess::SyncDownloadStringPost(const QString strUrl, QString &strSaveBuffer, QByteArray queryData)
+bool NetworkAccess::SyncDownloadStringPost(const QString strUrl, QString &strSaveBuffer, QByteArray queryData, const QMap<QByteArray, QByteArray>& extraHeaders)
 {
     QNetworkRequest request;
     request.setUrl(strUrl);
     request.setRawHeader("Content-Type","application/x-www-form-urlencoded");
-    request.setRawHeader("User-Agent","NeteaseMusic/9.0.90 (iPhone; iOS 17.0; Scale/3.00)");
-    request.setRawHeader("Referer","https://music.163.com");
+
+    for(auto it = extraHeaders.constBegin(); it != extraHeaders.constEnd(); ++it)
+        request.setRawHeader(it.key(), it.value());
 
     QNetworkAccessManager manager;
     QNetworkReply *reply= manager.post(request,queryData);
