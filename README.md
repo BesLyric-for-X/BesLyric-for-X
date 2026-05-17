@@ -60,6 +60,19 @@ BesLyric-for-X 是一款操作简单、功能实用的歌词制作软件。云�
 
 BesLyric-for-X 所使用的程序图标来自 [Netease Cloudmusic icons - OPPO Color OS Icons - Easyicon](https://www.easyicon.net/1186871-netease_cloudmusic_icon.html) 。
 
+## 路线图
+
+经过 4 年多的停滞，本项目正在重启。即将开展的工作：
+
+- **去除对 Windows 7 / 8 的支持**（[#226](https://github.com/BesLyric-for-X/BesLyric-for-X/issues/226)）
+- **去除对 32 位 Windows 的支持**（[#213](https://github.com/BesLyric-for-X/BesLyric-for-X/issues/213)），Windows 客户端将统一为纯 64 位
+- **将 FFmpeg 4.x 升级到 8.x，并重构播放模块**（[#227](https://github.com/BesLyric-for-X/BesLyric-for-X/issues/227)）
+- **建立 GitHub Actions 多平台 CI/CD**（[#212](https://github.com/BesLyric-for-X/BesLyric-for-X/issues/212)），取代当前手工发布流程
+
+上述工作落地后，上文的"支持的操作系统"列表将相应更新。
+
+**对协作者的提示**：`Entities/MusicPlayer/musicPlayer.{h,cpp}` 与 `Entities/MP3Editor/ffmpegDefine.h` 即将被重写。建议这两个文件的修改先与维护者沟通，避免合并冲突。
+
 ## 开发说明
 
 ### 获取源代码
